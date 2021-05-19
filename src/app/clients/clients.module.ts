@@ -5,9 +5,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClientsRoutingModule } from './clients-routing.module';
 /* Components */
 import { ClientsComponent } from './clients/clients.component';
+/* NgRx */
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
+/* State */
+import { reducers, effects } from './state';
 @NgModule({
   declarations: [ClientsComponent],
-  imports: [HttpClientModule, ClientsRoutingModule, CommonModule],
+  imports: [
+    HttpClientModule,
+    ClientsRoutingModule,
+    CommonModule,
+    StoreModule.forFeature('clients', reducers),
+    EffectsModule.forFeature(effects),
+  ],
 })
 export class ClientsModule {}
