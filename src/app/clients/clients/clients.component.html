@@ -12,16 +12,19 @@
   </div>
   <!-- End title -->
 
-  <!-- Content -->
-  <!-- <div *ngFor="let client of clients$ | async">
-    {{client.name}}
-  </div> -->
-  <!-- End Content -->
+  <!-- Clients List -->
+  <app-client-list *ngIf="!(loader$ | async)" [clients]="clients$ | async"></app-client-list>
+  <!-- End Clients List -->
+
+  <!-- Loader -->
+  <app-loader *ngIf="loader$ |async"></app-loader>
+  <!-- End Loader -->
 
   <!-- No Clients -->
-  <div class="flex flex-col items-center justify-center w-full h-full space-y-4">
-
+  <div *ngIf="((clients$ |async)?.length === 0) && !(loader$ | async)"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
     <p>Aun no tienes clientes creados</p>
+
     <!-- Add Client Btn -->
     <button class="btn-primary hover:bg-green-900">
       <span>Crear nuevo cliente</span>

@@ -11,9 +11,15 @@ import { EffectsModule } from '@ngrx/effects';
 
 /* State */
 import { reducers, effects } from './state';
+import { ClientListComponent } from './client-list/client-list.component';
+
+/* Shared module */
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
-  declarations: [ClientsComponent],
+  declarations: [ClientsComponent, ClientListComponent],
   imports: [
+    SharedModule,
     HttpClientModule,
     ClientsRoutingModule,
     CommonModule,

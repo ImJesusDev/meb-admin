@@ -4,6 +4,7 @@ import { Actions, createEffect } from '@ngrx/effects';
 import { ofType } from '@ngrx/effects';
 /* Operators */
 import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 /* Services */
@@ -38,13 +39,16 @@ export class ClientsEffects {
     return this.$actions.pipe(
       ofType(ClientsActionTypes.LoadClients),
       switchMap((action: LoadClients) =>
-        this._clientsService.getClients().pipe(
-          mergeMap((clients: Client[]) => [
-            new StopLoader(),
-            new LoadClientsSuccess(clients),
-          ]),
-          catchError((error) => of(new LoadClientsFail(error)))
-        )
+        this._clientsService
+          .getClients()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((clients: Client[]) => [
+              new StopLoader(),
+              new LoadClientsSuccess(clients),
+            ]),
+            catchError((error) => of(new LoadClientsFail(error)))
+          )
       )
     );
   });

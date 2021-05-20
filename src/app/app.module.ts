@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 /* Routing */
 import { AppRoutingModule } from './app-routing.module';
-/* Components */
-import { AppComponent } from './app.component';
 /* Environment */
 import { environment } from '../environments/environment';
 /* NgRx Store */
@@ -14,12 +12,21 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 /* Reducers */
 import { reducer } from './state/loader/loader.reducer';
+
+/* Components */
+import { AppComponent } from './app.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { HeadernavComponent } from './components/headernav/headernav.component';
+
+/* Modules */
+import { ClientsModule } from './clients/clients.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
+    ClientsModule,
+    SharedModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

@@ -13,6 +13,7 @@ import { LoadClients } from '../state/clients/clients.actions';
 import { StartLoader } from '../../state/loader/loader.actions';
 /* Selectors */
 import { getClients } from '../state/clients/clients.selector';
+import { getLoader } from '../../state/loader/loader.selector';
 
 @Component({
   selector: 'app-clients',
@@ -22,12 +23,16 @@ import { getClients } from '../state/clients/clients.selector';
 export class ClientsComponent implements OnInit {
   /* Observable of clients from store */
   clients$: Observable<Client[]> = of([] as Client[]);
+  /* Observable of loader from store */
+  loader$: Observable<boolean> = of(false);
   /* Page title */
   title = 'Clientes';
 
   constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
+    // Use selector to ger loader state
+    this.loader$ = this.store.pipe(select(getLoader));
     // Dispatch action to start loader
     this.store.dispatch(new StartLoader());
     // Dispatch action to load clients
