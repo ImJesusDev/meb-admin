@@ -14,9 +14,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 /* Reducers */
 import { reducer } from './state/loader/loader.reducer';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { HeadernavComponent } from './components/headernav/headernav.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

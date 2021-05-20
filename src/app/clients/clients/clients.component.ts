@@ -22,6 +22,8 @@ import { getClients } from '../state/clients/clients.selector';
 export class ClientsComponent implements OnInit {
   /* Observable of clients from store */
   clients$: Observable<Client[]> = of([] as Client[]);
+  /* Page title */
+  title = 'Clientes';
 
   constructor(private store: Store<State>) {}
 
