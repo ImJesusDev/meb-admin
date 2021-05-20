@@ -7,7 +7,7 @@
       <!-- Form row -->
       <div class="flex items-center justify-center w-full space-x-8">
         <!-- Form input -->
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="name"> Nombre:</label>
           <input name="name" formControlName="name" required
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
@@ -16,7 +16,7 @@
         </div>
         <!-- Form input -->
         <!-- Form input -->
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="meb-admin"> Administrador mejor en bici:</label>
           <input name="meb-admin"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
@@ -28,7 +28,7 @@
       <!-- Form row -->
       <div class="flex items-center justify-center w-full space-x-8">
         <!-- Form input -->
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="nit"> NIT:</label>
           <input name="nit" required formControlName="nit"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
@@ -37,7 +37,7 @@
         </div>
         <!-- Form input -->
         <!-- Form input -->
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="client-admin"> Súper administrador cliente:</label>
           <input name="client-admin"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
@@ -49,13 +49,14 @@
       <!-- Form row -->
       <div class="flex items-center justify-center w-full">
         <!-- Form input -->
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="logo"> Logo:</label>
           <input #fileInput (change)="fileChanged($event)"
             class="hidden bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             accept="image/png, image/jpeg" type="file">
           <input required formControlName="logo" name="logo" (click)="fileInput.click()"
             class="w-[47.2%] bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': clientForm.get('logo')?.touched && clientForm.get('logo')?.hasError('required')}"
             type="text">
         </div>
         <!-- Form input -->

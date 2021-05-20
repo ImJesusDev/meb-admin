@@ -1,13 +1,13 @@
 <!-- Main Container -->
 <div class="flex w-full h-full">
   <!-- Side Navigation -->
-  <app-sidenav></app-sidenav>
+  <app-sidenav *ngIf="auth$ | async"></app-sidenav>
   <!-- End Side Navigation -->
 
   <!-- Main Content -->
   <div class="flex-col w-full px-8 py-4">
     <!-- Header Nav -->
-    <app-headernav></app-headernav>
+    <app-headernav *ngIf="auth$ | async"></app-headernav>
     <!-- End Header Nav -->
 
     <!-- Router -->

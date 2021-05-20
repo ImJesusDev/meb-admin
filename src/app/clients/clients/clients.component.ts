@@ -28,7 +28,7 @@ export class ClientsComponent implements OnInit {
   /* Page title */
   title = 'Clientes';
   /* Show / Hide clients form */
-  showForm = true;
+  showForm = false;
 
   constructor(private store: Store<State>) {}
 

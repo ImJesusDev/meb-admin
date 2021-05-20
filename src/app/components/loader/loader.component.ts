@@ -15,7 +15,5 @@ export class LoaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  animationCreated(animationItem: any): void {
-    console.log(animationItem);
-  }
+  animationCreated(animationItem: any): void {}
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 /* Environment */
 import { environment } from '../../environments/environment';
 /* rxjs */
@@ -19,6 +18,8 @@ export class ClientsService {
    * Load all clients
    */
   getClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(`${this.apiUrl}clients`);
+    return this.http.get<Client[]>(`${this.apiUrl}clients`, {
+      withCredentials: true,
+    });
   }
 }

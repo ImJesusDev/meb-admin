@@ -11,7 +11,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 /* NgRx effects */
 import { EffectsModule } from '@ngrx/effects';
 /* Reducers */
-import { reducer } from './state/loader/loader.reducer';
+import { reducer as loaderReducer } from './state/loader/loader.reducer';
+import { reducer as authReducer } from './state/auth/auth.reducer';
 
 /* Components */
 import { AppComponent } from './app.component';
@@ -22,6 +23,10 @@ import { HeadernavComponent } from './components/headernav/headernav.component';
 import { ClientsModule } from './clients/clients.module';
 import { SharedModule } from './shared/shared.module';
 
+/* Effects */
+import { effects } from './state/state';
+/* Guards */
+import { AuthGuard } from './guards/auth.guard';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
@@ -30,14 +35,14 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({ loader: reducer }),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({ loader: loaderReducer, auth: authReducer }),
+    EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({
       name: 'MEB Admin',
       logOnly: environment.production,
     }),
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

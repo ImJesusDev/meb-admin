@@ -13,7 +13,8 @@
   <!-- End title -->
 
   <!-- Clients List -->
-  <app-client-list *ngIf="(!(loader$ | async) && !showForm)" [clients]="clients$ | async"></app-client-list>
+  <app-client-list *ngIf="(!(loader$ | async) && !showForm && (clients$ | async)?.length )"
+    [clients]="clients$ | async"></app-client-list>
   <!-- End Clients List -->
 
   <!-- Form to add client -->
@@ -24,7 +25,7 @@
   <app-loader *ngIf="loader$ |async"></app-loader>
   <!-- End Loader -->
   <!-- No Clients -->
-  <div *ngIf="((clients$ |async)?.length === 0) && !(loader$ | async)"
+  <div *ngIf="((clients$ |async)?.length === 0) && !showForm && !(loader$ | async)"
     class="flex flex-col items-center justify-center w-full h-full space-y-4">
     <p>Aun no tienes clientes creados</p>
 
