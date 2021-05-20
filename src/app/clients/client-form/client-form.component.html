@@ -1,0 +1,82 @@
+<div class="flex flex-col items-center justify-center w-full h-full space-y-4">
+  <!-- Form Container -->
+  <div class="flex flex-col items-center justify-center w-full">
+    <h1 class="mb-12 text-5xl font-bold">Cliente nuevo</h1>
+    <!-- Form -->
+    <form [formGroup]="clientForm" class="flex flex-col items-center justify-center w-6/12 space-y-8">
+      <!-- Form row -->
+      <div class="flex items-center justify-center w-full space-x-8">
+        <!-- Form input -->
+        <div class="flex flex-col w-full">
+          <label class="text-gray-400" for="name"> Nombre:</label>
+          <input name="name" formControlName="name" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': clientForm.get('name')?.touched && clientForm.get('name')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="flex flex-col w-full">
+          <label class="text-gray-400" for="meb-admin"> Administrador mejor en bici:</label>
+          <input name="meb-admin"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form row -->
+      <!-- Form row -->
+      <div class="flex items-center justify-center w-full space-x-8">
+        <!-- Form input -->
+        <div class="flex flex-col w-full">
+          <label class="text-gray-400" for="nit"> NIT:</label>
+          <input name="nit" required formControlName="nit"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': clientForm.get('nit')?.touched && clientForm.get('nit')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="flex flex-col w-full">
+          <label class="text-gray-400" for="client-admin"> Súper administrador cliente:</label>
+          <input name="client-admin"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form row -->
+      <!-- Form row -->
+      <div class="flex items-center justify-center w-full">
+        <!-- Form input -->
+        <div class="flex flex-col w-full">
+          <label class="text-gray-400" for="logo"> Logo:</label>
+          <input #fileInput (change)="fileChanged($event)"
+            class="hidden bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            accept="image/png, image/jpeg" type="file">
+          <input required formControlName="logo" name="logo" (click)="fileInput.click()"
+            class="w-[47.2%] bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form row -->
+
+      <!-- Form row -->
+      <div class="flex items-center justify-center w-full">
+        <!-- Form buttons -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <button [ngClass]="{'opacity-40 cursor-default': !clientForm.valid}" [disabled]="!clientForm.valid"
+            (click)="submitForm()" class="w-36 btn-primary">Crear
+            cliente</button>
+          <button
+            class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-36 focus:outline-none">Cancelar</button>
+        </div>
+        <!-- Form buttons -->
+      </div>
+      <!-- End Form row -->
+    </form>
+    <!-- End Form -->
+  </div>
+  <!-- End Form Container -->
+</div>

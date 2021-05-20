@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 /* Routing */
 import { ClientsRoutingModule } from './clients-routing.module';
@@ -15,10 +16,13 @@ import { ClientListComponent } from './client-list/client-list.component';
 
 /* Shared module */
 import { SharedModule } from '../shared/shared.module';
+import { ClientFormComponent } from './client-form/client-form.component';
 
 @NgModule({
-  declarations: [ClientsComponent, ClientListComponent],
+  declarations: [ClientsComponent, ClientListComponent, ClientFormComponent],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
     ClientsRoutingModule,

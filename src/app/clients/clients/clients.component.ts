@@ -27,6 +27,8 @@ export class ClientsComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
   /* Page title */
   title = 'Clientes';
+  /* Show / Hide clients form */
+  showForm = true;
 
   constructor(private store: Store<State>) {}
 
