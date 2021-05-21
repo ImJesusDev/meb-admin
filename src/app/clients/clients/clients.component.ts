@@ -10,6 +10,7 @@ import { Client } from '../../models';
 import { State } from '../state';
 /* Actions */
 import { LoadClients } from '../state/clients/clients.actions';
+import { LoadUsers } from '../../state/users/user.actions';
 import { StartLoader } from '../../state/loader/loader.actions';
 /* Selectors */
 import { getClients } from '../state/clients/clients.selector';
@@ -39,6 +40,8 @@ export class ClientsComponent implements OnInit {
     this.store.dispatch(new StartLoader());
     // Dispatch action to load clients
     this.store.dispatch(new LoadClients());
+    // Dispatch action to load users
+    this.store.dispatch(new LoadUsers());
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients));
   }

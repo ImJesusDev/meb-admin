@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 /* Reducers */
 import { reducer as loaderReducer } from './state/loader/loader.reducer';
 import { reducer as authReducer } from './state/auth/auth.reducer';
+import { reducer as usersReducer } from './state/users/user.reducer';
 
 /* Components */
 import { AppComponent } from './app.component';
@@ -35,7 +36,11 @@ import { AuthGuard } from './guards/auth.guard';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({ loader: loaderReducer, auth: authReducer }),
+    StoreModule.forRoot({
+      loader: loaderReducer,
+      auth: authReducer,
+      users: usersReducer,
+    }),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({
       name: 'MEB Admin',
