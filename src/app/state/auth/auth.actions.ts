@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 /* Models */
-import { Login } from '../../models';
+import { Login, ApiError } from '../../models';
 export enum AuthActionTypes {
   LoginStart = '[Auth] Login Start',
   LoginSuccess = '[Auth] Login Success',
@@ -24,7 +24,7 @@ export class SetAuth implements Action {
 }
 export class LoginFail implements Action {
   readonly type = AuthActionTypes.LoginFail;
-  constructor(public payload: any) {}
+  constructor(public payload: ApiError[]) {}
 }
 
 export class LogOut implements Action {

@@ -1,26 +1,55 @@
+import { Observable, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 /* Models */
-import { Login } from '../../models';
+import { Login, ApiError } from '../../models';
 /* Actions */
 import { LoginStart } from '../../state/auth/auth.actions';
+import { StartLoader } from '../../state/loader/loader.actions';
 /* NgRx */
 import { Store } from '@ngrx/store';
 /* State */
 import { State } from '../../state/state';
+
+/* Selectors */
+import { getAuthError } from '../../state/auth/auth.selector';
+import { getLoader } from '../../state/loader/loader.selector';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private store: Store<State>) {}
+  loginForm: FormGroup;
+  login: Login;
+  errors$: Observable<ApiError[]> = of([]);
+  loader$: Observable<boolean> = of(false);
 
-  ngOnInit(): void {
-    // Dispatch action to set auth
-    const login: Login = {
-      email: 'test@mail.com',
-      password: '1234',
+  constructor(private formBuilder: FormBuilder, private store: Store<State>) {
+    this.errors$ = this.store.select(getAuthError);
+    this.loader$ = this.store.select(getLoader);
+    this.login = {
+      email: '',
+      password: '',
     };
-    this.store.dispatch(new LoginStart(login));
+    this.loginForm = this.formBuilder.group({
+      email: [this.login.email, [Validators.required, Validators.email]],
+      password: [
+        this.login.password,
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+    });
+  }
+
+  ngOnInit(): void {}
+
+  signIn(): void {
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoginStart(this.loginForm.value));
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 /* rxjs */
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* Models */

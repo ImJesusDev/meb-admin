@@ -1,1 +1,51 @@
-<p>login works!</p>
+<div class="flex flex-col items-center justify-center w-full h-full space-y-4">
+  <div class="h-12 font-bold text-red-500">
+    <div *ngFor="let error of errors$ | async">
+      {{error.message}}
+    </div>
+  </div>
+  <!-- Login Form -->
+  <form [formGroup]="loginForm" class="flex-col items-center justify-center w-3/12 space-y-4 h-96">
+    <h1 class="text-5xl font-bold">Iniciar Sesión</h1>
+    <!-- Form row -->
+    <div class="flex-col items-center justify-center w-full space-y-8">
+      <!-- Form input -->
+      <div class="flex flex-col w-full h-16">
+        <label class="text-gray-400" for="email"> Email:</label>
+        <input name="email" formControlName="email" required
+          class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+          [ngClass]="{'border-solid border-red-500 outline-red-500': loginForm.get('email')?.touched && loginForm.get('email')?.hasError('required')}"
+          type="email">
+      </div>
+      <!-- Form input -->
+      <!-- Form input -->
+      <div class="flex flex-col w-full h-16">
+        <label class="text-gray-400" for="password"> Contraseña:</label>
+        <input name="password" required formControlName="password"
+          class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+          [ngClass]="{'border-solid border-red-500 outline-red-500': loginForm.get('password')?.touched && loginForm.get('password')?.hasError('required')}"
+          type="password">
+      </div>
+      <!-- Form input -->
+    </div>
+    <!-- End Form row -->
+
+    <!-- Form row -->
+    <div class="flex items-center justify-center w-full">
+      <!-- Form buttons -->
+      <div class="flex items-center justify-center w-full space-x-8">
+        <button (click)="signIn()" [ngClass]="{'opacity-40 cursor-default': !loginForm.valid}"
+          [disabled]="!loginForm.valid" class="w-44 btn-primary">
+          <span>Iniciar Sesión</span> <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg></button>
+      </div>
+      <!-- Form buttons -->
+    </div>
+    <!-- End Form row -->
+  </form>
+  <!-- End Login Form -->
+
+</div>

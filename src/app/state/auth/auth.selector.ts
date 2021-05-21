@@ -7,3 +7,7 @@ export const getAuth = createSelector(
   getAuthState,
   (state: State) => state.isLogged
 );
+export const getAuthError = createSelector(
+  getAuthState,
+  (state: State) => state.error
+);

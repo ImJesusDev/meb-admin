@@ -20,7 +20,8 @@ import {
 } from './auth.actions';
 
 import { StopLoader } from '../loader/loader.actions';
-
+import { ApiError } from '../../models';
+import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class AuthEffects {
   constructor(
@@ -44,7 +45,15 @@ export class AuthEffects {
           .pipe(
             mergeMap((user: any) => [new StopLoader(), new LoginSuccess()]),
             tap(() => this.router.navigate(['/clients'])),
-            catchError((error) => of(new LoginFail(error)))
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new LoginFail(errors), new StopLoader());
+            })
           )
       )
     );
