@@ -1,14 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 /* rxjs */
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
 import { State } from '../state';
-import { LoadUsers } from '../../state/users/user.actions';
+import {
+  LoadUsers,
+  AddAdminStart,
+  AddAdminCancel,
+} from '../../state/users/user.actions';
 /* Selectors */
-import { getUsers } from '../../state/users/users.selector';
+import {
+  getUsers,
+  getUserLoader,
+  getUserErrors,
+  getUserByEmail,
+  getUserAdminModal,
+} from '../../state/users/users.selector';
 import { getLoader } from '../../state/loader/loader.selector';
 import { getClientsError } from '../state/clients/clients.selector';
 /* Actions */
@@ -21,23 +31,40 @@ import { Client, User, ApiError } from '../../models';
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.css'],
 })
-export class ClientFormComponent implements OnInit {
+export class ClientFormComponent implements OnInit, OnDestroy {
+  /* Keep track of subscriptions */
+  private subscriptions = new Subscription();
   /* New Client Object */
   client: Client;
+  /* New Client Admin */
+  clientAdmin: User;
   /* Observable of users from store */
   users$: Observable<User[]> = of([] as User[]);
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
+
+  /* Observable of errors from store */
+  userErrors$: Observable<ApiError[]> = of([] as ApiError[]);
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
+  /* Observable of admin modal from store */
+  userAdminModal$: Observable<boolean> = of(false);
+  /* Observable of user loader from store */
+  userLoader$: Observable<boolean> = of(false);
   /* Form Group */
   clientForm: FormGroup;
+  /* Form Group */
+  clientAdminForm: FormGroup;
   /* base64 logo */
   base64Logo = '';
   /* Show MEB admin modal */
   showMebAdminModal = false;
-  /* Show Back Drop */
-  showBackDrop = false;
+  /* Show MEB admin Back Drop */
+  showMebAdminBackDrop = false;
+  /* Show MEB admin modal */
+  showClientAdminModal = false;
+  /* Show MEB admin Back Drop */
+  showClientAdminBackDrop = false;
   /* Store selected meb admin */
   mebAdmin: User = {} as User;
   constructor(private _formBuilder: FormBuilder, private store: Store<State>) {
@@ -48,17 +75,50 @@ export class ClientFormComponent implements OnInit {
       logo: '',
       slug: '',
     };
+    this.clientAdmin = {
+      id: '',
+      firstName: 'Jesus',
+      lastName: 'Diaz',
+      email: 'test@mail.com',
+      password: '1234',
+      documentNumber: '1234',
+      documentType: 'CE',
+      phone: '32127584129',
+      role: 'client-admin',
+    };
     this.clientForm = this._formBuilder.group({
       name: [this.client.name, [Validators.required]],
       nit: [this.client.nit, [Validators.required]],
       logo: [this.client.logo, [Validators.required]],
       mebAdmin: ['', [Validators.required]],
+      clientAdmin: ['', [Validators.required]],
+    });
+    this.clientAdminForm = this._formBuilder.group({
+      firstName: [this.clientAdmin.firstName, [Validators.required]],
+      documentType: [this.clientAdmin.documentType, [Validators.required]],
+      documentNumber: [this.clientAdmin.documentNumber, [Validators.required]],
+      phone: [this.clientAdmin.phone, [Validators.required]],
+      lastName: [this.clientAdmin.lastName, [Validators.required]],
+      role: [this.clientAdmin.role, [Validators.required]],
+      password: [
+        this.clientAdmin.password,
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+      email: [this.clientAdmin.email, [Validators.required, Validators.email]],
     });
   }
-
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
   ngOnInit(): void {
-    // Use selector to ger loader state
+    // Use selector to get loader state
     this.loader$ = this.store.pipe(select(getLoader));
+    // Use selector to get user loader state
+    this.userLoader$ = this.store.pipe(select(getUserLoader));
     // Dispatch action to load users
     this.store.dispatch(new LoadUsers());
 
@@ -66,15 +126,28 @@ export class ClientFormComponent implements OnInit {
     this.users$ = this.store.pipe(select(getUsers));
     // Use selector to get errors from state
     this.errors$ = this.store.pipe(select(getClientsError));
+    // Use selector to get user errors from state
+    this.userErrors$ = this.store.pipe(select(getUserErrors));
+    // Use selector to get user errors from state
+    this.userAdminModal$ = this.store.pipe(select(getUserAdminModal));
   }
 
-  openModal(): void {
-    this.showBackDrop = true;
+  /* Open modal to select meb admin */
+  openMebAdminModal(): void {
+    this.showMebAdminBackDrop = true;
     setTimeout(() => {
       this.showMebAdminModal = true;
     }, 100);
   }
-  closeModal(): void {
+  /* Open modal to create client admin */
+  openClientAdminModal(): void {
+    this.showClientAdminBackDrop = true;
+    setTimeout(() => {
+      this.showClientAdminModal = true;
+    }, 100);
+  }
+  /* Close modal to select meb admin */
+  closeMebAdminModal(): void {
     if (this.mebAdmin.id) {
       this.clientForm.patchValue({
         mebAdmin: `${this.mebAdmin.firstName} ${this.mebAdmin.lastName}`,
@@ -83,7 +156,35 @@ export class ClientFormComponent implements OnInit {
     this.showMebAdminModal = false;
 
     setTimeout(() => {
-      this.showBackDrop = false;
+      this.showMebAdminBackDrop = false;
+    }, 100);
+  }
+  /* Close modal to create client admin */
+  closeClientAdminModal(cancel?: boolean): void {
+    if (!cancel) {
+      this.store.dispatch(new AddAdminStart({ ...this.clientAdminForm.value }));
+      this.subscriptions.add(
+        this.store
+          .pipe(
+            select(getUserByEmail(this.clientAdminForm.controls['email'].value))
+          )
+          .subscribe((user) => {
+            if (user) {
+              this.clientAdmin.id = user.id;
+              this.clientForm.patchValue({
+                clientAdmin: `${user?.firstName} ${user?.lastName}`,
+              });
+            }
+          })
+      );
+    } else {
+      this.clientForm.reset();
+      this.store.dispatch(new AddAdminCancel());
+    }
+
+    this.showClientAdminModal = false;
+    setTimeout(() => {
+      this.showClientAdminBackDrop = false;
     }, 100);
   }
 
@@ -98,8 +199,8 @@ export class ClientFormComponent implements OnInit {
         nit: this.clientForm.controls['nit'].value,
         slug: '',
         id: '',
-        mebAdmin: this.clientForm.controls['mebAdmin'].value,
-        // superAdminClient: this.clientForm.controls['mebAdmin'].value,
+        mebAdmin: this.mebAdmin.id,
+        superAdminClient: this.clientAdmin.id,
       })
     );
   }

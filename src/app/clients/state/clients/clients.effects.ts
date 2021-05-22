@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 /* NgRx */
 import { Actions, createEffect } from '@ngrx/effects';
 import { ofType } from '@ngrx/effects';
 /* Operators */
-import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -30,6 +31,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class ClientsEffects {
   constructor(
+    private router: Router,
     private $actions: Actions,
     private _clientsService: ClientsService
   ) {}
@@ -51,6 +53,7 @@ export class ClientsEffects {
               new StopLoader(),
               new LoadClientsSuccess(clients),
             ]),
+            tap(() => this.router.navigate(['/clientes'])),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {

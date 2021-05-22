@@ -3,11 +3,13 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 /* Actions */
 import { UserActions, UserActionTypes } from '../users/user.actions';
 /* Models */
-import { User } from '../../models';
+import { User, ApiError } from '../../models';
 
 /* Interface for the clients state */
 export interface State extends EntityState<User> {
-  error: any;
+  error: ApiError[];
+  loading: boolean;
+  adminModal: boolean;
 }
 
 /* Entity adapter */
@@ -15,7 +17,9 @@ const adapter: EntityAdapter<User> = createEntityAdapter<User>();
 
 /* Initial client state */
 export const initialState: State = adapter.getInitialState({
-  error: null,
+  error: [],
+  loading: false,
+  adminModal: false,
 });
 
 /* Client reducers */
@@ -24,20 +28,54 @@ export function reducer(state = initialState, action: any): State {
     case UserActionTypes.LoadUsers: {
       return adapter.removeAll({
         ...state,
-        error: null,
+        loading: true,
+        error: [],
       });
     }
-
+    case UserActionTypes.AddAdminStart: {
+      return {
+        ...state,
+        loading: true,
+        adminModal: true,
+        error: [],
+      };
+    }
+    case UserActionTypes.AddAdminSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        loading: false,
+        adminModal: false,
+        error: [],
+      });
+    }
+    case UserActionTypes.AddAdminFail: {
+      return {
+        ...state,
+        loading: false,
+        adminModal: true,
+        error: action.payload,
+      };
+    }
+    case UserActionTypes.AddAdminCancel: {
+      return {
+        ...state,
+        loading: false,
+        adminModal: false,
+      };
+    }
     case UserActionTypes.LoadUsersSuccess: {
       return adapter.addMany(action.payload, {
         ...state,
-        error: null,
+        loading: false,
+        adminModal: false,
+        error: [],
       });
     }
 
     case UserActionTypes.LoadUsersFail: {
       return adapter.removeAll({
         ...state,
+        loading: false,
         error: action.payload,
       });
     }

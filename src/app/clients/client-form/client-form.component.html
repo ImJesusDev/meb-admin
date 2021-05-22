@@ -10,6 +10,7 @@
       </div>
     </div>
     <!-- End Errors -->
+    <!-- Form -->
     <form [formGroup]="clientForm" class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12">
       <!-- Form row -->
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
@@ -29,7 +30,7 @@
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             type="text">
           <!-- Input icon -->
-          <svg (click)="openModal()" xmlns="http://www.w3.org/2000/svg"
+          <svg (click)="openMebAdminModal()" xmlns="http://www.w3.org/2000/svg"
             class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
             viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -52,11 +53,19 @@
         </div>
         <!-- Form input -->
         <!-- Form input -->
-        <div class="flex flex-col w-full h-16">
+        <div class="relative flex flex-col w-full h-16">
           <label class="text-gray-400" for="client-admin"> Súper administrador cliente:</label>
-          <input name="client-admin"
+          <input name="client-admin" required readonly formControlName="clientAdmin"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             type="text">
+          <!-- Input icon -->
+          <svg (click)="openClientAdminModal()" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <!-- EndInput icon -->
         </div>
         <!-- Form input -->
       </div>
@@ -106,7 +115,7 @@
 
 <!-- Modal to select MEB Admin -->
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div *ngIf="showBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+<div *ngIf="showMebAdminBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
   aria-modal="true">
   <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
     <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
@@ -141,13 +150,13 @@
         <!-- End Form row -->
       </div>
       <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button (click)="closeModal()" type="button" [ngClass]="{'opacity-40 cursor-default': !mebAdmin.id}"
+        <button (click)="closeMebAdminModal()" type="button" [ngClass]="{'opacity-40 cursor-default': !mebAdmin.id}"
           [disabled]="!mebAdmin.id"
           class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
           Guardar
 
         </button>
-        <button type="button" (click)="closeModal()"
+        <button type="button" (click)="closeMebAdminModal()"
           class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
           Cancelar
         </button>
@@ -156,3 +165,143 @@
   </div>
 </div>
 <!-- End Modal to select MEB Admin -->
+
+
+<!-- Modal to create client Admin -->
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div *ngIf="showClientAdminBackDrop || ( userAdminModal$ | async) " class="fixed inset-0 z-10 overflow-y-auto"
+  aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div
+      [ngClass]="{'opacity-0': !showClientAdminModal, 'opacity-100': showClientAdminModal || ( userAdminModal$ | async)}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Administrador mejor en bici</h1>
+      </div>
+      <!-- Errors -->
+      <div class="flex flex-col items-center justify-center h-12 font-bold text-red-500">
+        <div *ngFor="let error of userErrors$ | async">
+          {{error.message}}
+        </div>
+      </div>
+      <!-- End Errors -->
+      <div class="px-12 py-12 bg-white sm:flex sm:items-start">
+        <!-- Form -->
+        <form [formGroup]="clientAdminForm" class="flex flex-col items-center justify-center w-full space-y-8">
+          <!-- Form row -->
+          <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="firstName"> Nombre:</label>
+              <input name="firstName" required formControlName="firstName"
+                class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                [ngClass]="{'border-solid border-red-500 outline-red-500': clientAdminForm.get('firstName')?.touched && clientAdminForm.get('firstName')?.hasError('required')}"
+                type="text">
+            </div>
+            <!-- Form input -->
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="email"> Correo:</label>
+              <input name="email" required formControlName="email"
+                class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                [ngClass]="{'border-solid border-red-500 outline-red-500': clientAdminForm.get('email')?.touched && clientAdminForm.get('email')?.hasError('required')}"
+                type="email">
+            </div>
+            <!-- Form input -->
+          </div>
+          <!-- End Form row -->
+          <!-- Form row -->
+          <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="lastName"> Apellido:</label>
+              <input name="lastName" required formControlName="lastName"
+                class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                [ngClass]="{'border-solid border-red-500 outline-red-500': clientAdminForm.get('lastName')?.touched && clientAdminForm.get('lastName')?.hasError('required')}"
+                type="text">
+            </div>
+            <!-- Form input -->
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="password"> Contraseña:</label>
+              <input name="password" required formControlName="password"
+                class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                [ngClass]="{'border-solid border-red-500 outline-red-500': clientAdminForm.get('password')?.touched && clientAdminForm.get('password')?.hasError('required')}"
+                type="password">
+            </div>
+            <!-- Form input -->
+          </div>
+          <!-- End Form row -->
+          <!-- Form row -->
+          <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="documentType">Tipo ID:</label>
+              <select formControlName="documentType" required
+                class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                name="meb_admin" id="documentType">
+                <option value=""> Seleccione
+                </option>
+                <option value="CC"> Cédula Ciudadanía
+                </option>
+                <option value="CE"> Cédula Extranjería
+                </option>
+                <option value="P"> Pasaporte
+                </option>
+              </select>
+            </div>
+            <!-- End Form input -->
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="phone"> Número de Celular::</label>
+              <input name="phone" required formControlName="phone"
+                class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                [ngClass]="{'border-solid border-red-500 outline-red-500': clientAdminForm.get('phone')?.touched && clientAdminForm.get('phone')?.hasError('required')}"
+                type="text">
+            </div>
+            <!-- Form input -->
+          </div>
+          <!-- End Form row -->
+          <!-- Form row -->
+          <div class="flex items-center justify-center w-full">
+            <!-- Form input -->
+            <div class="flex flex-col w-full h-16">
+              <label class="text-gray-400" for="documentNumber"> Número ID:</label>
+              <input required formControlName="documentNumber" name="documentNumber"
+                class=" sm:w-[47.2%] w-full bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                [ngClass]="{'border-solid border-red-500 outline-red-500': clientAdminForm.get('documentNumber')?.touched && clientAdminForm.get('documentNumber')?.hasError('required')}"
+                type="text">
+            </div>
+            <!-- Form input -->
+          </div>
+          <!-- End Form row -->
+
+        </form>
+        <!-- End Form -->
+
+
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 spa sm:flex sm:flex-row-reverse">
+        <button (click)="closeClientAdminModal()" type="button"
+          [ngClass]="{'opacity-40 cursor-default': !clientAdminForm.valid}" [disabled]="!clientAdminForm.valid"
+          class="inline-flex justify-center w-full px-4 py-2 space-x-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+          <span>Guardar</span> <svg *ngIf="userLoader$ | async" xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+
+        </button>
+        <button type="button" (click)="closeClientAdminModal(true)"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to select Create Client Admin -->

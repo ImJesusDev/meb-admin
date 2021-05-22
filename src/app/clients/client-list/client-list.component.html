@@ -1,7 +1,7 @@
-<div class="flex flex-col items-center justify-center h-full w-[300px] sm:w-full space-y-4 overflow-x-auto">
-  <!-- Client Table -->
+<div class="flex flex-col items-center justify-center h-full space-y-4 sm:w-full ">
+  <!-- Client Table Desktop only -->
   <table *ngIf="((clients$ |async)?.length !== 0) && !(loader$ | async)"
-    class="w-full text-xs text-center table-auto sm:text-lg">
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
     <thead>
       <tr>
         <th></th>
@@ -47,9 +47,30 @@
 
     </tbody>
   </table>
-  <!-- End Client Table -->
+  <!-- End Client Table Desktop only -->
+
+  <!-- Mobile Table -->
+  <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
+    *ngIf="((clients$ |async)?.length !== 0) && !(loader$ | async)">
+
+    <div [ngClass]="{'bg-gray-200': i % 2 === 0}" class="flex flex-col justify-center p-2 "
+      *ngFor="let client of clients$ |async; let i = index;">
+      <img class="w-12 mx-auto mb-12" src="{{client.logo}}" alt="">
+      <div><span class="font-bold">Nombre:</span> {{client.name}}</div>
+      <div><span class="font-bold">Nit:</span>{{client.nit}}</div>
+      <div><span class="font-bold">Administrador Mejor en Bici:</span>{{client.meb_admin ? (client.meb_admin?.firstName
+        + ' '+
+        client.meb_admin?.lastName) : 'Sin asignar'}}</div>
+      <div><span class="font-bold">Súper administrador cliente:</span> {{client.super_admin_client ?
+        (client.super_admin_client?.firstName + ' '+
+        client.super_admin_client?.lastName) : 'Sin asignar'}}</div>
+      <div><span class="font-bold">Sedes:</span> 0</div>
+      <div><span class="font-bold">Usuarios:</span> 0</div>
+    </div>
 
 
+  </div>
+  <!-- End Mobile Table -->
   <!-- Loader -->
   <app-loader *ngIf="loader$ |async"></app-loader>
   <!-- End Loader -->

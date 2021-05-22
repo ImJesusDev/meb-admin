@@ -8,3 +8,20 @@ import { selectAll } from './user.reducer';
 export const getUserState = createFeatureSelector<State>('users');
 
 export const getUsers = createSelector(getUserState, selectAll);
+
+export const getUserLoader = createSelector(
+  getUserState,
+  (state: State) => state.loading
+);
+export const getUserErrors = createSelector(
+  getUserState,
+  (state: State) => state.error
+);
+export const getUserAdminModal = createSelector(
+  getUserState,
+  (state: State) => state.adminModal
+);
+export const getUserByEmail = (email: string) =>
+  createSelector(getUsers, (users) =>
+    users.find((user) => user.email === email)
+  );

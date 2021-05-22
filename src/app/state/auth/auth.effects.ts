@@ -44,7 +44,7 @@ export class AuthEffects {
           // .pipe(delay(1500)) // Small delay to test loader
           .pipe(
             mergeMap((user: any) => [new StopLoader(), new LoginSuccess()]),
-            tap(() => this.router.navigate(['/clients'])),
+            tap(() => this.router.navigate(['/clientes'])),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {

@@ -23,4 +23,10 @@ export class UsersService {
       }
     );
   }
+  /* Add Admin User */
+  addAdmin(admin: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}users/admin/signup`, admin, {
+      withCredentials: true,
+    });
+  }
 }

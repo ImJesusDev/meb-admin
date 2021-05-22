@@ -15,21 +15,25 @@ import {
   LoadUsers,
   LoadUsersFail,
   LoadUsersSuccess,
+  AddAdminStart,
+  AddAdminSuccess,
+  AddAdminFail,
   UserActionTypes,
 } from './user.actions';
 
 import { StopLoader } from '../../state/loader/loader.actions';
 
 /* Models */
-import { User } from '../../models';
+import { User, ApiError } from '../../models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UsersEffects {
   constructor(private $actions: Actions, private _usersService: UsersService) {}
 
   /**
-   * Effect to listen for the LoadClients action
-   * and make http request to load clients
+   * Effect to listen for the LoadUsers action
+   * and make http request to load users
    * from API
    */
   $getUsers = createEffect(() => {
@@ -45,6 +49,33 @@ export class UsersEffects {
               new LoadUsersSuccess(users),
             ]),
             catchError((error) => of(new LoadUsersFail(error)))
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddAdmin action
+   * and make http request to create admin
+   * from API
+   */
+  $addAdmin = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(UserActionTypes.AddAdminStart),
+      switchMap((action: AddAdminStart) =>
+        this._usersService
+          .addAdmin(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((user: User) => [new AddAdminSuccess(user)]),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddAdminFail(errors));
+            })
           )
       )
     );
