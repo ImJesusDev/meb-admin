@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /* Models */
-import { Client } from '../../models/client';
+import { Client, User } from '../../models';
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
@@ -11,10 +11,21 @@ import { Client } from '../../models/client';
 export class ClientFormComponent implements OnInit {
   /* New Client Object */
   client: Client;
+  /* List of users (admins) */
+  @Input() users: User[] | null = [];
+  @Input() loader: boolean | null = false;
   /* Form Group */
   clientForm: FormGroup;
   /* base64 logo */
   base64Logo = '';
+  /* Show MEB admin modal */
+  showMebAdminModal = false;
+  /* Show Back Drop */
+  showBackDrop = false;
+  /* Store selected meb admin */
+  mebAdmin: User = {} as User;
+  @Output() createClient: EventEmitter<Client> = new EventEmitter();
+  @Output() cancel: EventEmitter<boolean> = new EventEmitter();
   constructor(private _formBuilder: FormBuilder) {
     this.client = {
       id: '',
@@ -27,13 +38,42 @@ export class ClientFormComponent implements OnInit {
       name: [this.client.name, [Validators.required]],
       nit: [this.client.nit, [Validators.required]],
       logo: [this.client.logo, [Validators.required]],
+      mebAdmin: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {}
 
+  cancelCreate(): void {
+    this.cancel.emit(true);
+  }
+
+  openModal(): void {
+    this.showBackDrop = true;
+    setTimeout(() => {
+      this.showMebAdminModal = true;
+    }, 100);
+  }
+  closeModal(): void {
+    if (this.mebAdmin.id) {
+      this.clientForm.patchValue({
+        mebAdmin: `${this.mebAdmin.firstName} ${this.mebAdmin.lastName}`,
+      });
+    }
+    this.showMebAdminModal = false;
+    setTimeout(() => {
+      this.showBackDrop = false;
+    }, 100);
+  }
+
   submitForm(): void {
-    console.log(this.clientForm.value);
+    this.createClient.emit({
+      logo: this.base64Logo,
+      name: this.clientForm.controls['name'].value,
+      nit: this.clientForm.controls['nit'].value,
+      slug: '',
+      id: '',
+    });
   }
   /* Handle file change */
   fileChanged(event: any): void {

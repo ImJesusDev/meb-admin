@@ -16,11 +16,19 @@
         </div>
         <!-- Form input -->
         <!-- Form input -->
-        <div class="flex flex-col w-full h-16">
+        <div class="relative flex flex-col w-full h-16">
           <label class="text-gray-400" for="meb-admin"> Administrador mejor en bici:</label>
-          <input name="meb-admin"
+          <input readonly name="meb-admin" formControlName="mebAdmin"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             type="text">
+          <!-- Input icon -->
+          <svg (click)="openModal()" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <!-- EndInput icon -->
         </div>
         <!-- Form input -->
       </div>
@@ -68,10 +76,16 @@
         <!-- Form buttons -->
         <div class="flex items-center justify-center w-full space-x-8">
           <button [ngClass]="{'opacity-40 cursor-default': !clientForm.valid}" [disabled]="!clientForm.valid"
-            (click)="submitForm()" class="w-36 btn-primary">Crear
-            cliente</button>
-          <button
-            class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-36 focus:outline-none">Cancelar</button>
+            (click)="submitForm()" class="w-42 btn-primary"><span>Crear
+              cliente</span>
+            <svg *ngIf="loader" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+          <button type="reset" (click)="cancelCreate()"
+            class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-42 focus:outline-none">Cancelar</button>
         </div>
         <!-- Form buttons -->
       </div>
@@ -81,3 +95,56 @@
   </div>
   <!-- End Form Container -->
 </div>
+
+
+<!-- Modal to select MEB Admin -->
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div *ngIf="showBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+  aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showMebAdminModal, 'opacity-100': showMebAdminModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-3xl text-white">Administrador mejor en bici</h1>
+      </div>
+      <div class="px-12 py-12 bg-white sm:flex sm:items-start">
+        <!-- Form row -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Form input -->
+          <div class="flex flex-col w-1/2 h-16">
+            <label class="text-gray-400" for="client-admin"> Súper administrador cliente:</label>
+            <select [(ngModel)]="mebAdmin" required
+              class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+              name="meb_admin" id="meb_admin">
+              <option *ngFor="let user of users" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}} </option>
+            </select>
+          </div>
+          <!-- Form input -->
+
+          <!-- Image Preview -->
+          <img src="assets/img/preview.png" alt="">
+          <!-- End Image Preview -->
+        </div>
+        <!-- End Form row -->
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button (click)="closeModal()" type="button" [ngClass]="{'opacity-40 cursor-default': !mebAdmin.id}"
+          [disabled]="!mebAdmin.id"
+          class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+          Guardar
+
+        </button>
+        <button type="button" (click)="closeModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to select MEB Admin -->

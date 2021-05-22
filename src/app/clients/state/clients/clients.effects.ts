@@ -16,6 +16,9 @@ import {
   LoadClientsFail,
   LoadClientsSuccess,
   ClientsActionTypes,
+  AddClient,
+  AddClientSuccess,
+  AddClientFail,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -48,6 +51,28 @@ export class ClientsEffects {
               new LoadClientsSuccess(clients),
             ]),
             catchError((error) => of(new LoadClientsFail(error)))
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddClient action
+   * and make http request to add client
+   * from API
+   */
+  $addClient = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.AddClient),
+      switchMap((action: AddClient) =>
+        this._clientsService
+          .addClient(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((client: Client) => [
+              new StopLoader(),
+              new AddClientSuccess(client),
+            ]),
+            catchError((error) => of(new AddClientFail(error)))
           )
       )
     );

@@ -22,4 +22,13 @@ export class ClientsService {
       withCredentials: true,
     });
   }
+
+  /**
+   * Add new client
+   */
+  addClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(`${this.apiUrl}clients`, client, {
+      withCredentials: true,
+    });
+  }
 }

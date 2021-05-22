@@ -18,9 +18,12 @@ export class AuthService {
    * login function
    */
   login(login: Login): Observable<any> {
-    let enco: any = new HttpHeaders().set('Content-Type', 'application/json');
+    let headers: HttpHeaders = new HttpHeaders().set(
+      'Content-Type',
+      'application/json'
+    );
     return this.http.post(`${this.apiUrl}users/signin`, login, {
-      headers: enco,
+      headers: headers,
       observe: 'response',
       withCredentials: true,
     });

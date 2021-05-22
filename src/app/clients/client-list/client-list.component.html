@@ -6,6 +6,7 @@
         <th></th>
         <th>Nombre</th>
         <th>NIT</th>
+        <th>Administrador Mejor en Bici</th>
         <th>Súper administrador cliente</th>
         <th>Sedes</th>
         <th>Usuarios</th>
@@ -16,12 +17,15 @@
     <tbody>
       <ng-container *ngFor="let client of clients; let i = index;">
         <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-          <td class="p-2"></td>
+          <td class="p-2"> <img class="w-8 rounded-full" src="{{client.logo}}" alt=""> </td>
           <td class="p-2"> {{client.name}} </td>
-          <td class="p-2"> {{client.name}} </td>
-          <td class="p-2"> {{client.name}} </td>
-          <td class="p-2"> {{client.name}} </td>
-          <td class="p-2"> {{client.name}} </td>
+          <td class="p-2"> {{client.nit}} </td>
+          <td class="p-2"> {{client.meb_admin ? (client.meb_admin?.firstName + ' '+
+            client.meb_admin?.lastName) : 'Sin asignar'}} </td>
+          <td class="p-2"> {{client.super_admin_client ? (client.super_admin_client?.firstName + ' '+
+            client.super_admin_client?.lastName) : 'Sin asignar'}} </td>
+          <td class="p-2"> 0 </td>
+          <td class="p-2"> 0 </td>
           <td class="p-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 m-auto cursor-pointer hover:text-green-900"
               fill="none" viewBox="0 0 24 24" stroke="currentColor">

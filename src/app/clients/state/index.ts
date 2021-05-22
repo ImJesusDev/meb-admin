@@ -15,7 +15,7 @@ export interface ClientState {
 
 /* Interface to merge client state with global state */
 export interface State extends fromRoot.State {
-  user: ClientState;
+  client: ClientState;
 }
 
 /* Merge Reducers */

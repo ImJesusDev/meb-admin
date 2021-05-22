@@ -17,7 +17,10 @@ export class UsersService {
   /* Get All Users */
   getUsers(role?: string): Observable<User[]> {
     return this.http.get<User[]>(
-      `${this.apiUrl}users?role=${role ? role : ''}`
+      `${this.apiUrl}users?role=${role ? role : ''}`,
+      {
+        withCredentials: true,
+      }
     );
   }
 }

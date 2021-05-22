@@ -34,6 +34,18 @@ export function reducer(state = initialState, action: ClientsActions): State {
         error: null,
       });
     }
+    case ClientsActionTypes.AddClientSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: null,
+      });
+    }
+    case ClientsActionTypes.AddClientFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
 
     case ClientsActionTypes.LoadClientsFail: {
       return adapter.removeAll({
