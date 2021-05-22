@@ -1,11 +1,11 @@
 <div class="flex flex-col items-center justify-center w-full h-full space-y-4">
   <!-- Form Container -->
   <div class="flex flex-col items-center justify-center w-full">
-    <h1 class="mb-12 text-5xl font-bold">Cliente nuevo</h1>
+    <h1 class="mt-24 font-bold sm:mt-0 sm:mb-12 text:2xl sm:text-5xl">Cliente nuevo</h1>
     <!-- Form -->
-    <form [formGroup]="clientForm" class="flex flex-col items-center justify-center w-6/12 space-y-8">
+    <form [formGroup]="clientForm" class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12">
       <!-- Form row -->
-      <div class="flex items-center justify-center w-full space-x-8">
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
         <!-- Form input -->
         <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="name"> Nombre:</label>
@@ -34,10 +34,10 @@
       </div>
       <!-- End Form row -->
       <!-- Form row -->
-      <div class="flex items-center justify-center w-full space-x-8">
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
         <!-- Form input -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="nit"> NIT:</label>
+          <label class="text-gray-400 " for="nit"> NIT:</label>
           <input name="nit" required formControlName="nit"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': clientForm.get('nit')?.touched && clientForm.get('nit')?.hasError('required')}"
@@ -63,7 +63,7 @@
             class="hidden bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             accept="image/png, image/jpeg" type="file">
           <input required formControlName="logo" name="logo" (click)="fileInput.click()"
-            class="w-[47.2%] bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            class=" sm:w-[47.2%] w-full bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': clientForm.get('logo')?.touched && clientForm.get('logo')?.hasError('required')}"
             type="text">
         </div>
@@ -79,9 +79,9 @@
             (click)="submitForm()" class="w-42 btn-primary"><span>Crear
               cliente</span>
             <svg *ngIf="loader" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              viewBox="0 0 24 24" stroke="currentColor">start
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357
+              2H15" />
             </svg>
           </button>
           <button type="reset" (click)="cancelCreate()"
@@ -101,7 +101,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <div *ngIf="showBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
   aria-modal="true">
-  <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
     <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
 
     <!-- This element is to trick the browser into centering the modal contents. -->
@@ -110,14 +110,14 @@
     <div [ngClass]="{'opacity-0': !showMebAdminModal, 'opacity-100': showMebAdminModal}"
       class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
       <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
-        <h1 class="text-3xl text-white">Administrador mejor en bici</h1>
+        <h1 class="text-xl text-white sm:text-3xl">Administrador mejor en bici</h1>
       </div>
       <div class="px-12 py-12 bg-white sm:flex sm:items-start">
         <!-- Form row -->
         <div class="flex items-center justify-center w-full space-x-8">
           <!-- Form input -->
-          <div class="flex flex-col w-1/2 h-16">
-            <label class="text-gray-400" for="client-admin"> Súper administrador cliente:</label>
+          <div class="flex flex-col w-full h-16 sm:w-1/2">
+            <label class="text-gray-400" for="client-admin">Nombre:</label>
             <select [(ngModel)]="mebAdmin" required
               class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               name="meb_admin" id="meb_admin">
@@ -127,7 +127,7 @@
           <!-- Form input -->
 
           <!-- Image Preview -->
-          <img src="assets/img/preview.png" alt="">
+          <img class="hidden sm:block" src="assets/img/preview.png" alt="">
           <!-- End Image Preview -->
         </div>
         <!-- End Form row -->
