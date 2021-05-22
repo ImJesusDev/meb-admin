@@ -3,11 +3,11 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 /* Actions */
 import { ClientsActionTypes, ClientsActions } from '../clients/clients.actions';
 /* Models */
-import { Client } from '../../../models';
+import { Client, ApiError } from '../../../models';
 
 /* Interface for the clients state */
 export interface State extends EntityState<Client> {
-  error: any;
+  error: ApiError[];
 }
 
 /* Entity adapter */
@@ -15,7 +15,7 @@ const adapter: EntityAdapter<Client> = createEntityAdapter<Client>();
 
 /* Initial client state */
 export const initialState: State = adapter.getInitialState({
-  error: null,
+  error: [],
 });
 
 /* Client reducers */
@@ -24,20 +24,20 @@ export function reducer(state = initialState, action: ClientsActions): State {
     case ClientsActionTypes.LoadClients: {
       return adapter.removeAll({
         ...state,
-        error: null,
+        error: [],
       });
     }
 
     case ClientsActionTypes.LoadClientsSuccess: {
       return adapter.addMany(action.payload, {
         ...state,
-        error: null,
+        error: [],
       });
     }
     case ClientsActionTypes.AddClientSuccess: {
       return adapter.addOne(action.payload, {
         ...state,
-        error: null,
+        error: [],
       });
     }
     case ClientsActionTypes.AddClientFail: {

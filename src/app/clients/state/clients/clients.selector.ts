@@ -13,6 +13,10 @@ export const getClientsState = createSelector(
   getClientState,
   (state) => state.clients
 );
+export const getClientsError = createSelector(
+  getClientState,
+  (state) => state.clients.error
+);
 
 export const getClients = createSelector(
   getClientsState,

@@ -1,4 +1,3 @@
-import { min } from 'rxjs/operators';
 import { AuthActionTypes } from './auth.actions';
 
 export interface State {

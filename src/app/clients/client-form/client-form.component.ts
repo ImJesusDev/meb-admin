@@ -1,8 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+/* rxjs */
+import { Observable, of } from 'rxjs';
+/* NgRx */
+import { Store, select } from '@ngrx/store';
+/* State */
+import { State } from '../state';
+import { LoadUsers } from '../../state/users/user.actions';
+/* Selectors */
+import { getUsers } from '../../state/users/users.selector';
+import { getLoader } from '../../state/loader/loader.selector';
+import { getClientsError } from '../state/clients/clients.selector';
+/* Actions */
+import { AddClient } from '../state/clients/clients.actions';
+import { StartLoader } from '../../state/loader/loader.actions';
 /* Models */
-import { Client, User } from '../../models';
+import { Client, User, ApiError } from '../../models';
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
@@ -11,9 +24,12 @@ import { Client, User } from '../../models';
 export class ClientFormComponent implements OnInit {
   /* New Client Object */
   client: Client;
-  /* List of users (admins) */
-  @Input() users: User[] | null = [];
-  @Input() loader: boolean | null = false;
+  /* Observable of users from store */
+  users$: Observable<User[]> = of([] as User[]);
+  /* Observable of errors from store */
+  errors$: Observable<ApiError[]> = of([] as ApiError[]);
+  /* Observable of loader from store */
+  loader$: Observable<boolean> = of(false);
   /* Form Group */
   clientForm: FormGroup;
   /* base64 logo */
@@ -24,9 +40,7 @@ export class ClientFormComponent implements OnInit {
   showBackDrop = false;
   /* Store selected meb admin */
   mebAdmin: User = {} as User;
-  @Output() createClient: EventEmitter<Client> = new EventEmitter();
-  @Output() cancel: EventEmitter<boolean> = new EventEmitter();
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, private store: Store<State>) {
     this.client = {
       id: '',
       name: '',
@@ -42,10 +56,16 @@ export class ClientFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Use selector to ger loader state
+    this.loader$ = this.store.pipe(select(getLoader));
+    // Dispatch action to load users
+    this.store.dispatch(new LoadUsers());
 
-  cancelCreate(): void {
-    this.cancel.emit(true);
+    // Use selector to get users from state
+    this.users$ = this.store.pipe(select(getUsers));
+    // Use selector to get errors from state
+    this.errors$ = this.store.pipe(select(getClientsError));
   }
 
   openModal(): void {
@@ -61,19 +81,27 @@ export class ClientFormComponent implements OnInit {
       });
     }
     this.showMebAdminModal = false;
+
     setTimeout(() => {
       this.showBackDrop = false;
     }, 100);
   }
 
   submitForm(): void {
-    this.createClient.emit({
-      logo: this.base64Logo,
-      name: this.clientForm.controls['name'].value,
-      nit: this.clientForm.controls['nit'].value,
-      slug: '',
-      id: '',
-    });
+    // Dispatch action to start loader
+    this.store.dispatch(new StartLoader());
+    // Dispatch action to add new client
+    this.store.dispatch(
+      new AddClient({
+        logo: this.base64Logo,
+        name: this.clientForm.controls['name'].value,
+        nit: this.clientForm.controls['nit'].value,
+        slug: '',
+        id: '',
+        mebAdmin: this.clientForm.controls['mebAdmin'].value,
+        // superAdminClient: this.clientForm.controls['mebAdmin'].value,
+      })
+    );
   }
   /* Handle file change */
   fileChanged(event: any): void {

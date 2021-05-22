@@ -1,6 +1,7 @@
 <div class="flex flex-col items-center justify-center h-full w-[300px] sm:w-full space-y-4 overflow-x-auto">
   <!-- Client Table -->
-  <table class="w-full text-xs text-center table-auto sm:text-lg">
+  <table *ngIf="((clients$ |async)?.length !== 0) && !(loader$ | async)"
+    class="w-full text-xs text-center table-auto sm:text-lg">
     <thead>
       <tr>
         <th></th>
@@ -15,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let client of clients; let i = index;">
+      <ng-container *ngFor="let client of clients$ |async; let i = index;">
         <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
           <td class="p-2"> <img class="w-8 rounded-full" src="{{client.logo}}" alt=""> </td>
           <td class="p-2"> {{client.name}} </td>
@@ -47,4 +48,27 @@
     </tbody>
   </table>
   <!-- End Client Table -->
+
+
+  <!-- Loader -->
+  <app-loader *ngIf="loader$ |async"></app-loader>
+  <!-- End Loader -->
+  <!-- No Clients -->
+  <div *ngIf="((clients$ |async)?.length === 0) && !(loader$ | async)"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>Aun no tienes clientes creados</p>
+
+    <!-- Add Client Btn -->
+    <button routerLink='nuevo-cliente' class="btn-primary hover:bg-green-900">
+      <span>Crear nuevo cliente</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </button>
+    <!-- End Add Client Btn -->
+
+  </div>
+  <!-- End No Clients -->
+
 </div>

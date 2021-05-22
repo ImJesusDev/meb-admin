@@ -24,7 +24,8 @@ import {
 import { StopLoader } from '../../../state/loader/loader.actions';
 
 /* Models */
-import { Client } from '../../../models';
+import { Client, ApiError } from '../../../models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class ClientsEffects {
@@ -50,7 +51,15 @@ export class ClientsEffects {
               new StopLoader(),
               new LoadClientsSuccess(clients),
             ]),
-            catchError((error) => of(new LoadClientsFail(error)))
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new LoadClientsFail(errors), new StopLoader());
+            })
           )
       )
     );
@@ -72,7 +81,15 @@ export class ClientsEffects {
               new StopLoader(),
               new AddClientSuccess(client),
             ]),
-            catchError((error) => of(new AddClientFail(error)))
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddClientFail(errors), new StopLoader());
+            })
           )
       )
     );

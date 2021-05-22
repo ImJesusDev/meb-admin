@@ -3,6 +3,13 @@
   <div class="flex flex-col items-center justify-center w-full">
     <h1 class="mt-24 font-bold sm:mt-0 sm:mb-12 text:2xl sm:text-5xl">Cliente nuevo</h1>
     <!-- Form -->
+    <!-- Errors -->
+    <div class="h-12 font-bold text-red-500">
+      <div *ngFor="let error of errors$ | async">
+        {{error.message}}
+      </div>
+    </div>
+    <!-- End Errors -->
     <form [formGroup]="clientForm" class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12">
       <!-- Form row -->
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
@@ -78,13 +85,13 @@
           <button [ngClass]="{'opacity-40 cursor-default': !clientForm.valid}" [disabled]="!clientForm.valid"
             (click)="submitForm()" class="w-42 btn-primary"><span>Crear
               cliente</span>
-            <svg *ngIf="loader" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor">start
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357
-              2H15" />
+            <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
           </button>
-          <button type="reset" (click)="cancelCreate()"
+          <button type="reset" routerLink='/clientes'
             class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-42 focus:outline-none">Cancelar</button>
         </div>
         <!-- Form buttons -->
@@ -121,7 +128,8 @@
             <select [(ngModel)]="mebAdmin" required
               class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               name="meb_admin" id="meb_admin">
-              <option *ngFor="let user of users" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}} </option>
+              <option *ngFor="let user of users$ | async" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}}
+              </option>
             </select>
           </div>
           <!-- Form input -->
