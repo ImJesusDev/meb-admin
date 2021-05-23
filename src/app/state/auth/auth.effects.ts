@@ -15,12 +15,13 @@ import { AuthService } from '../../services';
 import {
   LoginStart,
   LoginFail,
+  LogOut,
   LoginSuccess,
   AuthActionTypes,
 } from './auth.actions';
 
 import { StopLoader } from '../loader/loader.actions';
-import { ApiError } from '../../models';
+import { ApiError, User } from '../../models';
 import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class AuthEffects {
@@ -43,8 +44,16 @@ export class AuthEffects {
           .login(action.payload)
           // .pipe(delay(1500)) // Small delay to test loader
           .pipe(
-            mergeMap((user: any) => [new StopLoader(), new LoginSuccess()]),
-            tap(() => this.router.navigate(['/clientes'])),
+            mergeMap((user: User) => {
+              localStorage.setItem(
+                'fullName',
+                `${user.firstName} ${user.lastName}`
+              );
+              return [new StopLoader(), new LoginSuccess()];
+            }),
+            tap(() => {
+              this.router.navigate(['/clientes']);
+            }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {
@@ -53,6 +62,39 @@ export class AuthEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new LoginFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the LoginStart action
+   * and make http request to API
+   *
+   */
+  $logout = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(AuthActionTypes.LogOut),
+      switchMap((action: LogOut) =>
+        this._authService
+          .logOut()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => {
+              localStorage.clear();
+              return [new StopLoader()];
+            }),
+            tap(() => {
+              this.router.navigate(['/login']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new StopLoader());
             })
           )
       )

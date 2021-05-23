@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 /* rxjs */
 import { Observable } from 'rxjs';
 /* Models */
-import { Login } from '../models';
+import { Login, User } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +17,26 @@ export class AuthService {
   /**
    * login function
    */
-  login(login: Login): Observable<any> {
+  login(login: Login): Observable<User> {
     let headers: HttpHeaders = new HttpHeaders().set(
       'Content-Type',
       'application/json'
     );
-    return this.http.post(`${this.apiUrl}users/signin`, login, {
+    return this.http.post<User>(`${this.apiUrl}users/signin`, login, {
       headers: headers,
-      observe: 'response',
       withCredentials: true,
     });
+  }
+  /**
+   * Log out function
+   */
+  logOut(): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}users/signout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
   }
 }

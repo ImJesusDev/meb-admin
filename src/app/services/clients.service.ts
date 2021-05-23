@@ -31,4 +31,12 @@ export class ClientsService {
       withCredentials: true,
     });
   }
+  /**
+   * Delete a client
+   */
+  deleteClient(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}clients/${id}`, {
+      withCredentials: true,
+    });
+  }
 }

@@ -12,7 +12,9 @@ import { getClients } from '../state/clients/clients.selector';
 import { StartLoader } from '../../state/loader/loader.actions';
 import { getLoader } from '../../state/loader/loader.selector';
 /* Actions */
-import { LoadClients, AddClient } from '../state/clients/clients.actions';
+import { LoadClients, DeleteClient } from '../state/clients/clients.actions';
+/* Alerts */
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -34,5 +36,21 @@ export class ClientListComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
+  }
+
+  confirmDelete(id: string): void {
+    Swal.fire({
+      title: '¿Estás seguro que deseas eliminar el cliente?',
+      showCancelButton: false,
+      showDenyButton: true,
+      confirmButtonText: `Eliminar`,
+      denyButtonText: `Cancelar`,
+      confirmButtonColor: '#50b848',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.store.dispatch(new DeleteClient(id));
+      }
+    });
   }
 }

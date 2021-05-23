@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-headernav',
   templateUrl: './headernav.component.html',
-  styleUrls: ['./headernav.component.css']
+  styleUrls: ['./headernav.component.css'],
 })
 export class HeadernavComponent implements OnInit {
+  fullName = '';
+  dropDownOpen = false;
+  @Output() logOut = new EventEmitter();
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
+    const fullName = localStorage.getItem('fullName');
+    this.fullName = fullName ? fullName : '';
   }
 
+  signOut(): void {
+    this.logOut.emit();
+  }
+
+  ngOnInit(): void {}
 }

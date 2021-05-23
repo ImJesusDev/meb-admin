@@ -5,9 +5,9 @@
   <!-- End Side Navigation -->
 
   <!-- Main Content -->
-  <div class="flex-col w-full p-2 sm:px-8 sm:py-4">
+  <div class="flex-col w-full">
     <!-- Header Nav -->
-    <app-headernav *ngIf="auth$ | async"></app-headernav>
+    <app-headernav (logOut)="onLogOut()" *ngIf="auth$ | async"></app-headernav>
     <!-- End Header Nav -->
 
     <!-- Router -->

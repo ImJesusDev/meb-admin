@@ -7,7 +7,8 @@ import { ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { delay } from 'rxjs/operators';
 import { of } from 'rxjs';
-
+/* Alerts */
+import Swal from 'sweetalert2';
 /* Services */
 import { ClientsService } from '../../../services';
 
@@ -20,6 +21,9 @@ import {
   AddClient,
   AddClientSuccess,
   AddClientFail,
+  DeleteClient,
+  DeleteClientFail,
+  DeleteClientSuccess,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -53,7 +57,6 @@ export class ClientsEffects {
               new StopLoader(),
               new LoadClientsSuccess(clients),
             ]),
-            tap(() => this.router.navigate(['/clientes'])),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {
@@ -84,6 +87,49 @@ export class ClientsEffects {
               new StopLoader(),
               new AddClientSuccess(client),
             ]),
+            tap(() => {
+              this.router.navigate(['/clientes']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddClientFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddClient action
+   * and make http request to add client
+   * from API
+   */
+  $deleteClient = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.DeleteClient),
+      switchMap((action: DeleteClient) =>
+        this._clientsService
+          .deleteClient(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => [
+              new StopLoader(),
+              new DeleteClientSuccess(action.payload),
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Cliente eliminado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {

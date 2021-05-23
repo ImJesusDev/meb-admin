@@ -36,7 +36,6 @@ export function reducer(state = initialState, action: any): State {
         error: null,
       };
     }
-
     case AuthActionTypes.LogOut: {
       return {
         isLogged: false,

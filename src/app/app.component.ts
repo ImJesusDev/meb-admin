@@ -10,6 +10,9 @@ import { Observable, of } from 'rxjs';
 import { State } from './state/state';
 /* Selectors */
 import { getAuth } from './state/auth/auth.selector';
+/* Actions */
+import { LogOut } from './state/auth/auth.actions';
+import { StartLoader } from './state/loader/loader.actions';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 
@@ -31,5 +34,9 @@ export class AppComponent implements AfterContentChecked {
     // Use selector to ger loader state
     this.auth$ = this.store.pipe(select(getAuth));
     this._changeDetectorRef.detectChanges();
+  }
+
+  onLogOut(): void {
+    this.store.dispatch(new LogOut());
   }
 }

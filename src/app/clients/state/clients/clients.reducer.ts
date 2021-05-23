@@ -34,18 +34,6 @@ export function reducer(state = initialState, action: ClientsActions): State {
         error: [],
       });
     }
-    case ClientsActionTypes.AddClientSuccess: {
-      return adapter.addOne(action.payload, {
-        ...state,
-        error: [],
-      });
-    }
-    case ClientsActionTypes.AddClientFail: {
-      return {
-        ...state,
-        error: action.payload,
-      };
-    }
 
     case ClientsActionTypes.LoadClientsFail: {
       return adapter.removeAll({
@@ -53,6 +41,34 @@ export function reducer(state = initialState, action: ClientsActions): State {
         error: action.payload,
       });
     }
+
+    case ClientsActionTypes.AddClientSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case ClientsActionTypes.AddClientFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+    case ClientsActionTypes.DeleteClientSuccess: {
+      return adapter.removeOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+    case ClientsActionTypes.DeleteClientFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
     default: {
       return state;
     }

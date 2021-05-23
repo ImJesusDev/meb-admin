@@ -1,4 +1,4 @@
-<div class="flex justify-between w-full">
+<div class="flex justify-between w-full h-12 p-2">
   <!-- Links -->
   <ul class="flex space-x-2 sm:space-x-12">
     <li>
@@ -10,21 +10,51 @@
   </ul>
   <!-- End Links -->
 
-  <!-- User Info -->
-  <div class="flex items-center justify-center space-x-2 cursor-pointer">
-    <!-- User Image -->
-    <div class="w-8 h-8 rounded-full bg-brand">
-    </div>
-    <!-- End User Image -->
 
-    <!-- Actions -->
-    <div class="flex items-center justify-center space-x-2">
-      <span>Usuario</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="relative inline-block text-left">
+    <div>
+      <button (click)="dropDownOpen = !dropDownOpen" type="button"
+        class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm outline-none ring:brand focus:outline-none hover:bg-gray-50"
+        id="menu-button" aria-expanded="true" aria-haspopup="true">
+        <!-- User Image -->
+        <div class="w-8 h-8 mr-2 rounded-full bg-brand">
+        </div>
+        <!-- End User Image -->
+        {{fullName}}
+        <!-- Heroicon name: solid/chevron-down -->
+        <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+          aria-hidden="true">
+          <path fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
     </div>
-    <!-- End Actions -->
+
+    <!--
+        Dropdown menu, show/hide based on menu state.
+
+        Entering: "transition ease-out duration-100"
+          From: "transform opacity-0 scale-95"
+          To: "transform opacity-100 scale-100"
+        Leaving: "transition ease-in duration-75"
+          From: "transform opacity-100 scale-100"
+          To: "transform opacity-0 scale-95"
+      -->
+    <div [ngClass]="{'opacity-0': !dropDownOpen, 'opacity-100': dropDownOpen}"
+      class="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+      role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="py-1 " role="none">
+        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+        <button (click)="signOut()" type="submit"
+          class="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:text-brand focus:outline-none"
+          role="menuitem" tabindex="-1" id="menu-item-3">
+          Cerrar Sesión
+        </button>
+
+      </div>
+    </div>
   </div>
-  <!-- End User Info -->
+
 </div>

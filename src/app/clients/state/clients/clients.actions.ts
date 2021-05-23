@@ -7,6 +7,9 @@ export enum ClientsActionTypes {
   AddClient = '[Clients] Add Client',
   AddClientSuccess = '[Clients] Add Client Success',
   AddClientFail = '[Clients] Add Client Fail',
+  DeleteClient = '[Clients] Delete Client',
+  DeleteClientSuccess = '[Clients] Delete Client Success',
+  DeleteClientFail = '[Clients] Delete Client Fail',
   LoadClientsSuccess = '[Clients] Load Clients Success',
   LoadClientsFail = '[Clients] Load Clients Fail',
 }
@@ -31,6 +34,18 @@ export class AddClientFail implements Action {
   readonly type = ClientsActionTypes.AddClientFail;
   constructor(public payload: ApiError[]) {}
 }
+export class DeleteClient implements Action {
+  readonly type = ClientsActionTypes.DeleteClient;
+  constructor(public payload: string) {}
+}
+export class DeleteClientSuccess implements Action {
+  readonly type = ClientsActionTypes.DeleteClientSuccess;
+  constructor(public payload: string) {}
+}
+export class DeleteClientFail implements Action {
+  readonly type = ClientsActionTypes.DeleteClientFail;
+  constructor(public payload: ApiError[]) {}
+}
 export class LoadClientsFail implements Action {
   readonly type = ClientsActionTypes.LoadClientsFail;
   constructor(public payload: ApiError[]) {}
@@ -43,4 +58,7 @@ export type ClientsActions =
   | LoadClientsFail
   | AddClient
   | AddClientSuccess
-  | AddClientFail;
+  | AddClientFail
+  | DeleteClient
+  | DeleteClientSuccess
+  | DeleteClientFail;
