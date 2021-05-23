@@ -25,6 +25,7 @@ export class ClientListComponent implements OnInit {
   clients$: Observable<Client[]> = of([] as Client[]);
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
+
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());
     // Dispatch action to load clients

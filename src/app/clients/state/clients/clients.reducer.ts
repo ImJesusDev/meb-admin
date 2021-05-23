@@ -55,6 +55,22 @@ export function reducer(state = initialState, action: ClientsActions): State {
         error: action.payload,
       };
     }
+    case ClientsActionTypes.UpdateClientSuccess: {
+      return adapter.updateOne(
+        { id: action.payload.id, changes: action.payload },
+        {
+          ...state,
+          error: [],
+        }
+      );
+    }
+
+    case ClientsActionTypes.UpdateClientFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
 
     case ClientsActionTypes.DeleteClientSuccess: {
       return adapter.removeOne(action.payload, {

@@ -21,6 +21,9 @@ import {
   AddClient,
   AddClientSuccess,
   AddClientFail,
+  UpdateClient,
+  UpdateClientSuccess,
+  UpdateClientFail,
   DeleteClient,
   DeleteClientFail,
   DeleteClientSuccess,
@@ -98,6 +101,39 @@ export class ClientsEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddClientFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddClient action
+   * and make http request to add client
+   * from API
+   */
+  $updateClient = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.UpdateClient),
+      switchMap((action: UpdateClient) =>
+        this._clientsService
+          .updateClient(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((client: Client) => [
+              new StopLoader(),
+              new UpdateClientSuccess(client),
+            ]),
+            tap(() => {
+              this.router.navigate(['/clientes']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new UpdateClientFail(errors), new StopLoader());
             })
           )
       )

@@ -92,8 +92,8 @@
         <!-- Form buttons -->
         <div class="flex items-center justify-center w-full space-x-8">
           <button [ngClass]="{'opacity-40 cursor-default': !clientForm.valid}" [disabled]="!clientForm.valid"
-            (click)="submitForm()" class="w-42 btn-primary"><span>Crear
-              cliente</span>
+            (click)="submitForm()" class="w-42 btn-primary"><span>{{edit ? 'Actualizar Cliente' : 'Crear
+              cliente'}}</span>
             <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
               viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

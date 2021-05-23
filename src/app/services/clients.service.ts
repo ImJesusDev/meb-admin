@@ -32,6 +32,14 @@ export class ClientsService {
     });
   }
   /**
+   * Update client
+   */
+  updateClient(client: Client): Observable<Client> {
+    return this.http.put<Client>(`${this.apiUrl}clients/${client.id}`, client, {
+      withCredentials: true,
+    });
+  }
+  /**
    * Delete a client
    */
   deleteClient(id: string): Observable<void> {

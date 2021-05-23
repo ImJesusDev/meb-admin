@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of, Subscription } from 'rxjs';
 /* NgRx */
@@ -20,9 +21,12 @@ import {
   getUserAdminModal,
 } from '../../state/users/users.selector';
 import { getLoader } from '../../state/loader/loader.selector';
-import { getClientsError } from '../state/clients/clients.selector';
+import {
+  getClientsError,
+  getClientById,
+} from '../state/clients/clients.selector';
 /* Actions */
-import { AddClient } from '../state/clients/clients.actions';
+import { AddClient, UpdateClient } from '../state/clients/clients.actions';
 import { StartLoader } from '../../state/loader/loader.actions';
 /* Models */
 import { Client, User, ApiError } from '../../models';
@@ -40,9 +44,10 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   clientAdmin: User;
   /* Observable of users from store */
   users$: Observable<User[]> = of([] as User[]);
+  /* Observable of users from store */
+  client$: Observable<Client> = of({} as Client);
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
-
   /* Observable of errors from store */
   userErrors$: Observable<ApiError[]> = of([] as ApiError[]);
   /* Observable of loader from store */
@@ -67,7 +72,13 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   showClientAdminBackDrop = false;
   /* Store selected meb admin */
   mebAdmin: User = {} as User;
-  constructor(private _formBuilder: FormBuilder, private store: Store<State>) {
+  edit = false;
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private store: Store<State>,
+    private route: ActivatedRoute
+  ) {
     this.client = {
       id: '',
       name: '',
@@ -77,21 +88,51 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     };
     this.clientAdmin = {
       id: '',
-      firstName: 'Jesus',
-      lastName: 'Diaz',
-      email: 'test@mail.com',
-      password: '1234',
-      documentNumber: '1234',
-      documentType: 'CE',
-      phone: '32127584129',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      documentNumber: '',
+      documentType: '',
+      phone: '',
       role: 'client-admin',
     };
+    this.route.params.subscribe((param) => {
+      if (param.id) {
+        this.edit = true;
+        this.subscriptions.add(
+          this.store
+            .pipe(select(getClientById(param.id)))
+            .subscribe((client: Client | undefined) => {
+              if (client) {
+                this.client.name = client.name;
+                this.client.nit = client.nit;
+                this.client.id = client.id;
+                this.client.mebAdmin = `${client.meb_admin?.firstName} ${client.meb_admin?.lastName}`;
+                this.client.superAdminClient = `${client.super_admin_client?.firstName} ${client.super_admin_client?.lastName}`;
+                if (client.meb_admin) {
+                  this.mebAdmin = client.meb_admin;
+                }
+                if (client.super_admin_client) {
+                  this.clientAdmin.id = client.super_admin_client.id;
+                }
+              }
+            })
+        );
+      }
+    });
     this.clientForm = this._formBuilder.group({
       name: [this.client.name, [Validators.required]],
       nit: [this.client.nit, [Validators.required]],
       logo: [this.client.logo, [Validators.required]],
-      mebAdmin: ['', [Validators.required]],
-      clientAdmin: ['', [Validators.required]],
+      mebAdmin: [
+        this.client.mebAdmin ? this.client.mebAdmin : '',
+        [Validators.required],
+      ],
+      clientAdmin: [
+        this.client.superAdminClient ? this.client.superAdminClient : '',
+        [Validators.required],
+      ],
     });
     this.clientAdminForm = this._formBuilder.group({
       firstName: [this.clientAdmin.firstName, [Validators.required]],
@@ -178,7 +219,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
           })
       );
     } else {
-      this.clientForm.reset();
+      this.clientAdminForm.reset();
       this.store.dispatch(new AddAdminCancel());
     }
 
@@ -191,18 +232,32 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   submitForm(): void {
     // Dispatch action to start loader
     this.store.dispatch(new StartLoader());
-    // Dispatch action to add new client
-    this.store.dispatch(
-      new AddClient({
-        logo: this.base64Logo,
-        name: this.clientForm.controls['name'].value,
-        nit: this.clientForm.controls['nit'].value,
-        slug: '',
-        id: '',
-        mebAdmin: this.mebAdmin.id,
-        superAdminClient: this.clientAdmin.id,
-      })
-    );
+    if (!this.edit) {
+      // Dispatch action to add new client
+      this.store.dispatch(
+        new AddClient({
+          logo: this.base64Logo,
+          name: this.clientForm.controls['name'].value,
+          nit: this.clientForm.controls['nit'].value,
+          slug: '',
+          id: '',
+          mebAdmin: this.mebAdmin.id,
+          superAdminClient: this.clientAdmin.id,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new UpdateClient({
+          logo: this.base64Logo,
+          name: this.clientForm.controls['name'].value,
+          nit: this.clientForm.controls['nit'].value,
+          slug: '',
+          id: this.client.id,
+          mebAdmin: this.mebAdmin.id,
+          superAdminClient: this.clientAdmin.id,
+        })
+      );
+    }
   }
   /* Handle file change */
   fileChanged(event: any): void {

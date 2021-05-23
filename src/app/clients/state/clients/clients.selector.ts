@@ -22,3 +22,7 @@ export const getClients = createSelector(
   getClientsState,
   fromClients.selectAll
 );
+export const getClientById = (id: string) =>
+  createSelector(getClients, (clients) =>
+    clients.find((client) => client.id.toString() === id.toString())
+  );
