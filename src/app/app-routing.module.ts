@@ -10,7 +10,7 @@ const routes: Routes = [
       import('./clients/clients.module').then((m) => m.ClientsModule),
   },
   {
-    path: 'login',
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {

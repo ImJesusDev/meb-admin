@@ -7,7 +7,9 @@
   html, body {
     height: 100%;
   }
-
+  body.swal2-shown.swal2-height-auto {
+    height: 100% !important;
+}
   .btn-primary {
     @apply flex items-center justify-center p-2 sm:px-4 sm:py-2 sm:space-x-2 text-white rounded-md bg-brand focus:outline-none
   }

@@ -85,7 +85,7 @@ export class AuthEffects {
               return [new StopLoader()];
             }),
             tap(() => {
-              this.router.navigate(['/login']);
+              this.router.navigate(['/auth']);
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

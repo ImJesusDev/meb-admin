@@ -28,6 +28,43 @@ export class AuthService {
     });
   }
   /**
+   * Activate account
+   */
+  activate(activation: {
+    activationCode: string;
+    email: string;
+  }): Observable<User> {
+    let headers: HttpHeaders = new HttpHeaders().set(
+      'Content-Type',
+      'application/json'
+    );
+    return this.http.post<User>(`${this.apiUrl}users/activate`, activation, {
+      headers: headers,
+      withCredentials: true,
+    });
+  }
+  /**
+   * Change password
+   */
+  changePassword(passwordChange: {
+    activationCode: string;
+    email: string;
+    password: string;
+  }): Observable<User> {
+    let headers: HttpHeaders = new HttpHeaders().set(
+      'Content-Type',
+      'application/json'
+    );
+    return this.http.post<User>(
+      `${this.apiUrl}users/update-password`,
+      passwordChange,
+      {
+        headers: headers,
+        withCredentials: true,
+      }
+    );
+  }
+  /**
    * Log out function
    */
   logOut(): Observable<void> {

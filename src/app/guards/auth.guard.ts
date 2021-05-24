@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     // Validate if the cookie exists
     const cookieExists = split.includes('express:sess');
     if (!cookieExists) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/auth']);
       return false;
     }
     this.store.dispatch(new SetAuth());
