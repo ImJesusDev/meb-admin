@@ -24,7 +24,7 @@ import { HeadernavComponent } from './components/headernav/headernav.component';
 /* Modules */
 import { ClientsModule } from './clients/clients.module';
 import { SharedModule } from './shared/shared.module';
-
+import { TeamModule } from './team/team.module';
 /* Effects */
 import { effects } from './state/state';
 /* Guards */
@@ -33,6 +33,7 @@ import { AuthGuard } from './guards/auth.guard';
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
     ClientsModule,
+    TeamModule,
     SharedModule,
     BrowserModule,
     AppRoutingModule,

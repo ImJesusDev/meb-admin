@@ -16,6 +16,9 @@ import {
   LoadUsers,
   LoadUsersFail,
   LoadUsersSuccess,
+  LoadTeam,
+  LoadTeamFail,
+  LoadTeamSuccess,
   AddAdminStart,
   AddAdminSuccess,
   AddAdminFail,
@@ -54,6 +57,29 @@ export class UsersEffects {
     );
   });
   /**
+   * Effect to listen for the LoadTeam action
+   * and make http request to load team members
+   * from API
+   */
+  $getTeam = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(UserActionTypes.LoadTeam),
+      switchMap((action: LoadTeam) =>
+        this._usersService
+          .getTeam()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((users: User[]) => [
+              new StopLoader(),
+              new LoadTeamSuccess(users),
+            ]),
+            catchError((error) => of(new LoadTeamFail(error)))
+          )
+      )
+    );
+  });
+
+  /**
    * Effect to listen for the AddAdmin action
    * and make http request to create admin
    * from API
@@ -66,7 +92,10 @@ export class UsersEffects {
           .addAdmin(action.payload)
           // .pipe(delay(1500)) // Small delay to test loader
           .pipe(
-            mergeMap((user: User) => [new AddAdminSuccess(user)]),
+            mergeMap((user: User) => [
+              new StopLoader(),
+              new AddAdminSuccess(user),
+            ]),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {

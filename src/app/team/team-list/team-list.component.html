@@ -1,0 +1,34 @@
+<div class="flex flex-col items-center justify-center h-full space-y-4 py-14 sm:w-full">
+
+  <!-- Table only -->
+  <table *ngIf="((users$ |async)?.length !== 0) && !(loader$ | async)"
+    class="w-full text-xs text-center table-auto sm:text-lg">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Documento</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let user of users$ |async; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> <img class="w-8 rounded-full" src="{{user.photo}}" alt=""> </td>
+          <td class="p-2"> {{user.firstName}} </td>
+          <td class="p-2"> {{user.lastName}} </td>
+          <td class="p-2"> {{user.email}} </td>
+          <td class="p-2"> {{user.documentNumber}} </td>
+          <td class="p-2"> {{user.phone}} </td>
+          <td class="p-2"> {{user.role}} </td>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+  <!-- End  Table -->
+</div>

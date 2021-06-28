@@ -10,6 +10,10 @@ const routes: Routes = [
       import('./clients/clients.module').then((m) => m.ClientsModule),
   },
   {
+    path: 'equipo',
+    loadChildren: () => import('./team/team.module').then((m) => m.TeamModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },

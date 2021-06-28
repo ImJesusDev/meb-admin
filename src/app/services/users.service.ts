@@ -23,6 +23,13 @@ export class UsersService {
       }
     );
   }
+
+  /* Get All Team members */
+  getTeam(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}users/team`, {
+      withCredentials: true,
+    });
+  }
   /* Add Admin User */
   addAdmin(admin: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}users/admin/signup`, admin, {

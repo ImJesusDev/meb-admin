@@ -79,6 +79,28 @@ export function reducer(state = initialState, action: any): State {
         error: action.payload,
       });
     }
+    case UserActionTypes.LoadTeam: {
+      return adapter.removeAll({
+        ...state,
+        loading: true,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadTeamSuccess: {
+      return adapter.addMany(action.payload, {
+        ...state,
+        loading: false,
+        error: [],
+      });
+    }
+
+    case UserActionTypes.LoadTeamFail: {
+      return adapter.removeAll({
+        ...state,
+        loading: false,
+        error: action.payload,
+      });
+    }
     default: {
       return state;
     }
