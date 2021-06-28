@@ -135,7 +135,7 @@ export class ClientsEffects {
             ]),
             tap(() => {
               Swal.fire({
-                title: '¡Dominio creado!',
+                title: '¡Dominios creados!',
                 showCancelButton: false,
                 showDenyButton: false,
                 confirmButtonText: `Aceptar`,

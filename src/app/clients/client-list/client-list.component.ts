@@ -19,6 +19,7 @@ import {
 } from '../state/clients/clients.actions';
 /* Alerts */
 import Swal from 'sweetalert2';
+import { Domain } from '../../models';
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -34,9 +35,11 @@ export class ClientListComponent implements OnInit {
   /* Show domain Back Drop */
   showDomainModalBackdrop = false;
   /* New domain to add */
-  newDomain = '';
+  newDomains: Domain[] = [];
   /* Client id to add domain */
   clientId = '';
+  /* Domain file name */
+  fileName = '';
 
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());
@@ -53,36 +56,89 @@ export class ClientListComponent implements OnInit {
 
   /* Close modal to select meb admin */
   closeDomainModal(save?: boolean): void {
+    this.fileName = '';
     this.showDomainModal = false;
 
     setTimeout(() => {
       this.showDomainModalBackdrop = false;
     }, 100);
     if (save) {
-      this.store.dispatch(
-        new AddDomains({
-          domains: [
-            {
-              client: this.clientId,
-              domain: this.newDomain,
-              active: true,
-              id: '',
-            },
-          ],
-        })
-      );
-      console.log('add domain', this.clientId, this.newDomain);
+      Swal.fire({
+        title: `¿Estás seguro que deseas agregar ${this.newDomains.length} dominios?`,
+        showCancelButton: false,
+        showDenyButton: true,
+        confirmButtonText: `Agregar`,
+        denyButtonText: `Cancelar`,
+        confirmButtonColor: '#50b848',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.store.dispatch(
+            new AddDomains({
+              domains: this.newDomains,
+            })
+          );
+        }
+      });
     }
   }
 
   /* Open modal to create client admin */
   openDomainModal(clientId: string): void {
     this.clientId = clientId;
-    this.newDomain = '';
+    this.newDomains = [];
     this.showDomainModalBackdrop = true;
     setTimeout(() => {
       this.showDomainModal = true;
     }, 100);
+  }
+
+  /* Handle file change */
+  fileChanged(event: any): void {
+    // Instance of reader
+    const reader = new FileReader();
+    // Check if any file is selected
+    if (event.target && event.target.files.length) {
+      // Get file name
+      this.fileName = event.target.files[0].name;
+      // Bind function to execute on file load
+      reader.onload = this._handleReaderLoaded.bind(this);
+      // Read selected file
+      reader.readAsText(event.target.files[0]);
+    }
+  }
+
+  /**
+   * Function to convert image file to
+   * base 64 string
+   */
+  _handleReaderLoaded(readerEvt: any) {
+    this.newDomains = [];
+    // Csv as string
+    let csv: string = readerEvt.target.result;
+    // Get all lines
+    let allTextLines = csv.split(/\r|\n|\r/);
+    // Get headers
+    let headers = allTextLines[0].split(',');
+
+    for (let i = 0; i < allTextLines.length; i++) {
+      // split content based on comma
+      let data = allTextLines[i].split(',');
+      if (data.length === headers.length) {
+        let arr = [];
+        for (let j = 0; j < headers.length; j++) {
+          arr.push(data[j]);
+        }
+        if (arr.join('').length) {
+          this.newDomains.push({
+            client: this.clientId,
+            domain: arr.join(''),
+            active: true,
+            id: '',
+          });
+        }
+      }
+    }
   }
 
   confirmDelete(id: string): void {
