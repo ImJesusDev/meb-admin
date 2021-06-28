@@ -18,9 +18,10 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { OfficeFormComponent } from './office-form/office-form.component';
+import { OfficesListComponent } from './offices-list/offices-list.component';
 
 @NgModule({
-  declarations: [ClientsComponent, ClientListComponent, ClientFormComponent, OfficeFormComponent],
+  declarations: [ClientsComponent, ClientListComponent, ClientFormComponent, OfficeFormComponent, OfficesListComponent],
   imports: [
     FormsModule,
     ReactiveFormsModule,

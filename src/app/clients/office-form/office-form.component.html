@@ -226,7 +226,7 @@
         <!-- End Form row -->
       </div>
       <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button (click)="closeMebAdminModal()" type="button" [ngClass]="{'opacity-40 cursor-default': !mebAdmin.id}"
+        <button (click)="closeMebAdminModal(true)" type="button" [ngClass]="{'opacity-40 cursor-default': !mebAdmin.id}"
           [disabled]="!mebAdmin.id"
           class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
           Guardar
@@ -281,7 +281,7 @@
         <!-- End Form row -->
       </div>
       <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button (click)="closeClientAdminModal()" type="button"
+        <button (click)="closeClientAdminModal(true)" type="button"
           [ngClass]="{'opacity-40 cursor-default': !clientAdmin.id}" [disabled]="!clientAdmin.id"
           class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
           Guardar
@@ -337,7 +337,7 @@
         <!-- End Form row -->
       </div>
       <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button (click)="closeRepairAdminModal()" type="button"
+        <button (click)="closeRepairAdminModal(true)" type="button"
           [ngClass]="{'opacity-40 cursor-default': !repairAdmin.id}" [disabled]="!repairAdmin.id"
           class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
           Guardar
@@ -393,7 +393,7 @@
         <!-- End Form row -->
       </div>
       <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button (click)="closeMaintenanceAdminModal()" type="button"
+        <button (click)="closeMaintenanceAdminModal(true)" type="button"
           [ngClass]="{'opacity-40 cursor-default': !maintenanceAdmin.id}" [disabled]="!maintenanceAdmin.id"
           class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
           Guardar
@@ -449,7 +449,7 @@
         <!-- End Form row -->
       </div>
       <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button (click)="closeInventoryAdminModal()" type="button"
+        <button (click)="closeInventoryAdminModal(true)" type="button"
           [ngClass]="{'opacity-40 cursor-default': !inventoryAdmin.id}" [disabled]="!inventoryAdmin.id"
           class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
           Guardar

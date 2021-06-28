@@ -212,8 +212,8 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
   }
 
   /* Close modal to select meb admin */
-  closeMebAdminModal(): void {
-    if (this.mebAdmin.id) {
+  closeMebAdminModal(confirm?: boolean): void {
+    if (this.mebAdmin.id && confirm) {
       this.officeForm.patchValue({
         mebAdmin: `${this.mebAdmin.firstName} ${this.mebAdmin.lastName}`,
       });
@@ -225,8 +225,8 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
     }, 100);
   }
   /* Close modal to select client admin */
-  closeClientAdminModal(): void {
-    if (this.clientAdmin.id) {
+  closeClientAdminModal(confirm?: boolean): void {
+    if (this.clientAdmin.id && confirm) {
       this.officeForm.patchValue({
         clientAdmin: `${this.clientAdmin.firstName} ${this.clientAdmin.lastName}`,
       });
@@ -239,8 +239,8 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
   }
 
   /* Close modal to select repair admin */
-  closeRepairAdminModal(): void {
-    if (this.repairAdmin.id) {
+  closeRepairAdminModal(confirm?: boolean): void {
+    if (this.repairAdmin.id && confirm) {
       this.officeForm.patchValue({
         repairAdmin: `${this.repairAdmin.firstName} ${this.repairAdmin.lastName}`,
       });
@@ -252,8 +252,8 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
     }, 100);
   }
   /* Close modal to select inventory admin */
-  closeInventoryAdminModal(): void {
-    if (this.inventoryAdmin.id) {
+  closeInventoryAdminModal(confirm?: boolean): void {
+    if (this.inventoryAdmin.id && confirm) {
       this.officeForm.patchValue({
         inventoryAdmin: `${this.inventoryAdmin.firstName} ${this.inventoryAdmin.lastName}`,
       });
@@ -265,8 +265,8 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
     }, 100);
   }
   /* Close modal to select maintenance admin */
-  closeMaintenanceAdminModal(): void {
-    if (this.maintenanceAdmin.id) {
+  closeMaintenanceAdminModal(confirm?: boolean): void {
+    if (this.maintenanceAdmin.id && confirm) {
       this.officeForm.patchValue({
         maintenanceAdmin: `${this.maintenanceAdmin.firstName} ${this.maintenanceAdmin.lastName}`,
       });

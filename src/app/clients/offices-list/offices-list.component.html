@@ -1,0 +1,33 @@
+<div class="flex flex-col items-center justify-center h-full space-y-4 py-14 sm:w-full">
+  <!-- Offices Table -->
+  <table *ngIf="client && client.offices?.length"
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+    <thead>
+      <tr>
+
+        <th>Nombre</th>
+        <th>País</th>
+        <th>Ciudad</th>
+        <th>Latitud</th>
+        <th>Longitud</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let office of client.offices; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> {{office.name}} </td>
+          <td class="p-2"> {{office.country}} </td>
+          <td class="p-2"> {{office.city}} </td>
+          <td class="p-2"> {{office.location.lat}} </td>
+          <td class="p-2"> {{office.location.lng}} </td>
+
+
+
+
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+  <!-- Offices Table -->
+</div>

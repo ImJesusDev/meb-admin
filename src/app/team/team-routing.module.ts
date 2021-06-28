@@ -22,10 +22,6 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: '**',
-    redirectTo: 'equipo',
-  },
 ];
 
 @NgModule({

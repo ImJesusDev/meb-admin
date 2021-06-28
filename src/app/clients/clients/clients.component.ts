@@ -18,6 +18,11 @@ export class ClientsComponent implements OnInit {
         this.showAddBtn = true;
         if (event.url !== '/clientes') {
           this.showAddBtn = false;
+        } else if (event.url === '/clientes') {
+          this.title = 'Clientes';
+        }
+        if (event.url.includes('/sedes')) {
+          this.title = 'Sedes';
         }
       }
     });

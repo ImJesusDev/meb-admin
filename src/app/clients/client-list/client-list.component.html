@@ -28,7 +28,8 @@
             client.super_admin_client?.lastName) : 'Sin asignar'}} </td>
           <td class="flex items-center justify-center p-2 space-x-2">
             <div class="flex items-center justify-center space-x-2 ">
-              <span>{{client.offices?.length}}</span>
+              <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                [routerLink]="['/clientes', client.id, 'sedes']">{{client.offices?.length}}</span>
               <svg [routerLink]="['/clientes', client.id, 'crear-sede']" xmlns="http://www.w3.org/2000/svg"
                 class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -5,6 +5,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { OfficeFormComponent } from './office-form/office-form.component';
+import { OfficesListComponent } from './offices-list/offices-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: ':id/crear-sede',
         component: OfficeFormComponent,
+      },
+      {
+        path: ':id/sedes',
+        component: OfficesListComponent,
       },
       {
         path: 'nuevo-cliente',
