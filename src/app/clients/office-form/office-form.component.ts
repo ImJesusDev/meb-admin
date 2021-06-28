@@ -53,14 +53,32 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
   showMebAdminBackDrop = false;
   /* Show MEB admin modal */
   showMebAdminModal = false;
+  /* Show Repair admin Back Drop */
+  showRepairAdminBackDrop = false;
+  /* Show Repair admin modal */
+  showRepairAdminModal = false;
   /* Store selected meb admin */
   mebAdmin: User = {} as User;
   /* Show Client admin Back Drop */
   showClientAdminBackDrop = false;
   /* Show Client admin modal */
   showClientAdminModal = false;
-  /* Store selected meb admin */
+  /* Show Inventory admin Back Drop */
+  showInventoryAdminBackDrop = false;
+  /* Show Inventory admin modal */
+  showInventoryAdminModal = false;
+  /* Show Maintenance admin Back Drop */
+  showMaintenanceAdminBackDrop = false;
+  /* Show Maintenance admin modal */
+  showMaintenanceAdminModal = false;
+  /* Store selected client admin */
   clientAdmin: User = {} as User;
+  /* Store selected repair admin */
+  repairAdmin: User = {} as User;
+  /* Store selected inventory admin */
+  inventoryAdmin: User = {} as User;
+  /* Store selected maintenance admin */
+  maintenanceAdmin: User = {} as User;
   /* Edit / Create mode */
   edit = false;
 
@@ -108,6 +126,18 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
         this.office.clientAdmin ? this.office.clientAdmin : '',
         [Validators.required],
       ],
+      repairAdmin: [
+        this.office.repairAdmin ? this.office.repairAdmin : '',
+        [Validators.required],
+      ],
+      inventoryAdmin: [
+        this.office.inventoryAdmin ? this.office.inventoryAdmin : '',
+        [Validators.required],
+      ],
+      maintenanceAdmin: [
+        this.office.maintenanceAdmin ? this.office.maintenanceAdmin : '',
+        [Validators.required],
+      ],
     });
   }
   ngOnDestroy() {
@@ -138,6 +168,27 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
     this.showMebAdminBackDrop = true;
     setTimeout(() => {
       this.showMebAdminModal = true;
+    }, 100);
+  }
+  /* Open modal to select repair admin */
+  openRepairAdminModal(): void {
+    this.showRepairAdminBackDrop = true;
+    setTimeout(() => {
+      this.showRepairAdminModal = true;
+    }, 100);
+  }
+  /* Open modal to select inventory admin */
+  openInventoryAdminModal(): void {
+    this.showInventoryAdminBackDrop = true;
+    setTimeout(() => {
+      this.showInventoryAdminModal = true;
+    }, 100);
+  }
+  /* Open modal to select maintenance admin */
+  openMaintenanceAdminModal(): void {
+    this.showMaintenanceAdminBackDrop = true;
+    setTimeout(() => {
+      this.showMaintenanceAdminModal = true;
     }, 100);
   }
   /* Open modal to select client admin */
@@ -187,6 +238,46 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
+  /* Close modal to select repair admin */
+  closeRepairAdminModal(): void {
+    if (this.repairAdmin.id) {
+      this.officeForm.patchValue({
+        repairAdmin: `${this.repairAdmin.firstName} ${this.repairAdmin.lastName}`,
+      });
+    }
+    this.showRepairAdminModal = false;
+
+    setTimeout(() => {
+      this.showRepairAdminBackDrop = false;
+    }, 100);
+  }
+  /* Close modal to select inventory admin */
+  closeInventoryAdminModal(): void {
+    if (this.inventoryAdmin.id) {
+      this.officeForm.patchValue({
+        inventoryAdmin: `${this.inventoryAdmin.firstName} ${this.inventoryAdmin.lastName}`,
+      });
+    }
+    this.showInventoryAdminModal = false;
+
+    setTimeout(() => {
+      this.showInventoryAdminBackDrop = false;
+    }, 100);
+  }
+  /* Close modal to select maintenance admin */
+  closeMaintenanceAdminModal(): void {
+    if (this.maintenanceAdmin.id) {
+      this.officeForm.patchValue({
+        maintenanceAdmin: `${this.maintenanceAdmin.firstName} ${this.maintenanceAdmin.lastName}`,
+      });
+    }
+    this.showMaintenanceAdminModal = false;
+
+    setTimeout(() => {
+      this.showMaintenanceAdminBackDrop = false;
+    }, 100);
+  }
+
   submitForm(): void {
     // Dispatch action to start loader
     this.store.dispatch(new StartLoader());
@@ -202,6 +293,9 @@ export class OfficeFormComponent implements OnInit, OnDestroy {
             country: this.officeForm.controls['country'].value,
             mebAdmin: this.mebAdmin.id,
             clientAdmin: this.clientAdmin.id,
+            inventoryAdmin: this.inventoryAdmin.id,
+            repairAdmin: this.repairAdmin.id,
+            maintenanceAdmin: this.maintenanceAdmin.id,
             location: {
               lat: this.officeForm.controls['lat'].value,
               lng: this.officeForm.controls['lng'].value,

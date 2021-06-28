@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Client, ApiError, Office } from '../../../models';
+import { Client, ApiError, Office, Domain } from '../../../models';
 
 /* Enum to specify all clients actions */
 export enum ClientsActionTypes {
@@ -10,6 +10,9 @@ export enum ClientsActionTypes {
   AddOffice = '[Clients] Add Office',
   AddOfficeSuccess = '[Clients] Add Office Success',
   AddOfficeFail = '[Clients] Add Office Fail',
+  AddDomains = '[Clients] Add Domains',
+  AddDomainsSuccess = '[Clients] Add Domains Success',
+  AddDomainsFail = '[Clients] Add Domains Fail',
   UpdateClient = '[Clients] Update Client',
   UpdateClientSuccess = '[Clients] Update Client Success',
   UpdateClientFail = '[Clients] Update Client Fail',
@@ -78,6 +81,23 @@ export class AddOfficeFail implements Action {
   readonly type = ClientsActionTypes.AddOfficeFail;
   constructor(public payload: ApiError[]) {}
 }
+// Add Domains
+export class AddDomains implements Action {
+  readonly type = ClientsActionTypes.AddDomains;
+  constructor(public payload: { domains: Domain[] }) {}
+}
+
+// Add Domains Success
+export class AddDomainsSuccess implements Action {
+  readonly type = ClientsActionTypes.AddDomainsSuccess;
+  constructor(public payload: Domain[]) {}
+}
+
+// Add Domains Fail
+export class AddDomainsFail implements Action {
+  readonly type = ClientsActionTypes.AddDomainsFail;
+  constructor(public payload: ApiError[]) {}
+}
 
 // Update Client
 export class UpdateClient implements Action {
@@ -126,6 +146,9 @@ export type ClientsActions =
   | AddOffice
   | AddOfficeSuccess
   | AddOfficeFail
+  | AddDomains
+  | AddDomainsSuccess
+  | AddDomainsFail
   | UpdateClient
   | UpdateClientSuccess
   | UpdateClientFail

@@ -12,6 +12,12 @@ export interface Office {
   };
   meb_admin?: User;
   mebAdmin?: String;
+  repair_admin?: User;
+  repairAdmin?: String;
+  inventory_admin?: User;
+  inventoryAdmin?: String;
+  maintenance_admin?: User;
+  maintenanceAdmin?: String;
   client_admin?: User;
   clientAdmin?: String;
 }

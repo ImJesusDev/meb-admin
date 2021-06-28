@@ -10,6 +10,7 @@
         <th>Administrador Mejor en Bici</th>
         <th>Súper administrador cliente</th>
         <th>Sedes</th>
+        <th>Dominios</th>
         <th>Usuarios</th>
         <th>Editar</th>
         <th>Eliminar</th>
@@ -25,12 +26,23 @@
             client.meb_admin?.lastName) : 'Sin asignar'}} </td>
           <td class="p-2"> {{client.super_admin_client ? (client.super_admin_client?.firstName + ' '+
             client.super_admin_client?.lastName) : 'Sin asignar'}} </td>
-          <td class="flex p-2 space-x-2"> <span>{{client.offices?.length}}</span>
-            <div [routerLink]="['/clientes', client.id, 'crear-sede']"
-              class="flex items-center justify-center space-x-2 cursor-pointer text-brand hover:text-green-900">
-              <span>Crear sede</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
+          <td class="flex items-center justify-center p-2 space-x-2">
+            <div class="flex items-center justify-center space-x-2 ">
+              <span>{{client.offices?.length}}</span>
+              <svg [routerLink]="['/clientes', client.id, 'crear-sede']" xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </td>
+          <td class="p-2 space-x-2 ">
+            <div class="flex items-center justify-center space-x-2 ">
+              <span>{{client.domains?.length}}</span>
+              <svg (click)="openDomainModal(client.name)" xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -105,3 +117,49 @@
   <!-- End No Clients -->
 
 </div>
+
+
+<!-- Modal to add Domain -->
+<div *ngIf="showDomainModalBackdrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showDomainModal, 'opacity-100': showDomainModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Dominio autorizado</h1>
+      </div>
+      <div class="px-12 py-12 bg-white sm:flex sm:items-start">
+        <!-- Form row -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Form input -->
+          <div class="flex flex-col w-full h-16">
+            <label class="text-gray-400" for="domain"> Dominio:</label>
+            <input name="domain" [(ngModel)]="newDomain" required
+              class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+              type="text">
+          </div>
+          <!-- Form input -->
+        </div>
+        <!-- End Form row -->
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button (click)="closeDomainModal(true)" type="button" [ngClass]="{'opacity-40 cursor-default': !newDomain}"
+          [disabled]="!newDomain"
+          class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+          Guardar
+
+        </button>
+        <button type="button" (click)="closeDomainModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to add Domain -->

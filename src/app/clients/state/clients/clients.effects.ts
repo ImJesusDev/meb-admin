@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 import Swal from 'sweetalert2';
 /* Services */
 import { ClientsService } from '../../../services';
+import { AuthService } from '../../../services';
 
 /* Actions */
 import {
@@ -30,12 +31,15 @@ import {
   AddOffice,
   AddOfficeFail,
   AddOfficeSuccess,
+  AddDomains,
+  AddDomainsSuccess,
+  AddDomainsFail,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
 
 /* Models */
-import { Client, ApiError, Office } from '../../../models';
+import { Client, ApiError, Office, Domain } from '../../../models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -43,7 +47,8 @@ export class ClientsEffects {
   constructor(
     private router: Router,
     private $actions: Actions,
-    private _clientsService: ClientsService
+    private _clientsService: ClientsService,
+    private _authService: AuthService
   ) {}
 
   /**
@@ -104,6 +109,57 @@ export class ClientsEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddClientFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+  /**
+   * Effect to listen for the AddDomains action
+   * and make http request to add domains
+   * from API
+   */
+  $addDomains = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.AddDomains),
+      switchMap((action: AddDomains) =>
+        this._authService
+          .addDomains(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((domains: Domain[]) => [
+              new StopLoader(),
+              new AddDomainsSuccess(domains),
+              new LoadClients(),
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Dominio creado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el dominio!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddDomainsFail(errors), new StopLoader());
             })
           )
       )

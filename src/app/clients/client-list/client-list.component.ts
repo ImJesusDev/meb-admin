@@ -12,7 +12,11 @@ import { getClients } from '../state/clients/clients.selector';
 import { StartLoader } from '../../state/loader/loader.actions';
 import { getLoader } from '../../state/loader/loader.selector';
 /* Actions */
-import { LoadClients, DeleteClient } from '../state/clients/clients.actions';
+import {
+  LoadClients,
+  DeleteClient,
+  AddDomains,
+} from '../state/clients/clients.actions';
 /* Alerts */
 import Swal from 'sweetalert2';
 @Component({
@@ -25,6 +29,14 @@ export class ClientListComponent implements OnInit {
   clients$: Observable<Client[]> = of([] as Client[]);
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
+  /* Show domain modal */
+  showDomainModal = false;
+  /* Show domain Back Drop */
+  showDomainModalBackdrop = false;
+  /* New domain to add */
+  newDomain = '';
+  /* Client id to add domain */
+  clientId = '';
 
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());
@@ -37,6 +49,40 @@ export class ClientListComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
+  }
+
+  /* Close modal to select meb admin */
+  closeDomainModal(save?: boolean): void {
+    this.showDomainModal = false;
+
+    setTimeout(() => {
+      this.showDomainModalBackdrop = false;
+    }, 100);
+    if (save) {
+      this.store.dispatch(
+        new AddDomains({
+          domains: [
+            {
+              client: this.clientId,
+              domain: this.newDomain,
+              active: true,
+              id: '',
+            },
+          ],
+        })
+      );
+      console.log('add domain', this.clientId, this.newDomain);
+    }
+  }
+
+  /* Open modal to create client admin */
+  openDomainModal(clientId: string): void {
+    this.clientId = clientId;
+    this.newDomain = '';
+    this.showDomainModalBackdrop = true;
+    setTimeout(() => {
+      this.showDomainModal = true;
+    }, 100);
   }
 
   confirmDelete(id: string): void {

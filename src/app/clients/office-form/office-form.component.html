@@ -62,19 +62,12 @@
       <!-- Form row -->
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
         <!-- Form input -->
-        <div class="relative flex flex-col w-full h-16">
-          <label class="text-gray-400" for="meb-admin"> Administrador mejor en bici:</label>
-          <input readonly name="meb-admin" formControlName="mebAdmin"
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="lng"> Longitud:</label>
+          <input required formControlName="lng" name="lng"
             class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-            type="text">
-          <!-- Input icon -->
-          <svg (click)="openMebAdminModal()" xmlns="http://www.w3.org/2000/svg"
-            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-          </svg>
-          <!-- EndInput icon -->
+            [ngClass]="{'border-solid border-red-500 outline-red-500': officeForm.get('lng')?.touched && officeForm.get('lng')?.hasError('required')}"
+            type="number">
         </div>
         <!-- Form input -->
         <!-- Form input -->
@@ -96,16 +89,77 @@
       </div>
       <!-- End Form row -->
       <!-- Form row -->
-      <div class="flex items-center justify-center w-full">
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
         <!-- Form input -->
-        <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="lng"> Longitud:</label>
-          <input required formControlName="lng" name="lng"
-            class=" sm:w-[47.2%] w-full bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-            [ngClass]="{'border-solid border-red-500 outline-red-500': officeForm.get('lng')?.touched && officeForm.get('lng')?.hasError('required')}"
-            type="number">
+        <div class="relative flex flex-col w-full h-16">
+          <label class="text-gray-400" for="meb-admin"> Administrador mejor en bici:</label>
+          <input readonly name="meb-admin" formControlName="mebAdmin"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+          <!-- Input icon -->
+          <svg (click)="openMebAdminModal()" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <!-- EndInput icon -->
         </div>
         <!-- Form input -->
+        <!-- Form input -->
+        <div class="relative flex flex-col w-full h-16">
+          <label class="text-gray-400" for="repair-admin"> Administrador reparación:</label>
+          <input readonly name="repair-admin" formControlName="repairAdmin"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+          <!-- Input icon -->
+          <svg (click)="openRepairAdminModal()" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <!-- EndInput icon -->
+        </div>
+        <!-- Form input -->
+
+      </div>
+      <!-- End Form row -->
+      <!-- Form row -->
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Form input -->
+        <div class="relative flex flex-col w-full h-16">
+          <label class="text-gray-400" for="meb-admin"> Administrador mantenimiento:</label>
+          <input readonly name="meb-admin" formControlName="maintenanceAdmin"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+          <!-- Input icon -->
+          <svg (click)="openMaintenanceAdminModal()" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <!-- EndInput icon -->
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="relative flex flex-col w-full h-16">
+          <label class="text-gray-400" for="meb-admin"> Administrador inventario:</label>
+          <input readonly name="meb-admin" formControlName="inventoryAdmin"
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            type="text">
+          <!-- Input icon -->
+          <svg (click)="openInventoryAdminModal()" xmlns="http://www.w3.org/2000/svg"
+            class="absolute w-6 h-6 text-gray-400 cursor-pointer hover:text-brand top-8 right-2" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <!-- EndInput icon -->
+        </div>
+        <!-- Form input -->
+
       </div>
       <!-- End Form row -->
       <!-- Form row -->
@@ -156,8 +210,10 @@
             <select [(ngModel)]="mebAdmin" required
               class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               name="meb_admin" id="meb_admin">
-              <option *ngFor="let user of users$ | async" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}}
-              </option>
+              <ng-container *ngFor="let user of users$ | async">
+                <option *ngIf="user.role === 'meb-admin'" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}}
+                </option>
+              </ng-container>
             </select>
           </div>
           <!-- Form input -->
@@ -208,8 +264,10 @@
             <select [(ngModel)]="clientAdmin" required
               class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               name="meb_admin" id="meb_admin">
-              <option *ngFor="let user of users$ | async" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}}
-              </option>
+              <ng-container *ngFor="let user of users$ | async">
+                <option *ngIf="user.role === 'client-admin'" [ngValue]="user"> {{user.firstName + ' ' + user.lastName}}
+                </option>
+              </ng-container>
             </select>
           </div>
           <!-- Form input -->
@@ -236,3 +294,168 @@
   </div>
 </div>
 <!-- End Modal to select Client Admin -->
+
+<!-- Modal to select Repair Admin -->
+<div *ngIf="showRepairAdminBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showRepairAdminModal, 'opacity-100': showRepairAdminModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Administrador Reparación</h1>
+      </div>
+      <div class="px-12 py-12 bg-white sm:flex sm:items-start">
+        <!-- Form row -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Form input -->
+          <div class="flex flex-col w-full h-16 sm:w-1/2">
+            <label class="text-gray-400" for="client-admin">Nombre:</label>
+            <select [(ngModel)]="repairAdmin" required
+              class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+              name="repair_admin" id="repair_admin">
+              <ng-container *ngFor="let user of users$ | async">
+                <option *ngIf="user.role === 'repair-manager'" [ngValue]="user"> {{user.firstName + ' ' +
+                  user.lastName}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <!-- Form input -->
+
+          <!-- Image Preview -->
+          <img class="hidden sm:block" src="assets/img/preview.png" alt="">
+          <!-- End Image Preview -->
+        </div>
+        <!-- End Form row -->
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button (click)="closeRepairAdminModal()" type="button"
+          [ngClass]="{'opacity-40 cursor-default': !repairAdmin.id}" [disabled]="!repairAdmin.id"
+          class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+          Guardar
+
+        </button>
+        <button type="button" (click)="closeRepairAdminModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to select Repair Admin -->
+
+<!-- Modal to select Maintenance Admin -->
+<div *ngIf="showMaintenanceAdminBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showMaintenanceAdminModal, 'opacity-100': showMaintenanceAdminModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Administrador Mantenimiento</h1>
+      </div>
+      <div class="px-12 py-12 bg-white sm:flex sm:items-start">
+        <!-- Form row -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Form input -->
+          <div class="flex flex-col w-full h-16 sm:w-1/2">
+            <label class="text-gray-400" for="client-admin">Nombre:</label>
+            <select [(ngModel)]="maintenanceAdmin" required
+              class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+              name="repair_admin" id="repair_admin">
+              <ng-container *ngFor="let user of users$ | async">
+                <option *ngIf="user.role === 'maintenance-manager'" [ngValue]="user"> {{user.firstName + ' ' +
+                  user.lastName}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <!-- Form input -->
+
+          <!-- Image Preview -->
+          <img class="hidden sm:block" src="assets/img/preview.png" alt="">
+          <!-- End Image Preview -->
+        </div>
+        <!-- End Form row -->
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button (click)="closeMaintenanceAdminModal()" type="button"
+          [ngClass]="{'opacity-40 cursor-default': !maintenanceAdmin.id}" [disabled]="!maintenanceAdmin.id"
+          class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+          Guardar
+
+        </button>
+        <button type="button" (click)="closeMaintenanceAdminModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to select Maintenance Admin -->
+
+<!-- Modal to select Inventory Admin -->
+<div *ngIf="showInventoryAdminBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showInventoryAdminModal, 'opacity-100': showInventoryAdminModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Administrador Inventario</h1>
+      </div>
+      <div class="px-12 py-12 bg-white sm:flex sm:items-start">
+        <!-- Form row -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Form input -->
+          <div class="flex flex-col w-full h-16 sm:w-1/2">
+            <label class="text-gray-400" for="client-admin">Nombre:</label>
+            <select [(ngModel)]="inventoryAdmin" required
+              class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+              name="repair_admin" id="repair_admin">
+              <ng-container *ngFor="let user of users$ | async">
+                <option *ngIf="user.role === 'inventory-manager'" [ngValue]="user"> {{user.firstName + ' ' +
+                  user.lastName}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <!-- Form input -->
+
+          <!-- Image Preview -->
+          <img class="hidden sm:block" src="assets/img/preview.png" alt="">
+          <!-- End Image Preview -->
+        </div>
+        <!-- End Form row -->
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button (click)="closeInventoryAdminModal()" type="button"
+          [ngClass]="{'opacity-40 cursor-default': !inventoryAdmin.id}" [disabled]="!inventoryAdmin.id"
+          class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+          Guardar
+
+        </button>
+        <button type="button" (click)="closeInventoryAdminModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to select Inventory Admin -->

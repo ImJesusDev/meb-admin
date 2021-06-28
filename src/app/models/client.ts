@@ -1,6 +1,6 @@
 import { User } from './user';
 import { Office } from './office';
-
+import { Domain } from './domain';
 export interface Client {
   id: string;
   name: string;
@@ -12,4 +12,5 @@ export interface Client {
   super_admin_client?: User;
   superAdminClient?: String;
   offices?: Office[];
+  domains?: Domain[];
 }

@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 /* rxjs */
 import { Observable } from 'rxjs';
 /* Models */
-import { Login, User } from '../models';
+import { Login, User, Domain } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -75,5 +75,12 @@ export class AuthService {
         withCredentials: true,
       }
     );
+  }
+
+  /* Add Authorized Domains */
+  addDomains(domains: { domains: Domain[] }): Observable<Domain[]> {
+    return this.http.post<Domain[]>(`${this.apiUrl}users/domains`, domains, {
+      withCredentials: true,
+    });
   }
 }
