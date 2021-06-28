@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './clients/clients.component';
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientFormComponent } from './client-form/client-form.component';
+import { OfficeFormComponent } from './office-form/office-form.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
@@ -17,8 +18,12 @@ const routes: Routes = [
         component: ClientListComponent,
       },
       {
-        path: ':id',
+        path: ':id/editar',
         component: ClientFormComponent,
+      },
+      {
+        path: ':id/crear-sede',
+        component: OfficeFormComponent,
       },
       {
         path: 'nuevo-cliente',

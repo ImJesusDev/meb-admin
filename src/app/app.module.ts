@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducer as loaderReducer } from './state/loader/loader.reducer';
 import { reducer as authReducer } from './state/auth/auth.reducer';
 import { reducer as usersReducer } from './state/users/user.reducer';
+import { reducer as locationsReducer } from './state/locations/locations.reducer';
 
 /* Components */
 import { AppComponent } from './app.component';
@@ -40,6 +41,7 @@ import { AuthGuard } from './guards/auth.guard';
       loader: loaderReducer,
       auth: authReducer,
       users: usersReducer,
+      locations: locationsReducer,
     }),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({

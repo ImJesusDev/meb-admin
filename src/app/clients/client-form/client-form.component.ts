@@ -44,7 +44,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   clientAdmin: User;
   /* Observable of users from store */
   users$: Observable<User[]> = of([] as User[]);
-  /* Observable of users from store */
+  /* Observable of clients from store */
   client$: Observable<Client> = of({} as Client);
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
@@ -99,6 +99,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     };
     this.route.params.subscribe((param) => {
       if (param.id) {
+        console.log(param);
         this.edit = true;
         this.subscriptions.add(
           this.store
@@ -219,7 +220,17 @@ export class ClientFormComponent implements OnInit, OnDestroy {
           })
       );
     } else {
-      this.clientAdminForm.reset();
+      this.clientAdminForm.patchValue({
+        id: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        documentNumber: '',
+        documentType: '',
+        phone: '',
+        role: 'client-admin',
+      });
       this.store.dispatch(new AddAdminCancel());
     }
 

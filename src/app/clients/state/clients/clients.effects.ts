@@ -27,12 +27,15 @@ import {
   DeleteClient,
   DeleteClientFail,
   DeleteClientSuccess,
+  AddOffice,
+  AddOfficeFail,
+  AddOfficeSuccess,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
 
 /* Models */
-import { Client, ApiError } from '../../../models';
+import { Client, ApiError, Office } from '../../../models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -101,6 +104,40 @@ export class ClientsEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddClientFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddOffice action
+   * and make http request to add office
+   * from API
+   */
+  $addOffice = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.AddOffice),
+      switchMap((action: AddOffice) =>
+        this._clientsService
+          .addOffice(action.payload.id, action.payload.office)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((office: Office) => [
+              new StopLoader(),
+              new AddOfficeSuccess(office),
+              new LoadClients(),
+            ]),
+            tap(() => {
+              this.router.navigate(['/clientes']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddOfficeFail(errors), new StopLoader());
             })
           )
       )

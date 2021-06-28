@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Client, ApiError } from '../../../models';
+import { Client, ApiError, Office } from '../../../models';
 
 /* Enum to specify all clients actions */
 export enum ClientsActionTypes {
@@ -7,6 +7,9 @@ export enum ClientsActionTypes {
   AddClient = '[Clients] Add Client',
   AddClientSuccess = '[Clients] Add Client Success',
   AddClientFail = '[Clients] Add Client Fail',
+  AddOffice = '[Clients] Add Office',
+  AddOfficeSuccess = '[Clients] Add Office Success',
+  AddOfficeFail = '[Clients] Add Office Fail',
   UpdateClient = '[Clients] Update Client',
   UpdateClientSuccess = '[Clients] Update Client Success',
   UpdateClientFail = '[Clients] Update Client Fail',
@@ -46,7 +49,7 @@ export class AddClient implements Action {
   constructor(public payload: Client) {}
 }
 
-// Ad Client Success
+// Add Client Success
 export class AddClientSuccess implements Action {
   readonly type = ClientsActionTypes.AddClientSuccess;
   constructor(public payload: Client) {}
@@ -55,6 +58,24 @@ export class AddClientSuccess implements Action {
 // Add Client Fail
 export class AddClientFail implements Action {
   readonly type = ClientsActionTypes.AddClientFail;
+  constructor(public payload: ApiError[]) {}
+}
+
+// Add Office
+export class AddOffice implements Action {
+  readonly type = ClientsActionTypes.AddOffice;
+  constructor(public payload: { id: string; office: Office }) {}
+}
+
+// Add Office Success
+export class AddOfficeSuccess implements Action {
+  readonly type = ClientsActionTypes.AddOfficeSuccess;
+  constructor(public payload: Office) {}
+}
+
+// Add Office Fail
+export class AddOfficeFail implements Action {
+  readonly type = ClientsActionTypes.AddOfficeFail;
   constructor(public payload: ApiError[]) {}
 }
 
@@ -102,6 +123,9 @@ export type ClientsActions =
   | AddClient
   | AddClientSuccess
   | AddClientFail
+  | AddOffice
+  | AddOfficeSuccess
+  | AddOfficeFail
   | UpdateClient
   | UpdateClientSuccess
   | UpdateClientFail

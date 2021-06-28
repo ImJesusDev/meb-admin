@@ -1,4 +1,6 @@
 import { User } from './user';
+import { Office } from './office';
+
 export interface Client {
   id: string;
   name: string;
@@ -9,4 +11,5 @@ export interface Client {
   mebAdmin?: String;
   super_admin_client?: User;
   superAdminClient?: String;
+  offices?: Office[];
 }

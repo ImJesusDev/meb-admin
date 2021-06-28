@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 /* rxjs */
 import { Observable } from 'rxjs';
 /* Models */
-import { Client } from '../models';
+import { Client, Office } from '../models';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +30,18 @@ export class ClientsService {
     return this.http.post<Client>(`${this.apiUrl}clients`, client, {
       withCredentials: true,
     });
+  }
+  /**
+   * Add new office
+   */
+  addOffice(id: string, office: Office): Observable<Office> {
+    return this.http.post<Office>(
+      `${this.apiUrl}clients/${id}/offices`,
+      office,
+      {
+        withCredentials: true,
+      }
+    );
   }
   /**
    * Update client

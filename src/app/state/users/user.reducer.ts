@@ -1,11 +1,11 @@
 /* NgRx Entity */
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 /* Actions */
-import { UserActions, UserActionTypes } from '../users/user.actions';
+import { UserActionTypes } from './user.actions';
 /* Models */
 import { User, ApiError } from '../../models';
 
-/* Interface for the clients state */
+/* Interface for the users state */
 export interface State extends EntityState<User> {
   error: ApiError[];
   loading: boolean;
@@ -22,7 +22,7 @@ export const initialState: State = adapter.getInitialState({
   adminModal: false,
 });
 
-/* Client reducers */
+/* Users reducers */
 export function reducer(state = initialState, action: any): State {
   switch (action.type) {
     case UserActionTypes.LoadUsers: {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 /* NgRx */
 import { Actions, createEffect } from '@ngrx/effects';
 import { ofType } from '@ngrx/effects';
@@ -25,7 +26,6 @@ import { StopLoader } from '../../state/loader/loader.actions';
 
 /* Models */
 import { User, ApiError } from '../../models';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class UsersEffects {
