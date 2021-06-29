@@ -18,8 +18,9 @@
         class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm outline-none ring:brand focus:outline-none hover:bg-gray-50"
         id="menu-button" aria-expanded="true" aria-haspopup="true">
         <!-- User Image -->
-        <div class="w-8 h-8 mr-2 rounded-full bg-brand">
-        </div>
+        <!-- <div class="w-8 h-8 mr-2 rounded-full bg-brand">
+        </div> -->
+        <img class="w-8 h-8 mr-2 rounded-full" [src]="photoUrl" alt="{{fullName}}">
         <!-- End User Image -->
         {{fullName}}
         <!-- Heroicon name: solid/chevron-down -->

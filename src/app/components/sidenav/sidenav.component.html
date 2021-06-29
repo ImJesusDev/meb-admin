@@ -1,13 +1,15 @@
 <!-- Side Nav -->
-<div [ngClass]="{'w-14': !isOpen, 'sm:w-60' : isOpen}" (mouseenter)="toggleSideBar()" (mouseleave)="toggleSideBar()"
+<div [ngClass]="{'w-14': !isOpen, 'sm:w-60 px-2' : isOpen}" (mouseenter)="toggleSideBar()"
+  (mouseleave)="toggleSideBar()"
   class="static top-0 left-0 flex flex-col items-center w-12 h-screen transition-all ease-in sm:w-12 bg-brand">
 
   <!-- Logo -->
   <img class="mb-8 w-14 sm:w-40" src="assets/img/logo-white.png" alt="Mejor en Bici">
   <!-- End Logo -->
 
-  <!-- Links -->
-  <div class="flex items-center justify-center w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
+  <!-- Link -->
+  <div [ngClass]="{'justify-center': !isOpen}"
+    class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="clientes" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -15,9 +17,10 @@
     </svg>
     <a *ngIf="isOpen" class="hidden sm:flex" routerLink="clientes">Clientes</a>
   </div>
-  <!-- End Links -->
-  <!-- Links -->
-  <div class="flex items-center justify-center w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
+  <!-- End Link -->
+  <!-- Link -->
+  <div [ngClass]="{'justify-center': !isOpen}"
+    class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="equipo" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -25,7 +28,18 @@
     </svg>
     <a *ngIf="isOpen" class="hidden sm:flex" routerLink="equipo">Equipo</a>
   </div>
-  <!-- End Links -->
+  <!-- End Link -->
+  <!-- Link -->
+  <div [ngClass]="{'justify-center': !isOpen}"
+    class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
+    <svg routerLink="equipo/admin-clientes" xmlns="http://www.w3.org/2000/svg"
+      class="w-8 h-8 outline-none focus:outline-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <a *ngIf="isOpen" class="hidden sm:flex" routerLink="equipo/admin-clientes">Admin Cliente</a>
+  </div>
+  <!-- End Link -->
 
 </div>
 <!-- End Side Nav -->

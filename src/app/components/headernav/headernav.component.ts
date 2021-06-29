@@ -7,12 +7,15 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class HeadernavComponent implements OnInit {
   fullName = '';
+  photoUrl = '';
   dropDownOpen = false;
   @Output() logOut = new EventEmitter();
 
   constructor() {
     const fullName = localStorage.getItem('fullName');
+    const photoUrl = localStorage.getItem('photoUrl');
     this.fullName = fullName ? fullName : '';
+    this.photoUrl = photoUrl ? photoUrl : 'assets/img/preview.png';
   }
 
   signOut(): void {

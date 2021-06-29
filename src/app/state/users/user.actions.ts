@@ -8,6 +8,9 @@ export enum UserActionTypes {
   LoadTeam = '[Users] Load Team',
   LoadTeamSuccess = '[Users] Load Team Success',
   LoadTeamFail = '[Users] Load Team Fail',
+  LoadClientAdmin = '[Users] Load ClientAdmin',
+  LoadClientAdminSuccess = '[Users] Load ClientAdmin Success',
+  LoadClientAdminFail = '[Users] Load ClientAdmin Fail',
   AddAdminStart = '[Users] Add Admin',
   AddAdminSuccess = '[Users] Add Success',
   AddAdminFail = '[Users] Add Fail',
@@ -52,6 +55,17 @@ export class LoadTeamFail implements Action {
   readonly type = UserActionTypes.LoadTeamFail;
   constructor(public payload: ApiError[]) {}
 }
+export class LoadClientAdmin implements Action {
+  readonly type = UserActionTypes.LoadClientAdmin;
+}
+export class LoadClientAdminSuccess implements Action {
+  readonly type = UserActionTypes.LoadClientAdminSuccess;
+  constructor(public payload: User[]) {}
+}
+export class LoadClientAdminFail implements Action {
+  readonly type = UserActionTypes.LoadClientAdminFail;
+  constructor(public payload: ApiError[]) {}
+}
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
@@ -59,6 +73,9 @@ export type UserActions =
   | LoadTeam
   | LoadTeamSuccess
   | LoadTeamFail
+  | LoadClientAdmin
+  | LoadClientAdminSuccess
+  | LoadClientAdminFail
   | AddAdminStart
   | AddAdminSuccess
   | AddAdminCancel

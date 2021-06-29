@@ -13,4 +13,5 @@ export interface Client {
   superAdminClient?: String;
   offices?: Office[];
   domains?: Domain[];
+  users?: User[];
 }

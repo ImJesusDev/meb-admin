@@ -30,6 +30,12 @@ export class UsersService {
       withCredentials: true,
     });
   }
+  /* Get All client admins */
+  getClientAdmins(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}users/client-admins`, {
+      withCredentials: true,
+    });
+  }
   /* Add Admin User */
   addAdmin(admin: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}users/admin/signup`, admin, {

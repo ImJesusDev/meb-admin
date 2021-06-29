@@ -1,0 +1,157 @@
+<div class="flex flex-col items-center justify-center w-full h-full space-y-4">
+  <!-- Main Container -->
+  <div class="flex flex-col items-center justify-center w-full">
+    <!-- Form title -->
+    <h1 class="mt-24 font-bold sm:mt-0 sm:mb-12 text:2xl sm:text-5xl">Administrador nuevo</h1>
+    <!-- Errors -->
+    <div class="h-12 font-bold text-red-500">
+      <div *ngFor="let error of errors$ | async">
+        {{error.message}}
+      </div>
+    </div>
+    <!-- End Errors -->
+    <!-- Form -->
+    <form [formGroup]="userForm" class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12">
+      <!-- Form row -->
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="name"> Nombre:</label>
+          <input name="name" formControlName="firstName" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('firstName')?.touched && userForm.get('firstName')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="name"> Apellido:</label>
+          <input name="name" formControlName="lastName" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('lastName')?.touched && userForm.get('lastName')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form Row -->
+      <!-- Form row -->
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="documentType">Tipo ID:</label>
+          <select formControlName="documentType" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            name="documentType" id="documentType">
+            <option value=""> Seleccione
+            </option>
+            <option value="CC"> Cédula Ciudadanía
+            </option>
+            <option value="CE"> Cédula Extranjería
+            </option>
+            <option value="P"> Pasaporte
+            </option>
+          </select>
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="documentNumber"> Número ID:</label>
+          <input name="documentNumber" formControlName="documentNumber" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('documentNumber')?.touched && userForm.get('documentNumber')?.hasError('required')}"
+            min="1" minlength="4" type="number">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form Row -->
+      <!-- Form row -->
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="email"> Correo:</label>
+          <input name="email" formControlName="email" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('email')?.touched && (userForm.get('email')?.hasError('required') || userForm.get('email')?.hasError('email'))}"
+            type="email">
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="phone"> Teléfono:</label>
+          <input name="phone" formControlName="phone" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('phone')?.touched && userForm.get('phone')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form Row -->
+      <!-- Form row -->
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="role">Rol:</label>
+          <select formControlName="role" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            name="role" id="role">
+            <option value=""> Seleccione
+            </option>
+            <option value="client"> Super Administrador
+            </option>
+            <option value="client-admin"> Administrador
+            </option>
+
+          </select>
+        </div>
+        <!-- Form input -->
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="password"> Clave:</label>
+          <input name="password" formControlName="password" required
+            class="bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('password')?.touched && userForm.get('password')?.hasError('required')}"
+            min="1" minlength="4" type="password">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form Row -->
+      <!-- Form row -->
+      <div class="flex items-center justify-center w-full">
+        <!-- Form input -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="photo"> Foto:</label>
+          <input #fileInput (change)="fileChanged($event)"
+            class="hidden bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            accept="image/png, image/jpeg" type="file">
+          <input required formControlName="photo" name="photo" (click)="fileInput.click()"
+            class=" sm:w-[47.2%] w-full bg-gray-100 border-none rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': userForm.get('photo')?.touched && userForm.get('photo')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Form input -->
+      </div>
+      <!-- End Form row -->
+      <!-- Form row -->
+      <div class="flex items-center justify-center w-full">
+        <!-- Form buttons -->
+        <div class="flex items-center justify-center w-full space-x-8">
+          <button [ngClass]="{'opacity-40 cursor-default': !userForm.valid}" [disabled]="!userForm.valid"
+            (click)="submitForm()" class="w-42 btn-primary"><span>Crear Miembro</span>
+            <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+          <button type="reset" routerLink='/equipo/admin-clientes'
+            class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-42 focus:outline-none">Cancelar</button>
+        </div>
+        <!-- Form buttons -->
+      </div>
+      <!-- End Form row -->
+    </form>
+    <!-- End Form -->
+
+  </div>
+  <!-- End Main Container -->
+</div>

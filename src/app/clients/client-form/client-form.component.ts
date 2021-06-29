@@ -204,21 +204,11 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   /* Close modal to create client admin */
   closeClientAdminModal(cancel?: boolean): void {
     if (!cancel) {
-      this.store.dispatch(new AddAdminStart({ ...this.clientAdminForm.value }));
-      this.subscriptions.add(
-        this.store
-          .pipe(
-            select(getUserByEmail(this.clientAdminForm.controls['email'].value))
-          )
-          .subscribe((user) => {
-            if (user) {
-              this.clientAdmin.id = user.id;
-              this.clientForm.patchValue({
-                clientAdmin: `${user?.firstName} ${user?.lastName}`,
-              });
-            }
-          })
-      );
+      if (this.clientAdmin.id) {
+        this.clientForm.patchValue({
+          clientAdmin: `${this.clientAdmin.firstName} ${this.clientAdmin.lastName}`,
+        });
+      }
     } else {
       this.clientAdminForm.patchValue({
         id: '',
@@ -233,8 +223,8 @@ export class ClientFormComponent implements OnInit, OnDestroy {
       });
       this.store.dispatch(new AddAdminCancel());
     }
-
     this.showClientAdminModal = false;
+
     setTimeout(() => {
       this.showClientAdminBackDrop = false;
     }, 100);

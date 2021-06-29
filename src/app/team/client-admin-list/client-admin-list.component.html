@@ -1,21 +1,21 @@
 <div class="flex flex-col items-center justify-center h-full space-y-4 py-14 sm:w-full">
-  <!-- No Team Members -->
+  <!-- No Clients -->
   <div *ngIf="((users$ |async)?.length === 0) && !(loader$ | async)"
     class="flex flex-col items-center justify-center w-full h-full space-y-4">
-    <p>Aun no tienes miembros creados</p>
+    <p>Aun no tienes administradores creados</p>
 
-    <!-- Add Member Btn -->
-    <button routerLink='nuevo-miembro' class="btn-primary hover:bg-green-900">
-      <span>Crear nuevo miembro</span>
+    <!-- Add Client Btn -->
+    <button routerLink='nuevo' class="btn-primary hover:bg-green-900">
+      <span>Crear nuevo administrador</span>
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     </button>
-    <!-- End Add Member Btn -->
+    <!-- End Add Client Btn -->
 
   </div>
-  <!-- End No Team Members -->
+  <!-- End No Clients -->
   <!-- Table only -->
   <table *ngIf="((users$ |async)?.length !== 0) && !(loader$ | async)"
     class="w-full text-xs text-center table-auto sm:text-lg">

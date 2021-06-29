@@ -36,7 +36,6 @@ export class OfficesListComponent implements OnInit, OnDestroy {
             .subscribe((client: Client | undefined) => {
               if (client) {
                 this.client = client;
-                console.log(this.client);
               }
             })
         );

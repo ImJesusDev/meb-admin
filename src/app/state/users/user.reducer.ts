@@ -101,6 +101,28 @@ export function reducer(state = initialState, action: any): State {
         error: action.payload,
       });
     }
+    case UserActionTypes.LoadClientAdmin: {
+      return adapter.removeAll({
+        ...state,
+        loading: true,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadClientAdminSuccess: {
+      return adapter.addMany(action.payload, {
+        ...state,
+        loading: false,
+        error: [],
+      });
+    }
+
+    case UserActionTypes.LoadClientAdminFail: {
+      return adapter.removeAll({
+        ...state,
+        loading: false,
+        error: action.payload,
+      });
+    }
     default: {
       return state;
     }

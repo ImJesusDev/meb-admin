@@ -19,6 +19,9 @@ import {
   LoadTeam,
   LoadTeamFail,
   LoadTeamSuccess,
+  LoadClientAdmin,
+  LoadClientAdminFail,
+  LoadClientAdminSuccess,
   AddAdminStart,
   AddAdminSuccess,
   AddAdminFail,
@@ -74,6 +77,28 @@ export class UsersEffects {
               new LoadTeamSuccess(users),
             ]),
             catchError((error) => of(new LoadTeamFail(error)))
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the LoadClientAdmin action
+   * and make http request to load client admins
+   * from API
+   */
+  $getClientAdmins = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(UserActionTypes.LoadClientAdmin),
+      switchMap((action: LoadClientAdmin) =>
+        this._usersService
+          .getClientAdmins()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((users: User[]) => [
+              new StopLoader(),
+              new LoadClientAdminSuccess(users),
+            ]),
+            catchError((error) => of(new LoadClientAdminFail(error)))
           )
       )
     );

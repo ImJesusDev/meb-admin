@@ -49,6 +49,7 @@ export class AuthEffects {
                 'fullName',
                 `${user.firstName} ${user.lastName}`
               );
+              localStorage.setItem('photoUrl', user.photo ? user.photo : '');
               return [new StopLoader(), new LoginSuccess()];
             }),
             tap(() => {

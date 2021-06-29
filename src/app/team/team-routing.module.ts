@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { TeamComponent } from './team/team.component';
 import { TeamListComponent } from './team-list/team-list.component';
 import { TeamFormComponent } from './team-form/team-form.component';
+import { ClientAdminListComponent } from './client-admin-list/client-admin-list.component';
+import { ClientAdminFormComponent } from './client-admin-form/client-admin-form.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
@@ -15,6 +17,14 @@ const routes: Routes = [
       {
         path: '',
         component: TeamListComponent,
+      },
+      {
+        path: 'admin-clientes',
+        component: ClientAdminListComponent,
+      },
+      {
+        path: 'admin-clientes/nuevo',
+        component: ClientAdminFormComponent,
       },
       {
         path: 'nuevo-miembro',
