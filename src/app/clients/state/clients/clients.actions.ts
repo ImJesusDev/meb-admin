@@ -19,6 +19,9 @@ export enum ClientsActionTypes {
   DeleteClient = '[Clients] Delete Client',
   DeleteClientSuccess = '[Clients] Delete Client Success',
   DeleteClientFail = '[Clients] Delete Client Fail',
+  DeleteOffice = '[Clients] Delete Office',
+  DeleteOfficeSuccess = '[Clients] Delete Office Success',
+  DeleteOfficeFail = '[Clients] Delete Office Fail',
   LoadClientsSuccess = '[Clients] Load Clients Success',
   LoadClientsFail = '[Clients] Load Clients Fail',
 }
@@ -132,6 +135,23 @@ export class DeleteClientSuccess implements Action {
 // Delete  Fail
 export class DeleteClientFail implements Action {
   readonly type = ClientsActionTypes.DeleteClientFail;
+  constructor(public payload: ApiError[]) {}
+}
+// Delete Office
+export class DeleteOffice implements Action {
+  readonly type = ClientsActionTypes.DeleteOffice;
+  constructor(public payload: { clientId: string; officeId: string }) {}
+}
+
+// Delete Office Success
+export class DeleteOfficeSuccess implements Action {
+  readonly type = ClientsActionTypes.DeleteOfficeSuccess;
+  constructor(public payload: string) {}
+}
+
+// Delete Office Fail
+export class DeleteOfficeFail implements Action {
+  readonly type = ClientsActionTypes.DeleteOfficeFail;
   constructor(public payload: ApiError[]) {}
 }
 

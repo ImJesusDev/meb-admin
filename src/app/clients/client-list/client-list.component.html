@@ -40,7 +40,8 @@
           </td>
           <td class="p-2 space-x-2 ">
             <div class="flex items-center justify-center space-x-2 ">
-              <span>{{client.domains?.length}}</span>
+              <span class="cursor-pointer text-brand hover:text-green-900"
+                (click)="openDomainListModal(client.domains)">{{client.domains?.length}}</span>
               <svg (click)="openDomainModal(client.name)" xmlns="http://www.w3.org/2000/svg"
                 class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -170,3 +171,50 @@
   </div>
 </div>
 <!-- End Modal to add Domain -->
+
+<!-- Modal to list Domains -->
+<div *ngIf="showDomainListBackDrop" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showDomainListModal, 'opacity-100': showDomainListModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Dominios autorizados</h1>
+      </div>
+      <div class="px-12 py-12 overflow-y-auto bg-white sm:flex sm:items-start max-h-96">
+        <!-- Client Table Desktop only -->
+        <table *ngIf="domainsToShow.length !== 0"
+          class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+          <thead>
+            <tr>
+              <th>Dominio</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let domain of domainsToShow; let i = index;">
+              <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+                <td class="p-2"> {{domain.domain}} </td>
+                <td class="p-2"> {{domain.active ? 'Habilitado': 'Deshabilitado'}} </td>
+              </tr>
+            </ng-container>
+
+          </tbody>
+        </table>
+        <!-- End Client Table Desktop only -->
+      </div>
+      <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" (click)="closeDomainListModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to list Domains -->

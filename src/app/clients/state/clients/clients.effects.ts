@@ -34,6 +34,9 @@ import {
   AddDomains,
   AddDomainsSuccess,
   AddDomainsFail,
+  DeleteOffice,
+  DeleteOfficeFail,
+  DeleteOfficeSuccess,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -233,8 +236,8 @@ export class ClientsEffects {
     );
   });
   /**
-   * Effect to listen for the AddClient action
-   * and make http request to add client
+   * Effect to listen for the Delete Client action
+   * and make http request to delete a client
    * from API
    */
   $deleteClient = createEffect(() => {
@@ -266,7 +269,48 @@ export class ClientsEffects {
               } else {
                 errors = [{ message: 'Something went wrong' }];
               }
-              return of(new AddClientFail(errors), new StopLoader());
+              return of(new DeleteClientFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+  /**
+   * Effect to listen for the Delete Office action
+   * and make http request to delete an office
+   * from API
+   */
+  $deleteOffice = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.DeleteOffice),
+      switchMap((action: DeleteOffice) =>
+        this._clientsService
+          .deleteOffice(action.payload.clientId, action.payload.officeId)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => [
+              new DeleteOfficeSuccess(action.payload.officeId),
+              new LoadClients(),
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Sede eliminada!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new DeleteOfficeFail(errors), new StopLoader());
             })
           )
       )

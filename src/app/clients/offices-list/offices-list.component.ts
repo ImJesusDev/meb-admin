@@ -9,7 +9,9 @@ import { Client } from 'src/app/models';
 /* State */
 import { State } from '../state';
 import { getClientById } from '../state/clients/clients.selector';
-import { LoadClients } from '../state/clients';
+import { DeleteOffice, LoadClients } from '../state/clients';
+/* Alerts */
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-offices-list',
   templateUrl: './offices-list.component.html',
@@ -48,5 +50,22 @@ export class OfficesListComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+  confirmDelete(id: string): void {
+    Swal.fire({
+      title: '¿Estás seguro que deseas eliminar la sede?',
+      showCancelButton: false,
+      showDenyButton: true,
+      confirmButtonText: `Eliminar`,
+      denyButtonText: `Cancelar`,
+      confirmButtonColor: '#50b848',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.store.dispatch(
+          new DeleteOffice({ clientId: this.client.id, officeId: id })
+        );
+      }
+    });
   }
 }

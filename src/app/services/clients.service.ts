@@ -59,4 +59,15 @@ export class ClientsService {
       withCredentials: true,
     });
   }
+  /**
+   * Delete an office
+   */
+  deleteOffice(clientId: string, officeId: string): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}clients/${clientId}/offices/${officeId}`,
+      {
+        withCredentials: true,
+      }
+    );
+  }
 }

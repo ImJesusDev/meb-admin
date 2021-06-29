@@ -41,6 +41,10 @@ export class ClientListComponent implements OnInit {
   /* Domain file name */
   fileName = '';
 
+  domainsToShow: Domain[] = [];
+  showDomainListModal = false;
+  showDomainListBackDrop = false;
+
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());
     // Dispatch action to load clients
@@ -83,6 +87,13 @@ export class ClientListComponent implements OnInit {
     }
   }
 
+  closeDomainListModal(): void {
+    this.domainsToShow = [];
+    this.showDomainListBackDrop = false;
+    setTimeout(() => {
+      this.showDomainListModal = false;
+    }, 100);
+  }
   /* Open modal to create client admin */
   openDomainModal(clientId: string): void {
     this.clientId = clientId;
@@ -91,6 +102,16 @@ export class ClientListComponent implements OnInit {
     setTimeout(() => {
       this.showDomainModal = true;
     }, 100);
+  }
+  /* Open modal to create client admin */
+  openDomainListModal(domains: Domain[] | undefined): void {
+    if (domains?.length) {
+      this.domainsToShow = domains;
+      this.showDomainListBackDrop = true;
+      setTimeout(() => {
+        this.showDomainListModal = true;
+      }, 100);
+    }
   }
 
   /* Handle file change */
