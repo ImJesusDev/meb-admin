@@ -1,5 +1,5 @@
 import { User } from './user';
-
+import { Email } from './email';
 export interface Office {
   id: string;
   name: string;
@@ -20,4 +20,5 @@ export interface Office {
   maintenanceAdmin?: String;
   client_admin?: User;
   clientAdmin?: String;
+  emails?: Email[];
 }

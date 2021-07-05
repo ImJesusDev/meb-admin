@@ -45,6 +45,10 @@ export class AuthEffects {
           // .pipe(delay(1500)) // Small delay to test loader
           .pipe(
             mergeMap((user: User) => {
+              if (user.role === 'user') {
+                const errors = [{ message: 'Unauthorized' }];
+                return of(new LoginFail(errors), new StopLoader());
+              }
               localStorage.setItem(
                 'fullName',
                 `${user.firstName} ${user.lastName}`
@@ -52,8 +56,17 @@ export class AuthEffects {
               localStorage.setItem('photoUrl', user.photo ? user.photo : '');
               return [new StopLoader(), new LoginSuccess()];
             }),
-            tap(() => {
-              this.router.navigate(['/clientes']);
+            tap((action) => {
+              switch (action.type) {
+                case AuthActionTypes.LoginFail:
+                  this.router.navigate(['/auth']);
+                  break;
+                case AuthActionTypes.LoginSuccess:
+                  this.router.navigate(['/clientes']);
+                  break;
+                default:
+                  break;
+              }
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

@@ -94,7 +94,7 @@ export class ClientListComponent implements OnInit {
       this.showDomainListModal = false;
     }, 100);
   }
-  /* Open modal to create client admin */
+  /* Open modal to create domains */
   openDomainModal(clientId: string): void {
     this.clientId = clientId;
     this.newDomains = [];
@@ -103,7 +103,7 @@ export class ClientListComponent implements OnInit {
       this.showDomainModal = true;
     }, 100);
   }
-  /* Open modal to create client admin */
+  /* Open modal to show domains */
   openDomainListModal(domains: Domain[] | undefined): void {
     if (domains?.length) {
       this.domainsToShow = domains;

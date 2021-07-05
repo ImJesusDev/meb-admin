@@ -34,6 +34,9 @@ import {
   AddDomains,
   AddDomainsSuccess,
   AddDomainsFail,
+  AddEmails,
+  AddEmailsSuccess,
+  AddEmailsFail,
   DeleteOffice,
   DeleteOfficeFail,
   DeleteOfficeSuccess,
@@ -42,7 +45,7 @@ import {
 import { StopLoader } from '../../../state/loader/loader.actions';
 
 /* Models */
-import { Client, ApiError, Office, Domain } from '../../../models';
+import { Client, ApiError, Office, Domain, Email } from '../../../models';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -163,6 +166,56 @@ export class ClientsEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddDomainsFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddDomains action
+   * and make http request to add domains
+   * from API
+   */
+  $addEmails = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.AddEmails),
+      switchMap((action: AddEmails) =>
+        this._authService
+          .addEmails(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((emails: Email[]) => [
+              new StopLoader(),
+              new AddEmailsSuccess(emails),
+              new LoadClients(),
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Dominios creados!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el dominio!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddEmailsFail(errors), new StopLoader());
             })
           )
       )
