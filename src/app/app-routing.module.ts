@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./team/team.module').then((m) => m.TeamModule),
   },
   {
+    path: 'recursos',
+    loadChildren: () =>
+      import('./resources/resources.module').then((m) => m.ResourcesModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },

@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 'admin.meb.dev' --ssl=true",
+    "start-prod": "ng serve --host 'meb-admin-demo.moversapp.co' --ssl=true",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

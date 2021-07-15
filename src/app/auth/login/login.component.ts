@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 /* Models */
 import { Login, ApiError } from '../../models';
 /* Actions */
-import { LoginStart } from '../../state/auth/auth.actions';
+import { LoginStart, LogOut } from '../../state/auth/auth.actions';
 import { StartLoader } from '../../state/loader/loader.actions';
 /* NgRx */
 import { Store } from '@ngrx/store';
@@ -46,7 +46,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(new LogOut());
+  }
 
   signIn(): void {
     this.store.dispatch(new StartLoader());

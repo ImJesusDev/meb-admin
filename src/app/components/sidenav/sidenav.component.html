@@ -40,6 +40,17 @@
     <a *ngIf="isOpen" class="hidden sm:flex" routerLink="equipo/admin-clientes">Admin Cliente</a>
   </div>
   <!-- End Link -->
+  <!-- Link -->
+  <div [ngClass]="{'justify-center': !isOpen}"
+    class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
+    <svg routerLink="recursos" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
+      fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+    </svg>
+    <a *ngIf="isOpen" class="hidden sm:flex" routerLink="recursos">Recursos</a>
+  </div>
+  <!-- End Link -->
 
 </div>
 <!-- End Side Nav -->

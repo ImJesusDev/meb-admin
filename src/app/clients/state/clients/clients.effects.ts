@@ -10,8 +10,7 @@ import { of } from 'rxjs';
 /* Alerts */
 import Swal from 'sweetalert2';
 /* Services */
-import { ClientsService } from '../../../services';
-import { AuthService } from '../../../services';
+import { ClientsService, AuthService } from '../../../services';
 
 /* Actions */
 import {
