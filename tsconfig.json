@@ -19,7 +19,19 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@components/*": ["./src/app/components/*"],
+      "@atoms/*": ["./src/app/components/atoms/*"],
+      "@molecules/*": ["./src/app/components/molecules/*"],
+      "@shared/*": ["./src/app/shared/*"],
+      "@guards/*": ["./src/app/guards/*"],
+      "@state/*": ["./src/app/state/*"],
+      "@models/*": ["./src/app/models/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@environments/*": ["./src/environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

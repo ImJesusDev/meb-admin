@@ -18,6 +18,9 @@ import {
   LoadResourcesSuccess,
   LoadResourcesFail,
   ResourcesActionTypes,
+  AddResource,
+  AddResourceSuccess,
+  AddResourceFail,
 } from './resources.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -31,7 +34,7 @@ export class ResourcesEffects {
     private router: Router,
     private $actions: Actions,
     private _resourcesService: ResourcesService
-  ) {}
+  ) { }
 
   /**
    * Effect to listen for the LoadResources action
@@ -58,6 +61,37 @@ export class ResourcesEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new LoadResourcesFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddClient action
+   * and make http request to add client
+   * from API
+   */
+  $addClient = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ResourcesActionTypes.AddResource),
+      switchMap((action: AddResource) =>
+        this._resourcesService.addResourceType(action.payload)
+          .pipe(
+            mergeMap((resourceType: ResourceType) => [
+              new StopLoader(),
+              new AddResourceSuccess(resourceType),
+            ]),
+            tap(() => {
+              this.router.navigate(['/recursos']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddResourceFail(errors), new StopLoader());
             })
           )
       )

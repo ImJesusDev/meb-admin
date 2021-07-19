@@ -9,6 +9,11 @@ import { Store, select } from '@ngrx/store';
 import { State } from '../state';
 /* Selectors */
 import { getResourcesError } from '../state/resources/resources.selector';
+import { Router } from '@angular/router';
+/* Actions */
+import { AddResource } from '../state/resources/resources.actions';
+import { StartLoader } from '../../state/loader/loader.actions';
+
 @Component({
   selector: 'app-resources-form',
   templateUrl: './resources-form.component.html',
@@ -21,8 +26,12 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
   resourceType: ResourceType;
   /* Form Group */
   resourceForm: FormGroup;
+  /* base64 logo */
+  base64Image = '';
+  /* Observable of loader from store */
+  loader$: Observable<boolean> = of(false);
 
-  constructor(private _formBuilder: FormBuilder, private store: Store<State>) {
+  constructor(private _formBuilder: FormBuilder, private store: Store<State>, private router: Router) {
     // Initialize resourceModel
     this.resourceType = {
       id: '',
@@ -37,18 +46,9 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
       type: [this.resourceType.type, [Validators.required]],
       checkupTime: [this.resourceType.checkupTime, [Validators.required]],
       photo: [this.resourceType.photo, [Validators.required]],
-      measureIndicators: [
-        this.resourceType.measureIndicators,
-        [Validators.required],
-      ],
-      resourceTypeBrand: [
-        this.resourceType.resourceTypeBrand,
-        [Validators.required],
-      ],
-      resourceTypeModel: [
-        this.resourceType.resourceTypeModel,
-        [Validators.required],
-      ],
+      measureIndicators: [this.resourceType.measureIndicators],
+      resourceTypeBrand: [this.resourceType.resourceTypeBrand, [Validators.required],],
+      resourceTypeModel: [this.resourceType.resourceTypeModel, [Validators.required],],
     });
   }
 
@@ -56,5 +56,61 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
     // Use selector to get errors from state
     this.errors$ = this.store.pipe(select(getResourcesError));
   }
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
+
+  submitForm(): void {
+    // Dispatch action to start loader
+    this.store.dispatch(new StartLoader());
+    // Dispatch action to add new client
+    this.store.dispatch(
+      new AddResource({
+        photo: this.base64Image,
+        type: this.resourceForm.controls['type'].value,
+        measureIndicators: this.resourceForm.controls['measureIndicators'].value,
+        resourceTypeBrand: this.resourceForm.controls['resourceTypeBrand'].value,
+        resourceTypeModel: this.resourceForm.controls['resourceTypeModel'].value,
+        checkupTime: this.resourceForm.controls['checkupTime'].value,
+        id: ''
+      })
+    );
+  }
+
+
+  /* Handle file change */
+  fileChanged(event: any): void {
+    // Instance of reader
+    const reader = new FileReader();
+    // Check if any file is selected
+    if (event.target && event.target.files.length) {
+      // Get file name
+      const filename = event.target.files[0].name;
+      // Initialize the base64 string with data type
+      this.base64Image = `data:${event.target.files[0].type};base64,`;
+      // Bind function to execute on file load
+      reader.onload = this.convertImageFileToBase64.bind(this);
+      // Read selected file
+      reader.readAsBinaryString(event.target.files[0]);
+      // Set as value of the form the name of the file
+      this.resourceForm.patchValue({
+        photo: filename,
+      });
+    }
+  }
+
+  /**
+   * Function to convert image file to
+   * base 64 string
+   */
+  convertImageFileToBase64(readerEvt: ProgressEvent<FileReader>): void {
+    // Get binary string from FileReader
+    var binaryString = readerEvt?.target?.result;
+    // Convert binary to base64
+    const base64String = btoa(binaryString as string);
+    // Set the final base64 string
+    this.base64Image = `${this.base64Image}${base64String}`;
+  }
+
+  onBack(): void {
+    this.router.navigate(['recursos']);
+  }
 }

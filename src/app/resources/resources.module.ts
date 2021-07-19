@@ -13,6 +13,13 @@ import { EffectsModule } from '@ngrx/effects';
 /* State */
 import { reducers, effects } from './state';
 import { ResourcesFormComponent } from './resources-form/resources-form.component';
+
+/* Components */
+import { TableModule } from '@molecules/table/table.module';
+import { ContainerModule } from '@atoms/container/container.module';
+import { BackArrowModule } from '@atoms/back-arrow';
+import { SharedModule } from '@shared/shared.module';
+
 @NgModule({
   declarations: [
     ResourcesComponent,
@@ -27,6 +34,10 @@ import { ResourcesFormComponent } from './resources-form/resources-form.componen
     ReactiveFormsModule,
     StoreModule.forFeature('resources', reducers),
     EffectsModule.forFeature(effects),
+    TableModule,
+    SharedModule,
+    ContainerModule,
+    BackArrowModule
   ],
 })
-export class ResourcesModule {}
+export class ResourcesModule { }

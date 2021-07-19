@@ -14,7 +14,7 @@ import { ResourceType } from '../models';
 export class ResourcesService {
   apiUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Load all resource types
@@ -26,5 +26,13 @@ export class ResourcesService {
         withCredentials: true,
       }
     );
+  }
+  /**
+   * Add new resource type
+   */
+  addResourceType(resourceType: ResourceType): Observable<ResourceType> {
+    return this.http.post<ResourceType>(`${this.apiUrl}resources/resource-types`, resourceType, {
+      withCredentials: true,
+    });
   }
 }
