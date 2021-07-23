@@ -21,7 +21,7 @@
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
         <!-- Type -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="type"> Tipo:</label>
+          <label class="text-gray-400" for="type">* Tipo:</label>
           <input name="type" formControlName="type" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('type')?.touched && resourceForm.get('type')?.hasError('required')}"
@@ -29,18 +29,18 @@
         </div>
         <!-- Checkup time -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="checkupTime"> Tiempo de chequeo:</label>
+          <label class="text-gray-400" for="checkupTime">* Días de chequeo:</label>
           <input name="checkupTime" formControlName="checkupTime" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('checkupTime')?.touched && resourceForm.get('checkupTime')?.hasError('required')}"
-            type="time">
+            type="number">
         </div>
       </div>
 
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
         <!-- Brand -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="resourceTypeBrand"> Marca:</label>
+          <label class="text-gray-400" for="resourceTypeBrand">* Marca:</label>
           <input name="resourceTypeBrand" formControlName="resourceTypeBrand" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
               'border-solid border-red-500 outline-red-500': resourceForm.get('resourceTypeBrand')?.touched && resourceForm.get('resourceTypeBrand')?.hasError('required')
@@ -48,7 +48,7 @@
         </div>
         <!-- Model-->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="resourceTypeModel"> Modelo:</label>
+          <label class="text-gray-400" for="resourceTypeModel">* Modelo:</label>
           <input name="resourceTypeModel" formControlName="resourceTypeModel" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('resourceTypeModel')?.touched && resourceForm.get('resourceTypeModel')?.hasError('required')}"
@@ -60,7 +60,7 @@
 
         <!-- Photo -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="photo"> Foto:</label>
+          <label class="text-gray-400" for="photo">* Foto:</label>
           <input #fileInput (change)="fileChanged($event)"
             class="hidden bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             accept="image/png, image/jpeg" type="file">
@@ -88,7 +88,7 @@
       <div class="flex items-center justify-center w-full">
         <div class="flex items-center justify-center w-full space-x-8">
           <!-- Create button -->
-          <button [ngClass]="{'opacity-40 cursor-default': !resourceForm.valid}" [disabled]="!resourceForm.valid"
+          <button [ngClass]="{'opacity-40 cursor-default': !resourceForm.valid}" [disabled]="!resourceForm.valid || (loader$ | async)"
             class="w-42 btn-primary" (click)="submitForm()">
             Crear
             <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"

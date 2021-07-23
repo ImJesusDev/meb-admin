@@ -40,6 +40,20 @@ export function reducer(state = initialState, action: ResourcesActions): State {
         error: action.payload,
       });
     }
+
+    case ResourcesActionTypes.AddResourceSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case ResourcesActionTypes.AddResourceFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
     default: {
       return state;
     }

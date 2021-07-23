@@ -36,7 +36,7 @@ export class ResourcesListComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   columns: Column[];
-  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Tiempo de chequeo', 'Indicadores de medida', 'Versión'];
+  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Versión'];
 
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());

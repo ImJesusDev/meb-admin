@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 /* Actions */
 import { AddResource } from '../state/resources/resources.actions';
 import { StartLoader } from '../../state/loader/loader.actions';
+import { getLoader } from '@state/loader/loader.selector';
 
 @Component({
   selector: 'app-resources-form',
@@ -55,20 +56,23 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Use selector to get errors from state
     this.errors$ = this.store.pipe(select(getResourcesError));
+    // Use selector to get loader state
+    this.loader$ = this.store.pipe(select(getLoader));
   }
   ngOnDestroy(): void { }
 
   submitForm(): void {
     // Dispatch action to start loader
     this.store.dispatch(new StartLoader());
+    this.loader$
     // Dispatch action to add new client
     this.store.dispatch(
       new AddResource({
         photo: this.base64Image,
         type: this.resourceForm.controls['type'].value,
         measureIndicators: this.resourceForm.controls['measureIndicators'].value,
-        resourceTypeBrand: this.resourceForm.controls['resourceTypeBrand'].value,
-        resourceTypeModel: this.resourceForm.controls['resourceTypeModel'].value,
+        brand: this.resourceForm.controls['resourceTypeBrand'].value,
+        model: this.resourceForm.controls['resourceTypeModel'].value,
         checkupTime: this.resourceForm.controls['checkupTime'].value,
         id: ''
       })
