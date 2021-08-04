@@ -6,5 +6,5 @@
 </app-container>
 
 <app-add-component-modal [showBackDrop]="showBackDropCreateComponent" [showModal]="showCreateComponent"
-  (close)="onCloseCreateComponentModal()">
+  [resourceTypeId]="resourceId" (close)="onCloseCreateComponentModal()">
 </app-add-component-modal>

@@ -38,9 +38,10 @@ export class ResourcesService {
 
   /**
    * Add component
+   * @param resourceComponent ResourceComponent
    */
   addComponent(resourceComponent: ResourceComponent): Observable<ResourceComponent> {
-    return this.http.post<ResourceComponent>(`${this.apiUrl}resources/resource-types/components`, resourceComponent, {
+    return this.http.post<ResourceComponent>(`${this.apiUrl}resources/resource-types/${resourceComponent.resourceTypeId}/components`, resourceComponent, {
       withCredentials: true,
     });
   }

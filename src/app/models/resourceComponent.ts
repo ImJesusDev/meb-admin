@@ -3,9 +3,13 @@ export interface ResourceComponent {
   name: string;
   componentModel?: string;
   componentBrand?: string;
-  area: string;
-  regularUnable: boolean;
-  regularSendTicket: boolean;
-  badUnable: boolean;
-  badSendTicket: boolean;
+  regularCondition: {
+    ticket: boolean,
+    disables: boolean
+  };
+  badCondition: {
+    ticket: boolean,
+    disables: boolean
+  };
+  resourceTypeId?: string;
 }

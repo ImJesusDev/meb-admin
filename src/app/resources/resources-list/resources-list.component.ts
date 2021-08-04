@@ -43,6 +43,7 @@ export class ResourcesListComponent implements OnInit {
 
   showCreateComponent: boolean;
   showBackDropCreateComponent: boolean;
+  resourceId: string;
 
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());
@@ -80,7 +81,7 @@ export class ResourcesListComponent implements OnInit {
       {
         name: 'components',
         type: 'extra',
-        onClickPlus: () => this.onShowCreateComponent()
+        onClickPlus: (index: number) => this.onShowCreateComponent(index)
       },
       {
         name: 'documentTypes',
@@ -89,6 +90,7 @@ export class ResourcesListComponent implements OnInit {
     ];
     this.showCreateComponent = false;
     this.showBackDropCreateComponent = false;
+    this.resourceId = '';
   }
 
   ngOnInit(): void {
@@ -98,7 +100,8 @@ export class ResourcesListComponent implements OnInit {
     this.loader$ = this.store.pipe(select(getLoader));
   }
 
-  onShowCreateComponent(): void {
+  async onShowCreateComponent(index: number): Promise<void> {
+    this.resources$.subscribe(data => this.resourceId = data[index].id)
     this.showBackDropCreateComponent = true;
     setTimeout(() => {
       this.showCreateComponent = true;

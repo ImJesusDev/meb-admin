@@ -26,6 +26,7 @@ export class AddComponentModalComponent implements OnInit {
 
   @Input() public showBackDrop: boolean;
   @Input() public showModal: boolean;
+  @Input() public resourceTypeId: string;
 
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
@@ -40,27 +41,30 @@ export class AddComponentModalComponent implements OnInit {
 
     this.showBackDrop = false;
     this.showModal = false;
+    this.resourceTypeId = '';
 
     this.component = {
       id: '',
       name: '',
       componentBrand: '',
       componentModel: '',
-      area: '',
-      regularSendTicket: false,
-      regularUnable: false,
-      badSendTicket: false,
-      badUnable: false
+      regularCondition: {
+        disables: false,
+        ticket: false
+      },
+      badCondition: {
+        disables: false,
+        ticket: false
+      }
     };
     this.componentForm = this._formBuilder.group({
       name: [this.component.name, [Validators.required]],
       componentBrand: [this.component.componentBrand, [Validators.required]],
       componentModel: [this.component.componentModel, [Validators.required]],
-      area: [this.component.area, [Validators.required]],
-      regularUnable: [this.component.regularUnable],
-      regularSendTicket: [this.component.regularSendTicket],
-      badSendTicket: [this.component.badSendTicket],
-      badUnable: [this.component.badUnable],
+      regularUnable: [this.component.regularCondition.disables],
+      regularSendTicket: [this.component.regularCondition.ticket],
+      badSendTicket: [this.component.badCondition.ticket],
+      badUnable: [this.component.badCondition.disables],
     });
   }
 
@@ -74,11 +78,15 @@ export class AddComponentModalComponent implements OnInit {
           name: this.componentForm.controls['name'].value,
           componentBrand: this.componentForm.controls['componentBrand'].value,
           componentModel: this.componentForm.controls['componentModel'].value,
-          area: this.componentForm.controls['area'].value,
-          regularUnable: this.componentForm.controls['regularUnable'].value,
-          regularSendTicket: this.componentForm.controls['regularSendTicket'].value,
-          badUnable: this.componentForm.controls['badUnable'].value,
-          badSendTicket: this.componentForm.controls['badSendTicket'].value,
+          regularCondition: {
+            disables: this.componentForm.controls['regularUnable'].value,
+            ticket: this.componentForm.controls['regularSendTicket'].value
+          },
+          badCondition: {
+            disables: this.componentForm.controls['badUnable'].value,
+            ticket: this.componentForm.controls['badSendTicket'].value
+          },
+          resourceTypeId: this.resourceTypeId,
           id: ''
         })
       );

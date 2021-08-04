@@ -112,7 +112,6 @@ export class ResourcesEffects {
       switchMap((action: AddComponent) =>
         this._resourcesService
           .addComponent(action.payload)
-          // .pipe(delay(1500)) // Small delay to test loader
           .pipe(
             mergeMap((component: ResourceComponent) => [
               new StopLoader(),

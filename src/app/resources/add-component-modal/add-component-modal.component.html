@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+    <div class="flex flex-col items-center justify-center w-1/2 sm:space-x-8 sm:flex-row">
       <!-- Model -->
       <div class="flex flex-col w-full h-16 mt-8">
         <label class="text-gray-400" for="componentModel">* Modelo:</label>
@@ -35,14 +35,6 @@
           class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
             'border-solid border-red-500 outline-red-500': componentForm.get('componentModel')?.touched && componentForm.get('componentModel')?.hasError('required')
         }" type="text">
-      </div>
-      <!-- Area-->
-      <div class="flex flex-col w-full h-16 mt-8">
-        <label class="text-gray-400" for="area">* Area:</label>
-        <input name="area" formControlName="area" required
-          class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-          [ngClass]="{'border-solid border-red-500 outline-red-500': componentForm.get('area')?.touched && componentForm.get('area')?.hasError('required')}"
-          type="text">
       </div>
     </div>
 
