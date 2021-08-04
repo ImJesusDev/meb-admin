@@ -4,3 +4,7 @@
   <!-- Loader -->
   <app-loader *ngIf="loader$ |async"></app-loader>
 </app-container>
+
+<app-add-component-modal [showBackDrop]="showBackDropCreateComponent" [showModal]="showCreateComponent"
+  (close)="onCloseCreateComponentModal()">
+</app-add-component-modal>

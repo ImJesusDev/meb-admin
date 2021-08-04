@@ -15,6 +15,9 @@ import { getLoader } from '../../state/loader/loader.selector';
 import {
   LoadResources,
 } from '../state/resources/resources.actions';
+// Components
+import { ModalComponent } from '@atoms/modal';
+import { AddComponentModalComponent } from '../add-component-modal/add-component-modal.component';
 
 /* Alerts */
 import Swal from 'sweetalert2';
@@ -36,7 +39,10 @@ export class ResourcesListComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   columns: Column[];
-  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Versión'];
+  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Versión', 'Componentes', 'Documentos'];
+
+  showCreateComponent: boolean;
+  showBackDropCreateComponent: boolean;
 
   constructor(private store: Store<State>) {
     this.store.dispatch(new StartLoader());
@@ -71,7 +77,18 @@ export class ResourcesListComponent implements OnInit {
         name: 'version',
         type: 'text'
       },
+      {
+        name: 'components',
+        type: 'extra',
+        onClickPlus: () => this.onShowCreateComponent()
+      },
+      {
+        name: 'documentTypes',
+        type: 'extra'
+      },
     ];
+    this.showCreateComponent = false;
+    this.showBackDropCreateComponent = false;
   }
 
   ngOnInit(): void {
@@ -81,4 +98,16 @@ export class ResourcesListComponent implements OnInit {
     this.loader$ = this.store.pipe(select(getLoader));
   }
 
+  onShowCreateComponent(): void {
+    this.showBackDropCreateComponent = true;
+    setTimeout(() => {
+      this.showCreateComponent = true;
+    }, 100);
+  }
+  onCloseCreateComponentModal(): void {
+    this.showBackDropCreateComponent = false;
+    setTimeout(() => {
+      this.showCreateComponent = false;
+    }, 100);
+  }
 }

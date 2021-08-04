@@ -1,3 +1,5 @@
+import { ResourceComponent } from './resourceComponent';
+
 export interface ResourceType {
   id: string;
   type: string;
@@ -8,4 +10,5 @@ export interface ResourceType {
   measureIndicators: boolean;
   model?: string;
   brand?: string;
+  components?: ResourceComponent[];
 }

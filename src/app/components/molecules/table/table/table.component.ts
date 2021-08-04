@@ -29,4 +29,9 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onClickPlus(clickPlus: Function | undefined): void {
+    if (clickPlus) {
+      clickPlus();
+    }
+  }
 }

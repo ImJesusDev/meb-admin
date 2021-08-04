@@ -16,16 +16,17 @@
             <span *ngSwitchCase="columnTypes.boolean">{{item[column.name]? 'Si' : 'No'}}</span>
             <!-- Image -->
             <div *ngSwitchCase="columnTypes.image">
-              <img class="rounded-full w-8 h-8" src="{{item[column.name]}}" alt="Image" *ngSwitchCase="columnTypes.image">
+              <img class="rounded-full w-8 h-8" src="{{item[column.name]}}" alt="Image"
+                *ngSwitchCase="columnTypes.image">
             </div>
             <!-- Extra -->
             <span *ngSwitchCase="columnTypes.extra">
-              <div class="flex items-center justify-center space-x-2 ">
+              <div class="flex items-center justify-center space-x-2">
                 <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
                   (click)="column.onClick">
-                  {{item[column.name]}}
+                  {{item[column.name].length}}
                 </span>
-                <svg (click)="column.onClickPlus" xmlns="http://www.w3.org/2000/svg"
+                <svg (click)="onClickPlus(column.onClickPlus)" xmlns="http://www.w3.org/2000/svg"
                   class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
                   fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 /* rxjs */
 import { Observable } from 'rxjs';
 /* Models */
-import { ResourceType } from '../models';
+import { ResourceComponent, ResourceType } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +32,15 @@ export class ResourcesService {
    */
   addResourceType(resourceType: ResourceType): Observable<ResourceType> {
     return this.http.post<ResourceType>(`${this.apiUrl}resources/resource-types`, resourceType, {
+      withCredentials: true,
+    });
+  }
+
+  /**
+   * Add component
+   */
+  addComponent(resourceComponent: ResourceComponent): Observable<ResourceComponent> {
+    return this.http.post<ResourceComponent>(`${this.apiUrl}resources/resource-types/components`, resourceComponent, {
       withCredentials: true,
     });
   }

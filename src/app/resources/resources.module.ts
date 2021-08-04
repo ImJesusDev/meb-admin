@@ -19,12 +19,21 @@ import { TableModule } from '@molecules/table/table.module';
 import { ContainerModule } from '@atoms/container/container.module';
 import { BackArrowModule } from '@atoms/back-arrow';
 import { SharedModule } from '@shared/shared.module';
+import { ModalModule, ModalComponent } from '@atoms/modal';
+import { ComponentsComponent } from './components/components.component';
+import { DocumentsComponent } from './documents/documents.component';
+import { AddComponentModalComponent } from './add-component-modal/add-component-modal.component';
+import { AddDocumentModalComponent } from './add-document-modal/add-document-modal.component';
 
 @NgModule({
   declarations: [
     ResourcesComponent,
     ResourcesListComponent,
     ResourcesFormComponent,
+    ComponentsComponent,
+    DocumentsComponent,
+    AddComponentModalComponent,
+    AddDocumentModalComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +46,11 @@ import { SharedModule } from '@shared/shared.module';
     TableModule,
     SharedModule,
     ContainerModule,
-    BackArrowModule
+    BackArrowModule,
+    ModalModule
   ],
+  providers: [
+    ModalComponent
+  ]
 })
 export class ResourcesModule { }
