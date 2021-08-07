@@ -15,8 +15,8 @@
             <!-- Boolean -->
             <span *ngSwitchCase="columnTypes.boolean">{{item[column.name]? 'Si' : 'No'}}</span>
             <!-- Image -->
-            <div *ngSwitchCase="columnTypes.image">
-              <img class="rounded-full w-8 h-8" src="{{item[column.name]}}" alt="Image"
+            <div *ngSwitchCase="columnTypes.image" class="w-8 h-8">
+              <img class="rounded-full w-8 h-8 object-cover" src="{{item[column.name]}}" alt="Image"
                 *ngSwitchCase="columnTypes.image">
             </div>
             <!-- Extra -->

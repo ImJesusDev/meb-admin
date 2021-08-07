@@ -116,6 +116,7 @@ export class ResourcesEffects {
             mergeMap((component: ResourceComponent) => [
               new StopLoader(),
               new AddComponentSuccess(component),
+              new LoadResources
             ]),
             tap(() => {
               Swal.fire({
@@ -126,7 +127,7 @@ export class ResourcesEffects {
                 confirmButtonColor: '#50b848',
                 icon: 'success',
               });
-              this.router.navigate(['recursos']);
+              this.router.navigate(['/recursos']);
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

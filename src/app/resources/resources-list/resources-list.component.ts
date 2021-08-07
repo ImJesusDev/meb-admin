@@ -111,7 +111,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
 
   async onShowCreateComponent(index: number): Promise<void> {
     this.subscriptions.add(
-      this.resources$.subscribe(data => this.resourceId = data[index].id)
+      this.resources$.subscribe(data => this.resourceId = data[index]?.id)
     );
     this.showBackDropCreateComponent = true;
     setTimeout(() => {
