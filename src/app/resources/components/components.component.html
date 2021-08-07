@@ -1,1 +1,76 @@
-<p>components works!</p>
+<app-back-arrow (onBack)="onBack()"></app-back-arrow>
+<app-container>
+
+  <!-- No Team Components -->
+  <div *ngIf="resource && resource.components?.length === 0"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>Este tipo de recuros no posee componentes</p>
+
+    <!-- Add Member Btn -->
+    <button class="btn-primary hover:bg-green-900" (click)="onShowCreateComponent()">
+      <span>Crear nuevo componente</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </button>
+    <!-- End Add Member Btn -->
+  </div>
+
+  <table *ngIf="resource && resource.components?.length"
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Regular</th>
+        <th>Malo</th>
+        <!-- <th>Acciones</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let component of resource.components; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> {{component.name}} </td>
+          <td class="p-2"> {{component.componentBrand}} </td>
+          <td class="p-2"> {{component.componentModel}} </td>
+          <td class="p-2">
+            {{component.regularCondition.disables? 'Habilita':''}}
+            {{component.regularCondition.ticket && component.regularCondition.disables ? '/' : ''}}
+            {{component.regularCondition.ticket? 'Envia ticket':''}}
+          </td>
+          <td class="p-2">
+            {{component.badCondition.disables? 'Habilita':''}}
+            {{component.badCondition.ticket && component.badCondition.disables ? '/' : ''}}
+            {{component.badCondition.ticket? 'Envia ticket':''}}
+          </td>
+          <td class="p-2">
+            <div class="flex items-center justify-center space-x-2 ">
+              <!-- Edit -->
+              <!-- <svg xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg> -->
+              <!-- Delete -->
+              <!-- <svg xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6 outline-none cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                  clip-rule="evenodd" />
+              </svg> -->
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+</app-container>
+
+<app-add-component-modal [showBackDrop]="showBackDropCreateComponent" [showModal]="showCreateComponent"
+  [resourceTypeId]="resource.id" (close)="onCloseCreateComponentModal()" *ngIf="resource">
+</app-add-component-modal>

@@ -23,7 +23,7 @@
             <span *ngSwitchCase="columnTypes.extra">
               <div class="flex items-center justify-center space-x-2">
                 <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
-                  (click)="column.onClick">
+                  (click)="onExtraClick(column.onClick, i)">
                   {{item[column.name].length}}
                 </span>
                 <svg (click)="onClickPlus(column.onClickPlus, i)" xmlns="http://www.w3.org/2000/svg"

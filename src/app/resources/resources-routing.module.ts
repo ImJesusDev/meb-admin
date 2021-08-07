@@ -5,6 +5,7 @@ import { ResourcesComponent } from './resources/resources.component';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { ResourcesFormComponent } from './resources-form/resources-form.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { ComponentsComponent } from './components/components.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: ResourcesListComponent },
+      { path: ':resourceTypeId/components', component: ComponentsComponent },
       { path: 'nuevo-recurso', component: ResourcesFormComponent },
     ],
   },
@@ -22,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ResourcesRoutingModule {}
+export class ResourcesRoutingModule { }

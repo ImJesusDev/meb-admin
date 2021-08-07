@@ -7,8 +7,8 @@ export type columnType = 'text' | 'image' | 'edit' | 'delete' | 'extra' | 'boole
 export interface Column {
   name: string;
   type: columnType;
-  onClick?: Function;
-  onClickPlus?: Function;
+  onClick?: (index: number) => void;
+  onClickPlus?: (index: number) => void;
 }
 
 @Component({
@@ -27,6 +27,12 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onExtraClick(onClick: Function | undefined, index: number): void {
+    if (onClick) {
+      onClick(index);
+    }
   }
 
   onClickPlus(clickPlus: Function | undefined, index: number): void {

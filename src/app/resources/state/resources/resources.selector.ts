@@ -23,3 +23,9 @@ export const getResources = createSelector(
   getResourcesState,
   fromResources.selectAll
 );
+
+
+export const getResourceById = (id: string) =>
+  createSelector(getResources, (resources) =>
+    resources.find((resource) => resource.id.toString() === id.toString())
+  );
