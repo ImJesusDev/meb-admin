@@ -91,7 +91,8 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       },
       {
         name: 'documentTypes',
-        type: 'extra'
+        type: 'extra',
+        onClick: ((index: number) => this.goDocuments(index)),
       },
     ];
     this.showCreateComponent = false;
@@ -125,8 +126,12 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  async goComponents(index: number): Promise<void> {
+  goComponents(index: number): void {
     this.subscriptions.add(this.resources$.subscribe(data => this.resourceId = data[index]?.id));
     this.router.navigate(['recursos', this.resourceId, 'components']);
+  }
+  goDocuments(index: number): void {
+    this.subscriptions.add(this.resources$.subscribe(data => this.resourceId = data[index]?.id));
+    this.router.navigate(['recursos', this.resourceId, 'documents']);
   }
 }

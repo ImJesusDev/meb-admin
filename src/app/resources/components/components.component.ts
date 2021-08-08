@@ -1,17 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 /* rxjs */
-import { Observable, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* Models */
-import { Client, Email, ResourceComponent, ResourceType } from 'src/app/models';
+import { ResourceComponent, ResourceType } from 'src/app/models';
 /* State */
 import { State } from '../state';
 import { getResourceById } from '../state/resources/resources.selector';
 import { LoadResources } from '../state/resources';
-/* Components */
-import { Column } from '@components/molecules/table/table/table.component';
 
 @Component({
   selector: 'app-components',

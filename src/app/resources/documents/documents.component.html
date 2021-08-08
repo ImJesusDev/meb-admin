@@ -1,1 +1,42 @@
-<p>documents works!</p>
+<app-back-arrow (onBack)="onBack()"></app-back-arrow>
+<app-container>
+
+  <!-- No Documents -->
+  <div *ngIf="resource && resource.documentTypes?.length === 0"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>Este tipo de recuros no posee documentos</p>
+
+    <!-- Add Member Btn -->
+    <button class="btn-primary hover:bg-green-900" (click)="onShowCreateDocument()">
+      <span>Crear nuevo documento</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </button>
+    <!-- End Add Member Btn -->
+  </div>
+
+  <table *ngIf="resource && resource.documentTypes?.length"
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Habilita</th>
+        <th>Require imagen</th>
+        <th>Expira</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let document of resource.documentTypes; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> {{document.name}} </td>
+          <td class="p-2"> {{document.disables?'Si':'No'}} </td>
+          <td class="p-2"> {{document.requiresPhoto?'Si':'No'}} </td>
+          <td class="p-2"> {{document.expires?'Si':'No'}} </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+</app-container>
