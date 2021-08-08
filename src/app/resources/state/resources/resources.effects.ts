@@ -24,12 +24,15 @@ import {
   AddComponent,
   AddComponentSuccess,
   AddComponentFail,
+  AddDocument,
+  AddDocumentSuccess,
+  AddDocumentFail,
 } from './resources.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
 
 /* Models */
-import { ResourceType, ApiError, ResourceComponent } from '../../../models';
+import { ResourceType, ApiError, ResourceComponent, DocumentType } from '../../../models';
 
 @Injectable()
 export class ResourcesEffects {
@@ -146,6 +149,58 @@ export class ResourcesEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddComponentFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+
+  /**
+   * Effect to listen for the addDocument action
+   * and make http request to add document
+   * from API
+   */
+  $addDocument = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ResourcesActionTypes.AddDocument),
+      switchMap((action: AddDocument) =>
+        this._resourcesService
+          .addDocument(action.payload)
+          .pipe(
+            mergeMap((document: DocumentType) => [
+              new StopLoader(),
+              new AddDocumentSuccess(document),
+              new LoadResources
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Documento creado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+              this.router.navigate(['/recursos']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el documento!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddDocumentFail(errors), new StopLoader());
             })
           )
       )

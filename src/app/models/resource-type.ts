@@ -11,12 +11,12 @@ export interface ResourceType {
   model?: string;
   brand?: string;
   components?: ResourceComponent[];
-  documentTypes?: Document[];
+  documentTypes?: DocumentType[];
 }
 
-export interface Document {
+export interface DocumentType {
   id: string;
-  resourceType: string;
+  resourceType?: string;
   resourceTypeId?: string;
   name: string;
   disables: boolean;

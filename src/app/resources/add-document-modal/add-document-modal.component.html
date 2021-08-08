@@ -1,1 +1,76 @@
-<p>add-document-modal works!</p>
+<app-modal [showBackDrop]="showBackDrop" [showModal]="showModal">
+  <!-- Header -->
+  <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+    <h1 class="text-xl text-white sm:text-3xl">Crear nuevo componente</h1>
+  </div>
+
+  <!-- Body -->
+  <form [formGroup]="documentForm"
+    class="px-12 py-12 overflow-y-auto bg-white sm:items-start max-h-96  flex-col items-center justify-center ">
+
+    <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+      <!-- Name -->
+      <div class="flex flex-col w-full h-16">
+        <label class="text-gray-400" for="name">* Nombre:</label>
+        <input name="name" formControlName="name" required
+          class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
+            'border-solid border-red-500 outline-red-500': documentForm.get('name')?.touched && documentForm.get('name')?.hasError('required')
+        }" type="text">
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+      <!-- Expires-->
+      <div class="flex flex-col w-full h-16">
+        <div class="py-2 max-w-xs mt-6 rounded-xl border-solid border-2 border-gray-300 flex pl-4"
+          (click)="documentForm.get('expires')?.setValue(!documentForm.get('expires')?.value)">
+          <label class="flex items-center space-x-3" for="expires">
+            <input name="expires" formControlName="expires" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+            <span class="text-gray-900 font-medium">Caduca</span>
+          </label>
+        </div>
+      </div>
+      <!-- disables-->
+      <div class="flex flex-col w-full h-16">
+        <div class="py-2 max-w-xs mt-6 rounded-xl border-solid border-2 border-gray-300 flex pl-4"
+          (click)="documentForm.get('disables')?.setValue(!documentForm.get('disables')?.value)">
+          <label class="flex items-center space-x-3" for="disables">
+            <input name="disables" formControlName="disables" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+            <span class="text-gray-900 font-medium">Inhabilita</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center w-1/2 sm:space-x-8 sm:flex-row">
+      <!-- requiresPhoto-->
+      <div class="flex flex-col w-full h-16">
+        <div class="py-2 max-w-xs mt-6 rounded-xl border-solid border-2 border-gray-300 flex pl-4"
+          (click)="documentForm.get('requiresPhoto')?.setValue(!documentForm.get('requiresPhoto')?.value)">
+          <label class="flex items-center space-x-3" for="requiresPhoto">
+            <input name="requiresPhoto" formControlName="requiresPhoto" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+            <span class="text-gray-900 font-medium">Imagen</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Footer -->
+  <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+    <button type="button" (click)="onClose(true)" [ngClass]="{'opacity-40 cursor-default': documentForm.invalid}"
+      [disabled]="documentForm.invalid"
+      class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+      Guardar
+    </button>
+    <button type="button" (click)="onClose()"
+      class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+      Cerrar
+    </button>
+  </div>
+
+</app-modal>

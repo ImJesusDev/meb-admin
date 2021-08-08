@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 /* rxjs */
 import { Observable } from 'rxjs';
 /* Models */
-import { ResourceComponent, ResourceType, Document } from '../models';
+import { ResourceComponent, ResourceType, DocumentType } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -48,10 +48,10 @@ export class ResourcesService {
 
   /**
    * Add document
-   * @param document document
+   * @param document DocumentType
    */
-  addDocument(document: Document): Observable<Document> {
-    return this.http.post<Document>(`${this.apiUrl}resources/resource-types/${document.resourceTypeId}/components`, document, {
+  addDocument(document: DocumentType): Observable<DocumentType> {
+    return this.http.post<DocumentType>(`${this.apiUrl}resources/resource-types/${document.resourceTypeId}/document-types`, document, {
       withCredentials: true,
     });
   }

@@ -40,3 +40,7 @@
   </table>
 
 </app-container>
+
+<app-add-document-modal [showBackDrop]="showBackDropCreateDocument" [showModal]="showCreateDocument"
+  [resourceTypeId]="resource.id" (close)="onCloseCreateDocumentModal()" *ngIf="resource">
+</app-add-document-modal>

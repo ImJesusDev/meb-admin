@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* Models */
-import { Document, ResourceType } from 'src/app/models';
+import { ResourceType } from 'src/app/models';
 /* State */
 import { State } from '../state';
 import { getResourceById } from '../state/resources/resources.selector';
@@ -25,8 +25,8 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   /* Create modal */
-  showBackDropCreatedocument: boolean;
-  showCreatedocument: boolean;
+  showBackDropCreateDocument: boolean;
+  showCreateDocument: boolean;
 
   constructor(private store: Store<State>, private route: ActivatedRoute, private router: Router) {
 
@@ -52,8 +52,8 @@ export class DocumentsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.showBackDropCreatedocument = false;
-    this.showCreatedocument = false;
+    this.showBackDropCreateDocument = false;
+    this.showCreateDocument = false;
   }
 
   ngOnInit(): void {
@@ -70,15 +70,15 @@ export class DocumentsComponent implements OnInit, OnDestroy {
 
 
   async onShowCreateDocument(): Promise<void> {
-    this.showBackDropCreatedocument = true;
+    this.showBackDropCreateDocument = true;
     setTimeout(() => {
-      this.showCreatedocument = true;
+      this.showCreateDocument = true;
     }, 100);
   }
-  onCloseCreatedocumentModal(): void {
-    this.showBackDropCreatedocument = false;
+  onCloseCreateDocumentModal(): void {
+    this.showBackDropCreateDocument = false;
     setTimeout(() => {
-      this.showCreatedocument = false;
+      this.showCreateDocument = false;
     }, 100);
   }
 }

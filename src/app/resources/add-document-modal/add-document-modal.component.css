@@ -1,0 +1,12 @@
+[type="checkbox"]:focus,
+[type="radio"]:focus {
+  border-color: rgba(80, 184, 72, var(--tw-border-opacity));
+}
+
+[type="checkbox"]:checked:hover,
+[type="checkbox"]:checked:focus,
+[type="radio"]:checked:hover,
+[type="radio"]:checked:focus {
+  border-color: rgb(80, 184, 72);
+  background-color: rgb(80, 184, 72);
+}
