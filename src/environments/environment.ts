@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'https://meb.moversapp.co/api/',
-  apiUrl: 'https://meb.dev/api/',
+  apiUrl: 'https://meb.moversapp.co/api/',
+  // apiUrl: 'https://meb.dev/api/',
 };
 
 /*

@@ -1,7 +1,12 @@
+<app-back-arrow (onBack)="onBack()"></app-back-arrow>
 <div class="flex flex-col items-center justify-center w-full h-full space-y-4">
+
+
   <!-- Form Container -->
   <div class="flex flex-col items-center justify-center w-full">
+
     <h1 class="mt-24 font-bold sm:mt-0 sm:mb-12 text:2xl sm:text-5xl">Nuevo Tipo de Recurso</h1>
+
     <!-- Errors -->
     <div class="h-12 font-bold text-red-500">
       <div *ngFor="let error of errors$ | async">
@@ -9,10 +14,100 @@
       </div>
     </div>
     <!-- End Errors -->
+
     <!-- Form -->
     <form [formGroup]="resourceForm" class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12">
+
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Type -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="type">* Tipo:</label>
+          <input name="type" formControlName="type" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('type')?.touched && resourceForm.get('type')?.hasError('required')}"
+            type="text">
+        </div>
+        <!-- Checkup time -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="checkupTime">* Días de chequeo:</label>
+          <input name="checkupTime" formControlName="checkupTime" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('checkupTime')?.touched && resourceForm.get('checkupTime')?.hasError('required')}"
+            type="number">
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Brand -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="resourceTypeBrand">* Marca:</label>
+          <input name="resourceTypeBrand" formControlName="resourceTypeBrand" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
+              'border-solid border-red-500 outline-red-500': resourceForm.get('resourceTypeBrand')?.touched && resourceForm.get('resourceTypeBrand')?.hasError('required')
+          }" type="text">
+        </div>
+        <!-- Model-->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="resourceTypeModel">* Modelo:</label>
+          <input name="resourceTypeModel" formControlName="resourceTypeModel" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('resourceTypeModel')?.touched && resourceForm.get('resourceTypeModel')?.hasError('required')}"
+            type="text">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center w-full">
+
+        <!-- Photo -->
+        <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="photo">* Foto:</label>
+          <input #fileInput (change)="fileChanged($event)"
+            class="hidden bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            accept="image/png, image/jpeg" type="file">
+          <input required formControlName="photo" name="photo" (click)="fileInput.click()"
+            class=" sm:w-[95%] w-full bg-gray-100 rounded-md border-dashed focus:ring-brand focus:outline-none focus:border-brand cursor-pointer"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('photo')?.touched && resourceForm.get('photo')?.hasError('required')}"
+            type="text" readonly placeholder="Selecionar foto...">
+        </div>
+
+        <!-- Measure indicators -->
+        <div class="flex flex-col w-full h-16">
+          <div class="py-2 max-w-xs ml-4 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-center"
+            (click)="resourceForm.get('measureIndicators')?.setValue(!resourceForm.get('measureIndicators')?.value)">
+            <label class="flex items-center space-x-3" for="measureIndicators">
+              <input name="measureIndicators" formControlName="measureIndicators" type="checkbox"
+                class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+              <span class="text-gray-900 font-medium">Indicadores de medida</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center justify-center w-full">
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Create button -->
+          <button [ngClass]="{'opacity-40 cursor-default': !resourceForm.valid}"
+            [disabled]="!resourceForm.valid || (loader$ | async)" class="w-42 btn-primary" (click)="submitForm()">
+            Crear
+            <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+          <!-- Cancel button -->
+          <button type="reset" routerLink='/recursos'
+            class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-42 focus:outline-none">
+            Cancelar
+          </button>
+        </div>
+      </div>
+
+
     </form>
-    <!-- End Form -->
 
   </div>
 </div>

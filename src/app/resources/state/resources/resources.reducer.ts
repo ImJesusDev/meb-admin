@@ -22,6 +22,7 @@ export const initialState: State = adapter.getInitialState({
 /* Resource reducers */
 export function reducer(state = initialState, action: ResourcesActions): State {
   switch (action.type) {
+
     case ResourcesActionTypes.LoadResources: {
       return adapter.removeAll({
         ...state,
@@ -40,6 +41,21 @@ export function reducer(state = initialState, action: ResourcesActions): State {
         error: action.payload,
       });
     }
+
+    case ResourcesActionTypes.AddResourceSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case ResourcesActionTypes.AddResourceFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
     default: {
       return state;
     }

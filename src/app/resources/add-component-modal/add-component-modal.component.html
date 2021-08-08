@@ -1,0 +1,107 @@
+<app-modal [showBackDrop]="showBackDrop" [showModal]="showModal">
+  <!-- Header -->
+  <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+    <h1 class="text-xl text-white sm:text-3xl">Crear nuevo componente</h1>
+  </div>
+
+  <!-- Body -->
+  <form [formGroup]="componentForm"
+    class="px-12 py-12 overflow-y-auto bg-white sm:items-start max-h-96  flex-col items-center justify-center ">
+
+    <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+      <!-- Name -->
+      <div class="flex flex-col w-full h-16">
+        <label class="text-gray-400" for="name">* Nombre:</label>
+        <input name="name" formControlName="name" required
+          class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
+            'border-solid border-red-500 outline-red-500': componentForm.get('name')?.touched && componentForm.get('name')?.hasError('required')
+        }" type="text">
+      </div>
+      <!-- Brand-->
+      <div class="flex flex-col w-full h-16">
+        <label class="text-gray-400" for="componentBrand">* Marca:</label>
+        <input name="componentBrand" formControlName="componentBrand" required
+          class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+          [ngClass]="{'border-solid border-red-500 outline-red-500': componentForm.get('componentBrand')?.touched && componentForm.get('componentBrand')?.hasError('required')}"
+          type="text">
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center w-1/2 sm:space-x-8 sm:flex-row">
+      <!-- Model -->
+      <div class="flex flex-col w-full h-16 mt-8">
+        <label class="text-gray-400" for="componentModel">* Modelo:</label>
+        <input name="componentModel" formControlName="componentModel" required
+          class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
+            'border-solid border-red-500 outline-red-500': componentForm.get('componentModel')?.touched && componentForm.get('componentModel')?.hasError('required')
+        }" type="text">
+      </div>
+    </div>
+
+    <!-- Regular -->
+    <h6 class="mt-8 text-gray-500">Regular</h6>
+    <!-- Inahabilita -->
+    <div class="flex flex-col w-full h-16">
+      <div class="py-2 px-3 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-between"
+        (click)="componentForm.get('regularUnable')?.setValue(!componentForm.get('regularUnable')?.value)">
+        <label class="flex items-stretch space-x-3 w-full justify-between" for="regularUnable">
+          <span class="text-gray-900 font-medium">Inhabilita</span>
+          <input name="regularUnable" formControlName="regularUnable" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+        </label>
+      </div>
+    </div>
+    <!-- Envia ticket -->
+    <div class="flex flex-col w-full h-16">
+      <div class="py-2 px-3 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-between"
+        (click)="componentForm.get('regularSendTicket')?.setValue(!componentForm.get('regularSendTicket')?.value)">
+        <label class="flex items-stretch space-x-3 w-full justify-between" for="regularSendTicket">
+          <span class="text-gray-900 font-medium">Envia ticket</span>
+          <input name="regularSendTicket" formControlName="regularSendTicket" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+        </label>
+      </div>
+    </div>
+
+
+    <!-- Malo -->
+    <h6 class="mt-8 text-gray-500">Malo</h6>
+    <!-- Inahabilita -->
+    <div class="flex flex-col w-full h-16">
+      <div class="py-2 px-3 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-between"
+        (click)="componentForm.get('badSendTicket')?.setValue(!componentForm.get('badSendTicket')?.value)">
+        <label class="flex items-stretch space-x-3 w-full justify-between" for="badSendTicket">
+          <span class="text-gray-900 font-medium">Inhabilita</span>
+          <input name="badSendTicket" formControlName="badSendTicket" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+        </label>
+      </div>
+    </div>
+    <!-- Envia ticket -->
+    <div class="flex flex-col w-full h-16">
+      <div class="py-2 px-3 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-between"
+        (click)="componentForm.get('badUnable')?.setValue(!componentForm.get('badUnable')?.value)">
+        <label class="flex items-stretch space-x-3 w-full justify-between" for="badUnable">
+          <span class="text-gray-900 font-medium">Envia ticket</span>
+          <input name="badUnable" formControlName="badUnable" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+        </label>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Footer -->
+  <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+    <button type="button" (click)="onClose(true)" [ngClass]="{'opacity-40 cursor-default': componentForm.invalid}"
+      [disabled]="componentForm.invalid"
+      class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+      Guardar
+    </button>
+    <button type="button" (click)="onClose()"
+      class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+      Cerrar
+    </button>
+  </div>
+
+</app-modal>

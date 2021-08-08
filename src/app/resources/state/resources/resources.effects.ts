@@ -18,12 +18,18 @@ import {
   LoadResourcesSuccess,
   LoadResourcesFail,
   ResourcesActionTypes,
+  AddResource,
+  AddResourceSuccess,
+  AddResourceFail,
+  AddComponent,
+  AddComponentSuccess,
+  AddComponentFail,
 } from './resources.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
 
 /* Models */
-import { ResourceType, ApiError } from '../../../models';
+import { ResourceType, ApiError, ResourceComponent } from '../../../models';
 
 @Injectable()
 export class ResourcesEffects {
@@ -31,7 +37,7 @@ export class ResourcesEffects {
     private router: Router,
     private $actions: Actions,
     private _resourcesService: ResourcesService
-  ) {}
+  ) { }
 
   /**
    * Effect to listen for the LoadResources action
@@ -58,6 +64,88 @@ export class ResourcesEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new LoadResourcesFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddClient action
+   * and make http request to add client
+   * from API
+   */
+  $addClient = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ResourcesActionTypes.AddResource),
+      switchMap((action: AddResource) =>
+        this._resourcesService.addResourceType(action.payload)
+          .pipe(
+            mergeMap((resourceType: ResourceType) => [
+              new StopLoader(),
+              new AddResourceSuccess(resourceType),
+            ]),
+            tap(() => {
+              this.router.navigate(['/recursos']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddResourceFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+  /**
+   * Effect to listen for the addComponent action
+   * and make http request to add component
+   * from API
+   */
+  $addComponent = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ResourcesActionTypes.AddComponent),
+      switchMap((action: AddComponent) =>
+        this._resourcesService
+          .addComponent(action.payload)
+          .pipe(
+            mergeMap((component: ResourceComponent) => [
+              new StopLoader(),
+              new AddComponentSuccess(component),
+              new LoadResources
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Componente creado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+              this.router.navigate(['/recursos']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el componente!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new AddComponentFail(errors), new StopLoader());
             })
           )
       )

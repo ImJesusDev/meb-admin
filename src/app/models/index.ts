@@ -7,3 +7,4 @@ export * from './office';
 export * from './domain';
 export * from './email';
 export * from './resource-type';
+export * from './resourceComponent';
