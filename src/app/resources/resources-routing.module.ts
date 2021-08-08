@@ -6,6 +6,7 @@ import { ResourcesListComponent } from './resources-list/resources-list.componen
 import { ResourcesFormComponent } from './resources-form/resources-form.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { ComponentsComponent } from './components/components.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
     children: [
       { path: '', component: ResourcesListComponent },
       { path: ':resourceTypeId/components', component: ComponentsComponent },
+      { path: ':resourceTypeId/documents', component: DocumentsComponent },
       { path: 'nuevo-recurso', component: ResourcesFormComponent },
     ],
   },

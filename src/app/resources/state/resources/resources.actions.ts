@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ResourceType, ApiError, ResourceComponent } from 'src/app/models';
+import { ResourceType, ApiError, ResourceComponent, DocumentType } from 'src/app/models';
 
 /* Enum to specify all resources actions */
 export enum ResourcesActionTypes {
@@ -12,6 +12,9 @@ export enum ResourcesActionTypes {
   AddComponent = '[Resources] Add Component',
   AddComponentSuccess = '[Resources] Add Component Success',
   AddComponentFail = '[Resources] Add Component Fail',
+  AddDocument = '[Resources] Add Document',
+  AddDocumentSuccess = '[Resources] Add Document Success',
+  AddDocumentFail = '[Resources] Add Document Fail',
 }
 
 // Load Resources
@@ -70,6 +73,25 @@ export class AddComponentFail implements Action {
   constructor(public payload: ApiError[]) { }
 }
 
+
+// Add Document
+export class AddDocument implements Action {
+  readonly type = ResourcesActionTypes.AddDocument;
+  constructor(public payload: DocumentType) { }
+}
+
+// Add Document Success
+export class AddDocumentSuccess implements Action {
+  readonly type = ResourcesActionTypes.AddDocumentSuccess;
+  constructor(public payload: DocumentType) { }
+}
+
+// Add Document Fail
+export class AddDocumentFail implements Action {
+  readonly type = ResourcesActionTypes.AddDocumentFail;
+  constructor(public payload: ApiError[]) { }
+}
+
 /* Export all actions */
 export type ResourcesActions =
   | LoadResources
@@ -80,4 +102,7 @@ export type ResourcesActions =
   | AddResourceFail
   | AddComponent
   | AddComponentSuccess
-  | AddComponentFail;
+  | AddComponentFail
+  | AddDocument
+  | AddDocumentSuccess
+  | AddDocumentFail;

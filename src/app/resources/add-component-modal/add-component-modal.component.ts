@@ -2,20 +2,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 /* Models */
-import { ApiError, ResourceType } from 'src/app/models';
+import { ApiError } from 'src/app/models';
 /* NgRx */
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 /* State */
 import { State } from '../state';
 /* Selectors */
-import { getResourcesError } from '../state/resources/resources.selector';
 import { Router } from '@angular/router';
 /* Actions */
 import { AddComponent, AddResource } from '../state/resources/resources.actions';
-import { StartLoader } from '../../state/loader/loader.actions';
-import { getLoader } from '@state/loader/loader.selector';
 /* Interface */
-import { ResourceComponent } from '@models/index'
+import { ResourceComponent } from '@models/index';
 
 @Component({
   selector: 'app-add-component-modal',

@@ -15,13 +15,6 @@ import { getLoader } from '../../state/loader/loader.selector';
 import {
   LoadResources,
 } from '../state/resources/resources.actions';
-// Components
-import { ModalComponent } from '@atoms/modal';
-import { AddComponentModalComponent } from '../add-component-modal/add-component-modal.component';
-
-/* Alerts */
-import Swal from 'sweetalert2';
-import { Domain } from '../../models';
 
 /* Components */
 import { Column } from '@molecules/table/table/table.component';
@@ -42,8 +35,15 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   columns: Column[];
   headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Versión', 'Componentes', 'Documentos'];
 
+  /* Component modal */
   showCreateComponent: boolean;
   showBackDropCreateComponent: boolean;
+
+  /* Document modal */
+  showCreateDocument: boolean;
+  showBackDropCreateDocument: boolean;
+
+
   resourceId: string;
 
 
@@ -91,11 +91,15 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       },
       {
         name: 'documentTypes',
-        type: 'extra'
+        type: 'extra',
+        onClick: ((index: number) => this.goDocuments(index)),
+        onClickPlus: (index: number) => this.onShowCreateDocument(index)
       },
     ];
     this.showCreateComponent = false;
     this.showBackDropCreateComponent = false;
+    this.showCreateDocument = false;
+    this.showBackDropCreateDocument = false;
     this.resourceId = '';
   }
 
@@ -125,8 +129,28 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  async goComponents(index: number): Promise<void> {
+  async onShowCreateDocument(index: number): Promise<void> {
+    this.subscriptions.add(
+      this.resources$.subscribe(data => this.resourceId = data[index]?.id)
+    );
+    this.showBackDropCreateDocument = true;
+    setTimeout(() => {
+      this.showCreateDocument = true;
+    }, 100);
+  }
+  onCloseCreateDocumentModal(): void {
+    this.showBackDropCreateDocument = false;
+    setTimeout(() => {
+      this.showCreateDocument = false;
+    }, 100);
+  }
+
+  goComponents(index: number): void {
     this.subscriptions.add(this.resources$.subscribe(data => this.resourceId = data[index]?.id));
     this.router.navigate(['recursos', this.resourceId, 'components']);
+  }
+  goDocuments(index: number): void {
+    this.subscriptions.add(this.resources$.subscribe(data => this.resourceId = data[index]?.id));
+    this.router.navigate(['recursos', this.resourceId, 'documents']);
   }
 }
