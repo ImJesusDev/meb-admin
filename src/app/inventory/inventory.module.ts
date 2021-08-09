@@ -30,7 +30,7 @@ import { InventoryListComponent } from './inventory-list/inventory-list.componen
     FormsModule,
     ReactiveFormsModule,
     InventoryRoutingModule,
-    StoreModule.forFeature('resources', reducers),
+    StoreModule.forFeature('inventory', reducers),
     EffectsModule.forFeature(effects),
     ContainerModule,
     SharedModule

@@ -59,9 +59,6 @@ export class ResourcesEffects {
               new StopLoader(),
               new LoadResourcesSuccess(resources),
             ]),
-            tap(({ type }) => {
-              console.log('type: ', type)
-            }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {

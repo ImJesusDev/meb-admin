@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 /* rxjs */
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 /* Models */
-import { Resource, ResourceType } from '../../models';
+import { Resource } from '../../models';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
 import { State } from '../state';
+import { StartLoader } from '@state/loader/loader.actions';
+import { getLoader } from '@state/loader/loader.selector';
 /* Selectors */
 import { getResources } from '../state/inventory/inventory.selector';
-import { StartLoader } from '../../state/loader/loader.actions';
-import { getLoader } from '../../state/loader/loader.selector';
 /* Actions */
 import {
   LoadResources,
