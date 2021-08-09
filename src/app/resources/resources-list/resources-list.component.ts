@@ -20,6 +20,8 @@ import {
 import { Column } from '@molecules/table/table/table.component';
 import { Router } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-resources-list',
   templateUrl: './resources-list.component.html',
@@ -106,6 +108,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources));
+    this.resources$.subscribe((data) => console.log(data))
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
   }

@@ -30,6 +30,7 @@ import { ResourcesModule } from './resources/resources.module';
 import { effects } from './state/state';
 /* Guards */
 import { AuthGuard } from './guards/auth.guard';
+import { InventoryModule } from './inventory/inventory.module';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
@@ -37,6 +38,7 @@ import { AuthGuard } from './guards/auth.guard';
     TeamModule,
     ResourcesModule,
     SharedModule,
+    InventoryModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

@@ -1,7 +1,7 @@
 <app-container>
-  <app-table [columns]="columns" [headers]="headers" [data$]="resources$"
-    *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)" class="w-full"></app-table>
-  <!-- Loader -->
+  <!-- <app-table [columns]="columns" [headers]="headers" [data$]="resources$"
+    *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)" class="w-full"></app-table> -->
+  <!-- <label *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)">Hola</label> -->
   <app-loader *ngIf="loader$ |async"></app-loader>
 </app-container>
 

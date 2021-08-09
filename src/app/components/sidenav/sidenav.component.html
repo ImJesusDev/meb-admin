@@ -51,6 +51,17 @@
     <a *ngIf="isOpen" class="hidden sm:flex" routerLink="recursos">Tipos de Recursos</a>
   </div>
   <!-- End Link -->
+  <!-- Link -->
+  <div [ngClass]="{'justify-center': !isOpen}"
+    class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none" fill="none"
+      viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+    </svg>
+    <a *ngIf="isOpen" class="hidden sm:flex" routerLink="inventario">Inventario</a>
+  </div>
+  <!-- End Link -->
 
 </div>
 <!-- End Side Nav -->

@@ -19,6 +19,11 @@ const routes: Routes = [
       import('./resources/resources.module').then((m) => m.ResourcesModule),
   },
   {
+    path: 'inventario',
+    loadChildren: () =>
+      import('./inventory/inventory.module').then((m) => m.InventoryModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
@@ -32,4 +37,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
