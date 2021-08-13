@@ -19,7 +19,7 @@ const routes: Routes = [
     children: [
       { path: '', component: InventoryListComponent },
       { path: 'nuevo-recurso', component: InventoryFormComponent },
-      { path: ':inventoryId/documents', component: DocumentsComponent },
+      { path: ':resourceId/documents', component: DocumentsComponent },
     ],
   },
 ];

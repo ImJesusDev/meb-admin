@@ -1,1 +1,27 @@
 <app-back-arrow (onBack)="onBack()"></app-back-arrow>
+
+<div class="flex flex-col items-center justify-center w-full space-y-4 pb-12">
+
+  <table *ngIf="resource && resource.documents?.length"
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Referencia</th>
+        <th>Fecha de expedición</th>
+        <th>Fecha de expiración</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let document of resource.documents; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> {{document.type}} </td>
+          <td class="p-2"> {{document.resourceReference}} </td>
+          <td class="p-2"> {{document.expeditionDate|date}} </td>
+          <td class="p-2"> {{document.expirationDate|date}} </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+</div>
