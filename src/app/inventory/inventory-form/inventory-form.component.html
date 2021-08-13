@@ -1,0 +1,168 @@
+<app-back-arrow (onBack)="onBack()"></app-back-arrow>
+<div class="flex flex-col items-center justify-center w-full space-y-4 pb-12">
+
+  <!-- Form Container -->
+  <div class="flex flex-col items-center justify-center w-full pb-12 sm:pb-0">
+
+    <h1 class="mt-0 font-bold sm:mt-0 sm:mb-12 text:2xl sm:text-5xl">Nuevo Recurso</h1>
+
+    <!-- Errors -->
+    <div class="h-12 font-bold text-red-500">
+      <div *ngFor="let error of errors$ | async">
+        {{error.message}}
+      </div>
+    </div>
+    <!-- End Errors -->
+
+    <!-- Form -->
+    <form [formGroup]="resourceForm" class="flex flex-col items-center justify-center w-11/12 sm:space-y-8 sm:w-6/12">
+
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Type -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="type">* Tipo:</label>
+          <select name="type" formControlName="type" required id="type" (ngModelChange)="changeType()"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('type')?.touched && resourceForm.get('type')?.hasError('required')}">
+            <ng-container *ngFor="let resource of resources$ | async">
+              <option [ngValue]="resource">
+                {{resource.type}}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+        <!-- Reference -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="reference">* Referencía:</label>
+          <input name="reference" formControlName="reference" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('reference')?.touched && resourceForm.get('reference')?.hasError('required')}"
+            type="text">
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+        <!-- Qr code -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="qrCode">* Url para el código qr:</label>
+          <input name="qrCode" formControlName="qrCode" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
+              'border-solid border-red-500 outline-red-500': resourceForm.get('qrCode')?.touched && resourceForm.get('qrCode')?.hasError('required')
+          }" type="text">
+        </div>
+        <!-- Locker Password-->
+        <div class="flex flex-col w-full h-16 my-3 sm:mb-5 xl:mb-0">
+          <label class="text-gray-400" for="lockerPassword">* Contraseña del armario:</label>
+          <input name="lockerPassword" formControlName="lockerPassword" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('lockerPassword')?.touched && resourceForm.get('lockerPassword')?.hasError('required')}"
+            type="text">
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+
+        <!-- Client -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="client">* Cliente:</label>
+          <input name="client" formControlName="client" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('client')?.touched && resourceForm.get('client')?.hasError('required')}"
+            type="text">
+        </div>
+
+        <!-- Office -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="office">* Oficina:</label>
+          <input name="office" formControlName="office" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('office')?.touched && resourceForm.get('office')?.hasError('required')}"
+            type="text">
+        </div>
+
+      </div>
+
+      <div class="flex flex-col items-center w-full sm:space-x-8 sm:flex-row">
+
+        <!-- Loan Time -->
+        <div class="flex flex-col w-full h-16 sm:w-3/4 lg:w-1/2 mb-5">
+          <label class="text-gray-400" for="loanTime">* Tiempo de prestamo:</label>
+          <input name="loanTime" formControlName="loanTime" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('loanTime')?.touched && resourceForm.get('loanTime')?.hasError('required')}"
+            type="number" min="1">
+        </div>
+
+      </div>
+
+
+      <h3 class="w-full font-bold text-gray-400" *ngIf="documentsForm.controls.length">Documentos</h3>
+
+      <ng-container formArrayName="documents">
+        <ng-container *ngFor="let documentForm of documentsForm.controls; index as i">
+          <ng-container [formGroupName]="i">
+
+            <!-- Tipo de documento -->
+            <div class="flex flex-col items-center w-full sm:space-x-8 sm:flex-row">
+              <label class="text-gray-700" for="type">{{i+1}}. {{documentForm.get('type')?.value}}</label>
+            </div>
+
+            <div class=" flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+              <!-- Fecha de expedición -->
+              <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+                <label class="text-gray-400" for="expeditionDate">* Fecha de expedición:</label>
+                <input name="expeditionDate" formControlName="expeditionDate" required
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                  [ngClass]="{'border-solid border-red-500 outline-red-500': documentForm.get('expeditionDate')?.touched && documentForm.get('expeditionDate')?.hasError('required')}"
+                  type="date">
+              </div>
+              <!-- Fecha de expiración -->
+              <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+                <label class="text-gray-400" for="expirationDate" *ngIf="!documentForm.get('expirationDate')?.disabled">
+                  Fecha de expiración: </label>
+                <input name="expirationDate" formControlName="expirationDate" required
+                  *ngIf="!documentForm.get('expirationDate')?.disabled"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                  [ngClass]="{
+                    'border-solid border-red-500 outline-red-500': documentForm.get('expirationDate')?.touched && documentForm.get('expirationDate')?.hasError('required')}" type="date">
+              </div>
+            </div>
+
+            <!-- <div class="flex flex-col items-center w-full sm:space-x-8 sm:flex-row"
+              *ngIf="!documentForm.get('expirationDate')?.disabled">
+            </div> -->
+
+
+            <hr class="w-full">
+
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+
+      <!-- Buttons -->
+      <div class="flex items-center justify-center w-full">
+        <div class="flex items-center justify-center w-full space-x-8">
+          <!-- Create button -->
+          <button [ngClass]="{'opacity-40 cursor-default': !resourceForm.valid}"
+            [disabled]="!resourceForm.valid || (loader$ | async)" class="w-42 btn-primary" (click)="submitForm()">
+            Crear
+            <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+          <!-- Cancel button -->
+          <button type="reset" routerLink='/inventario'
+            class="flex items-center justify-center px-4 py-2 space-x-2 text-gray-400 bg-white border border-gray-400 rounded-md w-42 focus:outline-none">
+            Cancelar
+          </button>
+        </div>
+      </div>
+
+
+    </form>
+
+  </div>
+</div>

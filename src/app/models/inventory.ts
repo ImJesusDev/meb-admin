@@ -7,15 +7,15 @@ export interface Resource {
   client: string;
   office: string;
   loanTime: number;
-  version: number;
   documents: Document[];
+  version?: number;
 }
 
 export interface Document {
   id: string;
   type: string;
-  expeditionDate: string;
-  expirationDate: string;
+  expeditionDate: Date;
+  expirationDate: Date;
   resourceReference: string;
-  version: string;
+  version?: string;
 }

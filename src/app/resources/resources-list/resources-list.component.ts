@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 })
 export class ResourcesListComponent implements OnInit, OnDestroy {
 
-  /* Observable of clients from store */
+  /* Observable of resources from store */
   resources$: Observable<ResourceType[]> = of([] as ResourceType[]);
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -54,7 +54,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>, private router: Router) {
     this.store.dispatch(new StartLoader());
-    // Dispatch action to load clients
+    // Dispatch action to load resources
     this.store.dispatch(new LoadResources());
     this.columns = [
       {

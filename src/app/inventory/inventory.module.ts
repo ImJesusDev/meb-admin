@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 /* General Components */
 import { ContainerModule } from '@atoms/container/container.module';
 import { SharedModule } from '@shared/shared.module';
+import { BackArrowModule } from '@atoms/back-arrow';
 
 /* State */
 import { reducers, effects } from './state';
@@ -17,12 +18,16 @@ import { reducers, effects } from './state';
 import { InventoryRoutingModule } from './inventory-routing.module';
 import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryListComponent } from './inventory-list/inventory-list.component';
+import { InventoryFormComponent } from './inventory-form/inventory-form.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 
 @NgModule({
   declarations: [
     InventoryComponent,
-    InventoryListComponent
+    InventoryListComponent,
+    InventoryFormComponent,
+    DocumentsComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +38,8 @@ import { InventoryListComponent } from './inventory-list/inventory-list.componen
     StoreModule.forFeature('inventory', reducers),
     EffectsModule.forFeature(effects),
     ContainerModule,
-    SharedModule
+    SharedModule,
+    BackArrowModule
   ]
 })
 export class InventoryModule { }

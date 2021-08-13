@@ -7,6 +7,8 @@ import { AuthGuard } from '../guards/auth.guard';
 /* Components */
 import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryListComponent } from './inventory-list/inventory-list.component';
+import { InventoryFormComponent } from './inventory-form/inventory-form.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 
 const routes: Routes = [
@@ -16,6 +18,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: InventoryListComponent },
+      { path: 'nuevo-recurso', component: InventoryFormComponent },
+      { path: ':inventoryId/documents', component: DocumentsComponent },
     ],
   },
 ];
