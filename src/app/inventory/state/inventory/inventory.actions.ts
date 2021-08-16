@@ -1,3 +1,4 @@
+import { ResourceFilters } from './../../../models/inventory';
 import { Action } from '@ngrx/store';
 /* Models */
 import { ApiError } from '@models/api-error';
@@ -17,6 +18,7 @@ export enum InventoryActionTypes {
 // Load Resources
 export class LoadResources implements Action {
   readonly type = InventoryActionTypes.LoadResources;
+  constructor(public payload?: ResourceFilters) { }
 }
 // Load Success
 export class LoadResourcesSuccess implements Action {

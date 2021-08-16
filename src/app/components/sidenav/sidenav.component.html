@@ -62,6 +62,17 @@
     <a *ngIf="isOpen" class="hidden sm:flex" routerLink="inventario">Inventario</a>
   </div>
   <!-- End Link -->
+  <!-- Link -->
+  <div [ngClass]="{'justify-center': !isOpen}"
+    class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
+    <svg routerLink="check-ups" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
+      fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <a *ngIf="isOpen" class="hidden sm:flex" routerLink="check-ups">Chequeos</a>
+  </div>
+  <!-- End Link -->
 
 </div>
 <!-- End Side Nav -->

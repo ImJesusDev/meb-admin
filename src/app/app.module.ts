@@ -31,6 +31,7 @@ import { effects } from './state/state';
 /* Guards */
 import { AuthGuard } from './guards/auth.guard';
 import { InventoryModule } from './inventory/inventory.module';
+import { CheckUpsModule } from './check-ups/check-ups.module';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
@@ -39,6 +40,7 @@ import { InventoryModule } from './inventory/inventory.module';
     ResourcesModule,
     SharedModule,
     InventoryModule,
+    CheckUpsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

@@ -24,6 +24,11 @@ const routes: Routes = [
       import('./inventory/inventory.module').then((m) => m.InventoryModule),
   },
   {
+    path: 'check-ups',
+    loadChildren: () =>
+      import('./check-ups/check-ups.module').then((m) => m.CheckUpsModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },

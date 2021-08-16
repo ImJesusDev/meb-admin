@@ -1,0 +1,21 @@
+<!-- Main Container -->
+<div class="flex-col justify-between w-full sm:py-12 sm:pl-4" id="main-content">
+  <!-- HEADER -->
+  <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4">
+    <!-- Title -->
+    <div class="flex items-center space-x-2 sm:space-x-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <h1 class="font-bold text:2xl sm:text-5xl">{{title}}</h1>
+    </div>
+    <!-- End Title -->
+  </div>
+  <!-- BODY -->
+  <div class="h-full overflow-y-scroll">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<!-- End Main Container -->

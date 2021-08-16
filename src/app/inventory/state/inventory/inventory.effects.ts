@@ -1,3 +1,4 @@
+import { PaginationResources } from './../../../models/inventory';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -45,11 +46,11 @@ export class InventoryEffects {
       ofType(InventoryActionTypes.LoadResources),
       switchMap((action: LoadResources) =>
         this._inventoryService
-          .getResources()
+          .getResources(action.payload)
           .pipe(
-            mergeMap((resources: Resource[]) => [
+            mergeMap((pagination: PaginationResources) => [
               new StopLoader(),
-              new LoadResourcesSuccess(resources),
+              new LoadResourcesSuccess(pagination.resources)
             ]),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

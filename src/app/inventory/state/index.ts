@@ -12,9 +12,9 @@ export interface InventoryState {
   inventory: fromInventory.State;
 }
 
-/* Interface to merge client state with global state */
+/* Interface to merge resource state with global state */
 export interface State extends fromRoot.State {
-  inventory: InventoryState;
+  inventory: InventoryState;  
 }
 
 /* Merge Reducers */

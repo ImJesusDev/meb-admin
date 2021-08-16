@@ -1,3 +1,4 @@
+import { PaginationResources, ResourceFilters } from './../models/inventory';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -19,9 +20,27 @@ export class InventoryService {
 
   /**
    * Load all resources
+   * @param {{
+   * page:number|undefined;
+   * perPage:number|undefined;
+   * }} filters
+   * @returns {Observable<Resource[]>}
    */
-  getResources(): Observable<Resource[]> {
-    return this.http.get<Resource[]>(`${this.apiUrl}resources`, { withCredentials: true, });
+  getResources(filters: ResourceFilters = { page: 1, perPage: 10 }): Observable<PaginationResources> {
+    let query = '';
+    if (filters.client) {
+      query += '&client=' + filters.client;
+    }
+    if (filters.office) {
+      query += '&office=' + filters.office;
+    }
+    if (filters.status) {
+      query += '&status=' + filters.status;
+    }
+    if (filters.type) {
+      query += '&type=' + filters.type;
+    }
+    return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`, { withCredentials: true, });
   }
   /**
    * Add new resource
