@@ -18,6 +18,7 @@ import { getLoader } from '@state/loader/loader.selector';
 import {
   LoadResources,
 } from '../../resources/state/resources/resources.actions';
+import { generateRandomNumber } from 'src/app/utils/helpers/number.helper';
 
 @Component({
   selector: 'app-inventory-form',
@@ -50,7 +51,7 @@ export class InventoryFormComponent implements OnInit {
       type: '',
       reference: '',
       qrCode: '',
-      lockerPassword: '',
+      lockerPassword: 0,
       client: '',
       office: '',
       loanTime: 0,
@@ -59,8 +60,6 @@ export class InventoryFormComponent implements OnInit {
     this.resourceForm = this._formBuilder.group({
       type: [{} as ResourceType, [Validators.required]],
       reference: [this.resource.reference, [Validators.required]],
-      qrCode: [this.resource.qrCode, [Validators.required]],
-      lockerPassword: [this.resource.lockerPassword, [Validators.required]],
       client: [this.resource.client, [Validators.required]],
       office: [this.resource.office, [Validators.required]],
       loanTime: [this.resource.loanTime, [Validators.required]],
@@ -85,14 +84,19 @@ export class InventoryFormComponent implements OnInit {
     // Dispatch action to start loader
     this.store.dispatch(new StartLoader());
     // Dispatch action to add new client
+    const canvas = document.getElementsByTagName('canvas');
+    let qrCode = '';
+    if (canvas.length > 0) {
+      qrCode = canvas[0].toDataURL('image/jpeg').split(';base64,')[1];
+    }
     this.store.dispatch(
       new AddResource({
         type: this.resourceForm.controls['type'].value.type,
         client: this.resourceForm.controls['client'].value,
         loanTime: this.resourceForm.controls['loanTime'].value,
-        lockerPassword: this.resourceForm.controls['lockerPassword'].value,
+        lockerPassword: generateRandomNumber({ length: 6 }),
         office: this.resourceForm.controls['office'].value,
-        qrCode: this.resourceForm.controls['qrCode'].value,
+        qrCode,
         reference: this.resourceForm.controls['reference'].value,
         documents: this.resourceForm.controls['documents'].value.map((value: Document) => {
           return {
@@ -122,6 +126,9 @@ export class InventoryFormComponent implements OnInit {
   }
 
   changeType(): void {
+    // const canvas = document.getElementsByTagName('canvas');
+    // console.log(canvas[0].toDataURL('image/jpeg').split(';base64,')[1])
+    // const base64Canvas = canvas.toDataURL("image/jpeg").split(';base64,')[1];
     this.documentTypes = this.resourceForm.get('type')?.value.documentTypes;
     this.documentsForm.clear();
     this.resourceForm.get('type')?.value.documentTypes.forEach((document: DocumentType) => {

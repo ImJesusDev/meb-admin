@@ -3,12 +3,13 @@ export interface Resource {
   type: string;
   reference: string;
   qrCode: string;
-  lockerPassword: string;
+  lockerPassword: number;
   client: string;
   office: string;
   loanTime: number;
   documents: Document[];
   version?: number;
+  status?: string;
 }
 
 export interface Document {
@@ -19,3 +20,7 @@ export interface Document {
   resourceReference: string;
   version?: string;
 }
+
+export const RESOURCE_STATUS = {
+  'available': 'available'
+};

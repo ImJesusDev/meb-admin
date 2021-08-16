@@ -33,7 +33,7 @@ export class DocumentsComponent implements OnInit {
       type: '',
       reference: '',
       qrCode: '',
-      lockerPassword: '',
+      lockerPassword: 0,
       client: '',
       office: '',
       loanTime: 0,

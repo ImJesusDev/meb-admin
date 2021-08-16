@@ -1,40 +1,51 @@
-<div class="flex flex-col items-center justify-center space-y-4 py-14 sm:w-full">
+<div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
   <!-- Resources Table Desktop only -->
-  <table *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)"
-    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
-    <thead>
-      <tr>
-        <th>Tipo</th>
-        <th>Referencia</th>
-        <th>Código Qr</th>
-        <th>Código del armario</th>
-        <th>Cliente</th>
-        <th>Oficina</th>
-        <th>Tiempo de prestamo</th>
-        <th>Documentos</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let resource of resources$ |async; let i = index;">
-        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-          <td class="p-2"> {{resource.type}} </td>
-          <td class="p-2"> {{resource.reference}} </td>
-          <td class="p-2"> {{resource.qrCode}} </td>
-          <td class="p-2"> {{resource.lockerPassword}} </td>
-          <td class="p-2"> {{resource.client}} </td>
-          <td class="p-2"> {{resource.office}} </td>
-          <td class="p-2"> {{resource.loanTime}} </td>
-          <td class="flex items-center justify-center p-2 space-x-2">
-            <div class="flex items-center justify-center space-x-2 ">
+  <div class="flow-root h-full w-full">
+    <table *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)"
+      class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Referencia</th>
+          <th>Código Qr</th>
+          <th>Código del armario</th>
+          <th>Cliente</th>
+          <th>Oficina</th>
+          <th>Estado</th>
+          <th>Documentos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let resource of resources$ |async; let i = index;">
+          <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+            <td class="p-2"> {{resource.type}} </td>
+            <td class="p-2"> {{resource.reference}} </td>
+            <td class="p-2">
+              <img [src]="'data:image/jpeg;base64,' + resource.qrCode" alt="Código qr"
+                style="height: 150px; max-width: 150px;" class="mx-auto" />
+            </td>
+            <td class="p-2"> {{resource.lockerPassword}} </td>
+            <td class="p-2"> {{resource.client}} </td>
+            <td class="p-2"> {{resource.office}} </td>
+            <td class="p-2">
+              {{
+              resource.status === resourceStatus.available?
+              'Disponible'
+              :
+              ''
+              }}
+            </td>
+            <td class="p-2">
               <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
                 [routerLink]="['/inventario', resource.id, 'documents']">{{resource.documents?.length}}</span>
-            </div>
-          </td>
-        </tr>
-      </ng-container>
+            </td>
+          </tr>
+        </ng-container>
 
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+
+  </div>
   <!-- End Resource Table Desktop only -->
 
   <!-- Mobile Table -->
@@ -45,11 +56,20 @@
       *ngFor="let resource of resources$ |async; let i = index;">
       <div><span class="font-bold">Tipo:</span> {{resource.type}}</div>
       <div><span class="font-bold">Referencia:</span>{{resource.reference}}</div>
-      <div><span class="font-bold">Código Qr:</span>{{resource.qrCode}}</div>
+      <div><span class="font-bold">Código Qr:</span>
+        <img [src]="'data:image/jpeg;base64,' + resource.qrCode" alt="Código qr" style="height: 150px;"
+          class="mx-auto" />
+      </div>
       <div><span class="font-bold">Código del armario:</span>{{resource.lockerPassword}}</div>
       <div><span class="font-bold">Cliente:</span>{{resource.client}}</div>
       <div><span class="font-bold">Oficina:</span>{{resource.office}}</div>
-      <div><span class="font-bold">Tiempo de prestamo:</span>{{resource.loanTime}}</div>
+      <div><span class="font-bold">Tiempo de prestamo:</span>
+        {{
+        resource.status === resourceStatus.available?
+        'Disponible'
+        :
+        ''
+        }}</div>
       <div><span class="font-bold">Documentos:</span> {{resource.documents?.length}}</div>
     </div>
   </div>

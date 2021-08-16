@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
+import { RESOURCE_STATUS } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
@@ -32,13 +33,13 @@ export class InventoryListComponent implements OnInit {
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
 
+  resourceStatus = RESOURCE_STATUS;
 
   constructor(private store: Store<State>, private router: Router) {
 
     this.store.dispatch(new StartLoader());
     this.store.dispatch(new LoadResources());
     this.resourceId = '';
-
   }
 
   ngOnInit(): void {

@@ -42,25 +42,6 @@
       </div>
 
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
-        <!-- Qr code -->
-        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
-          <label class="text-gray-400" for="qrCode">* Url para el código qr:</label>
-          <input name="qrCode" formControlName="qrCode" required
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
-              'border-solid border-red-500 outline-red-500': resourceForm.get('qrCode')?.touched && resourceForm.get('qrCode')?.hasError('required')
-          }" type="text">
-        </div>
-        <!-- Locker Password-->
-        <div class="flex flex-col w-full h-16 my-3 sm:mb-5 xl:mb-0">
-          <label class="text-gray-400" for="lockerPassword">* Contraseña del armario:</label>
-          <input name="lockerPassword" formControlName="lockerPassword" required
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('lockerPassword')?.touched && resourceForm.get('lockerPassword')?.hasError('required')}"
-            type="text">
-        </div>
-      </div>
-
-      <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
 
         <!-- Client -->
         <div class="flex flex-col w-full h-16 my-3 sm:my-0">
@@ -82,18 +63,31 @@
 
       </div>
 
+
       <div class="flex flex-col items-center w-full sm:space-x-8 sm:flex-row">
 
         <!-- Loan Time -->
         <div class="flex flex-col w-full h-16 sm:w-3/4 lg:w-1/2 mb-5">
-          <label class="text-gray-400" for="loanTime">* Tiempo de prestamo:</label>
+          <label class="text-gray-400" for="loanTime">* Tiempo de prestamo (horas):</label>
           <input name="loanTime" formControlName="loanTime" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('loanTime')?.touched && resourceForm.get('loanTime')?.hasError('required')}"
             type="number" min="1">
         </div>
+        <div class="flex flex-col w-full h-16 sm:w-3/4 lg:w-1/2 mb-5"></div>
 
       </div>
+
+      <div class="flex flex-col items-center w-full sm:space-x-8">
+        <!-- Qr code -->
+        <label class="text-gray-400" for="qrCode">Código qr:</label>
+        <div style="height: 300px;">
+          <qr-code *ngIf="resourceForm.get('reference')?.value"
+            [value]="'https://meb.moversapp.co/api/resources/find-by-ref?ref='+resourceForm.get('reference')?.value"
+            size="300" errorCorrectionLevel="M"></qr-code>
+        </div>
+      </div>
+
 
 
       <h3 class="w-full font-bold text-gray-400" *ngIf="documentsForm.controls.length">Documentos</h3>
