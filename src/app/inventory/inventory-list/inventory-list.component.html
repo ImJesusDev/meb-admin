@@ -6,15 +6,15 @@
   <!-- Resources Table Desktop only -->
   <div class="flow-root h-full w-full" *ngIf="!(loader$ | async)">
 
-    <div class="flex flex-col mb-4 w-11/12 xl:w-10/12 xl:flex-row" *ngIf="((resourcesTypes$ |async)?.length !== 0)">
+    <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
 
-      <div class="flex flex-col justify-between w-full sm:flex-row">
+      <div class="flex flex-col sm:flex-row w-full">
         <!-- Resource type -->
-        <div class="flex flex-col w-full my-3 xl:my-0 mx-4">
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
           <label class="text-gray-400" for="client-admin">Tipo de recurso:</label>
           <select [(ngModel)]="resourceTypeId"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" name="resource-type"
-            id="resource-type">
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            name="resource-type" id="resource-type">
             <option [ngValue]="''">
               Todos
             </option>
@@ -27,27 +27,28 @@
         </div>
 
         <!-- Client -->
-        <div class="flex flex-col w-full my-3 xl:my-0 mx-4">
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
           <label class="text-gray-400" for="client">Cliente:</label>
           <input name="client" [(ngModel)]="client"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full" type="text">
         </div>
       </div>
 
-      <div class="flex flex-col justify-between w-full sm:flex-row">
+      <div class="flex flex-col sm:flex-row w-full">
         <!-- office -->
-        <div class="flex flex-col w-full my-3 xl:my-0 mx-4">
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
           <label class="text-gray-400" for="office">Sede:</label>
           <input name="office" [(ngModel)]="office"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full" type="text">
         </div>
 
         <!-- state -->
-        <div class="flex flex-col w-full my-3 xl:my-0 mx-4">
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
           <label class="text-gray-400" for="client-admin">Estado:</label>
           <select [(ngModel)]="state"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" name="resource-type"
-            id="resource-type">
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            name="resource-type" id="resource-type">
+            <option [value]="''">Todos</option>
             <option [value]="resourceStatus.Disabled">Desabilitado</option>
             <option [value]="resourceStatus.Available">Disponible</option>
             <option [value]="resourceStatus.Checkup">Chequeado</option>
@@ -64,9 +65,9 @@
       </div>
 
 
-      <div class="flex flex-col w-full sm:flex-row items-end justify-center">
+      <div class="flex w-full items-end justify-center flex-1">
         <button class="btn-primary hover:bg-green-900 h-12" type="submit" (click)="filterResources()">
-          <span class="hidden sm:flex">Filtrar</span>
+          Filtrar
         </button>
       </div>
 
