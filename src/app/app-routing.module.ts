@@ -29,6 +29,21 @@ const routes: Routes = [
       import('./check-ups/check-ups.module').then((m) => m.CheckUpsModule),
   },
   {
+    path: 'mantenimientos',
+    loadChildren: () =>
+      import('./maintenance/maintenance.module').then((m) => m.MaintenanceModule),
+  },
+  {
+    path: 'aprovaciones',
+    loadChildren: () =>
+      import('./approvals/approvals.module').then((m) => m.ApprovalsModule),
+  },
+  {
+    path: 'reparaciones',
+    loadChildren: () =>
+      import('./repair/repair.module').then((m) => m.RepairModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },

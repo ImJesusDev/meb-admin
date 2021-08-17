@@ -32,6 +32,9 @@ import { CheckUpsModule } from './check-ups/check-ups.module';
 import { effects } from './state/state';
 /* Guards */
 import { AuthGuard } from './guards/auth.guard';
+import { MaintenanceModule } from './maintenance/maintenance.module';
+import { ApprovalsModule } from './approvals/approvals.module';
+import { RepairModule } from './repair/repair.module';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
@@ -41,6 +44,9 @@ import { AuthGuard } from './guards/auth.guard';
     SharedModule,
     InventoryModule,
     CheckUpsModule,
+    MaintenanceModule,
+    ApprovalsModule,
+    RepairModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -54,7 +60,7 @@ import { AuthGuard } from './guards/auth.guard';
     StoreDevtoolsModule.instrument({
       name: 'MEB Admin',
       logOnly: environment.production,
-    }),
+    })
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

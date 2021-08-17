@@ -1,3 +1,5 @@
+import { UpdateCheckup } from './../../inventory/state/inventory/inventory.actions';
+import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -42,6 +44,14 @@ export class CheckUpsPendingComponent implements OnInit {
   page: number;
   perPage: number;
 
+  showBackDrop = false;
+  showModal = false;
+
+  showBackDropL = false;
+  showModalL = false;
+
+  checkup: Checkup;
+
   constructor(private store: Store<State>, private router: Router) {
 
     this.page = 1;
@@ -50,6 +60,13 @@ export class CheckUpsPendingComponent implements OnInit {
     this.store.dispatch(new StartLoader());
     this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingCheckup }));
     this.resourceLength = 0;
+    this.checkup = {
+      components: [],
+      createdAt: '',
+      id: '',
+      resourceRef: '',
+      status: ''
+    };
   }
 
   ngOnInit(): void {
@@ -67,10 +84,55 @@ export class CheckUpsPendingComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage }));
+      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingCheckup }));
       this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
     }
+  }
+
+  calcDays(date: string): number {
+    let checkUpDate = new Date(date);
+    let currentDate = new Date();
+
+    let sub = currentDate.getTime() - checkUpDate.getTime();
+    const results = Math.round(sub / (1000 * 60 * 60 * 24));
+    return results;
+  }
+
+
+  openUpdateCheckup(checkup: Checkup, resourceId: string): void {
+    this.resourceId = resourceId;
+    this.checkup = checkup;
+    this.showBackDrop = true;
+    setTimeout(() => {
+      this.showModal = true;
+    }, 100);
+  }
+  onCloseModal(data: any): void {
+    console.log(data)
+    if (data) {
+      this.store.dispatch(new UpdateCheckup({ resourceId: this.resourceId, data }));
+    }
+    this.showBackDrop = false;
+    setTimeout(() => {
+      this.showModal = false;
+    }, 100);
+  }
+
+
+  openLastCheckup(checkup: Checkup, resourceId: string): void {
+    this.resourceId = resourceId;
+    this.checkup = checkup;
+    this.showBackDropL = true;
+    setTimeout(() => {
+      this.showModalL = true;
+    }, 100);
+  }
+  onCloseLastModal(): void {
+    this.showBackDropL = false;
+    setTimeout(() => {
+      this.showModalL = false;
+    }, 100);
   }
 
 }

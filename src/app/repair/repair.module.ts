@@ -1,0 +1,29 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+/* Components */
+import { ModalModule } from '@atoms/modal';
+import { SharedModule } from '@shared/shared.module';
+import { CheckUpModalModule } from '@molecules/check-up-modal/check-up-modal.module';
+
+import { RepairRoutingModule } from './repair-routing.module';
+import { RepairComponent } from './repair/repair.component';
+import { RepairHistoryComponent } from './repair-history/repair-history.component';
+import { RepairPendingComponent } from './repair-pending/repair-pending.component';
+
+
+@NgModule({
+  declarations: [
+    RepairComponent,
+    RepairHistoryComponent,
+    RepairPendingComponent
+  ],
+  imports: [
+    CommonModule,
+    RepairRoutingModule,
+    ModalModule,
+    SharedModule,
+    CheckUpModalModule
+  ]
+})
+export class RepairModule { }

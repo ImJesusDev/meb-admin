@@ -56,6 +56,7 @@ export class InventoryFormComponent implements OnInit {
       office: '',
       loanTime: 0,
       documents: [],
+      checkups: []
     };
     this.resourceForm = this._formBuilder.group({
       type: [{} as ResourceType, [Validators.required]],
@@ -107,7 +108,8 @@ export class InventoryFormComponent implements OnInit {
             expirationDate: value.expirationDate ? new Date(value.expirationDate) : '',
           }
         }),
-        id: ''
+        id: '',
+        checkups: []
       })
     );
   }

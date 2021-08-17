@@ -49,6 +49,11 @@ export function reducer(state = initialState, action: InventoryActions): State {
       });
     }
 
+
+    /**
+     * Checkups
+     */
+
     case InventoryActionTypes.CreateCheckupSuccess: {
       return adapter.addOne(action.payload, {
         ...state,
@@ -62,6 +67,106 @@ export function reducer(state = initialState, action: InventoryActions): State {
         error: action.payload,
       };
     }
+
+    case InventoryActionTypes.UpdateCheckupSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.UpdateCheckupFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+
+    /**
+     * Main
+     */
+
+    case InventoryActionTypes.CreateMaintenanceSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.CreateCheckupFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+    case InventoryActionTypes.UpdateCheckupSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.UpdateCheckupFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+
+    /**
+     * Repair
+     */
+
+    case InventoryActionTypes.CreateCheckupSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.CreateCheckupFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+    case InventoryActionTypes.UpdateCheckupSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.UpdateCheckupFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+
+    /**
+     * Approve
+     */
+
+    case InventoryActionTypes.ApproveSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.ApproveFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
 
     default: {
       return state;

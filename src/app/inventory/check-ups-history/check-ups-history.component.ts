@@ -45,6 +45,7 @@ export class CheckUpsHistoryComponent implements OnInit {
       office: '',
       loanTime: 0,
       documents: [],
+      checkups: []
     };
     this.checkup = {
       components: [],

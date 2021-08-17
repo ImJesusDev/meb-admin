@@ -99,6 +99,7 @@
             <td class="p-2"> {{resource.lockerPassword}} </td>
             <td class="p-2"> {{resource.client}} </td>
             <td class="p-2"> {{resource.office}} </td>
+            <!-- Estado -->
             <td class="p-2">
               {{
               resource.status === resourceStatus.Available?
@@ -107,14 +108,17 @@
               ''
               }}
             </td>
+            <!-- Documentos -->
             <td class="p-2">
               <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
                 [routerLink]="['/inventario', resource.id, 'documents']">{{resource.documents?.length}}</span>
             </td>
+            <!-- Historial de checkouts -->
             <td class="p-2">
               <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
                 [routerLink]="['/inventario', resource.id, 'check-ups']">{{resource.checkups?.length}}</span>
             </td>
+            <!-- Acciones -->
             <td class="justify-center flex">
               <button class="btn-primary hover:bg-green-900" (click)="confirmCreateCheckup(resource.id)">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"

@@ -9,7 +9,7 @@ export interface Resource {
   office: string;
   loanTime: number;
   documents: Document[];
-  checkups?: Checkup[];
+  checkups: Checkup[];
   version?: number;
   status?: string;
 }

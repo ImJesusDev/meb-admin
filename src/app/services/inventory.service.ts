@@ -58,4 +58,59 @@ export class InventoryService {
   createCheckup(resourceId: string): Observable<Resource> {
     return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, {}, { withCredentials: true, });
   }
+
+  /**
+   * Update checkup
+   * @param resourceId Resource id
+   * @param data data
+   */
+  updateCheckup(resourceId: string, data: any): Observable<Resource> {
+    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, data, { withCredentials: true, });
+  }
+
+
+  /**
+   * Create maintenance
+   * @param resourceId Resource id
+   */
+  createMaintenance(resourceId: string): Observable<Resource> {
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, {}, { withCredentials: true, });
+  }
+
+  /**
+   * Update maintenance
+   * @param resourceId Resource id
+   * @param data data
+   */
+  updateMaintenance(resourceId: string): Observable<Resource> {
+    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, {}, { withCredentials: true, });
+  }
+
+
+  /**
+   * Create reparation
+   * @param resourceId Resource id
+   */
+  createReparation(resourceId: string): Observable<Resource> {
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/reparations`, {}, { withCredentials: true, });
+  }
+
+  /**
+   * Update reparation
+   * @param resourceId Resource id
+   * @param data data
+   */
+  updateReparation(resourceId: string): Observable<Resource> {
+    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/reparations`, {}, { withCredentials: true, });
+  }
+
+
+  /**
+   * approve
+   * @param resourceId Resource id
+   */
+  approve(resourceId: string): Observable<Resource> {
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/approve`, {}, { withCredentials: true, });
+  }
+
 }
