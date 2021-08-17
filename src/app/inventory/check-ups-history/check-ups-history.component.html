@@ -1,0 +1,44 @@
+<app-back-arrow (onBack)="onBack()"></app-back-arrow>
+
+<div class="flex flex-col items-center justify-center w-full space-y-4 pb-12">
+
+  <table *ngIf="resource && resource.documents?.length"
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Referencia del recurso</th>
+        <th>Estatus</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let checkup of resource.checkups; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> {{checkup.createdAt|date}} </td>
+          <td class="p-2"> {{checkup.resourceRef}} </td>
+          <td class="p-2">
+            {{
+            checkup.status === 'pending'? 'Pendiente'
+            :checkup.status === 'completed'? 'Completado'
+            :''
+            }}
+          </td>
+          <td class="p-2 justify-center flex">
+            <button class="btn-primary hover:bg-green-900" (click)="onShowModal(i)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+</div>
+
+<app-check-up-modal [checkup]="checkup" [showBackDrop]="showBackDrop" [showModal]="showModal" (close)="onCloseModal()">
+</app-check-up-modal>

@@ -9,6 +9,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryListComponent } from './inventory-list/inventory-list.component';
 import { InventoryFormComponent } from './inventory-form/inventory-form.component';
 import { DocumentsComponent } from './documents/documents.component';
+import { CheckUpsHistoryComponent } from './check-ups-history/check-ups-history.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: '', component: InventoryListComponent },
       { path: 'nuevo-recurso', component: InventoryFormComponent },
       { path: ':resourceId/documents', component: DocumentsComponent },
+      { path: ':resourceId/check-ups', component: CheckUpsHistoryComponent },
     ],
   },
 ];

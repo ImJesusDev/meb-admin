@@ -14,6 +14,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { ContainerModule } from '@atoms/container/container.module';
 import { SharedModule } from '@shared/shared.module';
 import { BackArrowModule } from '@atoms/back-arrow';
+import { ModalModule } from '@atoms/modal';
+import { CheckUpModalModule } from '@molecules/check-up-modal/check-up-modal.module';
 
 /* State */
 import { reducers, effects } from './state';
@@ -23,6 +25,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { InventoryListComponent } from './inventory-list/inventory-list.component';
 import { InventoryFormComponent } from './inventory-form/inventory-form.component';
 import { DocumentsComponent } from './documents/documents.component';
+import { CheckUpsHistoryComponent } from './check-ups-history/check-ups-history.component';
 
 
 @NgModule({
@@ -30,7 +33,8 @@ import { DocumentsComponent } from './documents/documents.component';
     InventoryComponent,
     InventoryListComponent,
     InventoryFormComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    CheckUpsHistoryComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,9 @@ import { DocumentsComponent } from './documents/documents.component';
     ContainerModule,
     SharedModule,
     BackArrowModule,
-    QrCodeModule
+    QrCodeModule,
+    CheckUpModalModule,
+    ModalModule
   ]
 })
 export class InventoryModule { }

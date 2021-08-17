@@ -102,6 +102,17 @@
             </div>
 
             <div class=" flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
+              <!-- Número de documento -->
+              <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+                <label class="text-gray-400" for="documentNumber">* Número de documento:</label>
+                <input name="documentNumber" formControlName="documentNumber" required
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                  [ngClass]="{'border-solid border-red-500 outline-red-500': documentForm.get('documentNumber')?.touched && documentForm.get('documentNumber')?.hasError('required')}"
+                  type="text">
+              </div>
+            </div>
+
+            <div class=" flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
               <!-- Fecha de expedición -->
               <div class="flex flex-col w-full h-16 my-3 sm:my-0">
                 <label class="text-gray-400" for="expeditionDate">* Fecha de expedición:</label>

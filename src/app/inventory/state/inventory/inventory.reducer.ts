@@ -49,7 +49,14 @@ export function reducer(state = initialState, action: InventoryActions): State {
       });
     }
 
-    case InventoryActionTypes.AddResourceFail: {
+    case InventoryActionTypes.CreateCheckupSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.CreateCheckupFail: {
       return {
         ...state,
         error: action.payload,

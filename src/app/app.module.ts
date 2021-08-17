@@ -26,12 +26,12 @@ import { ClientsModule } from './clients/clients.module';
 import { SharedModule } from './shared/shared.module';
 import { TeamModule } from './team/team.module';
 import { ResourcesModule } from './resources/resources.module';
+import { InventoryModule } from './inventory/inventory.module';
+import { CheckUpsModule } from './check-ups/check-ups.module';
 /* Effects */
 import { effects } from './state/state';
 /* Guards */
 import { AuthGuard } from './guards/auth.guard';
-import { InventoryModule } from './inventory/inventory.module';
-import { CheckUpsModule } from './check-ups/check-ups.module';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [

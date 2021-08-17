@@ -17,6 +17,7 @@ export interface Resource {
 export interface Document {
   id: string;
   type: string;
+  documentNumber?: string;
   expeditionDate: Date;
   expirationDate: Date;
   resourceReference: string;

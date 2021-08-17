@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Checkup } from './../../models/chekoups';
+import { RESOURCE_STATUS } from './../../models/inventory';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 /* rxjs */
 import { Subscription } from 'rxjs';
@@ -13,11 +15,11 @@ import { LoadResources } from '../state/inventory';
 
 
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.css']
+  selector: 'app-check-ups-history',
+  templateUrl: './check-ups-history.component.html',
+  styleUrls: ['./check-ups-history.component.css']
 })
-export class DocumentsComponent implements OnInit, OnDestroy {
+export class CheckUpsHistoryComponent implements OnInit {
 
   /* Current client Object */
   resource: Resource;
@@ -25,6 +27,11 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   /* Keep track of subscriptions */
   private subscriptions = new Subscription();
 
+  resourceStatus = RESOURCE_STATUS;
+
+  showBackDrop = false;
+  showModal = false;
+  checkup: Checkup;
 
   constructor(private store: Store<State>, private route: ActivatedRoute, private router: Router) {
 
@@ -38,6 +45,13 @@ export class DocumentsComponent implements OnInit, OnDestroy {
       office: '',
       loanTime: 0,
       documents: [],
+    };
+    this.checkup = {
+      components: [],
+      createdAt: '',
+      id: '',
+      resourceRef: '',
+      status: ''
     };
 
     this.route.params.subscribe((param) => {
@@ -67,4 +81,22 @@ export class DocumentsComponent implements OnInit, OnDestroy {
   onBack(): void {
     this.router.navigate(['inventario']);
   }
+
+
+  async onShowModal(index: number): Promise<void> {
+    if (this.resource.checkups) {
+      this.checkup = this.resource.checkups[index];
+    }
+    this.showBackDrop = true;
+    setTimeout(() => {
+      this.showModal = true;
+    }, 100);
+  }
+  onCloseModal(): void {
+    this.showBackDrop = false;
+    setTimeout(() => {
+      this.showModal = false;
+    }, 100);
+  }
+
 }

@@ -20,7 +20,10 @@ import {
   InventoryActionTypes,
   AddResource,
   AddResourceSuccess,
-  AddResourceFail
+  AddResourceFail,
+  CreateCheckup,
+  CreateCheckupSuccess,
+  CreateCheckupFail
 } from './inventory.actions';
 
 import { StopLoader } from '@state/loader/loader.actions';
@@ -70,7 +73,7 @@ export class InventoryEffects {
    * and make http request to add client
    * from API
    */
-  $addClient = createEffect(() => {
+  $addResource = createEffect(() => {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.AddResource),
       switchMap((action: AddResource) =>
@@ -91,6 +94,37 @@ export class InventoryEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddResourceFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the CreateCheckup action
+   * and make http request to create checkup
+   * from API
+   */
+  $createCheckup = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(InventoryActionTypes.CreateCheckup),
+      switchMap((action: CreateCheckup) =>
+        this._inventoryService.createCheckup(action.payload.resourceId)
+          .pipe(
+            mergeMap((resource: Resource) => [
+              new StopLoader(),
+              new CreateCheckupSuccess(resource),
+            ]),
+            tap(() => {
+              this.router.navigate(['/check-ups']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new CreateCheckupFail(errors), new StopLoader());
             })
           )
       )

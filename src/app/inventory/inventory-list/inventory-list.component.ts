@@ -1,3 +1,4 @@
+import { CreateCheckup } from './../state/inventory/inventory.actions';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -52,6 +53,10 @@ export class InventoryListComponent implements OnInit {
   office: string;
   state: string;
 
+
+  showBackDrop = false;
+  showModal = false;
+
   constructor(private store: Store<State>, private router: Router) {
 
     this.page = 1;
@@ -103,4 +108,23 @@ export class InventoryListComponent implements OnInit {
     this.resources$ = this.store.pipe(select(getResources));
     this.loader$ = this.store.pipe(select(getLoader));
   }
+
+  confirmCreateCheckup(resourceId: string): void {
+    this.resourceId = resourceId;
+    this.showBackDrop = true;
+    setTimeout(() => {
+      this.showModal = true;
+    }, 100);
+  }
+  onCloseModal(ok?: boolean): void {
+    console.log(ok)
+    if (ok) {
+      this.store.dispatch(new CreateCheckup({ resourceId: this.resourceId }));
+    }
+    this.showBackDrop = false;
+    setTimeout(() => {
+      this.showModal = false;
+    }, 100);
+  }
+
 }

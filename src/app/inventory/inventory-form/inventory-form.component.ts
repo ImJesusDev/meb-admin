@@ -102,6 +102,7 @@ export class InventoryFormComponent implements OnInit {
           return {
             type: value.type,
             resourceReference: this.resourceForm.controls['reference'].value,
+            documentNumber: value.documentNumber,
             expeditionDate: new Date(value.expeditionDate),
             expirationDate: value.expirationDate ? new Date(value.expirationDate) : '',
           }
@@ -134,6 +135,7 @@ export class InventoryFormComponent implements OnInit {
     this.resourceForm.get('type')?.value.documentTypes.forEach((document: DocumentType) => {
       this.documentsForm.push(new FormGroup({
         type: new FormControl(document.name),
+        documentNumber: new FormControl(''),
         expeditionDate: new FormControl(''),
         expirationDate: new FormControl({ value: '', disabled: !document.expires }),
       }));

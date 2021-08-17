@@ -50,4 +50,12 @@ export class InventoryService {
     return this.http.post<Resource>(`${this.apiUrl}resources`, resource, { withCredentials: true, });
   }
 
+
+  /**
+   * Create checkup
+   * @param resourceId Resource id
+   */
+  createCheckup(resourceId: string): Observable<Resource> {
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, {}, { withCredentials: true, });
+  }
 }

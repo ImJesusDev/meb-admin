@@ -13,6 +13,9 @@ export enum InventoryActionTypes {
   AddResource = '[Inventory] Add Resource',
   AddResourceSuccess = '[Inventory] Add Resource Success',
   AddResourceFail = '[Inventory] Add Resource Fail',
+  CreateCheckup = '[Inventory] Create checkup',
+  CreateCheckupSuccess = '[Inventory] Create checkup success',
+  CreateCheckupFail = '[Inventory] Create checkup fail'
 }
 
 // Load Resources
@@ -54,6 +57,24 @@ export class AddResourceFail implements Action {
 }
 
 
+// Create checkup
+export class CreateCheckup implements Action {
+  readonly type = InventoryActionTypes.CreateCheckup;
+  constructor(public payload: { resourceId: string }) { }
+}
+
+// Create checkup Success
+export class CreateCheckupSuccess implements Action {
+  readonly type = InventoryActionTypes.CreateCheckupSuccess;
+  constructor(public payload: Resource) { }
+}
+
+// Create checkup Fail
+export class CreateCheckupFail implements Action {
+  readonly type = InventoryActionTypes.CreateCheckupFail;
+  constructor(public payload: ApiError[]) { }
+}
+
 
 /* Export all actions */
 export type InventoryActions =
@@ -62,4 +83,7 @@ export type InventoryActions =
   | LoadResourcesFail
   | AddResource
   | AddResourceSuccess
-  | AddResourceFail;
+  | AddResourceFail
+  | CreateCheckup
+  | CreateCheckupSuccess
+  | CreateCheckupFail;

@@ -1,0 +1,30 @@
+<app-modal [showBackDrop]="showBackDrop" [showModal]="showModal">
+  <!-- Header -->
+  <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4 flex-row flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <h1 class="text-xl text-white sm:text-3xl">{{header}}</h1>
+  </div>
+
+  <!-- Body -->
+  <div class="px-12 py-12 overflow-y-auto bg-white sm:items-start max-h-96  flex-col items-center justify-center">
+    <h3>{{question}}</h3>
+  </div>
+
+
+  <!-- Footer -->
+  <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+    <button type="button" (click)="onClose(true)"
+      class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+      Si
+    </button>
+    <button type="button" (click)="onClose()"
+      class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+      No
+    </button>
+  </div>
+
+</app-modal>

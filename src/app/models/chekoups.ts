@@ -11,3 +11,15 @@ export interface Component {
   componentName: string;
   status: string;
 }
+
+export const COMPONENT_STATUS = {
+  Good: 'good',
+  Regular: 'regular',
+  Bad: 'bad'
+};
+
+export const ES_COMPONENT_STATUS = {
+  Good: 'Bueno',
+  Regular: 'Regular',
+  Bad: 'Malo'
+};
