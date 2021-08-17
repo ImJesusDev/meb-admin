@@ -6,6 +6,8 @@ import { AuthGuard } from '../guards/auth.guard';
 
 /* Components */
 import { CheckUpsComponent } from './check-ups/check-ups.component';
+import { CheckUpsHistoryComponent } from './check-ups-history/check-ups-history.component';
+import { CheckUpsPendingComponent } from './check-ups-pending/check-ups-pending.component';
 
 const routes: Routes = [
   {
@@ -13,9 +15,8 @@ const routes: Routes = [
     component: CheckUpsComponent,
     canActivate: [AuthGuard],
     children: [
-      // { path: '', component: InventoryListComponent },
-      // { path: 'nuevo-recurso', component: InventoryFormComponent },
-      // { path: ':resourceId/documents', component: DocumentsComponent },
+      { path: '', component: CheckUpsPendingComponent },
+      { path: 'historial', component: CheckUpsHistoryComponent }
     ],
   },
 ];

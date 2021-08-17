@@ -11,9 +11,7 @@ export class CheckUpsComponent implements OnInit {
   title = 'Chequeos';
   showAddBtn = true;
 
-  constructor(private route: Router) {
-    // Workaround to show button to add clients
-    // only in the clients list screen
+  constructor(public route: Router) {
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showAddBtn = true;
