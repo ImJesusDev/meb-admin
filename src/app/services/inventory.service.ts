@@ -42,6 +42,16 @@ export class InventoryService {
     }
     return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`, { withCredentials: true, });
   }
+
+  /**
+   * Get resource by id
+   * @param resourceId string
+   * @returns {Observable<Resource[]>}
+   */
+  getResourceById(resourceId: string): Observable<Resource> {
+    return this.http.get<Resource>(`${this.apiUrl}resources/find/${resourceId}`, { withCredentials: true, });
+  }
+
   /**
    * Add new resource
    * @param resource Resource

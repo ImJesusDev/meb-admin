@@ -12,6 +12,7 @@ import { Resource } from 'src/app/models';
 import { State } from '../state';
 import { getResourceById } from '../state/inventory/inventory.selector';
 import { LoadResources } from '../state/inventory';
+import { InventoryService } from '@services/inventory.service';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class CheckUpsHistoryComponent implements OnInit {
   showModal = false;
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private route: ActivatedRoute, private router: Router) {
+  constructor(private store: Store<State>, private route: ActivatedRoute, private router: Router, private inventoryService: InventoryService) {
 
     this.resource = {
       id: '',
@@ -60,13 +61,19 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.route.params.subscribe((param) => {
       if (param.resourceId) {
         this.subscriptions.add(
-          this.store
-            .pipe(select(getResourceById(param.resourceId)))
-            .subscribe((resource: Resource | undefined) => {
-              if (resource) {
-                this.resource = resource;
-              }
-            })
+          // this.store
+          //   .pipe(select(getResourceById(param.resourceId)))
+          //   .subscribe((resource: Resource | undefined) => {
+          //     console.log(resource)
+          //     if (resource) {
+          //       this.resource = resource;
+          //     }
+          //   })
+          this.inventoryService.getResourceById(param.resourceId).subscribe(data => {
+            if (data) {
+              this.resource = data;
+            }
+          })
         );
       }
     });
