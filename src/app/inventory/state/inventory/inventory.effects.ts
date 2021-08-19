@@ -332,6 +332,14 @@ export class InventoryEffects {
               new ApproveSuccess(resource),
             ]),
             tap(() => {
+              Swal.fire({
+                title: '¡Mantenimiento Aprobada!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
               this.router.navigate(['/aprovaciones/historial']);
             }),
             catchError((error: HttpErrorResponse) => {
@@ -363,6 +371,14 @@ export class InventoryEffects {
               new ApproveRepairSuccess(resource),
             ]),
             tap(() => {
+              Swal.fire({
+                title: '¡Reparación Aprobada!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
               this.router.navigate(['/aprovaciones/historial']);
             }),
             catchError((error: HttpErrorResponse) => {
