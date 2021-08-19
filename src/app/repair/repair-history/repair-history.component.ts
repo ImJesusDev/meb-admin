@@ -20,6 +20,7 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
+import { RepairService } from '@services/repair.service';
 
 @Component({
   selector: 'app-repair-history',
@@ -29,7 +30,9 @@ import {
 export class RepairHistoryComponent implements OnInit {
 
   /* Observable of clients from store */
-  resources$: Observable<Resource[]> = of([] as Resource[]);
+  resources$: Observable<{ page: number, perPage: number, totalResults: number, repairs: Checkup[] }> = of({} as {
+    page: number, perPage: number, totalResults: number, repairs: Checkup[]
+  });
   resourceId: string;
   resourceLength: number;
 
@@ -49,7 +52,7 @@ export class RepairHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router) {
+  constructor(private store: Store<State>, private router: Router, private repairService: RepairService) {
 
     this.page = 1;
     this.perPage = 10;
@@ -68,10 +71,11 @@ export class RepairHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     // Use selector to get resources from state
-    this.resources$ = this.store.pipe(select(getResources));
+    // this.resources$ = this.store.pipe(select(getResources));
+    this.resources$ = this.repairService.getHistoryRepairs(this.page);
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe(data => this.resourceLength = data.repairs.length);
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -82,7 +86,7 @@ export class RepairHistoryComponent implements OnInit {
       this.store.dispatch(new StartLoader());
       this.page = page;
       this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Repair }));
-      this.resources$ = this.store.pipe(select(getResources));
+      this.resources$ = this.repairService.getHistoryRepairs(this.page);
       this.loader$ = this.store.pipe(select(getLoader));
     }
   }

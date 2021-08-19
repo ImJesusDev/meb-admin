@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 /* Models */
 import { Resource } from '@models/index';
+import { Checkup } from '@models/chekoups';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,7 @@ export class RepairService {
   /**
    * Get History repairs
    */
-  getHistoryRepairs(): Observable<Resource> {
-    return this.http.get<Resource>(`${this.apiUrl}resources/repairs-history`, { withCredentials: true, });
+  getHistoryRepairs(page: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}resources/repairs-history?page=${page}`, { withCredentials: true, });
   }
 }
