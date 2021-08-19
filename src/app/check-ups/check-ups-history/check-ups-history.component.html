@@ -8,7 +8,7 @@
 
     <div class="flex flex-col mb-4 w-full">
 
-      <table *ngIf="((resources$ |async)?.length !== 0)"
+      <table *ngIf="((resources$ |async)?.checkups?.length !== 0)"
         class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
         <thead>
           <tr>
@@ -21,16 +21,15 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let resource of (resources$|async); let i = index;">
+          <ng-container *ngFor="let resource of (resources$|async)?.checkups; let i = index;">
             <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-              <td class="p-2"> {{resource.checkups[resource.checkups.length-1].createdAt|date}} </td>
-              <td class="p-2"> {{calcDays(resource.checkups[resource.checkups.length-1].createdAt)}} </td>
-              <td class="p-2"> {{resource.client}} </td>
-              <td class="p-2"> {{resource.office}} </td>
+              <td class="p-2"> {{resource.createdAt|date}} </td>
+              <td class="p-2"> {{calcDays(resource.createdAt)}} </td>
+              <td class="p-2"> {{resource.resource?.client}} </td>
+              <td class="p-2"> {{resource.resource?.office}} </td>
               <!-- ultimo chequeo -->
               <td class="p-2 justify-center flex">
-                <button class="btn-primary hover:bg-green-900"
-                  (click)="openLastCheckup(resource.checkups[resource.checkups.length-2], resource.id)">
+                <button class="btn-primary hover:bg-green-900" (click)="openLastCheckup(resource, resource.id)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,7 +37,7 @@
                   </svg>
                 </button>
               </td>
-              <td class="p-2"> {{resource.reference}} </td>
+              <td class="p-2"> {{resource.resource?.reference}} </td>
             </tr>
           </ng-container>
 
@@ -54,7 +53,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none mx-2"
-          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.length !== 0))}"
+          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.checkups?.length !== 0))}"
           fill="none" viewBox="0 0 24 24" stroke="currentColor" (click)="changePage(page+1, 'following')">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -64,8 +63,8 @@
     <!-- End Resource Table Desktop only -->
 
     <!-- Mobile Table -->
-    <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
-      *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)">
+    <!-- <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
+      *ngIf="((resources$ |async)?.checkups?.length !== 0) && !(loader$ | async)">
 
       <div [ngClass]="{'bg-gray-200': i % 2 === 0}" class="flex flex-col justify-center"
         *ngFor="let resource of resources$ |async; let i = index;">
@@ -78,7 +77,7 @@
         <div><span class="font-bold">Ultimo Chequeo:</span></div>
         <div><span class="font-bold">Referencia:</span> {{resource.reference}}</div>
       </div>
-    </div>
+    </div> -->
   </div>
   <!-- End Mobile Table -->
 

@@ -61,12 +61,21 @@ export class InventoryService {
   }
 
 
+
   /**
    * Create checkup
    * @param resourceId Resource id
    */
   createCheckup(resourceId: string): Observable<Resource> {
     return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, {}, { withCredentials: true, });
+  }
+
+  /**
+   * Get checkup history
+   * @param page Page
+   */
+  getCheckupHistory(page: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}resources/checkups-history?page=${page}`, { withCredentials: true, });
   }
 
   /**
@@ -77,6 +86,7 @@ export class InventoryService {
   updateCheckup(resourceId: string, data: any): Observable<Resource> {
     return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, data, { withCredentials: true, });
   }
+
 
 
   /**
