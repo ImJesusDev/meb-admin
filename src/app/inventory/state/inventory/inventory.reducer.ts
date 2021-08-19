@@ -114,6 +114,19 @@ export function reducer(state = initialState, action: InventoryActions): State {
         error: action.payload,
       };
     }
+    case InventoryActionTypes.LoadHistoryMaintenanceSuccess: {
+      return adapter.addMany(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.LoadHistoryMaintenanceFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
 
 
     /**
@@ -161,6 +174,21 @@ export function reducer(state = initialState, action: InventoryActions): State {
     }
 
     case InventoryActionTypes.ApproveFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+
+    case InventoryActionTypes.ApproveRepairSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        error: [],
+      });
+    }
+
+    case InventoryActionTypes.ApproveRepairFail: {
       return {
         ...state,
         error: action.payload,

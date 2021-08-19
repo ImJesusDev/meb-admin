@@ -121,12 +121,14 @@ export class CheckUpsPendingComponent implements OnInit {
 
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
-    this.resourceId = resourceId;
-    this.checkup = checkup;
-    this.showBackDropL = true;
-    setTimeout(() => {
-      this.showModalL = true;
-    }, 100);
+    if (checkup) {
+      this.resourceId = resourceId;
+      this.checkup = checkup;
+      this.showBackDropL = true;
+      setTimeout(() => {
+        this.showModalL = true;
+      }, 100);
+    }
   }
   onCloseLastModal(): void {
     this.showBackDropL = false;

@@ -10,6 +10,7 @@ export interface Component {
   componentId: string;
   componentName: string;
   status: string;
+  comment?: string;
 }
 
 export const COMPONENT_STATUS = {

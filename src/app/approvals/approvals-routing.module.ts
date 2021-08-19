@@ -9,6 +9,7 @@ import { AuthGuard } from '../guards/auth.guard';
 
 /* Components */
 import { ApprovalsComponent } from './approvals/approvals.component';
+import { ApprovalsPendingRepairComponent } from './approvals-pending-repair/approvals-pending-repair.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: ApprovalsPendingComponent },
+      { path: 'maintenance', component: ApprovalsPendingComponent },
+      { path: 'repair', component: ApprovalsPendingRepairComponent },
       { path: 'historial', component: ApprovalsHistoryComponent }
     ],
   },

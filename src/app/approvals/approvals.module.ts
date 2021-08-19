@@ -10,13 +10,15 @@ import { ApprovalsRoutingModule } from './approvals-routing.module';
 import { ApprovalsComponent } from './approvals/approvals.component';
 import { ApprovalsHistoryComponent } from './approvals-history/approvals-history.component';
 import { ApprovalsPendingComponent } from './approvals-pending/approvals-pending.component';
+import { ApprovalsPendingRepairComponent } from './approvals-pending-repair/approvals-pending-repair.component';
 
 
 @NgModule({
   declarations: [
     ApprovalsComponent,
     ApprovalsHistoryComponent,
-    ApprovalsPendingComponent
+    ApprovalsPendingComponent,
+    ApprovalsPendingRepairComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,3 @@
-import { UpdateCheckup } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
@@ -18,7 +17,7 @@ import { getLoader } from '@state/loader/loader.selector';
 import { getResources } from '../../inventory/state/inventory/inventory.selector';
 /* Actions */
 import {
-  LoadResources,
+  LoadHistoryMaintenance,
 } from '../../inventory/state/inventory/inventory.actions';
 
 @Component({
@@ -55,8 +54,8 @@ export class MaintenanceHistoryComponent implements OnInit {
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Maintenance }));
+    // this.store.dispatch(new StartLoader());
+    // this.store.dispatch(new LoadHistoryMaintenance({ page: this.page }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -82,7 +81,7 @@ export class MaintenanceHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Maintenance }));
+      this.store.dispatch(new LoadHistoryMaintenance({ page: this.page }));
       this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
     }

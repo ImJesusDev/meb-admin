@@ -35,7 +35,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   loader$: Observable<boolean> = of(false);
 
   columns: Column[];
-  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Versión', 'Componentes', 'Documentos'];
+  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Kilometros de mantenimiento', 'Versión', 'Componentes', 'Documentos'];
 
   /* Component modal */
   showCreateComponent: boolean;
@@ -80,6 +80,10 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       {
         name: 'measureIndicators',
         type: 'boolean'
+      },
+      {
+        name: 'kmToMaintenance',
+        type: 'text'
       },
       {
         name: 'version',

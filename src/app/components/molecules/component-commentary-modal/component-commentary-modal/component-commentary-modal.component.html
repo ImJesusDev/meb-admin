@@ -1,0 +1,50 @@
+<app-modal [showBackDrop]="showBackDrop" [showModal]="showModal">
+  <!-- Header -->
+  <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4 flex-row flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+    </svg>
+    <h1 class="text-xl text-white sm:text-3xl">{{header}}</h1>
+  </div>
+
+  <!-- Body -->
+  <div class="px-12 py-12 overflow-y-auto bg-white sm:items-start max-h-96  flex-col items-center justify-center">
+
+    <table class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg">
+      <thead>
+        <tr>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let component of checkup.components; let i = index;">
+          <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+            <td class="p-2"> {{component.componentName}} </td>
+            <td class="p-2">
+              <!-- Commentary -->
+              <textarea (ngModelChange)="checkUpForm.controls[i]?.get('comment')?.setValue($event)" required>
+              </textarea>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+
+
+  <!-- Footer -->
+  <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+    <button type="button" (click)="onClose(true)"
+      class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white border border-transparent rounded-md shadow-sm bg-brand hover:bg-green-900 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+      Guardar
+    </button>
+    <button type="button" (click)="onClose()"
+      class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+      Cerrar
+    </button>
+  </div>
+
+</app-modal>

@@ -34,6 +34,12 @@ export enum InventoryActionTypes {
   Approve = '[Inventory] Approve',
   ApproveSuccess = '[Inventory] Approve success',
   ApproveFail = '[Inventory] Approve fail',
+  ApproveRepair = '[Inventory] Approve repair',
+  ApproveRepairSuccess = '[Inventory] Approve repair success',
+  ApproveRepairFail = '[Inventory] Approve repair fail',
+  LoadHistoryMaintenance = '[Maintenance] Load history maintenance',
+  LoadHistoryMaintenanceSuccess = '[Maintenance] Load history maintenance success',
+  LoadHistoryMaintenanceFail = '[Maintenance] Load history maintenance fail',
 }
 
 // Load Resources
@@ -158,6 +164,24 @@ export class UpdateMaintenanceFail implements Action {
   constructor(public payload: ApiError[]) { }
 }
 
+// Load history maintenance
+export class LoadHistoryMaintenance implements Action {
+  readonly type = InventoryActionTypes.LoadHistoryMaintenance;
+  constructor(public payload: { page: number }) { }
+}
+
+// Load history maintenance Success
+export class LoadHistoryMaintenanceSuccess implements Action {
+  readonly type = InventoryActionTypes.LoadHistoryMaintenanceSuccess;
+  constructor(public payload: Resource[]) { }
+}
+
+// Load history maintenance Fail
+export class LoadHistoryMaintenanceFail implements Action {
+  readonly type = InventoryActionTypes.LoadHistoryMaintenanceFail;
+  constructor(public payload: ApiError[]) { }
+}
+
 
 /**
  * Repair
@@ -207,7 +231,7 @@ export class UpdateReparationFail implements Action {
 // Update Approve
 export class Approve implements Action {
   readonly type = InventoryActionTypes.Approve;
-  constructor(public payload: { resourceId: string }) { }
+  constructor(public payload: { resourceId: string, maintenanceId: string }) { }
 }
 
 // Update Approve Success
@@ -219,6 +243,24 @@ export class ApproveSuccess implements Action {
 // Update Approve Fail
 export class ApproveFail implements Action {
   readonly type = InventoryActionTypes.ApproveFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+// Approve r
+export class ApproveRepair implements Action {
+  readonly type = InventoryActionTypes.ApproveRepair;
+  constructor(public payload: { resourceId: string, repairId: string }) { }
+}
+
+// Approve Success
+export class ApproveRepairSuccess implements Action {
+  readonly type = InventoryActionTypes.ApproveRepairSuccess;
+  constructor(public payload: Resource) { }
+}
+
+// Approve Fail
+export class ApproveRepairFail implements Action {
+  readonly type = InventoryActionTypes.ApproveRepairFail;
   constructor(public payload: ApiError[]) { }
 }
 
@@ -251,4 +293,10 @@ export type InventoryActions =
   | UpdateReparationFail
   | Approve
   | ApproveSuccess
-  | ApproveFail;
+  | ApproveFail
+  | ApproveRepair
+  | ApproveRepairSuccess
+  | ApproveRepairFail
+  | LoadHistoryMaintenance
+  | LoadHistoryMaintenanceSuccess
+  | LoadHistoryMaintenanceFail;

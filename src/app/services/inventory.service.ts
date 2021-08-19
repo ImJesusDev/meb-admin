@@ -92,7 +92,7 @@ export class InventoryService {
    * @param resourceId Resource id
    */
   createReparation(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/reparations`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, {}, { withCredentials: true, });
   }
 
   /**
@@ -101,7 +101,7 @@ export class InventoryService {
    * @param data data
    */
   updateReparation(resourceId: string): Observable<Resource> {
-    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/reparations`, {}, { withCredentials: true, });
+    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, {}, { withCredentials: true, });
   }
 
 

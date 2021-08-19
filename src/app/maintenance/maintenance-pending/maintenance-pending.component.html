@@ -44,7 +44,7 @@
               <!-- ultimo chequeo -->
               <td class="p-2 justify-center flex">
                 <button class="btn-primary hover:bg-green-900" *ngIf="resource.checkups.length"
-                  (click)="openLastCheckup(resource.checkups[resource.checkups.length-2], resource.id)">
+                  (click)="openLastCheckup(resource.checkups[resource.checkups.length-1], resource.id)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,8 +56,14 @@
               <!-- Acciones -->
               <td class="justify-center flex p2">
                 <button class="btn-primary hover:bg-green-900"
-                  (click)="openUpdateCheckup(resource.checkups[resource.checkups.length-1], resource.id)">
-                  Iniciar reparación
+                  (click)="openStartMaintenance(resource.maintenances[resource.maintenances.length-1], resource.id)"
+                  *ngIf="resource.maintenances[resource.maintenances.length-1]?.status === 'pending'">
+                  Iniciar mantenimiento
+                </button>
+                <button class="btn-primary hover:bg-green-900"
+                  (click)="openFinishMaintenance(resource.maintenances[resource.maintenances.length-1],resource.id)"
+                  *ngIf="resource.maintenances[resource.maintenances.length-1]?.status === 'in_progress'">
+                  Finalizar mantenimiento
                 </button>
               </td>
             </tr>
@@ -119,6 +125,14 @@
   (close)="onCloseLastModal()">
 </app-check-up-modal>
 
-<app-confirm-modal [showBackDrop]="showBackDrop" [showModal]="showModal"
+<app-confirm-modal [showBackDrop]="showBackDropStart" [showModal]="showModalStart"
+  question="¿Está seguro que quiere iniciar el mantenimiento del recurso?" header="Confirmar"
+  (close)="onCloseModalStartMaintenance($event)"></app-confirm-modal>
+
+<!-- <app-confirm-modal [showBackDrop]="showBackDrop" [showModal]="showModal"
   question="¿Está seguro que quiere finalizar el mantenimiento del recurso?" header="Confirmar"
-  (close)="onCloseMaintenanceModal($event)"></app-confirm-modal>
+  (close)="onCloseModalFinish($event)"></app-confirm-modal> -->
+
+<app-component-commentary-modal [showBackDrop]="showBackDrop" [showModal]="showModal" [checkup]="checkup"
+  *ngIf="showBackDrop" (close)="onCloseModalFinish($event)">
+</app-component-commentary-modal>

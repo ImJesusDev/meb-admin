@@ -12,6 +12,7 @@ export interface ResourceType {
   brand?: string;
   components?: ResourceComponent[];
   documentTypes?: DocumentType[];
+  kmToMaintenance?: number;
 }
 
 export interface DocumentType {

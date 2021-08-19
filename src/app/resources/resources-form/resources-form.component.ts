@@ -41,7 +41,7 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
       photo: '',
       measureIndicators: false,
       resourceTypeBrand: '',
-      resourceTypeModel: '',
+      resourceTypeModel: ''
     };
     this.resourceForm = this._formBuilder.group({
       type: [this.resourceType.type, [Validators.required]],
@@ -50,6 +50,7 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
       measureIndicators: [this.resourceType.measureIndicators],
       resourceTypeBrand: [this.resourceType.resourceTypeBrand, [Validators.required],],
       resourceTypeModel: [this.resourceType.resourceTypeModel, [Validators.required],],
+      kmToMaintenance: [, [Validators.required]],
     });
   }
 
@@ -74,6 +75,7 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
         brand: this.resourceForm.controls['resourceTypeBrand'].value,
         model: this.resourceForm.controls['resourceTypeModel'].value,
         checkupTime: this.resourceForm.controls['checkupTime'].value,
+        kmToMaintenance: this.resourceForm.controls['kmToMaintenance'].value,
         id: ''
       })
     );

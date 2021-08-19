@@ -54,8 +54,8 @@ export class ApprovalsHistoryComponent implements OnInit {
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Available }));
+    // this.store.dispatch(new StartLoader());
+    // this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Available }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -68,7 +68,7 @@ export class ApprovalsHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     // Use selector to get resources from state
-    this.resources$ = this.store.pipe(select(getResources));
+    // this.resources$ = this.store.pipe(select(getResources));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.length);

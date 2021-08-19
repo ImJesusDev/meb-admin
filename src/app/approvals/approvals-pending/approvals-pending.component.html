@@ -18,6 +18,7 @@
             <th>Sede</th>
             <th>Ultimo Chequeo</th>
             <th>Referencia</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -52,6 +53,13 @@
                 </button>
               </td>
               <td class="p-2"> {{resource.reference}} </td>
+              <!-- Acciones -->
+              <td class="justify-center flex p2">
+                <button class="btn-primary hover:bg-green-900"
+                  (click)="openConfirmModal(resource.maintenances[resource.maintenances.length-1], resource.id)">
+                  Aprobar y Habilitar
+                </button>
+              </td>
             </tr>
           </ng-container>
 
@@ -100,3 +108,8 @@
 <app-check-up-modal [checkup]="checkup" [showBackDrop]="showBackDropL" [showModal]="showModalL"
   (close)="onCloseLastModal()">
 </app-check-up-modal>
+
+<app-confirm-modal [showBackDrop]="showBackDrop" [showModal]="showModal"
+  question="¿Está seguro que quiere aprobar el mantenimiento y habilitar el recurso?" header="Confirmar"
+  (close)="onCloseConfirmModal($event)">
+</app-confirm-modal>

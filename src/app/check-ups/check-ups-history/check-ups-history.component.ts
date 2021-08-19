@@ -57,7 +57,7 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.perPage = 10;
     this.resourceId = '';
     this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Checkup }));
+    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Completed }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -83,7 +83,7 @@ export class CheckUpsHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Checkup }));
+      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Completed }));
       this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
     }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 /* Models */
-import { Checkup, ES_COMPONENT_STATUS } from './../../../../models/chekoups';
+import { Checkup, COMPONENT_STATUS, ES_COMPONENT_STATUS } from './../../../../models/chekoups';
 
 @Component({
   selector: 'app-check-up-modal',
@@ -15,7 +15,7 @@ export class CheckUpModalComponent implements OnInit {
   @Input() public checkup: Checkup;
   @Output() public close = new EventEmitter();
 
-  componentStatus = ES_COMPONENT_STATUS;
+  componentStatus = COMPONENT_STATUS;
 
   constructor() {
     this.showBackDrop = false;

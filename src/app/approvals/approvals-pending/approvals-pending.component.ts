@@ -58,7 +58,7 @@ export class ApprovalsPendingComponent implements OnInit {
     this.perPage = 10;
     this.resourceId = '';
     this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingMaintenance }));
+    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.WaitingApprovalMaintenance }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -84,7 +84,7 @@ export class ApprovalsPendingComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingMaintenance }));
+      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.WaitingApprovalMaintenance }));
       this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
     }
@@ -138,20 +138,21 @@ export class ApprovalsPendingComponent implements OnInit {
   }
 
 
-  openConfirmMaintenance(resourceId: string): void {
+  openConfirmModal(checkup: Checkup, resourceId: string): void {
     this.resourceId = resourceId;
-    this.showBackDropL = true;
+    this.checkup = checkup;
+    this.showBackDrop = true;
     setTimeout(() => {
-      this.showModalL = true;
+      this.showModal = true;
     }, 100);
   }
-  onCloseMaintenanceModal(ok?: boolean): void {
+  onCloseConfirmModal(ok?: boolean): void {
     if (ok) {
-      this.store.dispatch(new Approve({ resourceId: this.resourceId }));
+      this.store.dispatch(new Approve({ resourceId: this.resourceId, maintenanceId: this.checkup.id }));
     }
-    this.showBackDropL = false;
+    this.showBackDrop = false;
     setTimeout(() => {
-      this.showModalL = false;
+      this.showModal = false;
     }, 100);
   }
 }

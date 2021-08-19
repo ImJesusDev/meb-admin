@@ -8,7 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class ApprovalsComponent implements OnInit {
 
-  title = 'Aprovaciones';
+  title = 'Aprobaciones';
   showAddBtn = true;
 
   constructor(public route: Router) {
@@ -18,7 +18,7 @@ export class ApprovalsComponent implements OnInit {
         if (event.url !== '/aprovaciones') {
           this.showAddBtn = false;
         } else if (event.url === '/aprovaciones') {
-          this.title = 'Aprovaciones';
+          this.title = 'Aprobaciones';
         }
       }
     });

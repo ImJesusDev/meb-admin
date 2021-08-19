@@ -20,6 +20,7 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
+import { StartRepair, UpdateRepair } from '../state/repair';
 
 @Component({
   selector: 'app-repair-pending',
@@ -44,8 +45,13 @@ export class RepairPendingComponent implements OnInit {
   page: number;
   perPage: number;
 
+  /* Modals */
+
   showBackDrop = false;
   showModal = false;
+
+  showBackDropF = false;
+  showModalF = false;
 
   showBackDropL = false;
   showModalL = false;
@@ -100,27 +106,12 @@ export class RepairPendingComponent implements OnInit {
   }
 
 
-  openUpdateCheckup(checkup: Checkup, resourceId: string): void {
-    this.resourceId = resourceId;
-    this.checkup = checkup;
-    this.showBackDrop = true;
-    setTimeout(() => {
-      this.showModal = true;
-    }, 100);
-  }
-  onCloseModal(data: any): void {
-    console.log(data)
-    if (data) {
-      this.store.dispatch(new UpdateCheckup({ resourceId: this.resourceId, data }));
-    }
-    this.showBackDrop = false;
-    setTimeout(() => {
-      this.showModal = false;
-    }, 100);
-  }
-
+  /* 
+  MODALS
+  */
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
+    console.log(checkup)
     if (checkup) {
       this.resourceId = resourceId;
       this.checkup = checkup;
@@ -137,21 +128,41 @@ export class RepairPendingComponent implements OnInit {
     }, 100);
   }
 
-
-  openConfirmMaintenance(resourceId: string): void {
+  openStartCheckup(checkup: Checkup, resourceId: string): void {
     this.resourceId = resourceId;
-    this.showBackDropL = true;
+    this.checkup = checkup;
+    this.showBackDrop = true;
     setTimeout(() => {
-      this.showModalL = true;
+      this.showModal = true;
     }, 100);
   }
-  onCloseMaintenanceModal(ok?: boolean): void {
+  onCloseModal(ok?: boolean): void {
     if (ok) {
-      this.store.dispatch(new UpdateReparation({ resourceId: this.resourceId }));
+      this.store.dispatch(new StartRepair({ resourceId: this.resourceId, repairId: this.checkup.id }));
     }
-    this.showBackDropL = false;
+    this.showBackDrop = false;
     setTimeout(() => {
-      this.showModalL = false;
+      this.showModal = false;
+    }, 100);
+  }
+
+
+  openFinishModal(checkup: Checkup, resourceId: string): void {
+    this.resourceId = resourceId;
+    this.checkup = checkup;
+    this.showBackDropF = true;
+    setTimeout(() => {
+      this.showModalF = true;
+    }, 100);
+  }
+  onCloseFinishModal(data?: any): void {
+    if (data) {
+      data.repairId = this.checkup.id;
+      this.store.dispatch(new UpdateRepair({ resourceId: this.resourceId, data }));
+    }
+    this.showBackDropF = false;
+    setTimeout(() => {
+      this.showModalF = false;
     }, 100);
   }
 }

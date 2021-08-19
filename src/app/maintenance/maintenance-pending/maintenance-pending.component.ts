@@ -1,4 +1,3 @@
-import { UpdateCheckup, CreateMaintenance, UpdateMaintenance } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
@@ -20,6 +19,7 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
+import { StartMaintenance, UpdateMaintenance } from '../state/maintenance';
 
 @Component({
   selector: 'app-maintenance-pending',
@@ -44,11 +44,16 @@ export class MaintenancePendingComponent implements OnInit {
   page: number;
   perPage: number;
 
+  /* Modals */
   showBackDrop = false;
   showModal = false;
 
   showBackDropL = false;
   showModalL = false;
+
+  showBackDropStart = false;
+  showModalStart = false;
+
 
   checkup: Checkup;
 
@@ -100,27 +105,9 @@ export class MaintenancePendingComponent implements OnInit {
   }
 
 
-  openUpdateCheckup(checkup: Checkup, resourceId: string): void {
-    this.resourceId = resourceId;
-    this.checkup = checkup;
-    this.showBackDrop = true;
-    setTimeout(() => {
-      this.showModal = true;
-    }, 100);
-  }
-  onCloseModal(data: any): void {
-    console.log(data)
-    if (data) {
-      this.store.dispatch(new UpdateCheckup({ resourceId: this.resourceId, data }));
-    }
-    this.showBackDrop = false;
-    setTimeout(() => {
-      this.showModal = false;
-    }, 100);
-  }
-
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
+    console.log(checkup)
     if (checkup) {
       this.resourceId = resourceId;
       this.checkup = checkup;
@@ -137,21 +124,41 @@ export class MaintenancePendingComponent implements OnInit {
     }, 100);
   }
 
-
-  openConfirmMaintenance(resourceId: string): void {
+  openStartMaintenance(checkup: Checkup, resourceId: string): void {
     this.resourceId = resourceId;
-    this.showBackDropL = true;
+    this.checkup = checkup;
+    this.showBackDropStart = true;
     setTimeout(() => {
-      this.showModalL = true;
+      this.showModalStart = true;
     }, 100);
   }
-  onCloseMaintenanceModal(ok?: boolean): void {
+  onCloseModalStartMaintenance(ok?: boolean): void {
+    console.log(ok)
     if (ok) {
-      this.store.dispatch(new UpdateMaintenance({ resourceId: this.resourceId }));
+      this.store.dispatch(new StartMaintenance({ resourceId: this.resourceId, maintenanceId: this.checkup.id }));
     }
-    this.showBackDropL = false;
+    this.showBackDropStart = false;
     setTimeout(() => {
-      this.showModalL = false;
+      this.showModalStart = false;
+    }, 100);
+  }
+
+  openFinishMaintenance(checkup: Checkup, resourceId: string): void {
+    this.resourceId = resourceId;
+    this.checkup = checkup;
+    this.showBackDrop = true;
+    setTimeout(() => {
+      this.showModal = true;
+    }, 100);
+  }
+  onCloseModalFinish(data?: any): void {
+    if (data) {
+      data.maintenanceId = this.checkup.id;
+      this.store.dispatch(new UpdateMaintenance({ resourceId: this.resourceId, data }));
+    }
+    this.showBackDrop = false;
+    setTimeout(() => {
+      this.showModal = false;
     }, 100);
   }
 }

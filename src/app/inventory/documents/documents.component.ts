@@ -38,7 +38,9 @@ export class DocumentsComponent implements OnInit, OnDestroy {
       office: '',
       loanTime: 0,
       documents: [],
-      checkups: []
+      checkups: [],
+      maintenances: [],
+      repairs: [],
     };
 
     this.route.params.subscribe((param) => {

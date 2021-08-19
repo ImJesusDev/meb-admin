@@ -10,6 +10,8 @@ export interface Resource {
   loanTime: number;
   documents: Document[];
   checkups: Checkup[];
+  repairs: Checkup[];
+  maintenances: Checkup[];
   version?: number;
   status?: string;
 }
@@ -57,5 +59,6 @@ export const RESOURCE_STATUS = {
   PendingMaintenance: 'pending_maintenance',
   Maintenance: 'maintenance',
   WaitingApprovalMaintenance: 'waiting_approval_maintenance',
-  WaitingApprovalRepair: 'waiting_approval_repair'
+  WaitingApprovalRepair: 'waiting_approval_repair',
+  Completed: 'completed'
 };
