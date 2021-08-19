@@ -19,6 +19,7 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 import {
   LoadHistoryMaintenance,
 } from '../../inventory/state/inventory/inventory.actions';
+import { MaintenanceService } from '@services/maintenance.service';
 
 @Component({
   selector: 'app-maintenance-history',
@@ -29,7 +30,10 @@ export class MaintenanceHistoryComponent implements OnInit {
 
 
   /* Observable of clients from store */
-  resources$: Observable<Resource[]> = of([] as Resource[]);
+  // resources$: Observable<Resource[]> = of([] as Resource[]);
+  resources$: Observable<{ page: number, perPage: number, totalResults: number, maintenances: Checkup[] }> = of({} as {
+    page: number, perPage: number, totalResults: number, maintenances: Checkup[]
+  });
   resourceId: string;
   resourceLength: number;
 
@@ -49,7 +53,7 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router) {
+  constructor(private store: Store<State>, private router: Router, private ms: MaintenanceService) {
 
     this.page = 1;
     this.perPage = 10;
@@ -68,10 +72,11 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     // Use selector to get resources from state
-    this.resources$ = this.store.pipe(select(getResources));
+    // this.resources$ = this.store.pipe(select(getResources));
+    this.resources$ = this.ms.getHistoryMaintenance({ page: this.page });
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe(data => this.resourceLength = data.maintenances.length);
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -82,7 +87,7 @@ export class MaintenanceHistoryComponent implements OnInit {
       this.store.dispatch(new StartLoader());
       this.page = page;
       this.store.dispatch(new LoadHistoryMaintenance({ page: this.page }));
-      this.resources$ = this.store.pipe(select(getResources));
+      this.resources$ = this.ms.getHistoryMaintenance({ page: this.page });
       this.loader$ = this.store.pipe(select(getLoader));
     }
   }

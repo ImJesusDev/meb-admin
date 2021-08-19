@@ -47,7 +47,7 @@ export class MaintenanceService {
   /**
    * Get History maintenance
    */
-  getHistoryMaintenance({ page }: { page: number }): Observable<Resource[]> {
-    return this.http.get<Resource[]>(`${this.apiUrl}resources/maintenances-history?page=${page}`, { withCredentials: true, });
+  getHistoryMaintenance({ page }: { page: number }): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?page=${page}`, { withCredentials: true, });
   }
 }
