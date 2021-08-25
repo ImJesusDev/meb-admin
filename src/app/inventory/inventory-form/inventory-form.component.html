@@ -44,21 +44,48 @@
       <div class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row">
 
         <!-- Client -->
-        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+        <!-- <div class="flex flex-col w-full h-16 my-3 sm:my-0">
           <label class="text-gray-400" for="client">* Cliente:</label>
           <input name="client" formControlName="client" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('client')?.touched && resourceForm.get('client')?.hasError('required')}"
             type="text">
+        </div> -->
+
+        <!-- Client -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="client">* Cliente:</label>
+          <select name="client" formControlName="client" required id="client"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('client')?.touched && resourceForm.get('client')?.hasError('required')}">
+            <ng-container *ngFor="let client of clients$ | async">
+              <option [ngValue]="client">
+                {{client.name}}
+              </option>
+            </ng-container>
+          </select>
         </div>
 
-        <!-- Headquarters -->
-        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+        <!-- Office -->
+        <!-- <div class="flex flex-col w-full h-16 my-3 sm:my-0">
           <label class="text-gray-400" for="office">* Sede:</label>
           <input name="office" formControlName="office" required
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('office')?.touched && resourceForm.get('office')?.hasError('required')}"
             type="text">
+        </div> -->
+        <div class="flex flex-col w-full h-16 my-3 sm:my-0">
+          <label class="text-gray-400" for="office">* Sede:</label>
+          <select name="office" formControlName="office" required id="office"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+            [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('office')?.touched && resourceForm.get('office')?.hasError('required')}">
+            <ng-container
+              *ngIf="resourceForm.get('client') !== undefined && resourceForm.get('client')?.value !== null">
+              <option [ngValue]="office" *ngFor="let office of resourceForm.get('client')?.value.offices">
+                {{office.name}}
+              </option>
+            </ng-container>
+          </select>
         </div>
 
       </div>

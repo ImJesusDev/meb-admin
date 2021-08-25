@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 /* Models */
-import { ApiError, Resource, ResourceType, DocumentType, Document } from '@models/index';
+import { ApiError, Resource, ResourceType, DocumentType, Document, Client, Office } from '@models/index';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
@@ -19,6 +19,8 @@ import {
   LoadResources,
 } from '../../resources/state/resources/resources.actions';
 import { generateRandomNumber } from 'src/app/utils/helpers/number.helper';
+import { LoadClients } from 'src/app/clients/state/clients';
+import { getClients } from 'src/app/clients/state/clients/clients.selector';
 
 @Component({
   selector: 'app-inventory-form',
@@ -42,6 +44,9 @@ export class InventoryFormComponent implements OnInit {
   /* Observable of clients from store */
   resources$: Observable<ResourceType[]> = of([] as ResourceType[]);
 
+  /* Observable of clients from store */
+  clients$: Observable<Client[]> = of([] as Client[]);
+
   documentTypes: DocumentType[] = [];
 
   constructor(private _formBuilder: FormBuilder, private store: Store<State>, private router: Router) {
@@ -63,14 +68,16 @@ export class InventoryFormComponent implements OnInit {
     this.resourceForm = this._formBuilder.group({
       type: [{} as ResourceType, [Validators.required]],
       reference: [this.resource.reference, [Validators.required]],
-      client: [this.resource.client, [Validators.required]],
-      office: [this.resource.office, [Validators.required]],
+      client: [{} as Client, [Validators.required]],
+      office: [{} as Office, [Validators.required]],
       loanTime: [this.resource.loanTime, [Validators.required]],
       documents: this._formBuilder.array([]),
     });
     this.store.dispatch(new StartLoader());
     // Dispatch action to load resources
     this.store.dispatch(new LoadResources());
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
@@ -78,6 +85,8 @@ export class InventoryFormComponent implements OnInit {
     this.errors$ = this.store.pipe(select(getResourcesError));
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources));
+    // Use selector to get clients from state
+    this.clients$ = this.store.pipe(select(getClients));
     // Use selector to get loader state
     this.loader$ = this.store.pipe(select(getLoader));
   }
@@ -95,10 +104,10 @@ export class InventoryFormComponent implements OnInit {
     this.store.dispatch(
       new AddResource({
         type: this.resourceForm.controls['type'].value.type,
-        client: this.resourceForm.controls['client'].value,
+        client: this.resourceForm.controls['client'].value.name,
         loanTime: this.resourceForm.controls['loanTime'].value,
         lockerPassword: generateRandomNumber({ length: 6 }),
-        office: this.resourceForm.controls['office'].value,
+        office: this.resourceForm.controls['office'].value.name,
         qrCode,
         reference: this.resourceForm.controls['reference'].value,
         documents: this.resourceForm.controls['documents'].value.map((value: Document) => {

@@ -120,6 +120,7 @@ export class InventoryEffects {
                 confirmButtonColor: '#50b848',
                 icon: 'success',
               });
+              this.router.navigate(['/inventario']);
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
