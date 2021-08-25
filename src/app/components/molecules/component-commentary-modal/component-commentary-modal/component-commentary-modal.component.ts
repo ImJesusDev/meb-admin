@@ -42,7 +42,7 @@ export class ComponentCommentaryModalComponent implements OnInit {
         new FormGroup({
           componentId: new FormControl(c.componentId),
           componentName: new FormControl(c.componentName),
-          status: new FormControl(this.componentStatus.Good),
+          status: new FormControl(c.status),
           comment: new FormControl()
         })
       );
@@ -52,14 +52,15 @@ export class ComponentCommentaryModalComponent implements OnInit {
   onClose(save?: boolean): void {
     if (save) {
       const data = new Array();
-      this.checkUpForm.controls.map(v => {
+      this.checkUpForm.controls.map(v =>
         data.push({
           componentId: v.get('componentId')?.value,
           componentName: v.get('componentName')?.value,
           status: v.get('status')?.value,
           comment: v.get('comment')?.value,
         })
-      })
+      );
+      console.log(data);
       this.close.emit({
         checkupId: this.checkup.id,
         components: data
@@ -67,6 +68,10 @@ export class ComponentCommentaryModalComponent implements OnInit {
     } else {
       this.close.emit();
     }
+  }
+
+  changeCommentary($event: Event, index: number): void {
+    this.checkUpForm.controls[index]?.get('comment')?.setValue(($event.target as HTMLInputElement).value);
   }
 
 }

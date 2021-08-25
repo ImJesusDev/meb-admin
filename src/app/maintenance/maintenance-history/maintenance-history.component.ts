@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
-import { RESOURCE_STATUS } from './../../models/inventory';
+import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
 import { State } from '../../inventory/state';
-import { StartLoader } from '@state/loader/loader.actions';
+import { StartLoader, StopLoader } from '@state/loader/loader.actions';
 import { getLoader } from '@state/loader/loader.selector';
 /* Selectors */
 import { getResources } from '../../inventory/state/inventory/inventory.selector';
@@ -44,6 +44,7 @@ export class MaintenanceHistoryComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   resourceStatus = RESOURCE_STATUS;
+  resourceStatusNames = RESOURCE_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -53,12 +54,12 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router, private ms: MaintenanceService) {
+  constructor(private store: Store<State>, private router: Router, private maintenanceService: MaintenanceService) {
 
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    // this.store.dispatch(new StartLoader());
+    this.store.dispatch(new StartLoader());
     // this.store.dispatch(new LoadHistoryMaintenance({ page: this.page }));
     this.resourceLength = 0;
     this.checkup = {
@@ -73,10 +74,13 @@ export class MaintenanceHistoryComponent implements OnInit {
   ngOnInit(): void {
     // Use selector to get resources from state
     // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.ms.getHistoryMaintenance({ page: this.page });
+    this.resources$ = this.maintenanceService.getHistoryMaintenance({ page: this.page });
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.maintenances.length);
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.maintenances.length;
+      this.store.dispatch(new StopLoader());
+    });
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -86,17 +90,20 @@ export class MaintenanceHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadHistoryMaintenance({ page: this.page }));
-      this.resources$ = this.ms.getHistoryMaintenance({ page: this.page });
+      this.resources$ = this.maintenanceService.getHistoryMaintenance({ page: this.page });
       this.loader$ = this.store.pipe(select(getLoader));
+      this.resources$.subscribe(data => {
+        this.resourceLength = data.maintenances.length;
+        this.store.dispatch(new StopLoader());
+      });
     }
   }
 
   calcDays(date: string): number {
-    let checkUpDate = new Date(date);
-    let currentDate = new Date();
+    const checkUpDate = new Date(date);
+    const currentDate = new Date();
 
-    let sub = currentDate.getTime() - checkUpDate.getTime();
+    const sub = currentDate.getTime() - checkUpDate.getTime();
     const results = Math.round(sub / (1000 * 60 * 60 * 24));
     return results;
   }

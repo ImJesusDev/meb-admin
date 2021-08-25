@@ -112,11 +112,27 @@ export class InventoryEffects {
               new AddResourceSuccess(resource),
             ]),
             tap(() => {
-              this.router.navigate(['/inventario']);
+              Swal.fire({
+                title: '¡Recurso creado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {
+                Swal.fire({
+                  title: '¡Error creando el recurso!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
                 errors = error.error.errors;
               } else {
                 errors = [{ message: 'Something went wrong' }];
@@ -141,13 +157,29 @@ export class InventoryEffects {
             mergeMap((resource: Resource) => [
               new StopLoader(),
               new CreateCheckupSuccess(resource),
+              new LoadResources()
             ]),
             tap(() => {
-              this.router.navigate(['/check-ups']);
+              Swal.fire({
+                title: '¡Recurso enviado a chequeo!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {
+                Swal.fire({
+                  title: '¡Error al enviar el recurso a chequeo!',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'success',
+                });
                 errors = error.error.errors;
               } else {
                 errors = [{ message: 'Something went wrong' }];
@@ -379,7 +411,7 @@ export class InventoryEffects {
                 confirmButtonColor: '#50b848',
                 icon: 'success',
               });
-              this.router.navigate(['/aprovaciones/historial']);
+              this.router.navigate(['/aprovaciones/historial-reparaciones']);
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

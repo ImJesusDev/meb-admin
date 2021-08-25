@@ -20,11 +20,6 @@ export class InventoryService {
 
   /**
    * Load all resources
-   * @param {{
-   * page:number|undefined;
-   * perPage:number|undefined;
-   * }} filters
-   * @returns {Observable<Resource[]>}
    */
   getResources(filters: ResourceFilters = { page: 1, perPage: 10 }): Observable<PaginationResources> {
     let query = '';
@@ -40,13 +35,13 @@ export class InventoryService {
     if (filters.type) {
       query += '&type=' + filters.type;
     }
-    return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`, { withCredentials: true, });
+    return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`,
+      { withCredentials: true, });
   }
 
   /**
    * Get resource by id
    * @param resourceId string
-   * @returns {Observable<Resource[]>}
    */
   getResourceById(resourceId: string): Observable<Resource> {
     return this.http.get<Resource>(`${this.apiUrl}resources/find/${resourceId}`, { withCredentials: true, });
@@ -73,9 +68,10 @@ export class InventoryService {
   /**
    * Get checkup history
    * @param page Page
+   * @param perPage Per page
    */
-  getCheckupHistory(page: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}resources/checkups-history?page=${page}`, { withCredentials: true, });
+  getCheckupHistory(page: number, perPage: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}resources/checkups-history?page=${page}&perPage=${perPage}`, { withCredentials: true, });
   }
 
   /**

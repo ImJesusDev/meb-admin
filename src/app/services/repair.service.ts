@@ -49,7 +49,12 @@ export class RepairService {
   /**
    * Get History repairs
    */
-  getHistoryRepairs(page: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}resources/repairs-history?page=${page}`, { withCredentials: true, });
+  getHistoryRepairs(page: number, perPage = 10, status = ''): Observable<any> {
+    let statusQuery = '';
+    if (status) {
+      statusQuery += '&status=' + status;
+    }
+    return this.http.get<any>(`${this.apiUrl}resources/repairs-history?page=${page}&perPage=${perPage}${statusQuery}`,
+      { withCredentials: true, });
   }
 }

@@ -101,12 +101,7 @@
             <td class="p-2"> {{resource.office}} </td>
             <!-- Estado -->
             <td class="p-2">
-              {{
-              resource.status === resourceStatus.Available?
-              'Disponible'
-              :
-              ''
-              }}
+              {{resource.status? resourceStatusNames[resource.status] : ''}}
             </td>
             <!-- Documentos -->
             <td class="p-2">
@@ -120,7 +115,8 @@
             </td>
             <!-- Acciones -->
             <td class="justify-center flex">
-              <button class="btn-primary hover:bg-green-900" (click)="confirmCreateCheckup(resource.id)">
+              <button class="btn-primary hover:bg-green-900" (click)="confirmCreateCheckup(resource.id)"
+                *ngIf="resource.status === resourceStatus.Available">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
                   stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

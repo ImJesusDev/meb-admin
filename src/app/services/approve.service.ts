@@ -32,7 +32,8 @@ export class ApproveService {
    * @param param Resource
    */
   approveMaintenance({ resourceId, maintenanceId }: { resourceId: string, maintenanceId: string }): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/approve-maintenance`, { maintenanceId }, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/approve-maintenance`, { maintenanceId },
+      { withCredentials: true, });
   }
 
 }

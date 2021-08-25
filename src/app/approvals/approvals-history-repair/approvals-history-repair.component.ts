@@ -22,12 +22,13 @@ import {
 } from '../../inventory/state/inventory/inventory.actions';
 import { RepairService } from '@services/repair.service';
 
+
 @Component({
-  selector: 'app-repair-history',
-  templateUrl: './repair-history.component.html',
-  styleUrls: ['./repair-history.component.css']
+  selector: 'app-approvals-history-repair',
+  templateUrl: './approvals-history-repair.component.html',
+  styleUrls: ['./approvals-history-repair.component.css']
 })
-export class RepairHistoryComponent implements OnInit {
+export class ApprovalsHistoryRepairComponent implements OnInit {
 
   /* Observable of clients from store */
   resources$: Observable<{ page: number, perPage: number, totalResults: number, repairs: Checkup[] }> = of({} as {
@@ -73,7 +74,7 @@ export class RepairHistoryComponent implements OnInit {
   ngOnInit(): void {
     // Use selector to get resources from state
     // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.repairService.getHistoryRepairs(this.page);
+    this.resources$ = this.repairService.getHistoryRepairs(this.page, 10, 'approved');
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.repairs.length);
@@ -87,7 +88,7 @@ export class RepairHistoryComponent implements OnInit {
       this.store.dispatch(new StartLoader());
       this.page = page;
       this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Repair }));
-      this.resources$ = this.repairService.getHistoryRepairs(this.page);
+      this.resources$ = this.repairService.getHistoryRepairs(this.page, 10, 'approved');
       this.loader$ = this.store.pipe(select(getLoader));
     }
   }
@@ -116,5 +117,6 @@ export class RepairHistoryComponent implements OnInit {
       this.showModalL = false;
     }, 100);
   }
+
 
 }

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
-import { RESOURCE_STATUS } from './../../models/inventory';
+import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
@@ -40,6 +40,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   resourceStatus = RESOURCE_STATUS;
+  resourceStatusNames = RESOURCE_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -91,32 +92,12 @@ export class ApprovalsPendingRepairComponent implements OnInit {
   }
 
   calcDays(date: string): number {
-    let checkUpDate = new Date(date);
-    let currentDate = new Date();
+    const checkUpDate = new Date(date);
+    const currentDate = new Date();
 
-    let sub = currentDate.getTime() - checkUpDate.getTime();
+    const sub = currentDate.getTime() - checkUpDate.getTime();
     const results = Math.round(sub / (1000 * 60 * 60 * 24));
     return results;
-  }
-
-
-  openUpdateCheckup(checkup: Checkup, resourceId: string): void {
-    this.resourceId = resourceId;
-    this.checkup = checkup;
-    this.showBackDrop = true;
-    setTimeout(() => {
-      this.showModal = true;
-    }, 100);
-  }
-  onCloseModal(data: any): void {
-    console.log(data)
-    if (data) {
-      this.store.dispatch(new UpdateCheckup({ resourceId: this.resourceId, data }));
-    }
-    this.showBackDrop = false;
-    setTimeout(() => {
-      this.showModal = false;
-    }, 100);
   }
 
 

@@ -18,6 +18,7 @@
             <th>Sede</th>
             <th>Ultimo Chequeo</th>
             <th>Referencia</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -53,6 +54,10 @@
                 </button>
               </td>
               <td class="p-2"> {{resource.reference}} </td>
+              <!-- Estado -->
+              <td class="p-2">
+                {{resource.status? resourceStatusNames[resource.status] : ''}}
+              </td>
               <!-- Acciones -->
               <td class="justify-center flex p2">
                 <button class="btn-primary hover:bg-green-900"

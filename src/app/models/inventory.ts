@@ -1,4 +1,17 @@
 import { Checkup } from './chekoups';
+export type typeResourceStatus =
+  'disabled'
+  | 'available'
+  | 'pending_checkup'
+  | 'checkup'
+  | 'pending_repair'
+  | 'repair'
+  | 'pending_maintenance'
+  | 'maintenance'
+  | 'waiting_approval_maintenance'
+  | 'waiting_approval_repair'
+  | 'rented';
+
 export interface Resource {
   id: string;
   type: string;
@@ -13,7 +26,7 @@ export interface Resource {
   repairs: Checkup[];
   maintenances: Checkup[];
   version?: number;
-  status?: string;
+  status?: typeResourceStatus;
 }
 
 export interface Document {
@@ -43,10 +56,10 @@ export interface Pagination {
 export interface ResourceFilters {
   page?: number;
   perPage?: number;
-  status?: string,
-  client?: string,
-  office?: string,
-  type?: string
+  status?: string;
+  client?: string;
+  office?: string;
+  type?: string;
 }
 
 export const RESOURCE_STATUS = {
@@ -60,5 +73,19 @@ export const RESOURCE_STATUS = {
   Maintenance: 'maintenance',
   WaitingApprovalMaintenance: 'waiting_approval_maintenance',
   WaitingApprovalRepair: 'waiting_approval_repair',
-  Completed: 'completed'
+  Rented: 'rented'
+};
+
+export const RESOURCE_STATUS_NAMES = {
+  disabled: 'Desabilitado',
+  available: 'Disponible',
+  pending_checkup: 'Pendiente de chequeo',
+  checkup: 'Chequeado',
+  pending_repair: 'Pendiente de reparación',
+  repair: 'Reparado',
+  pending_maintenance: 'Pendiente de mantenimiento',
+  maintenance: 'Mantenido',
+  waiting_approval_maintenance: 'Pendiente de aprovación de mantenimento',
+  waiting_approval_repair: 'Pendiente de aprovación de reparación',
+  rented: 'Retenido'
 };

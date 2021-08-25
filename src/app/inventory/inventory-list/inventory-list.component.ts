@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
-import { RESOURCE_STATUS } from './../../models/inventory';
+import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
@@ -44,6 +44,7 @@ export class InventoryListComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   resourceStatus = RESOURCE_STATUS;
+  resourceStatusNames = RESOURCE_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -117,7 +118,6 @@ export class InventoryListComponent implements OnInit {
     }, 100);
   }
   onCloseModal(ok?: boolean): void {
-    console.log(ok)
     if (ok) {
       this.store.dispatch(new CreateCheckup({ resourceId: this.resourceId }));
     }

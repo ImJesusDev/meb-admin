@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
-import { RESOURCE_STATUS } from './../../models/inventory';
+import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
@@ -46,6 +46,7 @@ export class CheckUpsHistoryComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   resourceStatus = RESOURCE_STATUS;
+  resourceStatusNames = RESOURCE_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -75,7 +76,7 @@ export class CheckUpsHistoryComponent implements OnInit {
   ngOnInit(): void {
     // Use selector to get resources from state
     // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.inventoryService.getCheckupHistory(this.page);
+    this.resources$ = this.inventoryService.getCheckupHistory(this.page, 10);
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => {
@@ -91,18 +92,22 @@ export class CheckUpsHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Completed }));
+      // this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Completed }));
       // this.resources$ = this.store.pipe(select(getResources));
-      this.resources$ = this.inventoryService.getCheckupHistory(this.page);
+      this.resources$ = this.inventoryService.getCheckupHistory(this.page, 10);
       this.loader$ = this.store.pipe(select(getLoader));
+      this.resources$.subscribe(data => {
+        this.resourceLength = data.checkups?.length;
+        this.store.dispatch(new StopLoader());
+      });
     }
   }
 
   calcDays(date: string): number {
-    let checkUpDate = new Date(date);
-    let currentDate = new Date();
+    const checkUpDate = new Date(date);
+    const currentDate = new Date();
 
-    let sub = currentDate.getTime() - checkUpDate.getTime();
+    const sub = currentDate.getTime() - checkUpDate.getTime();
     const results = Math.round(sub / (1000 * 60 * 60 * 24));
     return results;
   }

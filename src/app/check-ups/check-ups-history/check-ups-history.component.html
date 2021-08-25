@@ -18,18 +18,19 @@
             <th>Sede</th>
             <th>Ultimo Chequeo</th>
             <th>Referencia</th>
+            <th>Estado</th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let resource of (resources$|async)?.checkups; let i = index;">
+          <ng-container *ngFor="let checkup of (resources$|async)?.checkups; let i = index;">
             <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-              <td class="p-2"> {{resource.createdAt|date}} </td>
-              <td class="p-2"> {{calcDays(resource.createdAt)}} </td>
-              <td class="p-2"> {{resource.resource?.client}} </td>
-              <td class="p-2"> {{resource.resource?.office}} </td>
+              <td class="p-2"> {{checkup.createdAt|date}} </td>
+              <td class="p-2"> {{calcDays(checkup.createdAt)}} </td>
+              <td class="p-2"> {{checkup.resource?.client}} </td>
+              <td class="p-2"> {{checkup.resource?.office}} </td>
               <!-- ultimo chequeo -->
               <td class="p-2 justify-center flex">
-                <button class="btn-primary hover:bg-green-900" (click)="openLastCheckup(resource, resource.id)">
+                <button class="btn-primary hover:bg-green-900" (click)="openLastCheckup(checkup, checkup.id)">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,7 +38,11 @@
                   </svg>
                 </button>
               </td>
-              <td class="p-2"> {{resource.resource?.reference}} </td>
+              <td class="p-2"> {{checkup.resource?.reference}} </td>
+              <td class="p-2">
+                {{(checkup.resource && checkup.resource.status)?
+                resourceStatusNames[checkup.resource.status] : ''}}
+              </td>
             </tr>
           </ng-container>
 

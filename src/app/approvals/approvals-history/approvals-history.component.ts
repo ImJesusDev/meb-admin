@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
-import { RESOURCE_STATUS } from './../../models/inventory';
+import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
 import { State } from '../../inventory/state';
-import { StartLoader } from '@state/loader/loader.actions';
+import { StartLoader, StopLoader } from '@state/loader/loader.actions';
 import { getLoader } from '@state/loader/loader.selector';
 /* Selectors */
 import { getResources } from '../../inventory/state/inventory/inventory.selector';
@@ -20,6 +20,7 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
+import { MaintenanceService } from '@services/maintenance.service';
 
 @Component({
   selector: 'app-approvals-history',
@@ -29,7 +30,9 @@ import {
 export class ApprovalsHistoryComponent implements OnInit {
 
   /* Observable of clients from store */
-  resources$: Observable<Resource[]> = of([] as Resource[]);
+  resources$: Observable<{ page: number, perPage: number, totalResults: number, maintenances: Checkup[] }> = of({} as {
+    page: number, perPage: number, totalResults: number, maintenances: Checkup[]
+  });
   resourceId: string;
   resourceLength: number;
 
@@ -40,6 +43,7 @@ export class ApprovalsHistoryComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   resourceStatus = RESOURCE_STATUS;
+  resourceStatusNames = RESOURCE_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -49,7 +53,7 @@ export class ApprovalsHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router) {
+  constructor(private store: Store<State>, private router: Router, private maintenanceService: MaintenanceService) {
 
     this.page = 1;
     this.perPage = 10;
@@ -70,8 +74,12 @@ export class ApprovalsHistoryComponent implements OnInit {
     // Use selector to get resources from state
     // this.resources$ = this.store.pipe(select(getResources));
     // Use selector to ger loader state
+    this.resources$ = this.maintenanceService.getHistoryMaintenance({ page: this.page, status: 'approved' });
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.maintenances.length;
+      this.store.dispatch(new StopLoader());
+    });
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -81,17 +89,25 @@ export class ApprovalsHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Maintenance }));
-      this.resources$ = this.store.pipe(select(getResources));
+      // this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Maintenance }));
+      this.resources$ = this.maintenanceService.getHistoryMaintenance({
+        page: this.page,
+        status: 'approved'
+      });
+      // this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
+      this.resources$.subscribe(data => {
+        this.resourceLength = data.maintenances.length;
+        this.store.dispatch(new StopLoader());
+      });
     }
   }
 
   calcDays(date: string): number {
-    let checkUpDate = new Date(date);
-    let currentDate = new Date();
+    const checkUpDate = new Date(date);
+    const currentDate = new Date();
 
-    let sub = currentDate.getTime() - checkUpDate.getTime();
+    const sub = currentDate.getTime() - checkUpDate.getTime();
     const results = Math.round(sub / (1000 * 60 * 60 * 24));
     return results;
   }

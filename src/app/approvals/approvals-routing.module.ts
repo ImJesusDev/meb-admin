@@ -10,6 +10,7 @@ import { AuthGuard } from '../guards/auth.guard';
 /* Components */
 import { ApprovalsComponent } from './approvals/approvals.component';
 import { ApprovalsPendingRepairComponent } from './approvals-pending-repair/approvals-pending-repair.component';
+import { ApprovalsHistoryRepairComponent } from './approvals-history-repair/approvals-history-repair.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: '', component: ApprovalsPendingComponent },
       { path: 'maintenance', component: ApprovalsPendingComponent },
       { path: 'repair', component: ApprovalsPendingRepairComponent },
-      { path: 'historial', component: ApprovalsHistoryComponent }
+      { path: 'historial', component: ApprovalsHistoryComponent },
+      { path: 'historial-reparaciones', component: ApprovalsHistoryRepairComponent }
     ],
   },
 ];

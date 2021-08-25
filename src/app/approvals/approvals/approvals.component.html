@@ -35,7 +35,7 @@
           Pendientes reparación
         </span>
       </a>
-      <a class="hover:underline hover:text-brand flex-row flex" routerLink="/aprovaciones/historial"
+      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprovaciones/historial"
         [ngClass]="{'underline text-brand': route.url==='/aprovaciones/historial'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
@@ -43,7 +43,18 @@
             d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
         </svg>
         <span>
-          Historial
+          Aprovaciones de mantenimientos
+        </span>
+      </a>
+      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprovaciones/historial-reparaciones"
+        [ngClass]="{'underline text-brand': route.url==='/aprovaciones/historial-reparaciones'}">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        </svg>
+        <span>
+          Aprovaciones de reparaciones
         </span>
       </a>
     </div>

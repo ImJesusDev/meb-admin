@@ -11,6 +11,7 @@ import { ApprovalsComponent } from './approvals/approvals.component';
 import { ApprovalsHistoryComponent } from './approvals-history/approvals-history.component';
 import { ApprovalsPendingComponent } from './approvals-pending/approvals-pending.component';
 import { ApprovalsPendingRepairComponent } from './approvals-pending-repair/approvals-pending-repair.component';
+import { ApprovalsHistoryRepairComponent } from './approvals-history-repair/approvals-history-repair.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ApprovalsPendingRepairComponent } from './approvals-pending-repair/appr
     ApprovalsComponent,
     ApprovalsHistoryComponent,
     ApprovalsPendingComponent,
-    ApprovalsPendingRepairComponent
+    ApprovalsPendingRepairComponent,
+    ApprovalsHistoryRepairComponent
   ],
   imports: [
     CommonModule,

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 /* Models */
 import { Resource } from '../../models';
-import { RESOURCE_STATUS } from './../../models/inventory';
+import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 /* State */
@@ -40,6 +40,7 @@ export class MaintenancePendingComponent implements OnInit {
   loader$: Observable<boolean> = of(false);
 
   resourceStatus = RESOURCE_STATUS;
+  resourceStatusNames = RESOURCE_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -96,10 +97,10 @@ export class MaintenancePendingComponent implements OnInit {
   }
 
   calcDays(date: string): number {
-    let checkUpDate = new Date(date);
-    let currentDate = new Date();
+    const checkUpDate = new Date(date);
+    const currentDate = new Date();
 
-    let sub = currentDate.getTime() - checkUpDate.getTime();
+    const sub = currentDate.getTime() - checkUpDate.getTime();
     const results = Math.round(sub / (1000 * 60 * 60 * 24));
     return results;
   }
@@ -107,7 +108,6 @@ export class MaintenancePendingComponent implements OnInit {
 
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
-    console.log(checkup)
     if (checkup) {
       this.resourceId = resourceId;
       this.checkup = checkup;
@@ -133,7 +133,6 @@ export class MaintenancePendingComponent implements OnInit {
     }, 100);
   }
   onCloseModalStartMaintenance(ok?: boolean): void {
-    console.log(ok)
     if (ok) {
       this.store.dispatch(new StartMaintenance({ resourceId: this.resourceId, maintenanceId: this.checkup.id }));
     }
