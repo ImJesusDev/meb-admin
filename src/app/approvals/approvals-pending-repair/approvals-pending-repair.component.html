@@ -108,6 +108,13 @@
   </div>
   <!-- End Mobile Table -->
 
+  <!-- No Resources -->
+  <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async) && page === 1"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>No hay aprobaciones pendientes</p>
+  </div>
+  <!-- End No Resources -->
+
 </div>
 
 <app-check-up-modal [checkup]="checkup" [showBackDrop]="showBackDropL" [showModal]="showModalL"

@@ -99,6 +99,13 @@
 
   </div>
 
+  <!-- No Resources -->
+  <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async) && page === 1"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>No hay chequeos pendientes</p>
+  </div>
+  <!-- End No Resources -->
+
 </div>
 
 <app-update-check-up-modal [showBackDrop]="showBackDrop" [showModal]="showModal" [checkup]="checkup"

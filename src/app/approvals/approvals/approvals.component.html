@@ -4,7 +4,7 @@
   <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
     <!-- Title -->
     <div class="flex items-center space-x-2 sm:space-x-4">
-      <svg routerLink="aprovaciones" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand"
+      <svg routerLink="aprobaciones" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand"
         fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -13,8 +13,8 @@
     </div>
     <!-- End Title -->
     <div class="mt-8 flex-row flex">
-      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprovaciones"
-        [ngClass]="{'underline text-brand': route.url=== '/aprovaciones'}">
+      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprobaciones"
+        [ngClass]="{'underline text-brand': route.url=== '/aprobaciones'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -24,8 +24,8 @@
           Pendientes mantenimiento
         </span>
       </a>
-      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprovaciones/repair"
-        [ngClass]="{'underline text-brand': route.url=== '/aprovaciones/repair'}">
+      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprobaciones/repair"
+        [ngClass]="{'underline text-brand': route.url=== '/aprobaciones/repair'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,26 +35,26 @@
           Pendientes reparación
         </span>
       </a>
-      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprovaciones/historial"
-        [ngClass]="{'underline text-brand': route.url==='/aprovaciones/historial'}">
+      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprobaciones/historial"
+        [ngClass]="{'underline text-brand': route.url==='/aprobaciones/historial'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
         </svg>
         <span>
-          Aprovaciones de mantenimientos
+          Aprobaciones de mantenimientos
         </span>
       </a>
-      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprovaciones/historial-reparaciones"
-        [ngClass]="{'underline text-brand': route.url==='/aprovaciones/historial-reparaciones'}">
+      <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/aprobaciones/historial-reparaciones"
+        [ngClass]="{'underline text-brand': route.url==='/aprobaciones/historial-reparaciones'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
         </svg>
         <span>
-          Aprovaciones de reparaciones
+          Aprobaciones de reparaciones
         </span>
       </a>
     </div>

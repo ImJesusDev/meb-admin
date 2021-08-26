@@ -373,7 +373,7 @@ export class InventoryEffects {
                 confirmButtonColor: '#50b848',
                 icon: 'success',
               });
-              this.router.navigate(['/aprovaciones/historial']);
+              this.router.navigate(['/aprobaciones/historial']);
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
@@ -412,7 +412,7 @@ export class InventoryEffects {
                 confirmButtonColor: '#50b848',
                 icon: 'success',
               });
-              this.router.navigate(['/aprovaciones/historial-reparaciones']);
+              this.router.navigate(['/aprobaciones/historial-reparaciones']);
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

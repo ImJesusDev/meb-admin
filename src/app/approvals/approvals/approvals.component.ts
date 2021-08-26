@@ -15,9 +15,9 @@ export class ApprovalsComponent implements OnInit {
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showAddBtn = true;
-        if (event.url !== '/aprovaciones') {
+        if (event.url !== '/aprobaciones') {
           this.showAddBtn = false;
-        } else if (event.url === '/aprovaciones') {
+        } else if (event.url === '/aprobaciones') {
           this.title = 'Aprobaciones';
         }
       }

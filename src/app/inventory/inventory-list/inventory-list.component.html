@@ -175,11 +175,11 @@
   </div>
   <!-- End Mobile Table -->
   <!-- End Loader -->
-  <!-- No Resources -->
-  <!-- <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async)"
-    class="flex flex-col items-center justify-center w-full h-full space-y-4">
-    <p>Aun no tienes recursos creados</p>
 
+  <!-- No Resources -->
+  <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async) && page === 1"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>No hay recursos creados</p>
     <button routerLink='nuevo-recurso' class="btn-primary hover:bg-green-900">
       <span>Crear nuevo recurso</span>
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -187,8 +187,7 @@
           d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     </button>
-
-  </div> -->
+  </div>
   <!-- End No Resources -->
 
 </div>

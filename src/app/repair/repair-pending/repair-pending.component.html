@@ -123,6 +123,13 @@
 
   </div>
 
+  <!-- No Resources -->
+  <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async) && page === 1"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>No hay reparaciones pendientes</p>
+  </div>
+  <!-- End No Resources -->
+
 </div>
 
 

@@ -34,7 +34,7 @@ const routes: Routes = [
       import('./maintenance/maintenance.module').then((m) => m.MaintenanceModule),
   },
   {
-    path: 'aprovaciones',
+    path: 'aprobaciones',
     loadChildren: () =>
       import('./approvals/approvals.module').then((m) => m.ApprovalsModule),
   },

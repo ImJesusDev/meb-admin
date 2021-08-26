@@ -14,7 +14,7 @@ import { ApprovalsHistoryRepairComponent } from './approvals-history-repair/appr
 
 const routes: Routes = [
   {
-    path: 'aprovaciones',
+    path: 'aprobaciones',
     component: ApprovalsComponent,
     canActivate: [AuthGuard],
     children: [
