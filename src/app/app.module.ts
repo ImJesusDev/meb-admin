@@ -26,10 +26,15 @@ import { ClientsModule } from './clients/clients.module';
 import { SharedModule } from './shared/shared.module';
 import { TeamModule } from './team/team.module';
 import { ResourcesModule } from './resources/resources.module';
+import { InventoryModule } from './inventory/inventory.module';
+import { CheckUpsModule } from './check-ups/check-ups.module';
 /* Effects */
 import { effects } from './state/state';
 /* Guards */
 import { AuthGuard } from './guards/auth.guard';
+import { MaintenanceModule } from './maintenance/maintenance.module';
+import { ApprovalsModule } from './approvals/approvals.module';
+import { RepairModule } from './repair/repair.module';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
@@ -37,6 +42,11 @@ import { AuthGuard } from './guards/auth.guard';
     TeamModule,
     ResourcesModule,
     SharedModule,
+    InventoryModule,
+    CheckUpsModule,
+    MaintenanceModule,
+    ApprovalsModule,
+    RepairModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -50,7 +60,7 @@ import { AuthGuard } from './guards/auth.guard';
     StoreDevtoolsModule.instrument({
       name: 'MEB Admin',
       logOnly: environment.production,
-    }),
+    })
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

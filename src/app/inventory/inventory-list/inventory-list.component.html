@@ -1,0 +1,196 @@
+<div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
+
+  <!-- Loader -->
+  <app-loader *ngIf="(loader$ |async)"></app-loader>
+
+  <!-- Resources Table Desktop only -->
+  <div class="flow-root h-full w-full" *ngIf="!(loader$ | async)">
+
+    <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+
+      <div class="flex flex-col sm:flex-row w-full">
+        <!-- Resource type -->
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+          <label class="text-gray-400" for="client-admin">Tipo de recurso:</label>
+          <select [(ngModel)]="resourceTypeId"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            name="resource-type" id="resource-type">
+            <option [ngValue]="''">
+              Todos
+            </option>
+            <ng-container *ngFor="let resourceType of resourcesTypes$ | async">
+              <option [ngValue]="resourceType.type">
+                {{resourceType.type}}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+
+        <!-- Client -->
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+          <label class="text-gray-400" for="client">Cliente:</label>
+          <input name="client" [(ngModel)]="client"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full" type="text">
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row w-full">
+        <!-- office -->
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+          <label class="text-gray-400" for="office">Sede:</label>
+          <input name="office" [(ngModel)]="office"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full" type="text">
+        </div>
+
+        <!-- state -->
+        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+          <label class="text-gray-400" for="client-admin">Estado:</label>
+          <select [(ngModel)]="state"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            name="resource-type" id="resource-type">
+            <option [value]="''">Todos</option>
+            <option [value]="resourceStatus.Disabled">Desabilitado</option>
+            <option [value]="resourceStatus.Available">Disponible</option>
+            <option [value]="resourceStatus.Checkup">Chequeado</option>
+            <option [value]="resourceStatus.Maintenance">Mantenido</option>
+            <option [value]="resourceStatus.PendingCheckup">Pendiente de chequeo</option>
+            <option [value]="resourceStatus.PendingMaintenance">Pendiente de mantenimiento</option>
+            <option [value]="resourceStatus.PendingRepair">Pendiente de reparación</option>
+            <option [value]="resourceStatus.Repair">Reparado</option>
+            <option [value]="resourceStatus.WaitingApprovalMaintenance">Pendiente de aprovación de mantenimiento
+            </option>
+            <option [value]="resourceStatus.WaitingApprovalRepair">Pendiente de aprovación de reparación</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="flex w-full items-end justify-center flex-1">
+        <button class="btn-primary hover:bg-green-900 h-12" type="submit" (click)="filterResources()">
+          Filtrar
+        </button>
+      </div>
+
+    </div>
+
+    <table class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Referencia</th>
+          <th>Código Qr</th>
+          <th>Clave del recurso</th>
+          <th>Cliente</th>
+          <th>Sede</th>
+          <th>Estado</th>
+          <th>Documentos</th>
+          <th>Historial de chequeos</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let resource of (resources$|async); let i = index;">
+          <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+            <td class="p-2"> {{resource.type}} </td>
+            <td class="p-2"> {{resource.reference}} </td>
+            <td class="p-2">
+              <img [src]="resource.qrCode" alt="Código qr" style="height: 50px; max-width: 50px;" class="mx-auto" />
+            </td>
+            <td class="p-2"> {{resource.lockerPassword}} </td>
+            <td class="p-2"> {{resource.client}} </td>
+            <td class="p-2"> {{resource.office}} </td>
+            <!-- Estado -->
+            <td class="p-2">
+              {{resource.status? resourceStatusNames[resource.status] : ''}}
+            </td>
+            <!-- Documentos -->
+            <td class="p-2">
+              <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                [routerLink]="['/inventario', resource.id, 'documents']">{{resource.documents?.length}}</span>
+            </td>
+            <!-- Historial de checkouts -->
+            <td class="p-2">
+              <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                [routerLink]="['/inventario', resource.id, 'check-ups']">{{resource.checkups?.length}}</span>
+            </td>
+            <!-- Acciones -->
+            <td class="justify-center flex">
+              <button class="btn-primary hover:bg-green-900" (click)="confirmCreateCheckup(resource.id)"
+                *ngIf="resource.status === resourceStatus.Available">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+
+      </tbody>
+    </table>
+
+    <div class="float-right flex-row flex">
+      Pag. {{page}}
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none  mx-2" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor"
+        [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': page > 1}"
+        (click)="changePage(page-1, 'previous')">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none mx-2"
+        [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.length !== 0))}"
+        fill="none" viewBox="0 0 24 24" stroke="currentColor" (click)="changePage(page+1, 'following')">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+
+  </div>
+  <!-- End Resource Table Desktop only -->
+
+  <!-- Mobile Table -->
+  <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
+    *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)">
+
+    <div [ngClass]="{'bg-gray-200': i % 2 === 0}" class="flex flex-col justify-center"
+      *ngFor="let resource of resources$ |async; let i = index;">
+      <div><span class="font-bold">Tipo:</span> {{resource.type}}</div>
+      <div><span class="font-bold">Referencia:</span>{{resource.reference}}</div>
+      <div><span class="font-bold">Código Qr:</span>
+        <img [src]="'data:image/jpeg;base64,' + resource.qrCode" alt="Código qr" style="height: 150px;"
+          class="mx-auto" />
+      </div>
+      <div><span class="font-bold">Código del armario:</span>{{resource.lockerPassword}}</div>
+      <div><span class="font-bold">Cliente:</span>{{resource.client}}</div>
+      <div><span class="font-bold">Oficina:</span>{{resource.office}}</div>
+      <div><span class="font-bold">Tiempo de prestamo:</span>
+        {{
+        resource.status === resourceStatus.Available?
+        'Disponible'
+        :
+        ''
+        }}</div>
+      <div><span class="font-bold">Documentos:</span> {{resource.documents?.length}}</div>
+    </div>
+  </div>
+  <!-- End Mobile Table -->
+  <!-- End Loader -->
+
+  <!-- No Resources -->
+  <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async) && page === 1"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>No hay recursos creados</p>
+    <button routerLink='nuevo-recurso' class="btn-primary hover:bg-green-900">
+      <span>Crear nuevo recurso</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </button>
+  </div>
+  <!-- End No Resources -->
+
+</div>
+
+<app-confirm-modal [showBackDrop]="showBackDrop" [showModal]="showModal" question="¿Desea mandar el recurso a chequeo?"
+  header="Confirmar" (close)="onCloseModal($event)"></app-confirm-modal>

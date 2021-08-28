@@ -73,11 +73,11 @@ export class ResourcesEffects {
     );
   });
   /**
-   * Effect to listen for the AddClient action
-   * and make http request to add client
+   * Effect to listen for the addResourceType action
+   * and make http request to add resource type
    * from API
    */
-  $addClient = createEffect(() => {
+  $addResourceType = createEffect(() => {
     return this.$actions.pipe(
       ofType(ResourcesActionTypes.AddResource),
       switchMap((action: AddResource) =>

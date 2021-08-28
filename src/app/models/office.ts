@@ -11,14 +11,14 @@ export interface Office {
     lng: number | null;
   };
   meb_admin?: User;
-  mebAdmin?: String;
+  mebAdmin?: string;
   repair_admin?: User;
-  repairAdmin?: String;
+  repairAdmin?: string;
   inventory_admin?: User;
-  inventoryAdmin?: String;
+  inventoryAdmin?: string;
   maintenance_admin?: User;
-  maintenanceAdmin?: String;
+  maintenanceAdmin?: string;
   client_admin?: User;
-  clientAdmin?: String;
+  clientAdmin?: string;
   emails?: Email[];
 }

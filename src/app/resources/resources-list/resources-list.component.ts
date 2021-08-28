@@ -20,6 +20,8 @@ import {
 import { Column } from '@molecules/table/table/table.component';
 import { Router } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-resources-list',
   templateUrl: './resources-list.component.html',
@@ -27,13 +29,13 @@ import { Router } from '@angular/router';
 })
 export class ResourcesListComponent implements OnInit, OnDestroy {
 
-  /* Observable of clients from store */
+  /* Observable of resources from store */
   resources$: Observable<ResourceType[]> = of([] as ResourceType[]);
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
 
   columns: Column[];
-  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Versión', 'Componentes', 'Documentos'];
+  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Kilometros de mantenimiento', 'Versión', 'Componentes', 'Documentos'];
 
   /* Component modal */
   showCreateComponent: boolean;
@@ -52,7 +54,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<State>, private router: Router) {
     this.store.dispatch(new StartLoader());
-    // Dispatch action to load clients
+    // Dispatch action to load resources
     this.store.dispatch(new LoadResources());
     this.columns = [
       {
@@ -78,6 +80,10 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       {
         name: 'measureIndicators',
         type: 'boolean'
+      },
+      {
+        name: 'kmToMaintenance',
+        type: 'text'
       },
       {
         name: 'version',

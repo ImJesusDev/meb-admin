@@ -1,0 +1,106 @@
+<div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
+
+  <!-- Loader -->
+  <app-loader *ngIf="(loader$ |async)"></app-loader>
+
+  <!-- Resources Table Desktop only -->
+  <div class="flow-root h-full w-full" *ngIf="!(loader$ | async)">
+
+    <div class="flex flex-col mb-4 w-full">
+
+      <table *ngIf="((resources$ |async)?.repairs?.length !== 0)"
+        class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Días</th>
+            <th>Cliente</th>
+            <th>Sede</th>
+            <th>Ultimo Chequeo</th>
+            <th>Referencia</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let checkOut of (resources$|async)?.repairs; let i = index;">
+            <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+              <td class="p-2">
+                <span>
+                  {{checkOut.createdAt|date}}
+                </span>
+              </td>
+              <td class="p-2"> <span>
+                  {{calcDays(checkOut.createdAt)}}
+                </span>
+              </td>
+              <td class="p-2"> {{checkOut.resource?.client}} </td>
+              <td class="p-2"> {{checkOut.resource?.office}} </td>
+              <!-- ultimo chequeo -->
+              <td class="p-2 justify-center flex">
+                <button class="btn-primary hover:bg-green-900" (click)="openLastCheckup(checkOut, checkOut.id)">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </td>
+              <td class="p-2"> {{checkOut.resource?.reference}} </td>
+              <!-- Estado -->
+              <td class="p-2">
+                {{checkOut.resource && checkOut.resource.status? resourceStatusNames[checkOut.resource.status] : ''}}
+              </td>
+            </tr>
+          </ng-container>
+
+        </tbody>
+      </table>
+
+      <div class="justify-end flex-row flex">
+        Pag. {{page}}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none  mx-2" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor"
+          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': page > 1}"
+          (click)="changePage(page-1, 'previous')">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none mx-2"
+          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.repairs?.length !== 0))}"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" (click)="changePage(page+1, 'following')">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+
+    </div>
+    <!-- End Resource Table Desktop only -->
+
+    <!-- Mobile Table -->
+    <!-- <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
+      *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)">
+
+      <div [ngClass]="{'bg-gray-200': i % 2 === 0}" class="flex flex-col justify-center"
+        *ngFor="let resource of resources$ |async; let i = index;">
+        <div><span class="font-bold">Fecha:</span>
+          <span *ngIf="resource.checkups.length">
+            {{resource.checkups[resource.checkups.length-1].createdAt|date}}
+          </span>
+        </div>
+        <div><span class="font-bold">Días:</span>
+          <span *ngIf="resource.checkups.length">
+            {{calcDays(resource.checkups[resource.checkups.length-1].createdAt)}}
+          </span>
+        </div>
+        <div><span class="font-bold">Cliente:</span>{{resource.client}}</div>
+        <div><span class="font-bold">Oficina:</span>{{resource.office}}</div>
+        <div><span class="font-bold">Ultimo Chequeo:</span></div>
+        <div><span class="font-bold">Referencia:</span> {{resource.reference}}</div>
+      </div>
+    </div> -->
+  </div>
+  <!-- End Mobile Table -->
+
+</div>
+
+<app-check-up-modal [checkup]="checkup" [showBackDrop]="showBackDropL" [showModal]="showModalL"
+  (close)="onCloseLastModal()">
+</app-check-up-modal>

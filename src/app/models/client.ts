@@ -9,9 +9,9 @@ export interface Client {
   slug: string;
   logo: string;
   meb_admin?: User;
-  mebAdmin?: String;
+  mebAdmin?: string;
   super_admin_client?: User;
-  superAdminClient?: String;
+  superAdminClient?: string;
   offices?: Office[];
   domains?: Domain[];
   emails?: Email[];

@@ -132,7 +132,7 @@ export class ClientAdminFormComponent implements OnInit, OnDestroy {
               icon: 'success',
             }).then((result) => {
               if (result.isConfirmed) {
-                this.router.navigate(['/equipo']);
+                this.router.navigate(['/equipo/admin-clientes']);
               }
             });
           }
