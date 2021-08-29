@@ -1,3 +1,4 @@
+import { User } from './../models/user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 /* Environment */
@@ -12,7 +13,7 @@ import { Client, Office } from '../models';
 export class ClientsService {
   apiUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Load all clients

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-back-arrow',
@@ -7,15 +8,22 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class BackArrowComponent implements OnInit {
 
+  @Input() public backRoute: string;
   @Output() public onBack = new EventEmitter();
 
-  constructor() { }
+  constructor(private router: Router) {
+    this.backRoute = '';
+  }
 
   ngOnInit(): void {
   }
 
   back(): void {
-    this.onBack.emit();
+    if (this.backRoute) {
+      this.router.navigate([this.backRoute]);
+    } else {
+      this.onBack.emit();
+    }
   }
 
 }

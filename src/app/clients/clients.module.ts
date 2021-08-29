@@ -4,8 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 /* Routing */
 import { ClientsRoutingModule } from './clients-routing.module';
-/* Components */
-import { ClientsComponent } from './clients/clients.component';
 /* NgRx */
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -14,8 +12,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './state';
 import { ClientListComponent } from './client-list/client-list.component';
 
-/* Shared module */
+/* Shared components */
 import { SharedModule } from '../shared/shared.module';
+import { BackArrowModule } from '@atoms/back-arrow';
+
+/* Components */
+import { ClientsComponent } from './clients/clients.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { OfficeFormComponent } from './office-form/office-form.component';
 import { OfficesListComponent } from './offices-list/offices-list.component';
@@ -26,6 +28,7 @@ import { OfficesListComponent } from './offices-list/offices-list.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    BackArrowModule,
     HttpClientModule,
     ClientsRoutingModule,
     CommonModule,
@@ -33,4 +36,4 @@ import { OfficesListComponent } from './offices-list/offices-list.component';
     EffectsModule.forFeature(effects),
   ],
 })
-export class ClientsModule {}
+export class ClientsModule { }
