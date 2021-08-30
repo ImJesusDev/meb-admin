@@ -7,4 +7,4 @@
 export const generateRandomNumber = ({ length }: { length: number }) => {
   const firstNumber = 10 ** (length - 1);
   return Math.floor(firstNumber + Math.random() * 9 * firstNumber);
-}
+};

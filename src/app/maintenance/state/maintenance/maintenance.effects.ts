@@ -26,7 +26,14 @@ import { StopLoader } from '@state/loader/loader.actions';
 
 /* Models */
 import { ApiError, Resource } from '@models/index';
-import { LoadHistoryMaintenance, LoadHistoryMaintenanceFail, LoadHistoryMaintenanceSuccess, StartMaintenance, StartMaintenanceFail, StartMaintenanceSuccess } from '.';
+import {
+  LoadHistoryMaintenance,
+  LoadHistoryMaintenanceFail,
+  LoadHistoryMaintenanceSuccess,
+  StartMaintenance,
+  StartMaintenanceFail,
+  StartMaintenanceSuccess
+} from '.';
 import { LoadResources } from 'src/app/inventory/state/inventory/inventory.actions';
 import { RESOURCE_STATUS } from '@models/inventory';
 

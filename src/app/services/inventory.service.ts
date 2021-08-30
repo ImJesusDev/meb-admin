@@ -35,7 +35,15 @@ export class InventoryService {
     if (filters.type) {
       query += '&type=' + filters.type;
     }
-    return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`,
+    if (filters.page) {
+      query += '&page=' + filters.page;
+    }
+    if (filters.perPage) {
+      query += '&perPage=' + filters.perPage;
+    }
+    // return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`,
+    //   { withCredentials: true, });
+    return this.http.get<PaginationResources>(`${this.apiUrl}resources?${query}`,
       { withCredentials: true, });
   }
 
@@ -62,7 +70,7 @@ export class InventoryService {
    * @param resourceId Resource id
    */
   createCheckup(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, { }, { withCredentials: true, });
   }
 
   /**
@@ -90,7 +98,7 @@ export class InventoryService {
    * @param resourceId Resource id
    */
   createMaintenance(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, { }, { withCredentials: true, });
   }
 
   /**
@@ -99,7 +107,7 @@ export class InventoryService {
    * @param data data
    */
   updateMaintenance(resourceId: string): Observable<Resource> {
-    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, {}, { withCredentials: true, });
+    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, { }, { withCredentials: true, });
   }
 
 
@@ -108,7 +116,7 @@ export class InventoryService {
    * @param resourceId Resource id
    */
   createReparation(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, { }, { withCredentials: true, });
   }
 
   /**
@@ -117,7 +125,7 @@ export class InventoryService {
    * @param data data
    */
   updateReparation(resourceId: string): Observable<Resource> {
-    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, {}, { withCredentials: true, });
+    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, { }, { withCredentials: true, });
   }
 
 
@@ -126,7 +134,7 @@ export class InventoryService {
    * @param resourceId Resource id
    */
   approve(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/approve`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/approve`, { }, { withCredentials: true, });
   }
 
 }
