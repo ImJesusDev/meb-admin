@@ -44,12 +44,12 @@ export class InventoryListComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
+  /* Observable of clients from store */
+  clients$: Observable<Client[]> = of([] as Client[]);
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
 
-  /* Observable of clients from store */
-  clients$: Observable<Client[]> = of([] as Client[]);
 
   resourceStatus = RESOURCE_STATUS;
   resourceStatusNames = RESOURCE_STATUS_NAMES;
@@ -106,10 +106,10 @@ export class InventoryListComponent implements OnInit {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources));
     this.resourcesTypes$ = this.store.pipe(select(getResourceTypes));
-    // Use selector to ger loader state
-    this.loader$ = this.store.pipe(select(getLoader));
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients));
+    // Use selector to ger loader state
+    this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.length);
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
   }

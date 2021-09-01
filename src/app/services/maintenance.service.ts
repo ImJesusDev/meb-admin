@@ -24,7 +24,7 @@ export class MaintenanceService {
    * @param resourceId Resource id
    */
   createMaintenance(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, { }, { withCredentials: true, });
   }
 
   /**
@@ -48,12 +48,18 @@ export class MaintenanceService {
   /**
    * Get History maintenance
    */
-  getHistoryMaintenance({ page, perPage = 10, status }: { page: number, perPage?: number, status?: string }): Observable<any> {
+  getHistoryMaintenance({ page, perPage = 10, status }: { page?: number, perPage?: number, status?: string }): Observable<any> {
     let statusQuery = '';
+    if (page) {
+      statusQuery += '&page=' + page;
+    }
+    if (perPage) {
+      statusQuery += '&perPage=' + perPage;
+    }
     if (status) {
       statusQuery += '&status=' + status;
     }
-    return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?page=${page}&perPage=${perPage}${statusQuery}`,
+    return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?${statusQuery}`,
       { withCredentials: true, });
   }
 }

@@ -8,7 +8,61 @@
 
     <div class="flex flex-col mb-4 w-full">
 
-      <table *ngIf="((resources$ |async)?.length !== 0)"
+      <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+
+        <div class="flex flex-col sm:flex-row w-full">
+          <!-- Resource type -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+            <label class="text-gray-400" for="client-admin">Tipo de recurso:</label>
+            <select [(ngModel)]="resourceTypeId"
+              class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+              name="resource-type" id="resource-type" (ngModelChange)="filterResources()">
+              <option [ngValue]="''">
+                Todos
+              </option>
+              <ng-container *ngFor="let resourceType of resourcesTypes$ | async">
+                <option [ngValue]="resourceType.type">
+                  {{resourceType.type}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+
+          <!-- Client -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+            <label class="text-gray-400" for="client">Cliente:</label>
+            <select name="client" [(ngModel)]="client" id="client" (ngModelChange)="selectClient()"
+              class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full">
+              <option [value]="''">Todos</option>
+              <ng-container *ngFor="let client of clients$ | async">
+                <option [ngValue]="client.name">
+                  {{client.name}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="flex flex-col sm:flex-row w-full">
+          <!-- office -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+            <label class="text-gray-400" for="office">Sede:</label>
+            <select name="office" [(ngModel)]="office" required id="office" (ngModelChange)="filterResources()"
+              class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full">
+              <ng-container *ngIf="clientSelected !== undefined && clientSelected !== null">
+                <option [value]="''">Todos</option>
+                <option [ngValue]="office.name" *ngFor="let office of clientSelected.offices">
+                  {{office.name}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4"></div>
+        </div>
+      </div>
+
+      <table
         class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
         <thead>
           <tr>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* NgRx */
 import { StoreModule } from '@ngrx/store';
@@ -27,6 +28,8 @@ import { MaintenanceHistoryComponent } from './maintenance-history/maintenance-h
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaintenanceRoutingModule,
     ModalModule,
     SharedModule,

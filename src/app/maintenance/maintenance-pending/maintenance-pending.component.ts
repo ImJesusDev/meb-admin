@@ -1,7 +1,11 @@
+import { Navigation } from './../../utils/helpers/navigation.helper';
+import { getClients } from './../../clients/state/clients/clients.selector';
+import { LoadClients } from './../../clients/state/clients/clients.actions';
+import { Client } from './../../models/client';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -15,6 +19,10 @@ import { StartLoader } from '@state/loader/loader.actions';
 import { getLoader } from '@state/loader/loader.selector';
 /* Selectors */
 import { getResources } from '../../inventory/state/inventory/inventory.selector';
+import {
+  LoadResources as LoadResourcesTypes,
+} from '../../resources/state/resources/resources.actions';
+import { getResources as getResourceTypes } from '../../resources/state/resources/resources.selector';
 /* Actions */
 import {
   LoadResources,
@@ -35,6 +43,8 @@ export class MaintenancePendingComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
+  /* Observable of clients from store */
+  clients$: Observable<Client[]> = of([] as Client[]);
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -44,6 +54,12 @@ export class MaintenancePendingComponent implements OnInit {
 
   page: number;
   perPage: number;
+
+  resourceTypeId: string;
+  client: string;
+  clientSelected: Client;
+  office: string;
+  state: string;
 
   /* Modals */
   showBackDrop = false;
@@ -58,14 +74,13 @@ export class MaintenancePendingComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router) {
+  constructor(private store: Store<State>, private router: Router, private navigation: Navigation, private route: ActivatedRoute) {
 
     this.page = 1;
     this.perPage = 10;
-    this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingMaintenance }));
     this.resourceLength = 0;
+
+    this.resourceId = '';
     this.checkup = {
       components: [],
       createdAt: '',
@@ -73,11 +88,42 @@ export class MaintenancePendingComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.resourceTypeId = '';
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.state = '';
+
+    this.route.queryParams.subscribe(
+      params => {
+        this.client = params.client;
+        this.office = params.office;
+        this.state = params.status;
+        this.resourceTypeId = params.type;
+      }
+    );
+
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadResources({
+      page: this.page,
+      perPage: this.perPage,
+      client: this.client,
+      status: this.resourceStatus.PendingMaintenance,
+      office: this.office,
+      type: this.resourceTypeId
+    }));
+    this.store.dispatch(new LoadResourcesTypes());
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources));
+    this.resourcesTypes$ = this.store.pipe(select(getResourceTypes));
+    // Use selector to get clients from state
+    this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.length);
@@ -90,7 +136,14 @@ export class MaintenancePendingComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingMaintenance }));
+      this.store.dispatch(new LoadResources({
+        page: this.page,
+        perPage: this.perPage,
+        status: this.resourceStatus.PendingMaintenance,
+        type: this.resourceTypeId,
+        client: this.client,
+        office: this.office
+      }));
       this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
     }
@@ -159,5 +212,28 @@ export class MaintenancePendingComponent implements OnInit {
     setTimeout(() => {
       this.showModal = false;
     }, 100);
+  }
+
+  filterResources(): void {
+    this.page = 1;
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadResources({
+      client: this.client,
+      office: this.office,
+      status: this.resourceStatus.PendingMaintenance,
+      type: this.resourceTypeId,
+    }));
+    this.resources$ = this.store.pipe(select(getResources));
+    this.loader$ = this.store.pipe(select(getLoader));
+    this.navigation.setQueryParams({
+      client: this.client ? this.client : null,
+      office: this.office && this.client ? this.office : null,
+      status: this.state ? this.state : null,
+      type: this.resourceTypeId ? this.resourceTypeId : null
+    });
+  }
+  selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.filterResources();
   }
 }
