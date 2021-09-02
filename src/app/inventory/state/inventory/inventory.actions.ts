@@ -13,9 +13,15 @@ export enum InventoryActionTypes {
   AddResource = '[Inventory] Add Resource',
   AddResourceSuccess = '[Inventory] Add Resource Success',
   AddResourceFail = '[Inventory] Add Resource Fail',
+  UpdateResource = '[Inventory] Update resource',
+  UpdateResourceSuccess = '[Inventory] Update resource success',
+  UpdateResourceFail = '[Inventory] Update resource fail',
   CreateCheckup = '[Inventory] Create checkup',
   CreateCheckupSuccess = '[Inventory] Create checkup success',
   CreateCheckupFail = '[Inventory] Create checkup fail',
+  CreateCheckups = '[Inventory] Create checkups',
+  CreateCheckupsSuccess = '[Inventory] Create checkups success',
+  CreateCheckupsFail = '[Inventory] Create checkups fail',
   UpdateCheckup = '[Inventory] Update checkup',
   UpdateCheckupSuccess = '[Inventory] Update checkup success',
   UpdateCheckupFail = '[Inventory] Update checkup fail',
@@ -50,7 +56,7 @@ export class LoadResources implements Action {
 // Load Success
 export class LoadResourcesSuccess implements Action {
   readonly type = InventoryActionTypes.LoadResourcesSuccess;
-  constructor(public payload: Resource[]) { }
+  constructor(public payload: Resource[], public page: number, public totalResults: number) { }
 }
 // Load Fail
 export class LoadResourcesFail implements Action {
@@ -81,6 +87,25 @@ export class AddResourceFail implements Action {
 }
 
 
+// Update Resource
+export class UpdateResource implements Action {
+  readonly type = InventoryActionTypes.UpdateResource;
+  constructor(public payload: Resource) { }
+}
+
+// Update Resource Success
+export class UpdateResourceSuccess implements Action {
+  readonly type = InventoryActionTypes.UpdateResourceSuccess;
+  constructor(public payload: Resource) { }
+}
+
+// Update Resource Fail
+export class UpdateResourceFail implements Action {
+  readonly type = InventoryActionTypes.UpdateResourceFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+
 /**
  * Checkup
  */
@@ -101,6 +126,24 @@ export class CreateCheckupSuccess implements Action {
 // Create checkup Fail
 export class CreateCheckupFail implements Action {
   readonly type = InventoryActionTypes.CreateCheckupFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+// Create checkups
+export class CreateCheckups implements Action {
+  readonly type = InventoryActionTypes.CreateCheckups;
+  constructor(public payload: { resources: Resource[] }) { }
+}
+
+// Create checkups Success
+export class CreateCheckupsSuccess implements Action {
+  readonly type = InventoryActionTypes.CreateCheckupsSuccess;
+  constructor(public payload: Resource[]) { }
+}
+
+// Create checkups Fail
+export class CreateCheckupsFail implements Action {
+  readonly type = InventoryActionTypes.CreateCheckupsFail;
   constructor(public payload: ApiError[]) { }
 }
 
@@ -273,9 +316,15 @@ export type InventoryActions =
   | AddResource
   | AddResourceSuccess
   | AddResourceFail
+  | UpdateResource
+  | UpdateResourceSuccess
+  | UpdateResourceFail
   | CreateCheckup
   | CreateCheckupSuccess
   | CreateCheckupFail
+  | CreateCheckups
+  | CreateCheckupsSuccess
+  | CreateCheckupsFail
   | UpdateCheckup
   | UpdateCheckupSuccess
   | UpdateCheckupFail

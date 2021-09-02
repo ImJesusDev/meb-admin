@@ -74,6 +74,14 @@ export class InventoryService {
   }
 
   /**
+   * Create checkups
+   * @param resources resources to create checkups
+   */
+  createCheckups({ resources }: { resources: Resource[] }): Observable<Resource[]> {
+    return this.http.post<Resource[]>(`${this.apiUrl}resources/load-resources`, { resources }, { withCredentials: true, });
+  }
+
+  /**
    * Get checkup history
    * @param page Page
    * @param perPage Per page

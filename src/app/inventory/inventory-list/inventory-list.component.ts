@@ -3,7 +3,7 @@ import { getClients } from './../../clients/state/clients/clients.selector';
 import { LoadClients } from './../../clients/state/clients/clients.actions';
 import { Client } from './../../models/client';
 import { Navigation } from './../../utils/helpers/navigation.helper';
-import { CreateCheckup } from './../state/inventory/inventory.actions';
+import { CreateCheckup, UpdateResource, UpdateResourceSuccess } from './../state/inventory/inventory.actions';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -67,6 +67,8 @@ export class InventoryListComponent implements OnInit {
   showBackDrop = false;
   showModal = false;
 
+  checkedResources: Resource[];
+
   constructor(private store: Store<State>, private router: Router, private navigation: Navigation, private route: ActivatedRoute) {
 
     this.page = 1;
@@ -78,14 +80,13 @@ export class InventoryListComponent implements OnInit {
     this.office = '';
     this.state = '';
     this.resourceLength = 0;
+    this.checkedResources = [];
     this.route.queryParams.subscribe(
       params => {
         this.client = params.client;
         this.office = params.office;
         this.state = params.status;
         this.resourceTypeId = params.type;
-        if (params.page) { this.page = params.page; }
-        if (params.perPage) { this.perPage = params.perPage; }
       });
     this.store.dispatch(new StartLoader());
     this.store.dispatch(new LoadResources({
@@ -110,7 +111,10 @@ export class InventoryListComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.length;
+      Object.assign(this.checkedResources, data);
+    });
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
   }
 
@@ -142,9 +146,7 @@ export class InventoryListComponent implements OnInit {
       client: this.client ? this.client : null,
       office: this.office && this.client ? this.office : null,
       status: this.state ? this.state : null,
-      type: this.resourceTypeId ? this.resourceTypeId : null,
-      page: this.page,
-      perPage: this.perPage
+      type: this.resourceTypeId ? this.resourceTypeId : null
     });
   }
 
@@ -169,4 +171,14 @@ export class InventoryListComponent implements OnInit {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
     this.filterResources();
   }
+
+  changeChecked(index: number): any {
+    this.checkedResources[index] = { ...this.checkedResources[index], checked: !this.checkedResources[index].checked };
+    this.store.dispatch(new UpdateResourceSuccess(this.checkedResources[index]));
+  }
+
+  getCheckedResources(): Resource[] {
+    return this.checkedResources;
+  }
+
 }

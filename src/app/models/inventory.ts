@@ -27,6 +27,7 @@ export interface Resource {
   maintenances: Checkup[];
   version?: number;
   status?: typeResourceStatus;
+  checked?: boolean;
 }
 
 export interface Document {

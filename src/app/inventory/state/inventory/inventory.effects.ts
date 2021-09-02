@@ -24,6 +24,9 @@ import {
   CreateCheckup,
   CreateCheckupSuccess,
   CreateCheckupFail,
+  CreateCheckups,
+  CreateCheckupsSuccess,
+  CreateCheckupsFail,
   UpdateCheckup,
   UpdateCheckupSuccess,
   UpdateCheckupFail,
@@ -81,7 +84,7 @@ export class InventoryEffects {
           .pipe(
             mergeMap((pagination: PaginationResources) => [
               new StopLoader(),
-              new LoadResourcesSuccess(pagination.resources)
+              new LoadResourcesSuccess(pagination.resources, pagination.page, pagination.totalResults)
             ]),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
@@ -186,6 +189,53 @@ export class InventoryEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new CreateCheckupFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the CreateCheckup action
+   * and make http request to create checkup
+   * from API
+   */
+  $createCheckups = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(InventoryActionTypes.CreateCheckups),
+      switchMap((action: CreateCheckups) =>
+        this._inventoryService.createCheckups(action.payload)
+          .pipe(
+            mergeMap((resources: Resource[]) => [
+              new StopLoader(),
+              new CreateCheckupsSuccess(resources),
+              new LoadResources()
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Recursos enviado a chequeo!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                Swal.fire({
+                  title: '¡Error al enviar los recursos a chequeo!',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'success',
+                });
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new CreateCheckupsFail(errors), new StopLoader());
             })
           )
       )

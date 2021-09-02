@@ -1,8 +1,17 @@
-import { ResourceFilters } from './../../models/inventory';
+import { CreateCheckups } from './../state/inventory/inventory.actions';
+import { Resource } from 'src/app/models';
+import { Observable, of } from 'rxjs';
+/* State */
+import { State } from '../state';
+import { select, Store } from '@ngrx/store';
+import { ResourceFilters, RESOURCE_STATUS } from './../../models/inventory';
 import { InventoryService } from './../../services/inventory.service';
 import { downloadExcel } from './../../utils/helpers/excel.helper';
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
+import { getResources } from '../state/inventory/inventory.selector';
+import { InventoryListComponent } from '../inventory-list/inventory-list.component';
+
 
 @Component({
   selector: 'app-inventory',
@@ -16,8 +25,20 @@ export class InventoryComponent implements OnInit {
   url: string[] = [];
   filters: ResourceFilters;
   downloading: boolean;
+  resources: Resource[];
 
-  constructor(private route: Router, private inventoryService: InventoryService, private activatedRoute: ActivatedRoute) {
+  showBackDrop = false;
+  showModal = false;
+
+  /* Observable of clients from store */
+  resources$: Observable<Resource[]> = of([] as Resource[]);
+
+  constructor(
+    private store: Store<State>,
+    private route: Router,
+    private inventoryService: InventoryService,
+    private activatedRoute: ActivatedRoute
+  ) {
     // Workaround to show button to add clients
     // only in the clients list screen
     this.filters = { };
@@ -42,9 +63,37 @@ export class InventoryComponent implements OnInit {
         this.filters.perPage = 99999999999999999999999999;
       });
     this.downloading = false;
+    this.resources = [];
   }
 
   ngOnInit(): void {
+    this.resources$ = this.store.pipe(select(getResources));
+  }
+
+  createCheckup(): void {
+    this.resources$.subscribe(data => {
+      this.resources = data.filter(r => r.checked && r.status === RESOURCE_STATUS.Available);
+      if (this.resources.length > 0) {
+        this.confirmCreateCheckup();
+      }
+    });
+  }
+
+
+  confirmCreateCheckup(): void {
+    this.showBackDrop = true;
+    setTimeout(() => {
+      this.showModal = true;
+    }, 100);
+  }
+  onCloseModal(ok?: boolean): void {
+    if (ok) {
+      this.store.dispatch(new CreateCheckups({ resources: this.resources }));
+    }
+    this.showBackDrop = false;
+    setTimeout(() => {
+      this.showModal = false;
+    }, 100);
   }
 
   async onDownloadExcel(): Promise<void> {

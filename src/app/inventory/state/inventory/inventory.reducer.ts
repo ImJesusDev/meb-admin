@@ -50,6 +50,25 @@ export function reducer(state = initialState, action: InventoryActions): State {
     }
 
 
+    case InventoryActionTypes.UpdateResourceSuccess: {
+      return adapter.updateOne(
+        { id: action.payload.id, changes: action.payload },
+        {
+          ...state,
+          error: [],
+        }
+      );
+    }
+
+
+    case InventoryActionTypes.AddResourceFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+
     /**
      * Checkups
      */
@@ -62,6 +81,22 @@ export function reducer(state = initialState, action: InventoryActions): State {
     }
 
     case InventoryActionTypes.CreateCheckupFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+    case InventoryActionTypes.CreateCheckupsSuccess: {
+      return adapter.updateMany(
+        action.payload.map((category) => Object.assign({ }, { id: category.id, changes: category })),
+        {
+          ...state,
+          error: [],
+        });
+    }
+
+    case InventoryActionTypes.CreateCheckupsFail: {
       return {
         ...state,
         error: action.payload,
