@@ -1,4 +1,4 @@
-import { CreateCheckups } from './../state/inventory/inventory.actions';
+import { CreateCheckups, ChangeLockerPass } from './../state/inventory/inventory.actions';
 import { Resource } from 'src/app/models';
 import { Observable, of } from 'rxjs';
 /* State */
@@ -17,6 +17,7 @@ import { CreateMaintenances } from 'src/app/maintenance/state/maintenance';
 import { finalize } from 'rxjs/operators';
 /* rxjs */
 import { Subscription } from 'rxjs';
+import { generateRandomNumber } from 'src/app/utils/helpers/number.helper';
 
 
 @Component({
@@ -97,6 +98,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  /* Create checkups */
   createCheckup(): void {
     if (this.activeAndCheckedResources.length > 0) {
       this.confirmCreateCheckup();
@@ -118,7 +120,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     });
   }
 
-
+  /* Create maintenances*/
   createMaintenance(): void {
     this.activeAndCheckedResources.forEach(r => {
       if (r.checked && r.status === RESOURCE_STATUS.Available) {
@@ -145,13 +147,18 @@ export class InventoryComponent implements OnInit, OnDestroy {
     });
   }
 
+  /* Change locker pass */
   changeLockerPass(): void {
     if (this.checkedResources.length > 0) {
-      this.confirmCreateCheckup();
+      this.confirmChangeLockerPass();
     }
   }
 
   confirmChangeLockerPass(): void {
+    const resources: { reference: string, lockerPassword: number }[] = [];
+    this.checkedResources.forEach(r => {
+      resources.push({ reference: r.reference, lockerPassword: generateRandomNumber({ length: 4 }) });
+    });
     Swal.fire({
       title: '¿Estás seguro que desea cambiar la clave del candado?',
       showCancelButton: false,
@@ -161,11 +168,12 @@ export class InventoryComponent implements OnInit, OnDestroy {
       confirmButtonColor: '#50b848',
     }).then((result) => {
       if (result.isConfirmed) {
-        // this.store.dispatch(new CreateMaintenances({ maintenances }));
+        this.store.dispatch(new ChangeLockerPass({ resources }));
       }
     });
   }
 
+  /* Download Excel */
   async onDownloadExcel(): Promise<void> {
     this.downloading = true;
     try {

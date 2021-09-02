@@ -97,13 +97,13 @@ export class UpdateResourceFail implements Action {
 // Change locker pass
 export class ChangeLockerPass implements Action {
   readonly type = InventoryActionTypes.ChangeLockerPass;
-  constructor(public payload: Resource[]) { }
+  constructor(public payload: { resources: { reference: string, lockerPassword: number }[] }) { }
 }
 
 // Change locker pass Success
 export class ChangeLockerPassSuccess implements Action {
   readonly type = InventoryActionTypes.ChangeLockerPassSuccess;
-  constructor(public payload: Resource) { }
+  constructor(public payload: Resource[]) { }
 }
 
 // Change locker pass Fail
@@ -225,6 +225,9 @@ export type InventoryActions =
   | UpdateResource
   | UpdateResourceSuccess
   | UpdateResourceFail
+  | ChangeLockerPass
+  | ChangeLockerPassSuccess
+  | ChangeLockerPassFail
   | CreateCheckup
   | CreateCheckupSuccess
   | CreateCheckupFail

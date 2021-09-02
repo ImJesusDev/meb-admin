@@ -21,6 +21,9 @@ import {
   AddResource,
   AddResourceSuccess,
   AddResourceFail,
+  ChangeLockerPass,
+  ChangeLockerPassSuccess,
+  ChangeLockerPassFail,
   CreateCheckup,
   CreateCheckupSuccess,
   CreateCheckupFail,
@@ -125,6 +128,53 @@ export class InventoryEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new AddResourceFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the AddClient action
+   * and make http request to add client
+   * from API
+   */
+  $changeLockerPassword = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(InventoryActionTypes.ChangeLockerPass),
+      switchMap((action: ChangeLockerPass) =>
+        this.inventoryService.updateLockerPassword(action.payload)
+          .pipe(
+            mergeMap((resource: Resource[]) => [
+              new StopLoader(),
+              new ChangeLockerPassSuccess(resource),
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Contraseñas actualizadas!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                Swal.fire({
+                  title: '¡Error actualizando las contraseñas!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+                errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new ChangeLockerPassFail(errors), new StopLoader());
             })
           )
       )

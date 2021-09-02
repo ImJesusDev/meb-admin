@@ -69,6 +69,22 @@ export function reducer(state = initialState, action: InventoryActions): State {
     }
 
 
+    case InventoryActionTypes.ChangeLockerPassSuccess: {
+      return adapter.updateMany(
+        action.payload.map((category) => Object.assign({ }, { id: category.id, changes: category })),
+        {
+          ...state,
+          error: [],
+        });
+    }
+    case InventoryActionTypes.ChangeLockerPassFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
+
     /**
      * Checkups
      */

@@ -72,6 +72,15 @@ export class InventoryService {
   }
 
 
+  /**
+   * Update locker password
+   * @param param0 Resources
+   */
+  updateLockerPassword({ resources }: { resources: { reference: string, lockerPassword: number }[] }): Observable<Resource[]> {
+    return this.http.post<Resource[]>(`${this.apiUrl}resources/update-lockers`, { resources }, { withCredentials: true, });
+  }
+
+
 
   /**
    * Create checkup
