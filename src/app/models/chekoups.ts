@@ -14,6 +14,7 @@ export interface Component {
   componentName: string;
   status: string;
   comment?: string;
+  photo?: string;
 }
 
 export const COMPONENT_STATUS = {

@@ -20,6 +20,7 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +43,7 @@
                   d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </td>
-            <td class="p-2 justify-center flex">
+            <td class="p-2">
               <!-- Good -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" [ngClass]="{'text-brand':component.status === componentStatus.Good}">
@@ -51,6 +52,7 @@
               </svg>
             </td>
             <td>{{component.comment}}</td>
+            <td><img *ngIf="component.photo" [src]="component.photo" /></td>
           </tr>
         </ng-container>
       </tbody>

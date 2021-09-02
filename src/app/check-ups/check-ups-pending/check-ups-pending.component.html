@@ -1,14 +1,13 @@
 <div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
 
   <!-- Loader -->
-  <app-loader *ngIf="(loader$ |async)"></app-loader>
 
   <!-- Resources Table Desktop only -->
-  <div class="flow-root h-full w-full" *ngIf="!(loader$ | async)">
+  <div class="flow-root h-full w-full">
 
     <div class="flex flex-col mb-4 w-full">
 
-      <table *ngIf="((resources$ |async)?.length !== 0)"
+      <table
         class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
         <thead>
           <tr>
@@ -58,6 +57,8 @@
 
         </tbody>
       </table>
+
+      <app-loader *ngIf="(loader$ |async)"></app-loader>
 
       <div class="justify-end flex-row flex">
         Pag. {{page}}

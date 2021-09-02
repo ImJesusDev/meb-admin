@@ -58,8 +58,8 @@ export class CheckUpModalComponent implements OnInit {
           componentName: v.get('componentName')?.value,
           status: v.get('status')?.value,
           photo: v.get('photo')?.value,
-        })
-      })
+        });
+      });
       this.close.emit({
         checkupId: this.checkup.id,
         components: data
@@ -71,7 +71,6 @@ export class CheckUpModalComponent implements OnInit {
 
 
   openCamera(id: string): void {
-    console.log(id)
     document.getElementById(id)?.click();
   }
 

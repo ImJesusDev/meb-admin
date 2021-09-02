@@ -43,7 +43,8 @@ export class ComponentCommentaryModalComponent implements OnInit {
           componentId: new FormControl(c.componentId),
           componentName: new FormControl(c.componentName),
           status: new FormControl(c.status),
-          comment: new FormControl()
+          comment: new FormControl(),
+          photo: new FormControl()
         })
       );
     });
@@ -58,6 +59,7 @@ export class ComponentCommentaryModalComponent implements OnInit {
           componentName: v.get('componentName')?.value,
           status: v.get('status')?.value,
           comment: v.get('comment')?.value,
+          photo: v.get('photo')?.value,
         })
       );
       console.log(data);
@@ -74,4 +76,16 @@ export class ComponentCommentaryModalComponent implements OnInit {
     this.checkUpForm.controls[index]?.get('comment')?.setValue(($event.target as HTMLInputElement).value);
   }
 
+  openCamera(id: string): void {
+    document.getElementById(id)?.click();
+  }
+
+  onFileSelected(event: any, index: number): void {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = e => this.checkUpForm.controls[index]?.get('photo')?.setValue(reader.result);
+      reader.readAsDataURL(file);
+    }
+  }
 }
