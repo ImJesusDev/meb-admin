@@ -1,8 +1,9 @@
+import { calcDays } from 'src/app/utils/helpers/date.helper';
 import { Checkup } from './../../models/chekoups';
 import { MaintenanceService } from './../../services/maintenance.service';
 import { downloadExcel } from './../../utils/helpers/excel.helper';
 import { InventoryService } from '@services/inventory.service';
-import { ResourceFilters, RESOURCE_STATUS, PaginationResources } from './../../models/inventory';
+import { ResourceFilters, RESOURCE_STATUS, PaginationResources, RESOURCE_STATUS_NAMES } from './../../models/inventory';
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 
@@ -43,12 +44,12 @@ export class MaintenanceComponent implements OnInit {
     });
     this.activatedRoute.queryParams.subscribe(
       params => {
-        this.filters.client = params.client;
-        this.filters.office = params.office;
         this.filters.status = this.resourceStatus.PendingMaintenance;
-        this.filters.type = params.type;
         this.filters.page = undefined;
         this.filters.perPage = 99999999999999999999999999;
+        this.filters.client = params.client;
+        this.filters.office = params.office;
+        this.filters.type = params.type;
         this.filters.from = params.from;
         this.filters.to = params.to;
         this.filters.reference = params.reference;
@@ -78,30 +79,18 @@ export class MaintenanceComponent implements OnInit {
 
       const { resources } = await this.inventoryService.getResources(this.filters).toPromise();
       const columns = new Array();
-      columns.push(['', '', '', '', '', '', 'Documentos', '', '', '', '']);
-      const columnsLabels = ['Tipo', 'Referencia', 'Clave del recurso', 'Cliente', 'Sede', 'Estado'];
-      columns.push(columnsLabels);
+      columns.push(['Fecha', 'Días', 'Cliente', 'Sede', 'Referencia', 'Estado']);
       resources.forEach(resource => {
         const rows = new Array();
-        rows.push(resource.type);
-        rows.push(resource.reference);
-        rows.push(resource.lockerPassword);
+        rows.push(new Date(resource.maintenances[resource.maintenances.length - 1].createdAt).toLocaleDateString());
+        rows.push(calcDays(resource.maintenances[resource.maintenances.length - 1].createdAt));
         rows.push(resource.client);
         rows.push(resource.office);
-        rows.push(resource.status);
-        const documentColumns = new Array();
-        resource.documents.forEach((d, i) => {
-          rows.push(d.type);
-          rows.push(d.expeditionDate?.toLocaleString());
-          rows.push(d.expirationDate?.toLocaleString());
-          documentColumns.push(`Tipo de documento ${i + 1}`);
-          documentColumns.push(`Fecha de expedición del documento ${i + 1}`);
-          documentColumns.push(`Fecha de expiración del documento ${i + 1}`);
-        });
-        columns[1] = columnsLabels.concat(documentColumns);
+        rows.push(resource.reference);
+        rows.push(resource.status ? RESOURCE_STATUS_NAMES[resource.status] : '');
         columns.push(rows);
       });
-      downloadExcel({ data: columns, filename: 'inventario' });
+      downloadExcel({ data: columns, filename: 'Mantenimientos' });
     } catch (e) {
       console.log(e);
     }
@@ -111,42 +100,26 @@ export class MaintenanceComponent implements OnInit {
   async onDownloadHistoryExcel(): Promise<void> {
     this.downloading = true;
     try {
-      let paginationResources: PaginationResources = { } as PaginationResources;
-      if (this.url[0] === '/mantenimientos') {
-        paginationResources = await this.inventoryService.getResources(this.filters).toPromise();
-      } else if (this.url[0] === '/mantenimientos/historial') {
-      }
       const response = await this.maintenanceService.getHistoryMaintenance({
         page: this.filters.page,
-        perPage: this.filters.perPage
+        perPage: this.filters.perPage,
+        from: this.filters.from,
+        to: this.filters.to
       }).toPromise();
       const maintenances: Checkup[] = response.maintenances;
-
       const columns = new Array();
-      columns.push(['', '', '', '', '', '', 'Documentos', '', '', '', '']);
-      const columnsLabels = ['Tipo', 'Referencia', 'Clave del recurso', 'Cliente', 'Sede', 'Estado'];
-      columns.push(columnsLabels);
-      maintenances.forEach(resource => {
+      columns.push(['Fecha', 'Días', 'Cliente', 'Sede', 'Referencia', 'Estado']);
+      maintenances.forEach(maintenance => {
         const rows = new Array();
-        rows.push(resource.resource?.type);
-        rows.push(resource.resource?.reference);
-        rows.push(resource.resource?.lockerPassword);
-        rows.push(resource.resource?.client);
-        rows.push(resource.resource?.office);
-        rows.push(resource.resource?.status);
-        const documentColumns = new Array();
-        resource.resource?.documents.forEach((d, i) => {
-          rows.push(d.type);
-          rows.push(d.expeditionDate?.toLocaleString());
-          rows.push(d.expirationDate?.toLocaleString());
-          documentColumns.push(`Tipo de documento ${i + 1}`);
-          documentColumns.push(`Fecha de expedición del documento ${i + 1}`);
-          documentColumns.push(`Fecha de expiración del documento ${i + 1}`);
-        });
-        columns[1] = columnsLabels.concat(documentColumns);
+        rows.push(maintenance.createdAt);
+        rows.push(calcDays(maintenance.createdAt));
+        rows.push(maintenance.resource?.client);
+        rows.push(maintenance.resource?.office);
+        rows.push(maintenance.resource?.reference);
+        rows.push(maintenance.resource && maintenance.resource.status ? RESOURCE_STATUS_NAMES[maintenance.resource.status] : '');
         columns.push(rows);
       });
-      downloadExcel({ data: columns, filename: 'inventario' });
+      downloadExcel({ data: columns, filename: 'Historial de mantenimientos' });
     } catch (e) {
       console.log(e);
     }
