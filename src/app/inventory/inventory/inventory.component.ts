@@ -7,13 +7,16 @@ import { select, Store } from '@ngrx/store';
 import { ResourceFilters, RESOURCE_STATUS } from './../../models/inventory';
 import { InventoryService } from './../../services/inventory.service';
 import { downloadExcel } from './../../utils/helpers/excel.helper';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { getResources } from '../state/inventory/inventory.selector';
 import { InventoryListComponent } from '../inventory-list/inventory-list.component';
 /* Libs */
 import Swal from 'sweetalert2';
 import { CreateMaintenances } from 'src/app/maintenance/state/maintenance';
+import { finalize } from 'rxjs/operators';
+/* rxjs */
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,14 +24,15 @@ import { CreateMaintenances } from 'src/app/maintenance/state/maintenance';
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css']
 })
-export class InventoryComponent implements OnInit {
+export class InventoryComponent implements OnInit, OnDestroy {
 
   title = 'Inventario';
   showAddBtn = true;
   url: string[] = [];
   filters: ResourceFilters;
   downloading: boolean;
-  resources: Resource[];
+  activeAndCheckedResources: Resource[];
+  checkedResources: Resource[];
   maintenances: { resourceId: string }[];
 
   showBackDrop = false;
@@ -36,6 +40,9 @@ export class InventoryComponent implements OnInit {
 
   /* Observable of clients from store */
   resources$: Observable<Resource[]> = of([] as Resource[]);
+
+  /* Keep track of subscriptions */
+  private subscriptions = new Subscription();
 
   constructor(
     private store: Store<State>,
@@ -67,21 +74,33 @@ export class InventoryComponent implements OnInit {
         this.filters.perPage = 99999999999999999999999999;
       });
     this.downloading = false;
-    this.resources = [];
+    this.activeAndCheckedResources = [];
     this.maintenances = [];
+    this.checkedResources = [];
   }
 
   ngOnInit(): void {
     this.resources$ = this.store.pipe(select(getResources));
+    this.subscriptions.add(
+      this.resources$.subscribe(data => {
+        this.activeAndCheckedResources = data.filter(r => r.checked && r.status === RESOURCE_STATUS.Available);
+      })
+    );
+    this.subscriptions.add(
+      this.resources$.subscribe(data => {
+        this.checkedResources = data.filter(r => r.checked && r.status);
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   createCheckup(): void {
-    this.resources$.subscribe(data => {
-      this.resources = data.filter(r => r.checked && r.status === RESOURCE_STATUS.Available);
-      if (this.resources.length > 0) {
-        this.confirmCreateCheckup();
-      }
-    });
+    if (this.activeAndCheckedResources.length > 0) {
+      this.confirmCreateCheckup();
+    }
   }
 
   confirmCreateCheckup(): void {
@@ -93,26 +112,22 @@ export class InventoryComponent implements OnInit {
       denyButtonText: `Cancelar`,
       confirmButtonColor: '#50b848',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this.store.dispatch(new CreateCheckups({ resources: this.resources }));
+        this.store.dispatch(new CreateCheckups({ resources: this.activeAndCheckedResources }));
       }
     });
   }
 
 
   createMaintenance(): void {
-    this.resources$.subscribe(data => {
-      this.maintenances = [];
-      data.forEach(r => {
-        if (r.checked && r.status === RESOURCE_STATUS.Available) {
-          this.maintenances.push({ resourceId: r.id });
-        }
-      });
-      if (this.maintenances.length > 0) {
-        this.confirmCreateMaintenance(this.maintenances);
+    this.activeAndCheckedResources.forEach(r => {
+      if (r.checked && r.status === RESOURCE_STATUS.Available) {
+        this.maintenances.push({ resourceId: r.id });
       }
     });
+    if (this.maintenances.length > 0) {
+      this.confirmCreateMaintenance(this.maintenances);
+    }
   }
 
   confirmCreateMaintenance(maintenances: { resourceId: string }[]): void {
@@ -124,9 +139,29 @@ export class InventoryComponent implements OnInit {
       denyButtonText: `Cancelar`,
       confirmButtonColor: '#50b848',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.store.dispatch(new CreateMaintenances({ maintenances }));
+      }
+    });
+  }
+
+  changeLockerPass(): void {
+    if (this.checkedResources.length > 0) {
+      this.confirmCreateCheckup();
+    }
+  }
+
+  confirmChangeLockerPass(): void {
+    Swal.fire({
+      title: '¿Estás seguro que desea cambiar la clave del candado?',
+      showCancelButton: false,
+      showDenyButton: true,
+      confirmButtonText: `Confirmar`,
+      denyButtonText: `Cancelar`,
+      confirmButtonColor: '#50b848',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // this.store.dispatch(new CreateMaintenances({ maintenances }));
       }
     });
   }

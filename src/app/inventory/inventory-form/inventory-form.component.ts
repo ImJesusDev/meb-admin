@@ -106,7 +106,7 @@ export class InventoryFormComponent implements OnInit {
         type: this.resourceForm.controls['type'].value.type,
         client: this.resourceForm.controls['client'].value.name,
         loanTime: this.resourceForm.controls['loanTime'].value,
-        lockerPassword: generateRandomNumber({ length: 6 }),
+        lockerPassword: generateRandomNumber({ length: 4 }),
         office: this.resourceForm.controls['office'].value.name,
         qrCode,
         reference: this.resourceForm.controls['reference'].value,

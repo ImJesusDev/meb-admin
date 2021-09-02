@@ -16,6 +16,9 @@ export enum InventoryActionTypes {
   UpdateResource = '[Inventory] Update resource',
   UpdateResourceSuccess = '[Inventory] Update resource success',
   UpdateResourceFail = '[Inventory] Update resource fail',
+  ChangeLockerPass = '[Inventory] Change locker pass',
+  ChangeLockerPassSuccess = '[Inventory] Change locker pass success',
+  ChangeLockerPassFail = '[Inventory] Change locker pass fail',
   CreateCheckup = '[Inventory] Create checkup',
   CreateCheckupSuccess = '[Inventory] Create checkup success',
   CreateCheckupFail = '[Inventory] Create checkup fail',
@@ -30,10 +33,7 @@ export enum InventoryActionTypes {
   ApproveFail = '[Inventory] Approve fail',
   ApproveRepair = '[Inventory] Approve repair',
   ApproveRepairSuccess = '[Inventory] Approve repair success',
-  ApproveRepairFail = '[Inventory] Approve repair fail',
-  LoadHistoryMaintenance = '[Maintenance] Load history maintenance',
-  LoadHistoryMaintenanceSuccess = '[Maintenance] Load history maintenance success',
-  LoadHistoryMaintenanceFail = '[Maintenance] Load history maintenance fail',
+  ApproveRepairFail = '[Inventory] Approve repair fail'
 }
 
 // Load Resources
@@ -90,6 +90,25 @@ export class UpdateResourceSuccess implements Action {
 // Update Resource Fail
 export class UpdateResourceFail implements Action {
   readonly type = InventoryActionTypes.UpdateResourceFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+
+// Change locker pass
+export class ChangeLockerPass implements Action {
+  readonly type = InventoryActionTypes.ChangeLockerPass;
+  constructor(public payload: Resource[]) { }
+}
+
+// Change locker pass Success
+export class ChangeLockerPassSuccess implements Action {
+  readonly type = InventoryActionTypes.ChangeLockerPassSuccess;
+  constructor(public payload: Resource) { }
+}
+
+// Change locker pass Fail
+export class ChangeLockerPassFail implements Action {
+  readonly type = InventoryActionTypes.ChangeLockerPassFail;
   constructor(public payload: ApiError[]) { }
 }
 
