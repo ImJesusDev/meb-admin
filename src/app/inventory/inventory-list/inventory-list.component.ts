@@ -28,6 +28,7 @@ import { getResources as getResourceTypes } from '../../resources/state/resource
 import {
   LoadResources,
 } from '../state/inventory/inventory.actions';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 @Component({
@@ -69,7 +70,12 @@ export class InventoryListComponent implements OnInit {
 
   checkedResources: Resource[];
 
-  constructor(private store: Store<State>, private router: Router, private navigation: Navigation, private route: ActivatedRoute) {
+  constructor(
+    private store: Store<State>,
+    private router: Router,
+    private navigation: Navigation,
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer) {
 
     this.page = 1;
     this.perPage = 10;
@@ -181,4 +187,7 @@ export class InventoryListComponent implements OnInit {
     return this.checkedResources;
   }
 
+  safeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(html);
+  }
 }

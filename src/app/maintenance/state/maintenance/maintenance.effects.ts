@@ -17,6 +17,9 @@ import {
   CreateMaintenance,
   CreateMaintenanceSuccess,
   CreateMaintenanceFail,
+  CreateMaintenances,
+  CreateMaintenancesSuccess,
+  CreateMaintenancesFail,
   UpdateMaintenance,
   UpdateMaintenanceSuccess,
   UpdateMaintenanceFail,
@@ -42,7 +45,7 @@ export class MaintenanceEffects {
   constructor(
     private router: Router,
     private $actions: Actions,
-    private _maintenanceService: MaintenanceService
+    private maintenanceService: MaintenanceService
   ) { }
 
   /**
@@ -54,7 +57,7 @@ export class MaintenanceEffects {
     return this.$actions.pipe(
       ofType(MaintenanceActionTypes.CreateMaintenance),
       switchMap((action: CreateMaintenance) =>
-        this._maintenanceService.createMaintenance(action.payload.resourceId)
+        this.maintenanceService.createMaintenance(action.payload.resourceId)
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -62,6 +65,54 @@ export class MaintenanceEffects {
             ]),
             tap(() => {
               this.router.navigate(['/mantenimientos']);
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el manteniento!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new CreateMaintenanceFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+  /**
+   * Effect to listen for the CreateMaintenance action
+   * and make http request to create Maintenance
+   * from API
+   */
+  $createMaintenances = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(MaintenanceActionTypes.CreateMaintenances),
+      switchMap((action: CreateMaintenances) =>
+        this.maintenanceService.createMaintenances(action.payload)
+          .pipe(
+            mergeMap(() => [
+              new StopLoader(),
+              new CreateMaintenancesSuccess(),
+              new LoadResources()
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Mantenimiento creandos con éxito!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
             }),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
@@ -94,7 +145,7 @@ export class MaintenanceEffects {
     return this.$actions.pipe(
       ofType(MaintenanceActionTypes.UpdateMaintenance),
       switchMap((action: UpdateMaintenance) =>
-        this._maintenanceService.updateMaintenance(action.payload.resourceId, action.payload.data)
+        this.maintenanceService.updateMaintenance(action.payload.resourceId, action.payload.data)
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -142,7 +193,7 @@ export class MaintenanceEffects {
     return this.$actions.pipe(
       ofType(MaintenanceActionTypes.StartMaintenance),
       switchMap((action: StartMaintenance) =>
-        this._maintenanceService.startMaintenance(action.payload)
+        this.maintenanceService.startMaintenance(action.payload)
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -190,7 +241,7 @@ export class MaintenanceEffects {
     return this.$actions.pipe(
       ofType(MaintenanceActionTypes.LoadHistoryMaintenance),
       switchMap((action: LoadHistoryMaintenance) =>
-        this._maintenanceService.getHistoryMaintenance({ page: action.payload.page })
+        this.maintenanceService.getHistoryMaintenance({ page: action.payload.page })
           .pipe(
             mergeMap((resource: Resource[]) => [
               new StopLoader(),

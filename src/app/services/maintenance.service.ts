@@ -28,6 +28,14 @@ export class MaintenanceService {
   }
 
   /**
+   * Create checkups
+   * @param resources resources to create checkups
+   */
+  createMaintenances({ maintenances }: { maintenances: { resourceId: string }[] }): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}resources/load-maintenances`, { maintenances }, { withCredentials: true, });
+  }
+
+  /**
    * start maintenance
    * @param param Resource
    */

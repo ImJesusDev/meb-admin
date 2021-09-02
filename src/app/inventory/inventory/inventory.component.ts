@@ -11,6 +11,9 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { getResources } from '../state/inventory/inventory.selector';
 import { InventoryListComponent } from '../inventory-list/inventory-list.component';
+/* Libs */
+import Swal from 'sweetalert2';
+import { CreateMaintenances } from 'src/app/maintenance/state/maintenance';
 
 
 @Component({
@@ -26,6 +29,7 @@ export class InventoryComponent implements OnInit {
   filters: ResourceFilters;
   downloading: boolean;
   resources: Resource[];
+  maintenances: { resourceId: string }[];
 
   showBackDrop = false;
   showModal = false;
@@ -64,6 +68,7 @@ export class InventoryComponent implements OnInit {
       });
     this.downloading = false;
     this.resources = [];
+    this.maintenances = [];
   }
 
   ngOnInit(): void {
@@ -79,21 +84,51 @@ export class InventoryComponent implements OnInit {
     });
   }
 
-
   confirmCreateCheckup(): void {
-    this.showBackDrop = true;
-    setTimeout(() => {
-      this.showModal = true;
-    }, 100);
+    Swal.fire({
+      title: '¿Estás seguro que desea mandar los recursos a chequeo?',
+      showCancelButton: false,
+      showDenyButton: true,
+      confirmButtonText: `Confirmar`,
+      denyButtonText: `Cancelar`,
+      confirmButtonColor: '#50b848',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.store.dispatch(new CreateCheckups({ resources: this.resources }));
+      }
+    });
   }
-  onCloseModal(ok?: boolean): void {
-    if (ok) {
-      this.store.dispatch(new CreateCheckups({ resources: this.resources }));
-    }
-    this.showBackDrop = false;
-    setTimeout(() => {
-      this.showModal = false;
-    }, 100);
+
+
+  createMaintenance(): void {
+    this.resources$.subscribe(data => {
+      this.maintenances = [];
+      data.forEach(r => {
+        if (r.checked && r.status === RESOURCE_STATUS.Available) {
+          this.maintenances.push({ resourceId: r.id });
+        }
+      });
+      if (this.maintenances.length > 0) {
+        this.confirmCreateMaintenance(this.maintenances);
+      }
+    });
+  }
+
+  confirmCreateMaintenance(maintenances: { resourceId: string }[]): void {
+    Swal.fire({
+      title: '¿Estás seguro que desea mandar los recursos a mantenimiento?',
+      showCancelButton: false,
+      showDenyButton: true,
+      confirmButtonText: `Confirmar`,
+      denyButtonText: `Cancelar`,
+      confirmButtonColor: '#50b848',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.store.dispatch(new CreateMaintenances({ maintenances }));
+      }
+    });
   }
 
   async onDownloadExcel(): Promise<void> {

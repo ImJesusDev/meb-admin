@@ -9,6 +9,9 @@ export enum MaintenanceActionTypes {
   CreateMaintenance = '[Maintenance] Create maintenance',
   CreateMaintenanceSuccess = '[Maintenance] Create maintenance success',
   CreateMaintenanceFail = '[Maintenance] Create maintenance fail',
+  CreateMaintenances = '[Maintenance] Create maintenances',
+  CreateMaintenancesSuccess = '[Maintenance] Create maintenances success',
+  CreateMaintenancesFail = '[Maintenance] Create maintenances fail',
   UpdateMaintenance = '[Maintenance] Update maintenance',
   UpdateMaintenanceSuccess = '[Maintenance] Update maintenance success',
   UpdateMaintenanceFail = '[Maintenance] Update maintenance fail',
@@ -40,6 +43,24 @@ export class CreateMaintenanceSuccess implements Action {
 // Create maintenance Fail
 export class CreateMaintenanceFail implements Action {
   readonly type = MaintenanceActionTypes.CreateMaintenanceFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+// Create maintenance
+export class CreateMaintenances implements Action {
+  readonly type = MaintenanceActionTypes.CreateMaintenances;
+  constructor(public payload: { maintenances: { resourceId: string }[] }) { }
+}
+
+// Create maintenance Success
+export class CreateMaintenancesSuccess implements Action {
+  readonly type = MaintenanceActionTypes.CreateMaintenancesSuccess;
+  constructor(public payload: void) { }
+}
+
+// Create maintenance Fail
+export class CreateMaintenancesFail implements Action {
+  readonly type = MaintenanceActionTypes.CreateMaintenancesFail;
   constructor(public payload: ApiError[]) { }
 }
 
@@ -106,6 +127,9 @@ export type MaintenanceActions =
   | CreateMaintenance
   | CreateMaintenanceSuccess
   | CreateMaintenanceFail
+  | CreateMaintenances
+  | CreateMaintenancesSuccess
+  | CreateMaintenancesFail
   | UpdateMaintenance
   | UpdateMaintenanceSuccess
   | UpdateMaintenanceFail

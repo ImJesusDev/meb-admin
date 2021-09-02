@@ -18,7 +18,7 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 /* Actions */
 import {
   LoadHistoryMaintenance,
-} from '../../inventory/state/inventory/inventory.actions';
+} from '../state/maintenance/maintenance.actions';
 import { MaintenanceService } from '@services/maintenance.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   /* Observable of clients from store */
   // resources$: Observable<Resource[]> = of([] as Resource[]);
-  resources$: Observable<{ page: number, perPage: number, totalResults: number, maintenances: Checkup[] }> = of({} as {
+  resources$: Observable<{ page: number, perPage: number, totalResults: number, maintenances: Checkup[] }> = of({ } as {
     page: number, perPage: number, totalResults: number, maintenances: Checkup[]
   });
   resourceId: string;

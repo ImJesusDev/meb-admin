@@ -103,7 +103,6 @@
           <th>Estado</th>
           <th>Documentos</th>
           <th>Historial de chequeos</th>
-          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -119,7 +118,8 @@
             <td class="p-2"> {{resource.type}} </td>
             <td class="p-2"> {{resource.reference}} </td>
             <td class="p-2">
-              <img [src]="resource.qrCode" alt="Código qr" style="height: 50px; max-width: 50px;" class="mx-auto" />
+              <img [src]="safeHtml(resource.qrCode)" alt="Código qr" style="height: 50px; max-width: 50px;"
+                class="mx-auto" />
             </td>
             <td class="p-2"> {{resource.lockerPassword}} </td>
             <td class="p-2"> {{resource.client}} </td>
@@ -137,17 +137,6 @@
             <td class="p-2">
               <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
                 [routerLink]="['/inventario', resource.id, 'check-ups']">{{resource.checkups?.length}}</span>
-            </td>
-            <!-- Acciones -->
-            <td class="justify-center flex">
-              <button class="btn-primary hover:bg-green-900" (click)="confirmCreateCheckup(resource.id)"
-                *ngIf="resource.status === resourceStatus.Available">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </button>
             </td>
           </tr>
         </ng-container>

@@ -25,18 +25,6 @@ export enum InventoryActionTypes {
   UpdateCheckup = '[Inventory] Update checkup',
   UpdateCheckupSuccess = '[Inventory] Update checkup success',
   UpdateCheckupFail = '[Inventory] Update checkup fail',
-  CreateMaintenance = '[Inventory] Create maintenance',
-  CreateMaintenanceSuccess = '[Inventory] Create maintenance success',
-  CreateMaintenanceFail = '[Inventory] Create maintenance fail',
-  UpdateMaintenance = '[Inventory] Update maintenance',
-  UpdateMaintenanceSuccess = '[Inventory] Update maintenance success',
-  UpdateMaintenanceFail = '[Inventory] Update maintenance fail',
-  CreateReparation = '[Inventory] Create reparation',
-  CreateReparationSuccess = '[Inventory] Create reparation success',
-  CreateReparationFail = '[Inventory] Create reparation fail',
-  UpdateReparation = '[Inventory] Update reparation',
-  UpdateReparationSuccess = '[Inventory] Update reparation success',
-  UpdateReparationFail = '[Inventory] Update reparation fail',
   Approve = '[Inventory] Approve',
   ApproveSuccess = '[Inventory] Approve success',
   ApproveFail = '[Inventory] Approve fail',
@@ -166,107 +154,6 @@ export class UpdateCheckupFail implements Action {
 }
 
 
-
-/**
- * Maintenance
- */
-
-// Create maintenance
-export class CreateMaintenance implements Action {
-  readonly type = InventoryActionTypes.CreateMaintenance;
-  constructor(public payload: { resourceId: string }) { }
-}
-
-// Create maintenance Success
-export class CreateMaintenanceSuccess implements Action {
-  readonly type = InventoryActionTypes.CreateMaintenanceSuccess;
-  constructor(public payload: Resource) { }
-}
-
-// Create maintenance Fail
-export class CreateMaintenanceFail implements Action {
-  readonly type = InventoryActionTypes.CreateMaintenanceFail;
-  constructor(public payload: ApiError[]) { }
-}
-
-// Update maintenance
-export class UpdateMaintenance implements Action {
-  readonly type = InventoryActionTypes.UpdateMaintenance;
-  constructor(public payload: { resourceId: string }) { }
-}
-
-// Update maintenance Success
-export class UpdateMaintenanceSuccess implements Action {
-  readonly type = InventoryActionTypes.UpdateMaintenanceSuccess;
-  constructor(public payload: Resource) { }
-}
-
-// Update maintenance Fail
-export class UpdateMaintenanceFail implements Action {
-  readonly type = InventoryActionTypes.UpdateMaintenanceFail;
-  constructor(public payload: ApiError[]) { }
-}
-
-// Load history maintenance
-export class LoadHistoryMaintenance implements Action {
-  readonly type = InventoryActionTypes.LoadHistoryMaintenance;
-  constructor(public payload: { page: number }) { }
-}
-
-// Load history maintenance Success
-export class LoadHistoryMaintenanceSuccess implements Action {
-  readonly type = InventoryActionTypes.LoadHistoryMaintenanceSuccess;
-  constructor(public payload: Resource[]) { }
-}
-
-// Load history maintenance Fail
-export class LoadHistoryMaintenanceFail implements Action {
-  readonly type = InventoryActionTypes.LoadHistoryMaintenanceFail;
-  constructor(public payload: ApiError[]) { }
-}
-
-
-/**
- * Repair
- */
-
-// Create reparation
-export class CreateReparation implements Action {
-  readonly type = InventoryActionTypes.CreateReparation;
-  constructor(public payload: { resourceId: string }) { }
-}
-
-// Create reparation Success
-export class CreateReparationSuccess implements Action {
-  readonly type = InventoryActionTypes.CreateReparationSuccess;
-  constructor(public payload: Resource) { }
-}
-
-// Create reparation Fail
-export class CreateReparationFail implements Action {
-  readonly type = InventoryActionTypes.CreateReparationFail;
-  constructor(public payload: ApiError[]) { }
-}
-
-// Update reparation
-export class UpdateReparation implements Action {
-  readonly type = InventoryActionTypes.UpdateReparation;
-  constructor(public payload: { resourceId: string }) { }
-}
-
-// Update reparation Success
-export class UpdateReparationSuccess implements Action {
-  readonly type = InventoryActionTypes.UpdateReparationSuccess;
-  constructor(public payload: Resource) { }
-}
-
-// Update reparation Fail
-export class UpdateReparationFail implements Action {
-  readonly type = InventoryActionTypes.UpdateReparationFail;
-  constructor(public payload: ApiError[]) { }
-}
-
-
 /**
  * Approve
  */
@@ -328,24 +215,9 @@ export type InventoryActions =
   | UpdateCheckup
   | UpdateCheckupSuccess
   | UpdateCheckupFail
-  | CreateMaintenance
-  | CreateMaintenanceSuccess
-  | CreateMaintenanceFail
-  | UpdateMaintenance
-  | UpdateMaintenanceSuccess
-  | UpdateMaintenanceFail
-  | CreateReparation
-  | CreateReparationSuccess
-  | CreateReparationFail
-  | UpdateReparation
-  | UpdateReparationSuccess
-  | UpdateReparationFail
   | Approve
   | ApproveSuccess
   | ApproveFail
   | ApproveRepair
   | ApproveRepairSuccess
-  | ApproveRepairFail
-  | LoadHistoryMaintenance
-  | LoadHistoryMaintenanceSuccess
-  | LoadHistoryMaintenanceFail;
+  | ApproveRepairFail;

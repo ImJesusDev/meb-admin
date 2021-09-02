@@ -1,4 +1,4 @@
-import { UpdateCheckup, CreateMaintenance, UpdateMaintenance, ApproveRepair } from './../../inventory/state/inventory/inventory.actions';
+import { ApproveRepair } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';

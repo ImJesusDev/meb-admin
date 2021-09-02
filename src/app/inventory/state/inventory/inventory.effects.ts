@@ -30,34 +30,18 @@ import {
   UpdateCheckup,
   UpdateCheckupSuccess,
   UpdateCheckupFail,
-  CreateMaintenance,
-  CreateMaintenanceSuccess,
-  CreateMaintenanceFail,
-  UpdateMaintenance,
-  UpdateMaintenanceSuccess,
-  UpdateMaintenanceFail,
-  CreateReparation,
-  CreateReparationSuccess,
-  CreateReparationFail,
-  UpdateReparation,
-  UpdateReparationSuccess,
-  UpdateReparationFail,
   Approve,
   ApproveSuccess,
   ApproveFail,
   ApproveRepair,
   ApproveRepairSuccess,
   ApproveRepairFail,
-  LoadHistoryMaintenance,
-  LoadHistoryMaintenanceSuccess,
-  LoadHistoryMaintenanceFail
 } from './inventory.actions';
 
 import { StopLoader } from '@state/loader/loader.actions';
 
 /* Models */
 import { ApiError, Resource } from '@models/index';
-import { MaintenanceService } from '@services/maintenance.service';
 import { ApproveService } from '@services/approve.service';
 
 @Injectable()
@@ -65,9 +49,8 @@ export class InventoryEffects {
   constructor(
     private router: Router,
     private $actions: Actions,
-    private _inventoryService: InventoryService,
-    private _maintenanceService: MaintenanceService,
-    private _approveService: ApproveService,
+    private inventoryService: InventoryService,
+    private approveService: ApproveService,
   ) { }
 
   /**
@@ -79,7 +62,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.LoadResources),
       switchMap((action: LoadResources) =>
-        this._inventoryService
+        this.inventoryService
           .getResources(action.payload)
           .pipe(
             mergeMap((pagination: PaginationResources) => [
@@ -108,7 +91,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.AddResource),
       switchMap((action: AddResource) =>
-        this._inventoryService.addResource(action.payload)
+        this.inventoryService.addResource(action.payload)
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -156,7 +139,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.CreateCheckup),
       switchMap((action: CreateCheckup) =>
-        this._inventoryService.createCheckup(action.payload.resourceId)
+        this.inventoryService.createCheckup(action.payload.resourceId)
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -203,7 +186,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.CreateCheckups),
       switchMap((action: CreateCheckups) =>
-        this._inventoryService.createCheckups(action.payload)
+        this.inventoryService.createCheckups(action.payload)
           .pipe(
             mergeMap((resources: Resource[]) => [
               new StopLoader(),
@@ -229,7 +212,7 @@ export class InventoryEffects {
                   showDenyButton: false,
                   confirmButtonText: `Aceptar`,
                   confirmButtonColor: '#50b848',
-                  icon: 'success',
+                  icon: 'error',
                 });
                 errors = error.error.errors;
               } else {
@@ -250,7 +233,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.UpdateCheckup),
       switchMap((action: UpdateCheckup) =>
-        this._inventoryService.updateCheckup(action.payload.resourceId, action.payload.data)
+        this.inventoryService.updateCheckup(action.payload.resourceId, action.payload.data)
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -275,131 +258,6 @@ export class InventoryEffects {
 
 
   /**
-   * Effect to listen for the CreateMaintenance action
-   * and make http request to create Maintenance
-   * from API
-   */
-  $createMaintenance = createEffect(() => {
-    return this.$actions.pipe(
-      ofType(InventoryActionTypes.CreateMaintenance),
-      switchMap((action: CreateMaintenance) =>
-        this._inventoryService.createMaintenance(action.payload.resourceId)
-          .pipe(
-            mergeMap((resource: Resource) => [
-              new StopLoader(),
-              new CreateMaintenanceSuccess(resource),
-            ]),
-            tap(() => {
-              this.router.navigate(['/mantenimientos']);
-            }),
-            catchError((error: HttpErrorResponse) => {
-              let errors: ApiError[] = [];
-              if (error.error && error.error.errors) {
-                errors = error.error.errors;
-              } else {
-                errors = [{ message: 'Something went wrong' }];
-              }
-              return of(new CreateMaintenanceFail(errors), new StopLoader());
-            })
-          )
-      )
-    );
-  });
-  /**
-   * Effect to listen for the UpdateMaintenance action
-   * and make http request to update Maintenance
-   * from API
-   */
-  $updateMaintenance = createEffect(() => {
-    return this.$actions.pipe(
-      ofType(InventoryActionTypes.UpdateMaintenance),
-      switchMap((action: UpdateMaintenance) =>
-        this._inventoryService.updateMaintenance(action.payload.resourceId)
-          .pipe(
-            mergeMap((resource: Resource) => [
-              new StopLoader(),
-              new UpdateCheckupSuccess(resource),
-            ]),
-            tap(() => {
-              this.router.navigate(['/mantenimientos/history']);
-            }),
-            catchError((error: HttpErrorResponse) => {
-              let errors: ApiError[] = [];
-              if (error.error && error.error.errors) {
-                errors = error.error.errors;
-              } else {
-                errors = [{ message: 'Something went wrong' }];
-              }
-              return of(new UpdateMaintenanceFail(errors), new StopLoader());
-            })
-          )
-      )
-    );
-  });
-
-  /**
-   * Effect to listen for the CreateReparation action
-   * and make http request to create Reparation
-   * from API
-   */
-  $createReparation = createEffect(() => {
-    return this.$actions.pipe(
-      ofType(InventoryActionTypes.CreateReparation),
-      switchMap((action: CreateReparation) =>
-        this._inventoryService.createReparation(action.payload.resourceId)
-          .pipe(
-            mergeMap((resource: Resource) => [
-              new StopLoader(),
-              new CreateReparationSuccess(resource),
-            ]),
-            tap(() => {
-              this.router.navigate(['/reparaciones']);
-            }),
-            catchError((error: HttpErrorResponse) => {
-              let errors: ApiError[] = [];
-              if (error.error && error.error.errors) {
-                errors = error.error.errors;
-              } else {
-                errors = [{ message: 'Something went wrong' }];
-              }
-              return of(new CreateReparationFail(errors), new StopLoader());
-            })
-          )
-      )
-    );
-  });
-  /**
-   * Effect to listen for the UpdateReparation action
-   * and make http request to update Reparation
-   * from API
-   */
-  $updateReparation = createEffect(() => {
-    return this.$actions.pipe(
-      ofType(InventoryActionTypes.UpdateReparation),
-      switchMap((action: UpdateReparation) =>
-        this._inventoryService.updateReparation(action.payload.resourceId)
-          .pipe(
-            mergeMap((resource: Resource) => [
-              new StopLoader(),
-              new UpdateCheckupSuccess(resource),
-            ]),
-            tap(() => {
-              this.router.navigate(['/reparaciones/history']);
-            }),
-            catchError((error: HttpErrorResponse) => {
-              let errors: ApiError[] = [];
-              if (error.error && error.error.errors) {
-                errors = error.error.errors;
-              } else {
-                errors = [{ message: 'Something went wrong' }];
-              }
-              return of(new UpdateReparationFail(errors), new StopLoader());
-            })
-          )
-      )
-    );
-  });
-  /**
    * Effect to listen for the Approve action
    * and make http request to Approve
    * from API
@@ -408,7 +266,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.Approve),
       switchMap((action: Approve) =>
-        this._approveService.approveMaintenance({ resourceId: action.payload.resourceId, maintenanceId: action.payload.maintenanceId })
+        this.approveService.approveMaintenance({ resourceId: action.payload.resourceId, maintenanceId: action.payload.maintenanceId })
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -447,7 +305,7 @@ export class InventoryEffects {
     return this.$actions.pipe(
       ofType(InventoryActionTypes.ApproveRepair),
       switchMap((action: ApproveRepair) =>
-        this._approveService.approveRepair({ resourceId: action.payload.resourceId, repairId: action.payload.repairId })
+        this.approveService.approveRepair({ resourceId: action.payload.resourceId, repairId: action.payload.repairId })
           .pipe(
             mergeMap((resource: Resource) => [
               new StopLoader(),
@@ -472,43 +330,6 @@ export class InventoryEffects {
                 errors = [{ message: 'Something went wrong' }];
               }
               return of(new ApproveRepairFail(errors), new StopLoader());
-            })
-          )
-      )
-    );
-  });
-  /**
-   * Effect to listen for the LoadHistoryMaintenance action
-   * and make http request to Load history Maintenance
-   * from API
-   */
-  $loadHistoryMaintenance = createEffect(() => {
-    return this.$actions.pipe(
-      ofType(InventoryActionTypes.LoadHistoryMaintenance),
-      switchMap((action: LoadHistoryMaintenance) =>
-        this._maintenanceService.getHistoryMaintenance({ page: action.payload.page })
-          .pipe(
-            mergeMap((resources: Resource[]) => [
-              new StopLoader(),
-              new LoadHistoryMaintenanceSuccess(resources)
-            ]),
-            catchError((error: HttpErrorResponse) => {
-              let errors: ApiError[] = [];
-              if (error.error && error.error.errors) {
-                errors = error.error.errors;
-                Swal.fire({
-                  title: '¡Error trayendo el historial de mantenimientos!',
-                  text: `${errors[0].message}`,
-                  showCancelButton: false,
-                  showDenyButton: false,
-                  confirmButtonText: `Aceptar`,
-                  confirmButtonColor: '#50b848',
-                  icon: 'error',
-                });
-              } else {
-                errors = [{ message: 'Something went wrong' }];
-              }
-              return of(new LoadHistoryMaintenanceFail(errors), new StopLoader());
             })
           )
       )

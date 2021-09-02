@@ -41,8 +41,6 @@ export class InventoryService {
     if (filters.perPage) {
       query += '&perPage=' + filters.perPage;
     }
-    // return this.http.get<PaginationResources>(`${this.apiUrl}resources?page=${filters.page}&perPage=${filters.perPage}${query}`,
-    //   { withCredentials: true, });
     return this.http.get<PaginationResources>(`${this.apiUrl}resources?${query}`,
       { withCredentials: true, });
   }
@@ -98,44 +96,6 @@ export class InventoryService {
   updateCheckup(resourceId: string, data: any): Observable<Resource> {
     return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/checkups`, data, { withCredentials: true, });
   }
-
-
-
-  /**
-   * Create maintenance
-   * @param resourceId Resource id
-   */
-  createMaintenance(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, { }, { withCredentials: true, });
-  }
-
-  /**
-   * Update maintenance
-   * @param resourceId Resource id
-   * @param data data
-   */
-  updateMaintenance(resourceId: string): Observable<Resource> {
-    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/maintenances`, { }, { withCredentials: true, });
-  }
-
-
-  /**
-   * Create reparation
-   * @param resourceId Resource id
-   */
-  createReparation(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, { }, { withCredentials: true, });
-  }
-
-  /**
-   * Update reparation
-   * @param resourceId Resource id
-   * @param data data
-   */
-  updateReparation(resourceId: string): Observable<Resource> {
-    return this.http.put<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, { }, { withCredentials: true, });
-  }
-
 
   /**
    * approve
