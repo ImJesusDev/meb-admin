@@ -1,7 +1,9 @@
+import { Navigation } from './../../utils/helpers/navigation.helper';
+import { Client } from './../../models/client';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -20,6 +22,8 @@ import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
 import { StartRepair, UpdateRepair } from '../state/repair';
+import { LoadClients } from 'src/app/clients/state/clients';
+import { getClients } from 'src/app/clients/state/clients/clients.selector';
 
 @Component({
   selector: 'app-repair-pending',
@@ -35,6 +39,8 @@ export class RepairPendingComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
+  /* Observable of clients from store */
+  clients$: Observable<Client[]> = of([] as Client[]);
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -44,6 +50,14 @@ export class RepairPendingComponent implements OnInit {
 
   page: number;
   perPage: number;
+
+  client: string;
+  clientSelected: Client;
+  office: string;
+  state: string;
+  from: string;
+  to: string;
+  reference: string;
 
   /* Modals */
 
@@ -58,13 +72,20 @@ export class RepairPendingComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router) {
+  constructor(private store: Store<State>, private router: Router, private navigation: Navigation, private route: ActivatedRoute) {
 
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingRepair }));
+
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.state = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -73,28 +94,65 @@ export class RepairPendingComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.setQueryParams();
+    this.loadResources();
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources));
+    // Use selector to get clients from state
+    this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.length);
   }
+
+  loadResources(): void {
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadResources({
+      page: this.page,
+      perPage: this.perPage,
+      status: this.resourceStatus.PendingRepair,
+      client: this.client,
+      office: this.office,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+    }));
+  }
+
 
   changePage(page: number, operation: 'previous' | 'following'): void {
     if (this.resourceLength === 0 && operation === 'following') {
       return;
     }
     if (page > 0) {
-      this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.PendingRepair }));
-      this.resources$ = this.store.pipe(select(getResources));
-      this.loader$ = this.store.pipe(select(getLoader));
+      this.loadResources();
     }
   }
+
+  filterResources(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      client: this.client ? this.client : null,
+      office: this.office && this.client ? this.office : null,
+      status: this.state ? this.state : null,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+    });
+  }
+  selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.filterResources();
+  }
+
 
   calcDays(date: string): number {
     const checkUpDate = new Date(date);
@@ -105,6 +163,18 @@ export class RepairPendingComponent implements OnInit {
     return results;
   }
 
+  setQueryParams(): void {
+    this.route.queryParams.subscribe(
+      params => {
+        this.client = params.client;
+        this.office = params.office;
+        this.state = params.status;
+        this.from = params.from;
+        this.to = params.to;
+        this.reference = params.reference;
+      }
+    );
+  }
 
   /*
   MODALS

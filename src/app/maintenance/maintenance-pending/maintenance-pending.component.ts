@@ -55,7 +55,6 @@ export class MaintenancePendingComponent implements OnInit {
   page: number;
   perPage: number;
 
-  // resourceTypeId: string;
   client: string;
   clientSelected: Client;
   office: string;
@@ -92,7 +91,6 @@ export class MaintenancePendingComponent implements OnInit {
       status: ''
     };
 
-    // this.resourceTypeId = '';
     this.client = '';
     this.clientSelected = { } as Client;
     this.office = '';
@@ -139,26 +137,45 @@ export class MaintenancePendingComponent implements OnInit {
     this.resources$.subscribe(data => this.resourceLength = data.length);
   }
 
+  loadResources(): void {
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadResources({
+      page: this.page,
+      perPage: this.perPage,
+      status: this.resourceStatus.PendingMaintenance,
+      client: this.client,
+      office: this.office,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+    }));
+  }
+
   changePage(page: number, operation: 'previous' | 'following'): void {
     if (this.resourceLength === 0 && operation === 'following') {
       return;
     }
     if (page > 0) {
-      this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({
-        page: this.page,
-        perPage: this.perPage,
-        status: this.resourceStatus.PendingMaintenance,
-        client: this.client,
-        office: this.office,
-        from: this.from,
-        to: this.to,
-        reference: this.reference,
-      }));
-      this.resources$ = this.store.pipe(select(getResources));
-      this.loader$ = this.store.pipe(select(getLoader));
+      this.loadResources();
     }
+  }
+
+  filterResources(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      client: this.client ? this.client : null,
+      office: this.office && this.client ? this.office : null,
+      status: this.state ? this.state : null,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+    });
+  }
+  selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.filterResources();
   }
 
   calcDays(date: string): number {
@@ -171,6 +188,9 @@ export class MaintenancePendingComponent implements OnInit {
   }
 
 
+  /*
+  Modals
+  */
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
     if (checkup) {
@@ -226,32 +246,4 @@ export class MaintenancePendingComponent implements OnInit {
     }, 100);
   }
 
-  filterResources(): void {
-    this.page = 1;
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({
-      client: this.client,
-      office: this.office,
-      status: this.resourceStatus.PendingMaintenance,
-      from: this.from,
-      to: this.to,
-      reference: this.reference,
-      page: this.page,
-      perPage: this.perPage
-    }));
-    this.resources$ = this.store.pipe(select(getResources));
-    this.loader$ = this.store.pipe(select(getLoader));
-    this.navigation.setQueryParams({
-      client: this.client ? this.client : null,
-      office: this.office && this.client ? this.office : null,
-      status: this.state ? this.state : null,
-      from: this.from,
-      to: this.to,
-      reference: this.reference,
-    });
-  }
-  selectClient(): void {
-    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
-    this.filterResources();
-  }
 }

@@ -3,8 +3,8 @@
   <!-- HEADER -->
   <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
 
+    <!-- Title line -->
     <div class="flex flex-row justify-between">
-
       <!-- Title -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <svg routerLink="mantenimientos" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand"
@@ -15,8 +15,7 @@
         <h1 class="font-bold text:2xl sm:text-5xl">{{title}}</h1>
       </div>
       <!-- End Title -->
-
-      <!-- Add Client Btn -->
+      <!-- Action Buttons -->
       <div class="flex flex-row">
         <!-- Download button -->
         <button *ngIf="showAddBtn" (click)="setDownloadExcelType()" class="btn-primary hover:bg-green-900 mx-5"
@@ -36,10 +35,11 @@
           </svg>
         </button>
       </div>
-      <!-- End Add Client Btn -->
-
+      <!-- End Action Buttons -->
     </div>
+    <!-- End title line -->
 
+    <!-- Pestañas -->
     <div class="mt-8 flex-row flex">
       <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/mantenimientos"
         [ngClass]="{'underline text-brand': url[0]=== '/mantenimientos'}">
@@ -64,6 +64,7 @@
         </span>
       </a>
     </div>
+    <!-- End Pestañas -->
 
   </div>
   <!-- BODY -->

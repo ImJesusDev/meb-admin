@@ -1,8 +1,10 @@
+import { REPAIR_STATUS_NAMES } from './../../models/repair';
+import { Navigation } from './../../utils/helpers/navigation.helper';
 import { UpdateCheckup } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -12,7 +14,7 @@ import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from './../../models/inventory
 import { Store, select } from '@ngrx/store';
 /* State */
 import { State } from '../../inventory/state';
-import { StartLoader } from '@state/loader/loader.actions';
+import { StartLoader, StopLoader } from '@state/loader/loader.actions';
 import { getLoader } from '@state/loader/loader.selector';
 /* Selectors */
 import { getResources } from '../../inventory/state/inventory/inventory.selector';
@@ -30,7 +32,7 @@ import { RepairService } from '@services/repair.service';
 export class RepairHistoryComponent implements OnInit {
 
   /* Observable of clients from store */
-  resources$: Observable<{ page: number, perPage: number, totalResults: number, repairs: Checkup[] }> = of({} as {
+  resources$: Observable<{ page: number, perPage: number, totalResults: number, repairs: Checkup[] }> = of({ } as {
     page: number, perPage: number, totalResults: number, repairs: Checkup[]
   });
   resourceId: string;
@@ -44,6 +46,7 @@ export class RepairHistoryComponent implements OnInit {
 
   resourceStatus = RESOURCE_STATUS;
   resourceStatusNames = RESOURCE_STATUS_NAMES;
+  repairStatusNames = REPAIR_STATUS_NAMES;
 
   page: number;
   perPage: number;
@@ -53,13 +56,20 @@ export class RepairHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router, private repairService: RepairService) {
+  from: string;
+  to: string;
+
+  constructor(
+    private store: Store<State>,
+    private router: Router,
+    private repairService: RepairService,
+    private route: ActivatedRoute,
+    private navigation: Navigation
+  ) {
 
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Repair }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -68,15 +78,36 @@ export class RepairHistoryComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.from = '';
+    this.to = '';
+    this.route.queryParams.subscribe(
+      params => {
+        this.from = params.from;
+        this.to = params.to;
+      }
+    );
+
+    this.store.dispatch(new StartLoader());
   }
 
   ngOnInit(): void {
-    // Use selector to get resources from state
-    // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.repairService.getHistoryRepairs(this.page);
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.repairs.length);
+    this.getHistory();
+  }
+  getHistory(): void {
+    this.store.dispatch(new StartLoader());
+    this.resources$ = this.repairService.getHistoryRepairs({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: this.perPage
+    });
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.repairs.length;
+      this.store.dispatch(new StopLoader());
+    });
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -86,10 +117,17 @@ export class RepairHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Repair }));
-      this.resources$ = this.repairService.getHistoryRepairs(this.page);
-      this.loader$ = this.store.pipe(select(getLoader));
+      this.getHistory();
     }
+  }
+  filterResources(): void {
+    this.page = 1;
+    this.store.dispatch(new StartLoader());
+    this.getHistory();
+    this.navigation.setQueryParams({
+      from: this.from,
+      to: this.to,
+    });
   }
 
   calcDays(date: string): number {
@@ -101,6 +139,8 @@ export class RepairHistoryComponent implements OnInit {
     return results;
   }
 
+
+  /* MODALS */
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
     this.resourceId = resourceId;

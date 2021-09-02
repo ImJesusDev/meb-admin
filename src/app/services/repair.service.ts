@@ -25,7 +25,7 @@ export class RepairService {
    * @param resourceId Resource id
    */
   createRepair(resourceId: string): Observable<Resource> {
-    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, {}, { withCredentials: true, });
+    return this.http.post<Resource>(`${this.apiUrl}resources/${resourceId}/repairs`, { }, { withCredentials: true, });
   }
 
 
@@ -49,12 +49,24 @@ export class RepairService {
   /**
    * Get History repairs
    */
-  getHistoryRepairs(page: number, perPage = 10, status = ''): Observable<any> {
-    let statusQuery = '';
-    if (status) {
-      statusQuery += '&status=' + status;
+  getHistoryRepairs({ page, perPage = 10, status, from, to }:
+    { page?: number; perPage?: number; status?: string; from?: string; to?: string; }): Observable<any> {
+    let query = '';
+    if (page) {
+      query += '&page=' + page;
     }
-    return this.http.get<any>(`${this.apiUrl}resources/repairs-history?page=${page}&perPage=${perPage}${statusQuery}`,
-      { withCredentials: true, });
+    if (perPage) {
+      query += '&perPage=' + perPage;
+    }
+    if (status) {
+      query += '&status=' + status;
+    }
+    if (from) {
+      query += '&from=' + from;
+    }
+    if (to) {
+      query += '&to=' + to;
+    }
+    return this.http.get<any>(`${this.apiUrl}resources/repairs-history?${query}`, { withCredentials: true, });
   }
 }

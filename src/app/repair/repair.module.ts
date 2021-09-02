@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* NgRx */
 import { StoreModule } from '@ngrx/store';
@@ -27,6 +28,8 @@ import { RepairPendingComponent } from './repair-pending/repair-pending.componen
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RepairRoutingModule,
     ModalModule,
     SharedModule,

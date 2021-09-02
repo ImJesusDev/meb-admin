@@ -17,6 +17,7 @@ export class MaintenanceComponent implements OnInit {
   showAddBtn = true;
 
   url: string[] = [];
+
   filters: ResourceFilters;
   downloading: boolean;
 
@@ -33,7 +34,7 @@ export class MaintenanceComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.showAddBtn = true;
         this.url = event.url.split('?');
-        if (this.url[0] !== '/mantenimientos') {
+        if (this.url[0] !== '/mantenimientos' && this.url[0] !== '/mantenimientos/historial') {
           this.showAddBtn = false;
         } else if (this.url[0] === '/mantenimientos') {
           this.title = 'Mantenimientos';
