@@ -1,8 +1,12 @@
+import { getClients } from 'src/app/clients/state/clients/clients.selector';
+import { LoadClients } from 'src/app/clients/state/clients';
+import { Navigation } from './../../utils/helpers/navigation.helper';
+import { Client } from './../../models/client';
 import { ApproveRepair } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -35,6 +39,8 @@ export class ApprovalsPendingRepairComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
+  /* Observable of clients from store */
+  clients$: Observable<Client[]> = of([] as Client[]);
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -53,13 +59,24 @@ export class ApprovalsPendingRepairComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router) {
+  client: string;
+  clientSelected: Client;
+  office: string;
+  state: string;
+  from: string;
+  to: string;
+  reference: string;
+
+  constructor(
+    private store: Store<State>,
+    private router: Router,
+    private navigation: Navigation,
+    private route: ActivatedRoute
+  ) {
 
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.WaitingApprovalRepair }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -68,14 +85,55 @@ export class ApprovalsPendingRepairComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.state = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+
+    this.store.dispatch(new StartLoader());
+    this.setQueryParams();
+    this.loadResources();
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources));
+    // Use selector to get clients from state
+    this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.length);
+  }
+
+  setQueryParams(): void {
+    this.route.queryParams.subscribe(
+      params => {
+        this.client = params.client;
+        this.office = params.office;
+        this.from = params.from;
+        this.to = params.to;
+        this.reference = params.reference;
+      }
+    );
+  }
+  loadResources(): void {
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadResources({
+      page: this.page,
+      perPage: this.perPage,
+      status: this.resourceStatus.WaitingApprovalRepair,
+      client: this.client,
+      office: this.office,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+    }));
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -83,13 +141,28 @@ export class ApprovalsPendingRepairComponent implements OnInit {
       return;
     }
     if (page > 0) {
-      this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.WaitingApprovalRepair }));
-      this.resources$ = this.store.pipe(select(getResources));
-      this.loader$ = this.store.pipe(select(getLoader));
+      this.loadResources();
     }
   }
+  filterResources(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      client: this.client ? this.client : null,
+      office: this.office && this.client ? this.office : null,
+      status: this.state ? this.state : null,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+    });
+  }
+  selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.filterResources();
+  }
+
+
 
   calcDays(date: string): number {
     const checkUpDate = new Date(date);
@@ -100,6 +173,10 @@ export class ApprovalsPendingRepairComponent implements OnInit {
     return results;
   }
 
+
+
+
+  /* MODALS */
 
   openLastCheckup(checkup: Checkup, resourceId: string): void {
     if (checkup) {

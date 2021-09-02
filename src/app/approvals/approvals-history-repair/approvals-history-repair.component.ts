@@ -1,8 +1,10 @@
+import { StopLoader } from './../../state/loader/loader.actions';
+import { Navigation } from './../../utils/helpers/navigation.helper';
 import { UpdateCheckup } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -54,13 +56,19 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router, private repairService: RepairService) {
+  from: string;
+  to: string;
+
+  constructor(
+    private store: Store<State>,
+    private route: ActivatedRoute,
+    private navigation: Navigation,
+    private repairService: RepairService
+  ) {
 
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Repair }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -69,15 +77,36 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.from = '';
+    this.to = '';
+    this.route.queryParams.subscribe(
+      params => {
+        this.from = params.from;
+        this.to = params.to;
+      }
+    );
+    this.store.dispatch(new StartLoader());
   }
 
   ngOnInit(): void {
-    // Use selector to get resources from state
-    // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.repairService.getHistoryRepairs({ page: this.page, perPage: 10, status: 'approved' });
-    // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.repairs.length);
+    this.getHistory();
+  }
+
+  getHistory(): void {
+    this.store.dispatch(new StartLoader());
+    this.resources$ = this.repairService.getHistoryRepairs({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: this.perPage,
+      status: 'approved'
+    });
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.repairs.length;
+      this.store.dispatch(new StopLoader());
+    });
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -85,12 +114,18 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
       return;
     }
     if (page > 0) {
-      this.store.dispatch(new StartLoader());
       this.page = page;
-      this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Repair }));
-      this.resources$ = this.repairService.getHistoryRepairs({ page: this.page, perPage: 10, status: 'approved' });
-      this.loader$ = this.store.pipe(select(getLoader));
+      this.getHistory();
     }
+  }
+  filterResources(): void {
+    this.page = 1;
+    this.store.dispatch(new StartLoader());
+    this.getHistory();
+    this.navigation.setQueryParams({
+      from: this.from,
+      to: this.to,
+    });
   }
 
   calcDays(date: string): number {

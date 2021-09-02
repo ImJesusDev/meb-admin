@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* Components */
 import { ModalModule } from '@atoms/modal';
@@ -24,6 +25,8 @@ import { ApprovalsHistoryRepairComponent } from './approvals-history-repair/appr
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     ApprovalsRoutingModule,
     ModalModule,
     SharedModule,

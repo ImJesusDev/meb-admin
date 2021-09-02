@@ -61,10 +61,9 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private router: Router,
-    private maintenanceService: MaintenanceService,
     private route: ActivatedRoute,
-    private navigation: Navigation
+    private navigation: Navigation,
+    private maintenanceService: MaintenanceService,
   ) {
 
     this.page = 1;

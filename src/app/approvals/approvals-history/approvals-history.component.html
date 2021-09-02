@@ -1,12 +1,38 @@
 <div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
 
-  <!-- Loader -->
-  <app-loader *ngIf="(loader$ |async)"></app-loader>
-
   <!-- Resources Table Desktop only -->
-  <div class="flow-root h-full w-full" *ngIf="!(loader$ | async)">
+  <div class="flow-root h-full w-full">
 
     <div class="flex flex-col mb-4 w-full">
+
+      <!-- Filters -->
+      <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+        <div class="flex flex-col sm:flex-row w-full">
+          <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
+            <div class="w-1/2 mr-3">
+              <label class="text-gray-400" for="from">Desde:</label>
+              <input name="from" [(ngModel)]="from"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                type="date">
+            </div>
+            <div class="w-1/2">
+              <label class="text-gray-400" for="to">Hasta:</label>
+              <input name="to" [(ngModel)]="to"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                type="date">
+            </div>
+          </div>
+          <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
+            <!-- Filter button -->
+            <div class="flex items-end">
+              <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
+                <span>Filtrar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End filters -->
 
       <table *ngIf="((resources$ |async)?.maintenances?.length !== 0)"
         class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
@@ -55,6 +81,11 @@
 
         </tbody>
       </table>
+
+      <!-- Loader -->
+      <div class="w-full justify-center h-96" *ngIf="loader$|async">
+        <app-loader></app-loader>
+      </div>
 
       <div class="justify-end flex-row flex">
         Pag. {{page}}
