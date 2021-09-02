@@ -1,5 +1,5 @@
 <!-- Main Container -->
-<div class="flex-col justify-between w-full sm:py-12 sm:pl-4" id="main-content">
+<div class="flex-col justify-between w-full sm:pt-12 sm:pl-4" id="main-content">
   <!-- HEADER -->
   <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
 
@@ -19,7 +19,7 @@
       <!-- Add Client Btn -->
       <div class="flex flex-row">
         <!-- Download button -->
-        <button *ngIf="!showAddBtn" (click)="setDownloadExcelType()" class="btn-primary hover:bg-green-900 mx-5"
+        <button *ngIf="showAddBtn" (click)="setDownloadExcelType()" class="btn-primary hover:bg-green-900 mx-5"
           [disabled]="downloading" [ngClass]="{'opacity-40 cursor-wait': downloading}">
           <span class="hidden sm:flex">Descargar</span>
           <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"

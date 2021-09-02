@@ -48,6 +48,9 @@ export class MaintenanceComponent implements OnInit {
         this.filters.type = params.type;
         this.filters.page = undefined;
         this.filters.perPage = 99999999999999999999999999;
+        this.filters.from = params.from;
+        this.filters.to = params.to;
+        this.filters.reference = params.reference;
       });
     this.downloading = false;
   }

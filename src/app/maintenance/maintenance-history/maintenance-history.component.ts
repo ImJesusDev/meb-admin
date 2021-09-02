@@ -1,7 +1,9 @@
+import { Navigation } from './../../utils/helpers/navigation.helper';
+import { Client } from './../../models/client';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -54,7 +56,21 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router, private maintenanceService: MaintenanceService) {
+  client: string;
+  clientSelected: Client;
+  office: string;
+  state: string;
+  from: string;
+  to: string;
+  reference: string;
+
+  constructor(
+    private store: Store<State>,
+    private router: Router,
+    private maintenanceService: MaintenanceService,
+    private route: ActivatedRoute,
+    private navigation: Navigation
+  ) {
 
     this.page = 1;
     this.perPage = 10;
@@ -69,12 +85,39 @@ export class MaintenanceHistoryComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.state = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+    this.route.queryParams.subscribe(
+      params => {
+        this.client = params.client;
+        this.office = params.office;
+        this.state = params.status;
+        this.from = params.from;
+        this.to = params.to;
+        this.reference = params.reference;
+      }
+    );
   }
 
   ngOnInit(): void {
+    this.getHistory();
+  }
+
+  getHistory(): void {
     // Use selector to get resources from state
     // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.maintenanceService.getHistoryMaintenance({ page: this.page });
+    this.resources$ = this.maintenanceService.getHistoryMaintenance({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: this.perPage
+    });
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => {
@@ -124,4 +167,13 @@ export class MaintenanceHistoryComponent implements OnInit {
     }, 100);
   }
 
+  filterResources(): void {
+    this.page = 1;
+    this.store.dispatch(new StartLoader());
+    this.getHistory();
+    this.navigation.setQueryParams({
+      from: this.from,
+      to: this.to,
+    });
+  }
 }

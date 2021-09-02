@@ -55,11 +55,14 @@ export class MaintenancePendingComponent implements OnInit {
   page: number;
   perPage: number;
 
-  resourceTypeId: string;
+  // resourceTypeId: string;
   client: string;
   clientSelected: Client;
   office: string;
   state: string;
+  from: string;
+  to: string;
+  reference: string;
 
   /* Modals */
   showBackDrop = false;
@@ -89,18 +92,23 @@ export class MaintenancePendingComponent implements OnInit {
       status: ''
     };
 
-    this.resourceTypeId = '';
+    // this.resourceTypeId = '';
     this.client = '';
     this.clientSelected = { } as Client;
     this.office = '';
     this.state = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
 
     this.route.queryParams.subscribe(
       params => {
         this.client = params.client;
         this.office = params.office;
         this.state = params.status;
-        this.resourceTypeId = params.type;
+        this.from = params.from;
+        this.to = params.to;
+        this.reference = params.reference;
       }
     );
 
@@ -111,7 +119,9 @@ export class MaintenancePendingComponent implements OnInit {
       client: this.client,
       status: this.resourceStatus.PendingMaintenance,
       office: this.office,
-      type: this.resourceTypeId
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
     }));
     this.store.dispatch(new LoadResourcesTypes());
     // Dispatch action to load clients
@@ -140,9 +150,11 @@ export class MaintenancePendingComponent implements OnInit {
         page: this.page,
         perPage: this.perPage,
         status: this.resourceStatus.PendingMaintenance,
-        type: this.resourceTypeId,
         client: this.client,
-        office: this.office
+        office: this.office,
+        from: this.from,
+        to: this.to,
+        reference: this.reference,
       }));
       this.resources$ = this.store.pipe(select(getResources));
       this.loader$ = this.store.pipe(select(getLoader));
@@ -221,7 +233,11 @@ export class MaintenancePendingComponent implements OnInit {
       client: this.client,
       office: this.office,
       status: this.resourceStatus.PendingMaintenance,
-      type: this.resourceTypeId,
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
+      page: this.page,
+      perPage: this.perPage
     }));
     this.resources$ = this.store.pipe(select(getResources));
     this.loader$ = this.store.pipe(select(getLoader));
@@ -229,7 +245,9 @@ export class MaintenancePendingComponent implements OnInit {
       client: this.client ? this.client : null,
       office: this.office && this.client ? this.office : null,
       status: this.state ? this.state : null,
-      type: this.resourceTypeId ? this.resourceTypeId : null
+      from: this.from,
+      to: this.to,
+      reference: this.reference,
     });
   }
   selectClient(): void {

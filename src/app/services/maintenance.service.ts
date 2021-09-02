@@ -31,8 +31,8 @@ export class MaintenanceService {
    * Create checkups
    * @param resources resources to create checkups
    */
-  createMaintenances({ maintenances }: { maintenances: { resourceId: string }[] }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}resources/load-maintenances`, { maintenances }, { withCredentials: true, });
+  createMaintenances({ resources }: { resources: { id: string }[] }): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}resources/load-maintenances`, { resources }, { withCredentials: true, });
   }
 
   /**
@@ -56,18 +56,38 @@ export class MaintenanceService {
   /**
    * Get History maintenance
    */
-  getHistoryMaintenance({ page, perPage = 10, status }: { page?: number, perPage?: number, status?: string }): Observable<any> {
-    let statusQuery = '';
+  getHistoryMaintenance(
+    { page,
+      perPage = 10,
+      status,
+      from,
+      to
+    }:
+      {
+        page?: number,
+        perPage?: number,
+        status?: string,
+        from?: string,
+        to?: string
+      }
+  ): Observable<any> {
+    let query = '';
     if (page) {
-      statusQuery += '&page=' + page;
+      query += '&page=' + page;
     }
     if (perPage) {
-      statusQuery += '&perPage=' + perPage;
+      query += '&perPage=' + perPage;
     }
     if (status) {
-      statusQuery += '&status=' + status;
+      query += '&status=' + status;
     }
-    return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?${statusQuery}`,
+    if (from) {
+      query += '&from=' + from;
+    }
+    if (to) {
+      query += '&to=' + to;
+    }
+    return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?${query}`,
       { withCredentials: true, });
   }
 }

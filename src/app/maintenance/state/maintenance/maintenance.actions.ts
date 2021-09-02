@@ -49,7 +49,7 @@ export class CreateMaintenanceFail implements Action {
 // Create maintenance
 export class CreateMaintenances implements Action {
   readonly type = MaintenanceActionTypes.CreateMaintenances;
-  constructor(public payload: { maintenances: { resourceId: string }[] }) { }
+  constructor(public payload: { resources: { id: string }[] }) { }
 }
 
 // Create maintenance Success

@@ -41,6 +41,15 @@ export class InventoryService {
     if (filters.perPage) {
       query += '&perPage=' + filters.perPage;
     }
+    if (filters.from) {
+      query += '&from=' + filters.from;
+    }
+    if (filters.to) {
+      query += '&to=' + filters.to;
+    }
+    if (filters.reference) {
+      query += '&reference=' + filters.reference;
+    }
     return this.http.get<PaginationResources>(`${this.apiUrl}resources?${query}`,
       { withCredentials: true, });
   }

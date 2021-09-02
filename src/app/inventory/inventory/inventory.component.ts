@@ -33,7 +33,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   downloading: boolean;
   activeAndCheckedResources: Resource[];
   checkedResources: Resource[];
-  maintenances: { resourceId: string }[];
+  resources: { id: string }[];
 
   showBackDrop = false;
   showModal = false;
@@ -75,7 +75,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       });
     this.downloading = false;
     this.activeAndCheckedResources = [];
-    this.maintenances = [];
+    this.resources = [];
     this.checkedResources = [];
   }
 
@@ -122,15 +122,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
   createMaintenance(): void {
     this.activeAndCheckedResources.forEach(r => {
       if (r.checked && r.status === RESOURCE_STATUS.Available) {
-        this.maintenances.push({ resourceId: r.id });
+        this.resources.push({ id: r.id });
       }
     });
-    if (this.maintenances.length > 0) {
-      this.confirmCreateMaintenance(this.maintenances);
+    if (this.resources.length > 0) {
+      this.confirmCreateMaintenance(this.resources);
     }
   }
 
-  confirmCreateMaintenance(maintenances: { resourceId: string }[]): void {
+  confirmCreateMaintenance(resources: { id: string }[]): void {
     Swal.fire({
       title: '¿Estás seguro que desea mandar los recursos a mantenimiento?',
       showCancelButton: false,
@@ -140,7 +140,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       confirmButtonColor: '#50b848',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.store.dispatch(new CreateMaintenances({ maintenances }));
+        this.store.dispatch(new CreateMaintenances({ resources }));
       }
     });
   }

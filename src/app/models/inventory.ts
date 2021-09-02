@@ -61,6 +61,9 @@ export interface ResourceFilters {
   client?: string;
   office?: string;
   type?: string;
+  from?: string;
+  to?: string;
+  reference?: string;
 }
 
 export const RESOURCE_STATUS = {
