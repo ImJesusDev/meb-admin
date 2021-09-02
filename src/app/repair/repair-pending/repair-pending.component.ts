@@ -111,6 +111,19 @@ export class RepairPendingComponent implements OnInit {
     this.resources$.subscribe(data => this.resourceLength = data.length);
   }
 
+  setQueryParams(): void {
+    this.route.queryParams.subscribe(
+      params => {
+        this.client = params.client;
+        this.office = params.office;
+        this.state = params.status;
+        this.from = params.from;
+        this.to = params.to;
+        this.reference = params.reference;
+      }
+    );
+  }
+
   loadResources(): void {
     this.store.dispatch(new StartLoader());
     this.store.dispatch(new LoadResources({
@@ -163,18 +176,6 @@ export class RepairPendingComponent implements OnInit {
     return results;
   }
 
-  setQueryParams(): void {
-    this.route.queryParams.subscribe(
-      params => {
-        this.client = params.client;
-        this.office = params.office;
-        this.state = params.status;
-        this.from = params.from;
-        this.to = params.to;
-        this.reference = params.reference;
-      }
-    );
-  }
 
   /*
   MODALS

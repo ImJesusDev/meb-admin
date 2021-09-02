@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 /* Components */
 import { ModalModule } from '@atoms/modal';
@@ -22,6 +24,8 @@ import { CheckUpModalComponent } from './check-up-modal/check-up-modal.component
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     CheckUpsRoutingModule,
     ModalModule,
     SharedModule,

@@ -1,3 +1,4 @@
+import { Checkup } from '@models/chekoups';
 import { PaginationResources, ResourceFilters } from './../models/inventory';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -93,8 +94,27 @@ export class InventoryService {
    * @param page Page
    * @param perPage Per page
    */
-  getCheckupHistory(page: number, perPage: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}resources/checkups-history?page=${page}&perPage=${perPage}`, { withCredentials: true, });
+  getCheckupHistory(
+    { page, perPage = 10, status, from, to }: { page?: number; perPage?: number; status?: string; from?: string; to?: string; }
+  ): Observable<{ checkups: Checkup[]; page: number; perPage: number; totalResults: number; }> {
+    let query = '';
+    if (page) {
+      query += '&page=' + page;
+    }
+    if (perPage) {
+      query += '&perPage=' + perPage;
+    }
+    if (status) {
+      query += '&status=' + status;
+    }
+    if (from) {
+      query += '&from=' + from;
+    }
+    if (to) {
+      query += '&to=' + to;
+    }
+    return this.http.get<{ checkups: Checkup[]; page: number; perPage: number; totalResults: number; }>
+      (`${this.apiUrl}resources/checkups-history?${query}`, { withCredentials: true, });
   }
 
   /**

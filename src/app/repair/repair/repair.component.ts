@@ -94,7 +94,7 @@ export class RepairComponent implements OnInit {
         rows.push(resource.status ? RESOURCE_STATUS_NAMES[resource.status] : '');
         columns.push(rows);
       });
-      downloadExcel({ data: columns, filename: 'reparaciones' });
+      downloadExcel({ data: columns, filename: 'Reparaciones' });
     } catch (e) {
       console.log(e);
     }
@@ -106,7 +106,9 @@ export class RepairComponent implements OnInit {
     try {
       const response = await this.repairService.getHistoryRepairs({
         page: this.filters.page,
-        perPage: this.filters.perPage
+        perPage: this.filters.perPage,
+        from: this.filters.from,
+        to: this.filters.to
       }).toPromise();
       const repairs: Checkup[] = response.repairs;
 

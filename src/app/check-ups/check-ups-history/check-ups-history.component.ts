@@ -1,7 +1,8 @@
+import { Navigation } from './../../utils/helpers/navigation.helper';
 import { Checkup } from './../../models/chekoups';
 import { ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
 import { Observable, of } from 'rxjs';
 /* Models */
@@ -32,7 +33,7 @@ export class CheckUpsHistoryComponent implements OnInit {
 
   /* Observable of clients from store */
   // resources$: Observable<Resource[]> = of([] as Resource[]);
-  resources$: Observable<{ page: number, perPage: number, totalResults: number, checkups: Checkup[] }> = of({} as {
+  resources$: Observable<{ page: number, perPage: number, totalResults: number, checkups: Checkup[] }> = of({ } as {
     page: number, perPage: number, totalResults: number, checkups: Checkup[]
   });
   resourceId: string;
@@ -55,13 +56,20 @@ export class CheckUpsHistoryComponent implements OnInit {
 
   checkup: Checkup;
 
-  constructor(private store: Store<State>, private router: Router, private inventoryService: InventoryService) {
+  from: string;
+  to: string;
+
+  constructor(
+    private store: Store<State>,
+    private router: Router,
+    private inventoryService: InventoryService,
+    private route: ActivatedRoute,
+    private navigation: Navigation
+  ) {
 
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
-    this.store.dispatch(new StartLoader());
-    // this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Completed }));
     this.resourceLength = 0;
     this.checkup = {
       components: [],
@@ -70,17 +78,43 @@ export class CheckUpsHistoryComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
+
+    this.from = '';
+    this.to = '';
+    this.route.queryParams.subscribe(
+      params => {
+        this.from = params.from;
+        this.to = params.to;
+      }
+    );
+    this.store.dispatch(new StartLoader());
   }
 
   ngOnInit(): void {
-    // Use selector to get resources from state
-    // this.resources$ = this.store.pipe(select(getResources));
-    this.resources$ = this.inventoryService.getCheckupHistory(this.page, 10);
-    // Use selector to ger loader state
+    this.getHistory();
     this.loader$ = this.store.pipe(select(getLoader));
+  }
+
+  getHistory(): void {
+    this.store.dispatch(new StartLoader());
+    this.resources$ = this.inventoryService.getCheckupHistory({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: this.perPage
+    });
     this.resources$.subscribe(data => {
       this.resourceLength = data.checkups?.length;
       this.store.dispatch(new StopLoader());
+    });
+  }
+  filterResources(): void {
+    this.page = 1;
+    this.store.dispatch(new StartLoader());
+    this.getHistory();
+    this.navigation.setQueryParams({
+      from: this.from,
+      to: this.to,
     });
   }
 
@@ -91,14 +125,7 @@ export class CheckUpsHistoryComponent implements OnInit {
     if (page > 0) {
       this.store.dispatch(new StartLoader());
       this.page = page;
-      // this.store.dispatch(new LoadResources({ page: this.page, perPage: this.perPage, status: this.resourceStatus.Completed }));
-      // this.resources$ = this.store.pipe(select(getResources));
-      this.resources$ = this.inventoryService.getCheckupHistory(this.page, 10);
-      this.loader$ = this.store.pipe(select(getLoader));
-      this.resources$.subscribe(data => {
-        this.resourceLength = data.checkups?.length;
-        this.store.dispatch(new StopLoader());
-      });
+      this.getHistory();
     }
   }
 

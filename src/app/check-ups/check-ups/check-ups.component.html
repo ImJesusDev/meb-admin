@@ -2,19 +2,48 @@
 <div class="flex-col justify-between w-full sm:py-12 sm:pl-4" id="main-content">
   <!-- HEADER -->
   <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
-    <!-- Title -->
-    <div class="flex items-center space-x-2 sm:space-x-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand" fill="none" viewBox="0 0 24 24"
-        stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-      <h1 class="font-bold text:2xl sm:text-5xl">{{title}}</h1>
+
+    <!-- Title line -->
+    <div class="flex flex-row justify-between">
+      <!-- Title -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <h1 class="font-bold text:2xl sm:text-5xl">{{title}}</h1>
+      </div>
+      <!-- End Title -->
+
+      <!-- Action Buttons -->
+      <div class="flex flex-row">
+        <!-- Download button -->
+        <button *ngIf="showAddBtn" (click)="setDownloadExcelType()" class="btn-primary hover:bg-green-900 mx-5"
+          [disabled]="downloading" [ngClass]="{'opacity-40 cursor-wait': downloading}">
+          <span class="hidden sm:flex">Descargar</span>
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+            *ngIf="downloading" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            *ngIf="!downloading">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </button>
+      </div>
+      <!-- End Action Buttons -->
     </div>
-    <!-- End Title -->
+    <!-- End title line -->
+
+    <!-- Pestañas -->
     <div class="mt-8 flex-row flex">
       <a class="hover:underline hover:text-brand flex-row flex mr-4" routerLink="/check-ups"
-        [ngClass]="{'underline text-brand': route.url=== '/check-ups'}">
+        [ngClass]="{'underline text-brand': url[0]=== '/check-ups'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -25,7 +54,7 @@
         </span>
       </a>
       <a class="hover:underline hover:text-brand flex-row flex" routerLink="/check-ups/historial"
-        [ngClass]="{'underline text-brand': route.url==='/check-ups/historial'}">
+        [ngClass]="{'underline text-brand': url[0]==='/check-ups/historial'}">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -36,7 +65,10 @@
         </span>
       </a>
     </div>
+    <!-- End pestañas -->
   </div>
+  <!-- End header -->
+
   <!-- BODY -->
   <div class="h-full overflow-y-scroll">
     <router-outlet></router-outlet>
