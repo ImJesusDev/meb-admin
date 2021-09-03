@@ -9,4 +9,10 @@ export interface User {
   phone?: string;
   photo?: string;
   role: string;
+  client?: string;
+  office?: string;
+  mainTransportationMethod?: string;
+  secondaryTransportationMethod?: string;
+  termsDate?: boolean;
+  comodatoDate?: boolean;
 }

@@ -12,7 +12,7 @@ import { User } from '../models';
 export class UsersService {
   apiUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /* Get All Users */
   getUsers(role?: string): Observable<User[]> {
@@ -39,6 +39,17 @@ export class UsersService {
   /* Add Admin User */
   addAdmin(admin: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}users/admin/signup`, admin, {
+      withCredentials: true,
+    });
+  }
+
+  /**
+   * Add user
+   * @param user User to create
+   * @returns Observable<User>
+   */
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}users/signup`, user, {
       withCredentials: true,
     });
   }

@@ -21,9 +21,19 @@ import { ClientsComponent } from './clients/clients.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { OfficeFormComponent } from './office-form/office-form.component';
 import { OfficesListComponent } from './offices-list/offices-list.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
-  declarations: [ClientsComponent, ClientListComponent, ClientFormComponent, OfficeFormComponent, OfficesListComponent],
+  declarations: [
+    ClientsComponent,
+    ClientListComponent,
+    ClientFormComponent,
+    OfficeFormComponent,
+    OfficesListComponent,
+    UserFormComponent,
+    UserListComponent
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,

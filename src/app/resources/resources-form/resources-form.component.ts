@@ -65,7 +65,6 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
   submitForm(): void {
     // Dispatch action to start loader
     this.store.dispatch(new StartLoader());
-    this.loader$
     // Dispatch action to add new client
     this.store.dispatch(
       new AddResource({
@@ -109,7 +108,7 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
    */
   convertImageFileToBase64(readerEvt: ProgressEvent<FileReader>): void {
     // Get binary string from FileReader
-    var binaryString = readerEvt?.target?.result;
+    const binaryString = readerEvt?.target?.result;
     // Convert binary to base64
     const base64String = btoa(binaryString as string);
     // Set the final base64 string

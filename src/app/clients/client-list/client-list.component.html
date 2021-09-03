@@ -19,13 +19,19 @@
     <tbody>
       <ng-container *ngFor="let client of clients$ |async; let i = index;">
         <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <!-- Logo -->
           <td class="p-2"> <img class="w-8 rounded-full" src="{{client.logo}}" alt=""> </td>
+          <!-- Nombre -->
           <td class="p-2"> {{client.name}} </td>
+          <!-- NIT -->
           <td class="p-2"> {{client.nit}} </td>
+          <!-- Administrador Mejor en Bici -->
           <td class="p-2"> {{client.meb_admin ? (client.meb_admin?.firstName + ' '+
             client.meb_admin?.lastName) : 'Sin asignar'}} </td>
+          <!-- Súper administrador cliente -->
           <td class="p-2"> {{client.super_admin_client ? (client.super_admin_client?.firstName + ' '+
             client.super_admin_client?.lastName) : 'Sin asignar'}} </td>
+          <!-- Sedes -->
           <td class="flex items-center justify-center p-2 space-x-2">
             <div class="flex items-center justify-center space-x-2 ">
               <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
@@ -38,6 +44,7 @@
               </svg>
             </div>
           </td>
+          <!-- Dominios -->
           <td class="p-2 space-x-2 ">
             <div class="flex items-center justify-center space-x-2 ">
               <span class="cursor-pointer text-brand hover:text-green-900"
@@ -50,7 +57,14 @@
               </svg>
             </div>
           </td>
-          <td class="p-2"> <span>{{client.users?.length}}</span> </td>
+          <!-- Users -->
+          <td class="p-2">
+            <div class="flex items-center justify-center space-x-2 ">
+              <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                [routerLink]="['/clientes', client.id, 'usuarios']">{{client.users?.length}}</span>
+            </div>
+          </td>
+          <!-- Editar -->
           <td class="p-2">
             <svg [routerLink]="['/clientes', client.id, 'editar']" xmlns="http://www.w3.org/2000/svg"
               class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900" fill="none"
@@ -59,6 +73,7 @@
                 d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
             </svg>
           </td>
+          <!-- Eliminar -->
           <td class="p-2">
             <svg (click)="confirmDelete(client.id)" xmlns="http://www.w3.org/2000/svg"
               class="w-6 h-6 m-auto cursor-pointer hover:text-green-900" fill="none" viewBox="0 0 24 24"

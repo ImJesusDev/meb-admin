@@ -85,6 +85,23 @@ export function reducer(state = initialState, action: ClientsActions): State {
       };
     }
 
+    /* Users */
+    case ClientsActionTypes.AddUserSuccess: {
+      return adapter.updateOne(
+        { id: action.payload.id, changes: action.payload },
+        {
+          ...state,
+          error: [],
+        }
+      );
+    }
+    case ClientsActionTypes.AddUserFail: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+
     default: {
       return state;
     }

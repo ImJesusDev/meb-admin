@@ -1,0 +1,53 @@
+<app-back-arrow backRoute="clientes"></app-back-arrow>
+<div class="flex flex-col items-center justify-center h-full space-y-4 py-14 sm:w-full">
+
+  <!-- No Client Users -->
+  <div *ngIf="client.users?.length === 0" class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>Este cliente no posee usuarios</p>
+    <!-- Add User Btn -->
+    <button [routerLink]="['/clientes', client.id, 'crear-sede']" class="btn-primary hover:bg-green-900">
+      <span>Crear nuevo usuario</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </button>
+    <!-- End Add User Btn -->
+  </div>
+  <!-- End No Client Users -->
+
+  <!-- Offices Table -->
+  <table *ngIf="client && client.offices?.length"
+    class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg max-h-full">
+    <thead>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Correo electrónico</th>
+        <th>Cliente</th>
+        <th>Sede</th>
+        <th>Actualizar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let user of client.users; let i = index;">
+        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <td class="p-2"> {{user.firstName}} </td>
+          <td class="p-2"> {{user.lastName}} </td>
+          <td class="p-2"> {{user.email}} </td>
+          <td class="p-2"> {{user.client}} </td>
+          <td class="p-2"> {{user.office}} </td>
+          <td class="p-2">
+            <svg [routerLink]="['/clientes', client.id, 'usuarios', user.id, 'editar']"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+</div>

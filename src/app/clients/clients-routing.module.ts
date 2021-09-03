@@ -6,6 +6,8 @@ import { ClientListComponent } from './client-list/client-list.component';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { OfficeFormComponent } from './office-form/office-form.component';
 import { OfficesListComponent } from './offices-list/offices-list.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { UserListComponent } from './user-list/user-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
@@ -34,6 +36,18 @@ const routes: Routes = [
         path: 'nuevo-cliente',
         component: ClientFormComponent,
       },
+      {
+        path: ':id/crear-usuario',
+        component: UserFormComponent,
+      },
+      {
+        path: ':id/usuarios',
+        component: UserListComponent,
+      },
+      {
+        path: ':id/usuarios/:userId/editar',
+        component: UserFormComponent,
+      },
     ],
   },
 ];
@@ -42,4 +56,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ClientsRoutingModule {}
+export class ClientsRoutingModule { }

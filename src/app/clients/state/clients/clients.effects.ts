@@ -1,3 +1,4 @@
+import { UsersService } from './../../../services/users.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 /* NgRx */
@@ -39,6 +40,9 @@ import {
   DeleteOffice,
   DeleteOfficeFail,
   DeleteOfficeSuccess,
+  AddUser,
+  AddUserSuccess,
+  AddUserFail
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -53,8 +57,9 @@ export class ClientsEffects {
     private router: Router,
     private $actions: Actions,
     private _clientsService: ClientsService,
-    private _authService: AuthService
-  ) {}
+    private _authService: AuthService,
+    private _userService: UsersService,
+  ) { }
 
   /**
    * Effect to listen for the LoadClients action
@@ -359,6 +364,55 @@ export class ClientsEffects {
               let errors: ApiError[] = [];
               if (error.error && error.error.errors) {
                 errors = error.error.errors;
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new DeleteOfficeFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+  /**
+   * Effect to listen for the Add user action
+   * and make http request to add user
+   * from API
+   */
+  $addUser = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.AddUser),
+      switchMap((action: AddUser) =>
+        this._userService
+          .addUser(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => [
+              new AddUserSuccess(action.payload)
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Usuario agregado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el usuario!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
               } else {
                 errors = [{ message: 'Something went wrong' }];
               }
