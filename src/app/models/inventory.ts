@@ -1,6 +1,6 @@
 import { Checkup } from './chekoups';
 export type typeResourceStatus =
-  'disabled'
+  | 'disabled'
   | 'available'
   | 'pending_checkup'
   | 'checkup'
@@ -53,7 +53,6 @@ export interface Pagination {
   totalResources: number;
 }
 
-
 export interface ResourceFilters {
   page?: number;
   perPage?: number;
@@ -77,7 +76,7 @@ export const RESOURCE_STATUS = {
   Maintenance: 'maintenance',
   WaitingApprovalMaintenance: 'waiting_approval_maintenance',
   WaitingApprovalRepair: 'waiting_approval_repair',
-  Rented: 'rented'
+  Rented: 'rented',
 };
 
 export const RESOURCE_STATUS_NAMES = {
@@ -89,7 +88,7 @@ export const RESOURCE_STATUS_NAMES = {
   repair: 'Reparado',
   pending_maintenance: 'Pendiente de mantenimiento',
   maintenance: 'Mantenido',
-  waiting_approval_maintenance: 'Pendiente de aprovación de mantenimento',
-  waiting_approval_repair: 'Pendiente de aprovación de reparación',
-  rented: 'Retenido'
+  waiting_approval_maintenance: 'Pendiente de aprobación de mantenimento',
+  waiting_approval_repair: 'Pendiente de aprobación de reparación',
+  rented: 'Retenido',
 };

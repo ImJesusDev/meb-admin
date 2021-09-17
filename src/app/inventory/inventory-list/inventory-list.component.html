@@ -1,19 +1,19 @@
-<div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
+<div class="flex flex-col items-center justify-center h-full px-4 mt-4 space-y-4 py-14 sm:w-full">
 
   <!-- Loader -->
   <app-loader *ngIf="(loader$ |async)"></app-loader>
 
   <!-- Resources Table Desktop only -->
-  <div class="flow-root h-full w-full" *ngIf="!(loader$ | async)">
+  <div class="flow-root w-full h-full" *ngIf="!(loader$ | async)">
 
-    <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+    <div class="flex flex-col w-11/12 mb-4 lg:w-10/12 lg:flex-row">
 
-      <div class="flex flex-col sm:flex-row w-full">
+      <div class="flex flex-col w-full sm:flex-row">
         <!-- Resource type -->
-        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+        <div class="flex flex-col flex-1 mx-4 my-3 lg:my-0">
           <label class="text-gray-400" for="client-admin">Tipo de recurso:</label>
           <select [(ngModel)]="resourceTypeId"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             name="resource-type" id="resource-type" (ngModelChange)="filterResources()">
             <option [ngValue]="''">
               Todos
@@ -27,10 +27,10 @@
         </div>
 
         <!-- Client -->
-        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+        <div class="flex flex-col flex-1 mx-4 my-3 lg:my-0">
           <label class="text-gray-400" for="client">Cliente:</label>
           <select name="client" [(ngModel)]="client" id="client" (ngModelChange)="selectClient()"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full">
+            class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
             <option [value]="''">Todos</option>
             <ng-container *ngFor="let client of clients$ | async">
               <option [ngValue]="client.name">
@@ -44,12 +44,12 @@
         </div> -->
       </div>
 
-      <div class="flex flex-col sm:flex-row w-full">
+      <div class="flex flex-col w-full sm:flex-row">
         <!-- office -->
-        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+        <div class="flex flex-col flex-1 mx-4 my-3 lg:my-0">
           <label class="text-gray-400" for="office">Sede:</label>
           <select name="office" [(ngModel)]="office" required id="office" (ngModelChange)="filterResources()"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full">
+            class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
             <ng-container *ngIf="clientSelected !== undefined && clientSelected !== null">
               <option [value]="''">Todos</option>
               <option [ngValue]="office.name" *ngFor="let office of clientSelected.offices">
@@ -60,10 +60,10 @@
         </div>
 
         <!-- state -->
-        <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4">
+        <div class="flex flex-col flex-1 mx-4 my-3 lg:my-0">
           <label class="text-gray-400" for="client-admin">Estado:</label>
           <select [(ngModel)]="state" (ngModelChange)="filterResources()"
-            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             name="resource-type" id="resource-type">
             <option [value]="''">Todos</option>
             <option [value]="resourceStatus.Disabled">Desabilitado</option>
@@ -74,23 +74,23 @@
             <option [value]="resourceStatus.PendingMaintenance">Pendiente de mantenimiento</option>
             <option [value]="resourceStatus.PendingRepair">Pendiente de reparación</option>
             <option [value]="resourceStatus.Repair">Reparado</option>
-            <option [value]="resourceStatus.WaitingApprovalMaintenance">Pendiente de aprovación de mantenimiento
+            <option [value]="resourceStatus.WaitingApprovalMaintenance">Pendiente de aprobación de mantenimiento
             </option>
-            <option [value]="resourceStatus.WaitingApprovalRepair">Pendiente de aprovación de reparación</option>
+            <option [value]="resourceStatus.WaitingApprovalRepair">Pendiente de aprobación de reparación</option>
           </select>
         </div>
       </div>
 
 
-      <!-- <div class="flex w-full items-end justify-center flex-1">
-        <button class="btn-primary hover:bg-green-900 h-12" type="submit" (click)="filterResources()">
+      <!-- <div class="flex items-end justify-center flex-1 w-full">
+        <button class="h-12 btn-primary hover:bg-green-900" type="submit" (click)="filterResources()">
           Filtrar
         </button>
       </div> -->
 
     </div>
 
-    <table class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
+    <table class="hidden w-full overflow-x-scroll overflow-y-scroll text-xs text-center table-auto sm:table sm:text-lg">
       <thead>
         <tr>
           <th></th>
@@ -110,9 +110,9 @@
           <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
             <td class="p-2">
               <label class="flex items-center space-x-3" for="checked">
-                <input name="checked" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
-                  checked:bg-brand focus:bg-brand cursor-pointer" (change)="changeChecked(i)"
-                  [checked]="resource.checked">
+                <input name="checked" type="checkbox"
+                  class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
+                  (change)="changeChecked(i)" [checked]="resource.checked">
               </label>
             </td>
             <td class="p-2"> {{resource.type}} </td>
@@ -144,15 +144,15 @@
       </tbody>
     </table>
 
-    <div class="float-right flex-row flex">
+    <div class="flex flex-row float-right">
       Pag. {{page}}
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none  mx-2" fill="none"
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-2 outline-none focus:outline-none" fill="none"
         viewBox="0 0 24 24" stroke="currentColor"
         [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': page > 1}"
         (click)="changePage(page-1, 'previous')">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none mx-2"
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-2 outline-none focus:outline-none"
         [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.length !== 0))}"
         fill="none" viewBox="0 0 24 24" stroke="currentColor" (click)="changePage(page+1, 'following')">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
