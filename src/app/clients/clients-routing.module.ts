@@ -43,6 +43,16 @@ const routes: Routes = [
       {
         path: ':id/usuarios',
         component: UserListComponent,
+        children: [
+          {
+            path: 'activos',
+            component: UserListComponent,
+          },
+          {
+            path: 'inactivos',
+            component: UserListComponent,
+          }
+        ],
       },
       {
         path: ':id/usuarios/:userId/editar',
