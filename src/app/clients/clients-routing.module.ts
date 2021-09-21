@@ -9,6 +9,8 @@ import { OfficesListComponent } from './offices-list/offices-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { ActiveUserListComponent } from './users/active-user-list/active-user-list.component';
+import { InactiveUserListComponent } from './users/inactive-user-list/inactive-user-list.component';
 
 const routes: Routes = [
   {
@@ -43,21 +45,19 @@ const routes: Routes = [
       {
         path: ':id/usuarios',
         component: UserListComponent,
-        children: [
-          {
-            path: 'activos',
-            component: UserListComponent,
-          },
-          {
-            path: 'inactivos',
-            component: UserListComponent,
-          }
-        ],
       },
       {
         path: ':id/usuarios/:userId/editar',
         component: UserFormComponent,
       },
+      {
+        path: ':id/usuarios/activos',
+        component: ActiveUserListComponent,
+      },
+      {
+        path: ':id/usuarios/inactivos',
+        component: InactiveUserListComponent,
+      }
     ],
   },
 ];

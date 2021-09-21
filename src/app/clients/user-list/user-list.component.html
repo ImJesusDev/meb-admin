@@ -8,7 +8,7 @@
     <div class="flex flex-row">
       <div class=" p-4">
         <!-- Add User Btn -->
-        <button [routerLink]="['/clientes', client.id, 'crear-sede']" class="btn-primary hover:bg-green-900">
+        <button [routerLink]="['/clientes', client.id, 'usuarios', 'activos']" class="btn-primary hover:bg-green-900">
           <span>Usuarios Activos</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -17,9 +17,9 @@
         </button>
         <!-- End Add User Btn -->
       </div>
-      <div class=" p-4">
+      <div class="p-4">
         <!-- Add User Btn -->
-        <button [routerLink]="['/clientes', client.id, 'crear-sede']" class="btn-primary hover:bg-green-900">
+        <button  [routerLink]="['/clientes', client.id, 'usuarios', 'inactivos']" class="btn-primary hover:bg-green-900">
           <span>Usuarios Inactivos</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -46,7 +46,6 @@
     
   </div>
   <!-- End No Client Users -->
-
   <!-- Offices Table -->
   <table *ngIf="client && client.offices?.length"
     class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg max-h-full">
