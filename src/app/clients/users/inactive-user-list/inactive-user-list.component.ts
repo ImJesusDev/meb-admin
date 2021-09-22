@@ -12,6 +12,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./inactive-user-list.component.css']
 })
 export class InactiveUserListComponent implements OnInit {
+  title = 'Usuarios Inactivos';
+  showAddBtn = true;
+  url: string[] = [];
+  downloading: boolean | undefined;
   SedeFilter:any;
   cedula:any;
   /* Current client Object */
@@ -44,6 +48,19 @@ export class InactiveUserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  
+  setDownloadExcelType(): void {
+    switch (this.url[0]) {
+      case '/mantenimientos':
+        // this.onDownloadExcel();
+        break;
+      case '/mantenimientos/historial':
+        // this.onDownloadHistoryExcel();
+        break;
+      default:
+        break;
+    }
   }
 
   filterSedes(){}

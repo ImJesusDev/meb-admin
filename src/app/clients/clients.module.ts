@@ -23,7 +23,6 @@ import { OfficeFormComponent } from './office-form/office-form.component';
 import { OfficesListComponent } from './offices-list/offices-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { ActiveUserListComponent } from './users/active-user-list/active-user-list.component';
 import { InactiveUserListComponent } from './users/inactive-user-list/inactive-user-list.component';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { InactiveUserListComponent } from './users/inactive-user-list/inactive-u
     OfficesListComponent,
     UserFormComponent,
     UserListComponent,
-    ActiveUserListComponent,
     InactiveUserListComponent
   ],
   imports: [

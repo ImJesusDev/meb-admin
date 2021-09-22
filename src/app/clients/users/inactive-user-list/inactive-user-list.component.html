@@ -1,82 +1,255 @@
-<app-back-arrow backRoute="clientes"></app-back-arrow>
-<div class="flex flex-col items-center justify-center h-full space-y-4 py-14 sm:w-full">
-
-    <div class="flex flex-col w-11/12 mb-4 lg:w-10/12 lg:flex-row">
-
-        <div class="flex flex-col w-medium sm:flex-row">
-          <!-- Resource type -->
-          <div class="flex flex-col flex-1 mx-4 my-3 lg:my-0">
-            <label class="text-gray-400" for="client-admin">Tipo de recurso:</label>
-            <select [(ngModel)]="SedeFilter"
-              class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-              name="resource-type" id="resource-type" (ngModelChange)="filterSedes()">
-              <option [ngValue]="''">
-                Todos
-              </option>
-            </select>
-          </div>
-  
-          <!-- Client -->
-          <div class="flex flex-col flex-1 mx-4 my-3 lg:my-0">
-            <label class="text-gray-400" for="cedula">Cliente:</label>
-            <input type="text" [(ngModel)]="cedula" id="cedula" (ngModelChange)="filterCedula()"
-              class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
-          </div>
-  
-        </div>
-  
+<!-- Main Container -->
+<div class="flex-col justify-between w-full sm:pt-12 sm:pl-4" id="main-content">
+  <!-- HEADER -->
+  <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
+    <!-- Title line -->
+    <div class="flex flex-row justify-between">
+      <!-- Title -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <svg
+          routerLink="mantenimientos"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-8 h-8 sm:w-12 sm:h-12 text-brand"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+          />
+        </svg>
+        <h1 class="font-bold text:2xl sm:text-5xl">{{ title }}</h1>
       </div>
+      <!-- End Title -->
+      <!-- Action Buttons -->
+      <div class="flex flex-row">
+        <!-- Inactivar usuarios button -->
+        <button
+          *ngIf="showAddBtn"
+          (click)="setDownloadExcelType()"
+          class="btn-primary hover:bg-green-900 mx-5"
+          [disabled]="downloading"
+          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+        >
+          <span class="hidden sm:flex">Inactivar usuario(s)</span>
+        </button>
+        <!-- Download button -->
+        <button
+          *ngIf="showAddBtn"
+          (click)="setDownloadExcelType()"
+          class="btn-primary hover:bg-green-900 mx-5"
+          [disabled]="downloading"
+          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+        >
+          <span class="hidden sm:flex">Descargar</span>
+          <svg
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            *ngIf="downloading"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            *ngIf="!downloading"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
+          </svg>
+        </button>
+        <!-- create new user button -->
+        <button
+          *ngIf="showAddBtn"
+          (click)="setDownloadExcelType()"
+          class="btn-primary hover:bg-green-900 mx-5"
+          [disabled]="downloading"
+          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+        >
+          <span class="hidden sm:flex">Crear nuevo usuario</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+      </div>
+      <!-- End Action Buttons -->
+    </div>
+    <!-- End title line -->
 
-  <!-- Offices Table -->
-  <table class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg max-h-full">
-    <thead>
-      <tr>
-        <th>Foto</th>
-        <th>Nombre </th>
-        <th>Apellido </th>
-        <th>Cédula </th>
-        <th>Correo electrónico </th>
-        <th>Cliente </th>
-        <th>Sede</th>
-        <th>Archivar </th>
-        <th>Actualizar</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let user of client.users; let i = index;">
-        <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-            <td class="p-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg> 
-            </td>
-            <td class="p-2"> {{user.firstName}} </td>
-            <td class="p-2"> {{user.lastName}} </td>
-            <td class="p-2"> {{user.id}} </td>
-            <td class="p-2"> {{user.email}} </td>
-            <td class="p-2"> {{user.client}} </td>
-            <td class="p-2"> {{user.office}} </td>
-            <td class="p-2 text-center">
-                <svg [routerLink]="['/clientes', client.id, 'usuarios', user.id, 'editar']"
+    <!-- Pestañas -->
+    <div class="mt-8 flex-row flex">
+      <a
+        class="hover:underline hover:text-brand flex-row flex mr-4"
+        [routerLink]="['/clientes', client.id, 'usuarios']"
+        [ngClass]="{ 'underline text-brand': url[0] === '/mantenimientos' }"
+      >
+        <span>
+          Usuarios activos
+        </span>
+      </a>
+      <a
+        class="hover:underline hover:text-brand flex-row flex"
+        [routerLink]="['/clientes', client.id, 'usuarios', 'inactivos']"
+        [ngClass]="{
+          'underline text-brand': url[0] === '/mantenimientos/historial'
+        }"
+      >
+        <span>
+          Usuarios Inactivos
+        </span>
+      </a>
+    </div>
+    <!-- End Pestañas -->
+  </div>
+  <!-- BODY -->
+  <div
+    class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4"
+  >
+    <!-- Resources Table Desktop only -->
+    <div class="flow-root h-full w-full">
+      <div class="flex flex-col mb-4 w-full">
+        <!-- Filters -->
+        <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+          <div class="flex flex-col sm:flex-row w-full">
+            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
+              <div class="w-1/2 mr-3">
+                <label class="text-gray-400" for="from">Cliente:</label>
+                <input
+                  name="from"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                  type="date"
+                />
+              </div>
+              <div class="w-1/2">
+                <label class="text-gray-400" for="to">Sede:</label>
+                <input
+                  name="to"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                  type="date"
+                />
+              </div>
+            </div>
+            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
+              <!-- Filter button -->
+              <div class="flex items-end">
+                <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0">
+                  <span>Filtrar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End filters -->
+
+        <table
+          class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll"
+        >
+          <thead>
+            <tr>
+              <th>
+                <label class="flex items-center space-x-3" for="checked">
+                  <input
+                    name="checked"
+                    type="checkbox"
+                    class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
+                  />
+                </label>
+              </th>
+              <th>Foto</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Correo electrónico</th>
+              <th>Cliente</th>
+              <th>Sede</th>
+              <th>Actualizar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let user of client.users; let i = index">
+              <tr
+                [ngClass]="{ 'bg-gray-200': i % 2 === 0 }"
+                class="text-center"
+              >
+                <td class="p-2">
+                  <label class="flex items-center space-x-3" for="checked">
+                    <input
+                      name="checked"
+                      type="checkbox"
+                      class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
+                    />
+                  </label>
+                </td>
+                <td class="p-2">{{ user.firstName }}</td>
+                <td class="p-2">{{ user.firstName }}</td>
+                <td class="p-2">{{ user.lastName }}</td>
+                <td class="p-2">{{ user.email }}</td>
+                <td class="p-2">{{ user.client }}</td>
+                <td class="p-2">{{ user.office }}</td>
+                <td class="p-2">
+                  <svg
+                    [routerLink]="[
+                      '/clientes',
+                      client.id,
+                      'usuarios',
+                      user.id,
+                      'editar'
+                    ]"
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                    </svg>
-            </td>
-            <td class="p-2">
-                <svg [routerLink]="['/clientes', client.id, 'usuarios', user.id, 'editar']"
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-            </td>
-            
-        </tr>
-      </ng-container>
-
-    </tbody>
-  </table>
+                    class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    />
+                  </svg>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- End Mobile Table -->
+  </div>
 </div>
+<!-- End Main Container -->

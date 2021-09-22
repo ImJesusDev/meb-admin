@@ -12,6 +12,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+  title = 'Usuarios';
+  showAddBtn = true;
+  url: string[] = [];
+  downloading: boolean | undefined;
 
   /* Current client Object */
   client: Client;
@@ -43,6 +47,20 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  
+  setDownloadExcelType(): void {
+    switch (this.url[0]) {
+      case '/mantenimientos':
+        // this.onDownloadExcel();
+        break;
+      case '/mantenimientos/historial':
+        // this.onDownloadHistoryExcel();
+        break;
+      default:
+        break;
+    }
   }
 
 }
