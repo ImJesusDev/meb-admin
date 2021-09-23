@@ -88,6 +88,7 @@
           class="btn-primary hover:bg-green-900 mx-5"
           [disabled]="downloading"
           [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+          [routerLink]="['/clientes', 'crear-usuario']"
         >
           <span class="hidden sm:flex">Crear nuevo usuario</span>
           <svg
@@ -230,6 +231,7 @@
                       user.id,
                       'editar'
                     ]"
+                    
                     xmlns="http://www.w3.org/2000/svg"
                     class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900"
                     fill="none"

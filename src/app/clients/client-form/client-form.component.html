@@ -1,3 +1,13 @@
+<!-- Title -->
+<div class="flex items-center space-x-2 sm:space-x-4">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand" fill="none" viewBox="0 0 24 24"
+    stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+  </svg>
+  <h1 class="font-bold text:2xl sm:text-5xl">{{title}}</h1>
+</div>
+<!-- End Title -->
 <app-back-arrow backRoute="clientes"></app-back-arrow>
 <div class="flex flex-col items-center justify-center w-full h-full space-y-4">
   <!-- Form Container -->
@@ -93,8 +103,8 @@
         <!-- Form buttons -->
         <div class="flex items-center justify-center w-full space-x-8">
           <button [ngClass]="{'opacity-40 cursor-default': !clientForm.valid}" [disabled]="!clientForm.valid"
-            (click)="submitForm()" class="w-42 btn-primary"><span>{{edit ? 'Actualizar Cliente' : 'Crear
-              cliente'}}</span>
+            (click)="submitForm()" class="w-42 btn-primary">
+            <span>{{edit ? 'Actualizar Cliente' : 'Crear cliente'}}</span>
             <svg *ngIf="loader$ | async" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 animate-spin" fill="none"
               viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

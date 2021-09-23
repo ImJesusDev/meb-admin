@@ -36,6 +36,7 @@ import { Client, User, ApiError } from '../../models';
   styleUrls: ['./client-form.component.css'],
 })
 export class ClientFormComponent implements OnInit, OnDestroy {
+  title = 'Clientes'
   /* Keep track of subscriptions */
   private subscriptions = new Subscription();
   /* New Client Object */
