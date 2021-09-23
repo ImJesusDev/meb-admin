@@ -59,6 +59,7 @@ export class UsersEffects {
       )
     );
   });
+
   /**
    * Effect to listen for the LoadTeam action
    * and make http request to load team members

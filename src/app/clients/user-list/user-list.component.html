@@ -1,7 +1,7 @@
 <!-- Main Container -->
 <div class="flex-col justify-between w-full sm:pt-12 sm:pl-4" id="main-content">
   <!-- HEADER -->
-  <div class="flex justify-between mt-12 sm:m-0 pr-4 flex-col">
+  <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
     <!-- Title line -->
     <div class="flex flex-row justify-between">
       <!-- Title -->
@@ -109,33 +109,33 @@
       <!-- End Action Buttons -->
     </div>
     <!-- End title line -->
-    <app-back-arrow [backRoute]="'/clientes/'"></app-back-arrow>
+
+    <!-- Pestañas -->
+    <div class="mt-8 flex-row flex">
+      <a
+        class="hover:underline hover:text-brand flex-row flex mr-4"
+        [routerLink]="['/clientes', client.id, 'usuarios']"
+        [ngClass]="{ 'underline text-brand': url[0] === '/mantenimientos' }"
+      >
+        <span>
+          Usuarios activos
+        </span>
+      </a>
+      <a
+        class="hover:underline hover:text-brand flex-row flex"
+        [routerLink]="['/clientes', client.id, 'usuarios', 'inactivos']"
+        [ngClass]="{
+          'underline text-brand': url[0] === '/mantenimientos/historial'
+        }"
+      >
+        <span>
+          Usuarios Inactivos
+        </span>
+      </a>
+    </div>
+    <!-- End Pestañas -->
   </div>
   <!-- BODY -->
-  <!-- Pestañas -->
-  <div class="flex-row flex ml-10">
-    <a
-      class="hover:underline hover:text-brand flex-row flex mr-4"
-      [routerLink]="['/clientes', client.id, 'usuarios']"
-      [ngClass]="{ 'underline text-brand': url[0] === '/mantenimientos' }"
-    >
-      <span>
-        Usuarios activos
-      </span>
-    </a>
-    <a
-      class="hover:underline hover:text-brand flex-row flex"
-      [routerLink]="['/clientes', client.id, 'usuarios', 'inactivos']"
-      [ngClass]="{
-        'underline text-brand': url[0] === '/mantenimientos/historial'
-      }"
-    >
-      <span>
-        Usuarios Inactivos
-      </span>
-    </a>
-  </div>
-  <!-- End Pestañas -->
   <div
     class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4"
   >
@@ -193,7 +193,6 @@
               <th>Nombres</th>
               <th>Apellidos</th>
               <th>Correo electrónico</th>
-              <th>Fecha </th>
               <th>Cliente</th>
               <th>Sede</th>
               <th>Actualizar</th>
@@ -214,10 +213,9 @@
                     />
                   </label>
                 </td>
-                <td class="p-2">{{ user.firstName }}</td>
+                <td class="p-2"><img class="w-12 mx-auto mb-12" src="{{user.photo}}" alt=""></td>
                 <td class="p-2">{{ user.firstName }}</td>
                 <td class="p-2">{{ user.lastName }}</td>
-                <td class="p-2">{{ user.email }}</td>
                 <td class="p-2">{{ user.email }}</td>
                 <td class="p-2">{{ user.client }}</td>
                 <td class="p-2">{{ user.office }}</td>
