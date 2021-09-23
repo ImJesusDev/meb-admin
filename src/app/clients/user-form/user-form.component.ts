@@ -29,6 +29,8 @@ import { AddOffice, AddOfficeSuccess } from '../state/clients';
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit, OnDestroy {
+
+  title = "Usuarios";
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
   /* Current client Object */

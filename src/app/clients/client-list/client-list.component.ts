@@ -26,6 +26,8 @@ import { Domain } from '../../models';
   styleUrls: ['./client-list.component.css'],
 })
 export class ClientListComponent implements OnInit {
+  title = 'Clientes';
+  showAddBtn = true;
   /* Observable of clients from store */
   clients$: Observable<Client[]> = of([] as Client[]);
   /* Observable of loader from store */

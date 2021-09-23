@@ -1,3 +1,22 @@
+<!-- Title -->
+<div class="flex items-center space-x-2 sm:space-x-4">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-6 w-6 sm:w-12 sm:h-12 text-brand"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+    />
+  </svg>
+  <h1 class="font-bold text:2xl sm:text-5xl">{{ title }}</h1>
+</div>
+<!-- End Title -->
 <app-back-arrow
   [backRoute]="'/clientes/' + client.id + '/usuarios'"
 ></app-back-arrow>
@@ -21,29 +40,6 @@
       [formGroup]="formGroup"
       class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12"
     >
-     <!-- FOTO -->
-     <div class="flex flex-col w-full">
-      <label class="text-gray-400">
-        * Foto
-      </label>
-      <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-        <div class="space-y-1 text-center">
-          <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <div class="flex flex-col w-full h-16 text-sm text-gray-600">
-            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-              <span>Cargar un archivo</span>
-              <input id="file-upload" name="file-upload" type="file" class="sr-only">
-            </label>
-            <p class="pl-1">o arrastrar y soltar</p>
-          </div>
-          <p class="text-xs text-gray-500">
-            PNG, JPG, GIF up to 10MB
-          </p>
-        </div>
-      </div>
-    </div>
       <div
         class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
       >
@@ -79,11 +75,6 @@
             type="text"
           />
         </div>
-      </div>
-
-      <div
-        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
-      >
         <!-- CEDULA -->
         <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="sede">* Cédula:</label>
@@ -100,8 +91,13 @@
             type="text"
           />
         </div>
-         <!-- email -->
-         <div class="flex flex-col w-full h-16">
+      </div>
+
+      <div
+        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
+      >
+        <!-- email -->
+        <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="email">* Correo electronico:</label>
           <input
             name="email"
@@ -116,11 +112,6 @@
             type="text"
           />
         </div>
-      </div>
-
-      <div
-        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
-      >
         <!-- password-->
         <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="password">* Contraseña:</label>
@@ -176,7 +167,9 @@
         </div>
         <!-- MEDIO DE TRANSPORTE -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="transPrin">* Medio de tranposrte principal:</label>
+          <label class="text-gray-400" for="transPrin">
+            * Medio de tranposrte principal:
+          </label>
           <input
             name="transPrin"
             formControlName="transPrin"
@@ -190,14 +183,11 @@
             type="text"
           />
         </div>
-      </div>
-
-      <div
-        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
-      >
         <!-- MEDIO DE TRANSPORTE SECUNDARIO -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="transSec">* Medio de tranposrte secundario:</label>
+          <label class="text-gray-400" for="transSec">
+            * Medio de tranposrte secundario:
+          </label>
           <input
             name="transSec"
             formControlName="transSec"
@@ -211,6 +201,12 @@
             type="text"
           />
         </div>
+      </div>
+
+      <div
+        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
+      >
+        
         <!-- CELULAR -->
         <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="sede">* teléfono Celular:</label>
@@ -227,14 +223,11 @@
             type="text"
           />
         </div>
-      </div>
-
-      <div
-        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
-      >
         <!-- CONTACTO DE EMERGENCIA -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="conEmergencia">* Contacto de emergencia:</label>
+          <label class="text-gray-400" for="conEmergencia">
+            * Contacto de emergencia:
+          </label>
           <input
             name="conEmergencia"
             formControlName="conEmergencia"
@@ -250,7 +243,9 @@
         </div>
         <!-- TELEFONO CONTACTO EMERGENCIA-->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="telConEmergencia">* Teléfono contacto emergencia:</label>
+          <label class="text-gray-400" for="telConEmergencia">
+            * Teléfono contacto emergencia:
+          </label>
           <input
             name="telConEmergencia"
             formControlName="telConEmergencia"
@@ -270,7 +265,9 @@
       >
         <!-- GRUPO SANGUINEO -->
         <div class="flex flex-col w-full h-16">
-          <label class="text-gray-400" for="grupoSanguineo">* Grupo sanguineo:</label>
+          <label class="text-gray-400" for="grupoSanguineo">
+            * Grupo sanguineo:
+          </label>
           <input
             name="grupoSanguineo"
             formControlName="grupoSanguineo"
@@ -300,14 +297,16 @@
             type="text"
           />
         </div>
-      </div>
-      <div
-        class="flex flex-col items-center justify-center w-full sm:space-x-8 sm:flex-row"
-      >
-        <!-- SEXO -->
-        <div class="flex flex-col w-full h-8">
+         <!-- SEXO -->
+         <div class="flex flex-col w-full h-16">
           <label class="text-gray-400" for="grupoSanguineo">* Sexo:</label>
-          <select id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <select
+            formControlName="grupoSanguineo"
+            name="grupoSanguineo"
+            required
+            autocomplete="grupoSanguineo"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+          >
             <option>Masculino</option>
             <option>Femenino</option>
           </select>
