@@ -21,7 +21,7 @@ import { getCountries } from '../../state/locations/locations.selector';
 import { LoadCountries } from '../../state/locations/locations.actions';
 import { LoadUsers } from 'src/app/state/users';
 import { StartLoader } from '../../state/loader/loader.actions';
-import { AddOffice, AddOfficeSuccess } from '../state/clients';
+import { AddOffice, AddOfficeSuccess, AddUser } from '../state/clients';
 
 @Component({
   selector: 'app-user-form',
@@ -83,6 +83,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       firstName: [this.user.firstName, [Validators.required]],
       lastName: [this.user.lastName],
       email: [this.user.email, [Validators.required]],
+      cedula: [this.user.documentNumber, [Validators.required]],
       password: [this.user.password, [Validators.required]],
       mainTransportationMethod: [this.user.mainTransportationMethod, [Validators.required]],
       secondaryTransportationMethod: [this.user.secondaryTransportationMethod, [Validators.required]],
@@ -106,6 +107,32 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  submitForm(): void { }
+  submitForm(): void {
+
+
+    this.formGroup.controls['cedula'].value.type;
+
+    // this.store.dispatch(
+    //   new AddUser({
+    //     firstName: string;
+    //     lastName: string;
+    //     email: string;
+    //     password: string;
+    //     documentType?: string;
+    //     documentNumber?: string;
+    //     phone?: string;
+    //     photo?: string;
+    //     role: string;
+    //     client?: string;
+    //     office?: string;
+    //     mainTransportationMethod?: string;
+    //     secondaryTransportationMethod?: string;
+    //     termsDate?: boolean;
+    //     comodatoDate?: boolean;
+    //   })
+    // );
+
+
+   }
 
 }
