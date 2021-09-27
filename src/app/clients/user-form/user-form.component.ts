@@ -7,21 +7,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, Subscription } from 'rxjs';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
-/* Selectors */
-import { getClientsError, getClients } from '../state/clients/clients.selector';
+
 import { getUsers } from 'src/app/state/users/users.selector';
 /* Models */
-import { Office, ApiError, Country, User, Client } from '../../models';
+import { Office, ApiError, User, Client } from '../../models';
 /* State */
 import { State } from '../state';
 /* Selectors */
 import { getLoader } from '../../state/loader/loader.selector';
-import { getCountries } from '../../state/locations/locations.selector';
-/* Actions */
-import { LoadCountries } from '../../state/locations/locations.actions';
-import { LoadUsers } from 'src/app/state/users';
-import { StartLoader } from '../../state/loader/loader.actions';
-import { AddOffice, AddOfficeSuccess, AddUser } from '../state/clients';
 
 @Component({
   selector: 'app-user-form',
@@ -31,7 +24,7 @@ import { AddOffice, AddOfficeSuccess, AddUser } from '../state/clients';
 export class UserFormComponent implements OnInit, OnDestroy {
 @Input() usuarios:any;
 
-  title = "Actualizar usuario";
+  title = "Crear usuario";
   userEdit:any;
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
@@ -42,7 +35,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   /* New User */
   user: User;
   /* Form Group */
-  formGroup: FormGroup;
+  UserGroup: FormGroup;
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
   edit = false;
@@ -70,7 +63,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
                 users.forEach((element: any) => {
                   if(element.id == param.userId){
                     this.user = element;
-                    console.log(this.user);
                   }
                 });
               }
@@ -79,27 +71,24 @@ export class UserFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.formGroup = this.formBuilder.group({
-      firstName: [this.user.firstName, [Validators.required]],
-      lastName: [this.user.lastName],
-      email: [this.user.email, [Validators.required]],
-      cedula: [this.user.documentNumber, [Validators.required]],
-      password: [this.user.password, [Validators.required]],
-      mainTransportationMethod: [this.user.mainTransportationMethod, [Validators.required]],
-      secondaryTransportationMethod: [this.user.secondaryTransportationMethod, [Validators.required]],
-      termsDate: [this.user.termsDate, [Validators.required]],
-      comodatoDate: [this.user.comodatoDate, [Validators.required]],
-      cliente: [this.user.client, [Validators.required]],
-      sede: [this.user.office, [Validators.required]],
+    this.UserGroup = this.formBuilder.group({
+      firstName: [''], //[this.user.firstName, [Validators.required]],
+      lastName:[''], // [this.user.lastName],
+      email: [''],// [this.user.email, [Validators.required]],
+      documentNumber:[''], // [this.user.documentNumber, [Validators.required]],
+      password: [''], // [this.user.password, [Validators.required]],
+      mainTransportationMethod:  [''],//[this.user.mainTransportationMethod, [Validators.required]],
+      secondaryTransportationMethod:[''],  //[this.user.secondaryTransportationMethod, [Validators.required]],
+      termsDate: [''], //[this.user.termsDate, [Validators.required]],
+      comodatoDate: [''], //[this.user.comodatoDate, [Validators.required]],
+      cliente:[''],  //[this.user.client, [Validators.required]],
+      sede:  [''] //[this.user.office, [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    // Use selector to get errors from state
-    this.errors$ = this.store.pipe(select(getUserErrors));
-    // Use selector to get loader state
-    this.loader$ = this.store.pipe(select(getLoader));
   }
+
   onBack(): void {
     history.back();
   }
@@ -110,7 +99,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   submitForm(): void {
 
 
-    this.formGroup.controls['cedula'].value.type;
+    console.log(this.UserGroup.controls['documentNumber'].value);
 
     // this.store.dispatch(
     //   new AddUser({

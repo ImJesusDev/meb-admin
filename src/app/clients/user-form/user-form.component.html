@@ -31,7 +31,7 @@
       <!-- End Errors -->
       <!-- Form -->
       <form
-        [formGroup]="formGroup"
+        [formGroup]="UserGroup"
         class="flex flex-col items-center justify-center w-full space-y-8 sm:w-6/12"
       >
         <div
@@ -47,8 +47,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('firstName')?.touched &&
-                  formGroup.get('firstName')?.hasError('required')
+                  UserGroup.get('firstName')?.touched &&
+                  UserGroup.get('firstName')?.hasError('required')
               }"
               type="text"
             />
@@ -63,8 +63,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('lastName')?.touched &&
-                  formGroup.get('lastName')?.hasError('required')
+                  UserGroup.get('lastName')?.touched &&
+                  UserGroup.get('lastName')?.hasError('required')
               }"
               type="text"
             />
@@ -78,14 +78,14 @@
           <div class="flex flex-col w-full h-16">
             <label class="text-gray-400" for="sede">* Cédula:</label>
             <input
-              name="cedula"
-              formControlName="cedula"
+              name="documentNumber"
+              formControlName="documentNumber"
               required
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('cedula')?.touched &&
-                  formGroup.get('cedula')?.hasError('required')
+                  UserGroup.get('documentNumber')?.touched &&
+                  UserGroup.get('documentNumber')?.hasError('required')
               }"
               type="text"
             />
@@ -102,8 +102,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('email')?.touched &&
-                  formGroup.get('email')?.hasError('required')
+                  UserGroup.get('email')?.touched &&
+                  UserGroup.get('email')?.hasError('required')
               }"
               type="text"
             />
@@ -123,8 +123,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('password')?.touched &&
-                  formGroup.get('password')?.hasError('required')
+                  UserGroup.get('password')?.touched &&
+                  UserGroup.get('password')?.hasError('required')
               }"
               type="text"
             />
@@ -139,8 +139,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('cliente')?.touched &&
-                  formGroup.get('cliente')?.hasError('required')
+                  UserGroup.get('cliente')?.touched &&
+                  UserGroup.get('cliente')?.hasError('required')
               }"
               type="text"
             />
@@ -160,8 +160,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('sede')?.touched &&
-                  formGroup.get('sede')?.hasError('required')
+                  UserGroup.get('sede')?.touched &&
+                  UserGroup.get('sede')?.hasError('required')
               }"
               type="text"
             />
@@ -178,8 +178,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('transPrin')?.touched &&
-                  formGroup.get('transPrin')?.hasError('required')
+                  UserGroup.get('transPrin')?.touched &&
+                  UserGroup.get('transPrin')?.hasError('required')
               }"
               type="text"
             />
@@ -200,8 +200,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('transSec')?.touched &&
-                  formGroup.get('transSec')?.hasError('required')
+                  UserGroup.get('transSec')?.touched &&
+                  UserGroup.get('transSec')?.hasError('required')
               }"
               type="text"
             />
@@ -216,8 +216,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('telCelular')?.touched &&
-                  formGroup.get('telCelular')?.hasError('required')
+                  UserGroup.get('telCelular')?.touched &&
+                  UserGroup.get('telCelular')?.hasError('required')
               }"
               type="text"
             />
@@ -238,8 +238,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('conEmergencia')?.touched &&
-                  formGroup.get('conEmergencia')?.hasError('required')
+                  UserGroup.get('conEmergencia')?.touched &&
+                  UserGroup.get('conEmergencia')?.hasError('required')
               }"
               type="text"
             />
@@ -256,8 +256,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('telConEmergencia')?.touched &&
-                  formGroup.get('telConEmergencia')?.hasError('required')
+                  UserGroup.get('telConEmergencia')?.touched &&
+                  UserGroup.get('telConEmergencia')?.hasError('required')
               }"
               type="text"
             />
@@ -278,8 +278,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('grupoSanguineo')?.touched &&
-                  formGroup.get('grupoSanguineo')?.hasError('required')
+                  UserGroup.get('grupoSanguineo')?.touched &&
+                  UserGroup.get('grupoSanguineo')?.hasError('required')
               }"
               type="text"
             />
@@ -294,8 +294,8 @@
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
               [ngClass]="{
                 'border-solid border-red-500 outline-red-500':
-                  formGroup.get('eps')?.touched &&
-                  formGroup.get('eps')?.hasError('required')
+                  UserGroup.get('eps')?.touched &&
+                  UserGroup.get('eps')?.hasError('required')
               }"
               type="text"
             />
@@ -325,8 +325,8 @@
           <div class="flex items-center justify-center w-full space-x-8">
             <!-- Create button -->
             <button
-              [ngClass]="{ 'opacity-40 cursor-default': !formGroup.valid }"
-              [disabled]="!formGroup.valid || (loader$ | async)"
+              [ngClass]="{ 'opacity-40 cursor-default': !UserGroup.valid }"
+              [disabled]="!UserGroup.valid"
               class="w-42 btn-primary"
               (click)="submitForm()"
             >
