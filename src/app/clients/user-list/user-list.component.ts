@@ -7,6 +7,7 @@ import { Client } from './../../models/client';
 import { Component, OnInit } from '@angular/core';
 /* Actions */
 import { LoadTeam } from '../../state/users/user.actions';
+import { downloadExcel } from 'src/app/utils/helpers/excel.helper';
 
 @Component({
   selector: 'app-user-list',
@@ -83,17 +84,28 @@ export class UserListComponent implements OnInit {
   }
 
   
-  setDownloadExcelType(): void {
-    switch (this.url[0]) {
-      case '/mantenimientos':
-        // this.onDownloadExcel();
-        break;
-      case '/mantenimientos/historial':
-        // this.onDownloadHistoryExcel();
-        break;
-      default:
-        break;
+  /* Download Excel */
+  async onDownloadExcel(): Promise<void> {
+    this.downloading = true;
+    try {
+      const columns = new Array();
+      columns.push(['', '', '', '', '', '', 'Documentos', '', '', '', '']);
+      const columnsLabels = ['Foto', 'Nombres', 'Apellidos', 'Email', 'Cliente', 'Sede'];
+      columns.push(columnsLabels);
+      this.users.forEach((user:any) => {
+        const rows = new Array();
+        rows.push(user.photo);
+        rows.push(user.firstName);
+        rows.push(user.lastName);
+        rows.push(user.email);
+        rows.push(user.client);
+        rows.push(user.office);
+        columns.push(rows);
+      });
+      downloadExcel({ data: columns, filename: 'Usuarios Activos' });
+    } catch (e) {
+      console.log(e);
     }
+    this.downloading = false;
   }
-
 }
