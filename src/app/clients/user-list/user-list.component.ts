@@ -6,8 +6,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { Client } from './../../models/client';
 import { Component, OnInit } from '@angular/core';
 /* Actions */
-import { LoadTeam, LoadClientAdmin, LoadUsers } from '../../state/users/user.actions';
-import { StartLoader } from '@state/loader/loader.actions';
+import { LoadTeam } from '../../state/users/user.actions';
 
 @Component({
   selector: 'app-user-list',

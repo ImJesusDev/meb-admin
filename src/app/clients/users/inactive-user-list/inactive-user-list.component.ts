@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Client } from './../../../models/client';
 import { Component, OnInit } from '@angular/core';
+import { LoadTeam } from '../../../state/users/user.actions';
 
 @Component({
   selector: 'app-inactive-user-list',
@@ -23,23 +24,27 @@ export class InactiveUserListComponent implements OnInit {
   /* Keep track of subscriptions */
   private subscriptions = new Subscription();
 
-  office: string;
+  office: string = "";
+  users:any;
 
   constructor(
     private store: Store<State>,
     private route: ActivatedRoute
   ) {
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadTeam());
+
     this.client = { } as Client;
-    this.office = '';
 
     this.route.params.subscribe((param) => {
       if (param.id) {
         this.subscriptions.add(
           this.store
             .pipe(select(getClientById(param.id)))
-            .subscribe((client: Client | undefined) => {
+            .subscribe((client) => {
               if (client) {
                 this.client = client;
+                this.users = client.users;
               }
             })
         );
@@ -49,6 +54,32 @@ export class InactiveUserListComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  filterResources(): void {
+    this.route.params.subscribe((param) => {
+      if (param.id) {
+        this.subscriptions.add(
+          this.store
+            .pipe(select(getClientById(param.id)))
+            .subscribe((client) => {
+              if (client) {
+                this.client = client;
+                
+                this.users = client.users;
+                let userFilter:any = [];
+                this.users.forEach((element: any) => {
+                  if(element.office == this.office){
+                    userFilter.push(element); 
+                  }
+                });
+                this.users = userFilter;
+              }
+            })
+        );
+      }
+    });
+  }
+
   
   setDownloadExcelType(): void {
     switch (this.url[0]) {
@@ -62,8 +93,5 @@ export class InactiveUserListComponent implements OnInit {
         break;
     }
   }
-
-  filterSedes(){}
-  filterCedula(){}
 
 }
