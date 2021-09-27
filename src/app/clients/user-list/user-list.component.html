@@ -147,31 +147,38 @@
         <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
           <div class="flex flex-col sm:flex-row w-full">
             <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
-              <div class="w-1/2 mr-3">
-                <label class="text-gray-400" for="from">Cliente:</label>
-                <input
-                  name="from"
-                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
-                  type="date"
-                />
-              </div>
+              <!-- <div class="w-1/2 mr-3">
+                <label class="text-gray-400" for="client">Cliente:</label>
+                <select name="client" [(ngModel)]="client" id="client"
+                  class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
+                  <option [value]="''">Todos</option>
+                  <ng-container *ngFor="let client of client">
+                    <option [ngValue]="client.name">
+                      {{client.name}}
+                    </option>
+                  </ng-container>
+                </select>
+              </div> -->
               <div class="w-1/2">
-                <label class="text-gray-400" for="to">Sede:</label>
-                <input
-                  name="to"
-                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
-                  type="date"
-                />
+                <label class="text-gray-400" for="office">Sede:</label>
+                <select name="office" [(ngModel)]="office" required id="office" (ngModelChange)="filterResources()"
+                  class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
+                  <ng-container *ngIf="client !== undefined && client !== null">
+                    <option [value]="''">Todos</option>
+                    <option [ngValue]="office.name" *ngFor="let office of client.offices">
+                      {{office.name}}
+                    </option>
+                  </ng-container>
+                </select>
               </div>
             </div>
-            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
-              <!-- Filter button -->
+            <!-- <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
               <div class="flex items-end">
                 <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0">
                   <span>Filtrar</span>
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- End filters -->
@@ -200,7 +207,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let user of client.users; let i = index">
+            <ng-container *ngFor="let user of users; let i = index">
               <tr
                 [ngClass]="{ 'bg-gray-200': i % 2 === 0 }"
                 class="text-center"
@@ -214,7 +221,7 @@
                     />
                   </label>
                 </td>
-                <td class="p-2"><img class="w-12 mx-auto mb-12" src="{{user.photo}}" alt=""></td>
+                <td class="p-2"><img class="w-12 mx-auto mb-12" src="{{user.photo}}" alt="{{ user.firstName }}"></td>
                 <td class="p-2">{{ user.firstName }}</td>
                 <td class="p-2">{{ user.lastName }}</td>
                 <td class="p-2">{{ user.email }}</td>

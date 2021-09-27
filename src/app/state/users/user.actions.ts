@@ -17,6 +17,7 @@ export enum UserActionTypes {
   AddAdminCancel = '[Users] Add Cancel',
 }
 
+
 export class LoadUsers implements Action {
   readonly type = UserActionTypes.LoadUsers;
 }
