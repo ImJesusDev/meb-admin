@@ -80,11 +80,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
       sede: [this.user.office, [Validators.required]],
       transPrin: [this.user.mainTransportationMethod, [Validators.required]],
       transSec: [this.user.secondaryTransportationMethod, [Validators.required]],
-      telCelular: [''],
-      conEmergencia: [''],
-      telConEmergencia: [''],
-      grupoSanguineo: [''],
-      eps: [''],
+      telCelular: [this.user.phone, [Validators.required]],
+      conEmergencia: [this.user.emergencyContactName, [Validators.required]],
+      telConEmergencia: [this.user.emergencyContactPhone, [Validators.required]],
+      grupoSanguineo: [this.user.bloodType, [Validators.required]],
+      eps: [this.user.eps, [Validators.required]],
       sexo: ['']
     });
   }

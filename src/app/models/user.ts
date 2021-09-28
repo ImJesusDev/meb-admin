@@ -1,4 +1,5 @@
 export interface User {
+  
   id: string;
   firstName: string;
   lastName: string;
@@ -15,4 +16,8 @@ export interface User {
   secondaryTransportationMethod?: string;
   termsDate?: boolean;
   comodatoDate?: boolean;
+  emergencyContactPhone?: any;
+  emergencyContactName?: string;
+  bloodType?: string;
+  eps?: any;
 }
