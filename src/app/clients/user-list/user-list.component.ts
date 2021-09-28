@@ -29,6 +29,7 @@ export class UserListComponent implements OnInit {
 
   office: string = "";
   users:any;
+  documentNumber:string = "";
 
   constructor(
     private store: Store<State>,
@@ -72,6 +73,31 @@ export class UserListComponent implements OnInit {
                 let userFilter:any = [];
                 this.users.forEach((element: any) => {
                   if(element.office == this.office){
+                    userFilter.push(element); 
+                  }
+                });
+                this.users = userFilter;
+              }
+            })
+        );
+      }
+    });
+  }
+
+  filterResourcesCC(): void {
+    this.route.params.subscribe((param) => {
+      if (param.id) {
+        this.subscriptions.add(
+          this.store
+            .pipe(select(getClientById(param.id)))
+            .subscribe((client) => {
+              if (client) {
+                this.client = client;
+                
+                this.users = client.users;
+                let userFilter:any = [];
+                this.users.forEach((element: any) => {
+                  if(element.office == this.office && element.documentNumber == this.documentNumber){
                     userFilter.push(element); 
                   }
                 });
