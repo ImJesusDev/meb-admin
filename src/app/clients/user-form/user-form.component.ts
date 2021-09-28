@@ -12,6 +12,7 @@ import { Office, ApiError, User, Client } from '../../models';
 import { State } from '../state';
 /* Selectors */
 import { getLoader } from '../../state/loader/loader.selector';
+import { AddUser } from '../state/clients/clients.actions';
 
 @Component({
   selector: 'app-user-form',
@@ -69,23 +70,23 @@ export class UserFormComponent implements OnInit, OnDestroy {
     });
     
     this.UserGroup = this.formBuilder.group({
-      firstName: [this.user.firstName, [Validators.required]],
-      lastName:[this.user.lastName, [Validators.required]],
-      email: [this.user.email, [Validators.required]],
-      documentNumber:[this.user.documentNumber, [Validators.required]],
-      password: [this.user.password, [Validators.required]],
-      termsDate: [this.user.termsDate, [Validators.required]],
-      comodatoDate: [this.user.comodatoDate, [Validators.required]],
-      cliente:[this.user.client, [Validators.required]],
-      sede: [this.user.office, [Validators.required]],
-      transPrin: [this.user.mainTransportationMethod, [Validators.required]],
-      transSec: [this.user.secondaryTransportationMethod, [Validators.required]],
-      telCelular: [this.user.phone, [Validators.required]],
-      conEmergencia: [this.user.emergencyContactName, [Validators.required]],
-      telConEmergencia: [this.user.emergencyContactPhone, [Validators.required]],
-      grupoSanguineo: [this.user.bloodType, [Validators.required]],
-      eps: [typeof this.user.eps != 'undefined' ? this.user.eps.name : '', [Validators.required]],
-      sexo: [typeof this.user.gender != 'undefined' ? this.user.gender : '', [Validators.required]]
+      firstName: [this.user.firstName],
+      lastName:[this.user.lastName],
+      email: [this.user.email],
+      documentNumber:[this.user.documentNumber],
+      password: [this.user.password],
+      termsDate: [this.user.termsDate],
+      comodatoDate: [this.user.comodatoDate],
+      cliente:[this.user.client],
+      sede: [this.user.office],
+      transPrin: [this.user.mainTransportationMethod],
+      transSec: [this.user.secondaryTransportationMethod],
+      telCelular: [this.user.phone],
+      conEmergencia: [this.user.emergencyContactName],
+      telConEmergencia: [this.user.emergencyContactPhone],
+      grupoSanguineo: [this.user.bloodType],
+      eps: [typeof this.user.eps != 'undefined' ? this.user.eps.name : ''],
+      sexo: [typeof this.user.gender != 'undefined' ? this.user.gender : '']
     });
   }
 
