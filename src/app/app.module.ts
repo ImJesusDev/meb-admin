@@ -35,6 +35,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { ApprovalsModule } from './approvals/approvals.module';
 import { RepairModule } from './repair/repair.module';
+import { BookingModule } from './booking/booking.module';
 @NgModule({
   declarations: [AppComponent, SidenavComponent, HeadernavComponent],
   imports: [
@@ -47,6 +48,7 @@ import { RepairModule } from './repair/repair.module';
     MaintenanceModule,
     ApprovalsModule,
     RepairModule,
+    BookingModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

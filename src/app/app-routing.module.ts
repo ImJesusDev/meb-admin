@@ -44,6 +44,11 @@ const routes: Routes = [
       import('./repair/repair.module').then((m) => m.RepairModule),
   },
   {
+    path: 'reservas',
+    loadChildren: () =>
+      import('./booking/booking.module').then((m) => m.BookingModule),
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },

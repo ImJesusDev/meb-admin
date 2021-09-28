@@ -1,0 +1,377 @@
+<div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
+
+
+  <!-- Resources Table Desktop only -->
+  <div class="flow-root h-full w-full">
+
+    <div class="flex flex-col mb-4 w-full">
+
+
+      <!-- Filters -->
+      <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+        <div class="flex flex-col sm:flex-row w-full">
+          <!-- Client -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="client">Cliente:</label>
+            <select name="client" [(ngModel)]="client" id="client" (ngModelChange)="selectClient()"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+              <option [value]="''">Todos</option>
+              <ng-container *ngFor="let client of clients$ | async">
+                <option [ngValue]="client.name">
+                  {{client.name}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <!-- office -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="office">Sede:</label>
+            <select name="office" [(ngModel)]="office" required id="office" (ngModelChange)="filterResources()"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full">
+              <ng-container *ngIf="clientSelected !== undefined && clientSelected !== null">
+                <option [value]="''">Todos</option>
+                <option [ngValue]="office.name" *ngFor="let office of clientSelected.offices">
+                  {{office.name}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row w-full">
+          <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
+            <div class="w-1/2 mr-3">
+              <label class="text-gray-400" for="from">Desde:</label>
+              <input name="from" [(ngModel)]="from"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                type="date">
+            </div>
+            <div class="w-1/2">
+              <label class="text-gray-400" for="to">Hasta:</label>
+              <input name="to" [(ngModel)]="to"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                type="date">
+            </div>
+          </div>
+         </div>
+         <div class="flex flex-col sm:flex-row w-full">
+          <!-- Referencia -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="referncia">Referencia:</label>
+            <input name="reference" [(ngModel)]="reference"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+          </div>
+          <!-- cedula -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="cedula">Cédula:</label>
+            <input name="reference" [(ngModel)]="reference"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row w-full">
+          <!-- Calificación servicio -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="cal-servicio">Calificación servicio:</label>
+            <input name="cal-servicio" [(ngModel)]="reference"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+          </div>
+          <!-- Pasó tiempo entrega -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="office">Pasó tiempo entrega:</label>
+            <input name="paso-entrega" [(ngModel)]="reference"
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+          </div>
+           <!-- Filter button -->
+           <div class="flex items-end">
+            <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
+              <span>Filtrar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- End filters -->
+
+      <!-- Table -->
+      <table
+        class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
+        <thead>
+          <tr>
+            <td class="p-2">
+              <label class="flex items-center space-x-3" for="checked">
+                <input
+                  name="checked"
+                  type="checkbox"
+                  class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
+                />
+              </label>
+            </td>
+            <th>Fecha</th>
+            <th>Cédula</th>
+            <th>Cliente</th>
+            <th>Sede Inicio</th>
+            <th>Sede entrega</th>
+            <th>Referencia Recurso</th>
+            <th>Tiempo en reserva</th>
+            <th>Tiempo en demora</th>
+            <th>Viajes</th>
+            <th>Calificación servicio</th>
+            <th>Indicadores</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let resource of (resources$|async); let i = index;">
+            <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+              <td class="p-2">
+                <label class="flex items-center space-x-3" for="checked">
+                  <input
+                    name="checked"
+                    type="checkbox"
+                    class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
+                  />
+                </label>
+              </td>
+              <td class="p-2">
+                <span *ngIf="resource.repairs.length">
+                  {{resource.repairs[resource.repairs.length-1].createdAt|date}}
+                </span>
+                <span *ngIf="!resource.repairs.length">
+                  ---
+                </span>
+              </td>
+              <td class="p-2"> <span *ngIf="resource.repairs.length">
+                  {{calcDays(resource.repairs[resource.repairs.length-1].createdAt)}}
+                </span>
+                <span *ngIf="!resource.repairs.length">
+                  0
+                </span>
+              </td>
+              <td class="p-2"> {{resource.client}} </td>
+              <td class="p-2"> {{resource.office}} </td>
+              <td class="p-2"> {{resource.office}} </td>
+              <td class="p-2"> {{resource.reference}} </td>
+              <td class="p-2"> {{resource.office}} </td>
+              <td class="justify-center p2">
+                {{resource.status? resourceStatusNames[resource.status] : ''}}
+              </td>
+              <td class="justify-center p-2">
+                <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                (click)="openViajes(0,1)">3</span> 
+              </td>
+              <td class="justify-center p-2">
+                <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                (click)="openCalificacion(0,1)">5</span> 
+              </td>
+              <td class="justify-center flex p2">
+                <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                (click)="openIndicadores(0,1)">Ver</span>
+              </td>
+            </tr>
+          </ng-container>
+
+        </tbody>
+      </table>
+      <!-- End Table -->
+
+
+      <!-- Loader -->
+      <div class="w-full justify-center h-96" *ngIf="loader$|async">
+        <app-loader></app-loader>
+      </div>
+      <!-- End loader -->
+
+      <!-- Pagination -->
+      <div class="justify-end flex-row flex">
+        Pag. {{page}}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none  mx-2" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor"
+          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': page > 1}"
+          (click)="changePage(page-1, 'previous')">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none mx-2"
+          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.length !== 0))}"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" (click)="changePage(page+1, 'following')">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+      <!-- End pagination -->
+
+    </div>
+    <!-- End Resource Table Desktop only -->
+
+    <!-- Mobile Table -->
+    <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
+      *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)">
+
+      <div [ngClass]="{'bg-gray-200': i % 2 === 0}" class="flex flex-col justify-center"
+        *ngFor="let resource of resources$ |async; let i = index;">
+        <div><span class="font-bold">Fecha:</span>
+          <span *ngIf="resource.checkups.length">
+            {{resource.checkups[resource.checkups.length-1].createdAt|date}}
+          </span>
+        </div>
+        <div><span class="font-bold">Días:</span>
+          <span *ngIf="resource.checkups.length">
+            {{calcDays(resource.checkups[resource.checkups.length-1].createdAt)}}
+          </span>
+        </div>
+        <div><span class="font-bold">Cliente:</span>{{resource.client}}</div>
+        <div><span class="font-bold">Oficina:</span>{{resource.office}}</div>
+        <div><span class="font-bold">Ultimo Chequeo:</span></div>
+        <div><span class="font-bold">Referencia:</span> {{resource.reference}}</div>
+        <div><span class="font-bold">Acciones:</span>
+        </div>
+      </div>
+    </div>
+    <!-- End Mobile Table -->
+
+  </div>
+
+  <!-- No Resources -->
+  <div *ngIf="((resources$ |async)?.length === 0) && !(loader$ | async) && page === 1"
+    class="flex flex-col items-center justify-center w-full h-full space-y-4">
+    <p>No hay reparaciones pendientes</p>
+  </div>
+  <!-- End No Resources -->
+
+</div>
+
+
+<!-- Modal to list Indicadores -->
+<div *ngIf="showModalIndicador" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showDomainListModal, 'opacity-100': showDomainListModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Indicadores</h1>
+      </div>
+      <div class="px-12 py-12 overflow-y-auto bg-white sm:flex-row sm:items-start max-h-96">
+        <!-- Client Table Desktop only -->
+        <div class="space-y-1">
+          <div><h3><b>Huella de carbono</b></h3></div>
+          <div><p> 321 gr CO2</p></div>
+        </div>
+        <div class="space-y-1">
+          <div><h3><b>Huella enerética</b></h3></div>
+          <div><p> 0,7 galones de gasolina</p></div>
+        </div>
+        <div class="space-y-1">
+          <div><h3><b>Huella económica</b></h3></div>
+          <div><p>$327</p></div>
+        </div>
+        <div class="space-y-1">
+          <div><h3><b>Calorias</b></h3></div>
+          <div><p> 243</p></div>
+        </div>
+        <div class="space-y-1">
+          <div><h3><b>Kilometros</b></h3></div>
+          <div><p> 24</p></div>
+        </div>
+        <div class="space-y-1">
+          <div><h3><b>Puntos</b></h3></div>
+          <div><p> 53</p></div>
+        </div>
+        
+        <!-- End Client Table Desktop only -->
+      </div>
+      <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" (click)="onCloseLastModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to list Indicadores -->
+
+<!-- Modal to list Calificacion servicio -->
+<div *ngIf="showModalCalificacion" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showDomainListModal, 'opacity-100': showDomainListModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Calificación Servicio</h1>
+      </div>
+      <div class="px-12 py-10 overflow-y-auto bg-white sm:flex sm:items-start max-h-96">
+        <!-- Client Table Desktop only -->
+        <div class="overflow-y-auto bg-white sm:flex-row sm:items-start max-h-96">
+          <!-- Client Table Desktop only -->
+          <div class="space-y-1">
+            <div><h3><b>Calificación</b></h3></div>
+            <div><p> 5</p></div>
+          </div>
+          <div class="space-y-1">
+            <div><h3><b>Comentario</b></h3></div>
+            <div><p> Excelente servicio</p></div>
+          </div>         
+          
+          <!-- End Client Table Desktop only -->
+        </div>
+        <!-- End Client Table Desktop only -->
+      </div>
+      <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" (click)="onCloseLastModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to list Calificacion servicio -->
+
+<!-- Modal to list viajes -->
+<div *ngIf="showModalViajes" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"
+  role="dialog" aria-modal="true">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div [ngClass]="{'opacity-0': !showDomainListModal, 'opacity-100': showDomainListModal}"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Viajes</h1>
+      </div>
+      <div class="px-12 py-12 overflow-y-auto bg-white sm:flex-row sm:items-start max-h-96">
+       <!-- Client Table Desktop only -->
+       <div class="space-y-1">
+        <div><h3><b>Viaje 1:</b></h3></div>
+        <div><p> Desde: Calle 96 a 21</p></div>
+        <div><p> Hasta: Carrera 54 # 67 b 3</p></div>
+      </div>
+      <div class="space-y-1">
+        <div><h3><b>Viaje 2:</b></h3></div>
+        <div><p> Desde: Calle 96 a 21</p></div>
+        <div><p> Hasta: Carrera 54 # 67 b 3</p></div>
+      </div>
+      <div class="space-y-1">
+        <div><h3><b>Viaje 3:</b></h3></div>
+        <div><p> Desde: Calle 96 a 21</p></div>
+        <div><p> Hasta: Carrera 54 # 67 b 3</p></div>
+      </div>
+      <!-- End Client Table Desktop only -->
+      </div>
+      <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" (click)="onCloseLastModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal to list viajes -->
