@@ -1,5 +1,4 @@
 import { getClientById } from './../state/clients/clients.selector';
-import { getUserErrors } from './../../state/users/users.selector';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,8 +6,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of, Subscription } from 'rxjs';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
-
-import { getUsers } from 'src/app/state/users/users.selector';
 /* Models */
 import { Office, ApiError, User, Client } from '../../models';
 /* State */
@@ -24,7 +21,7 @@ import { getLoader } from '../../state/loader/loader.selector';
 export class UserFormComponent implements OnInit, OnDestroy {
 @Input() usuarios:any;
 
-  title = "Crear usuario";
+  title = "Actualizar usuario";
   userEdit:any;
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
@@ -32,12 +29,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
   client: Client;
   /* Keep track of subscriptions */
   private subscriptions = new Subscription();
+  /* Observable of office from store */
+  office$: Observable<Office[]> = of([] as Office[]);
   /* New User */
   user: User;
+  office: any;
   /* Form Group */
   UserGroup: FormGroup;
-  /* Observable of loader from store */
-  loader$: Observable<boolean> = of(false);
   edit = false;
 
   constructor(
@@ -48,7 +46,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) {
     this.user = { } as User;
     this.client = { } as Client;
-
     
     this.route.params.subscribe((param) => {
       if (param.id) {
@@ -59,7 +56,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
             .subscribe((client: Client | undefined) => {
               if (client) {
                 let users:any = client.users;
-                // this.client = client;
+                this.office = client.offices;
                 users.forEach((element: any) => {
                   if(element.id == param.userId){
                     this.user = element;
@@ -70,19 +67,25 @@ export class UserFormComponent implements OnInit, OnDestroy {
         );
       }
     });
-
+    console.log(this.user.office);
     this.UserGroup = this.formBuilder.group({
-      firstName: [''], //[this.user.firstName, [Validators.required]],
-      lastName:[''], // [this.user.lastName],
-      email: [''],// [this.user.email, [Validators.required]],
-      documentNumber:[''], // [this.user.documentNumber, [Validators.required]],
-      password: [''], // [this.user.password, [Validators.required]],
-      mainTransportationMethod:  [''],//[this.user.mainTransportationMethod, [Validators.required]],
-      secondaryTransportationMethod:[''],  //[this.user.secondaryTransportationMethod, [Validators.required]],
-      termsDate: [''], //[this.user.termsDate, [Validators.required]],
-      comodatoDate: [''], //[this.user.comodatoDate, [Validators.required]],
-      cliente:[''],  //[this.user.client, [Validators.required]],
-      sede:  [''] //[this.user.office, [Validators.required]],
+      firstName: [this.user.firstName, [Validators.required]],
+      lastName:[this.user.lastName, [Validators.required]],
+      email: [this.user.email, [Validators.required]],
+      documentNumber:[this.user.documentNumber, [Validators.required]],
+      password: [this.user.password, [Validators.required]],
+      termsDate: [this.user.termsDate, [Validators.required]],
+      comodatoDate: [this.user.comodatoDate, [Validators.required]],
+      cliente:[this.user.client, [Validators.required]],
+      sede: [this.user.office, [Validators.required]],
+      transPrin: [this.user.mainTransportationMethod, [Validators.required]],
+      transSec: [this.user.secondaryTransportationMethod, [Validators.required]],
+      telCelular: [''],
+      conEmergencia: [''],
+      telConEmergencia: [''],
+      grupoSanguineo: [''],
+      eps: [''],
+      sexo: ['']
     });
   }
 
