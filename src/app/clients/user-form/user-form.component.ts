@@ -67,7 +67,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         );
       }
     });
-    console.log(this.user.office);
+    
     this.UserGroup = this.formBuilder.group({
       firstName: [this.user.firstName, [Validators.required]],
       lastName:[this.user.lastName, [Validators.required]],
@@ -84,8 +84,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       conEmergencia: [this.user.emergencyContactName, [Validators.required]],
       telConEmergencia: [this.user.emergencyContactPhone, [Validators.required]],
       grupoSanguineo: [this.user.bloodType, [Validators.required]],
-      eps: [this.user.eps, [Validators.required]],
-      sexo: ['']
+      eps: [typeof this.user.eps != 'undefined' ? this.user.eps.name : '', [Validators.required]],
+      sexo: [typeof this.user.gender != 'undefined' ? this.user.gender : '', [Validators.required]]
     });
   }
 

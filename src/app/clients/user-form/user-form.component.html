@@ -277,14 +277,14 @@
               autocomplete="grupoSanguineo"
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             >
-              <option>O-</option>
-              <option>O+</option>
-              <option>A+</option>
-              <option>A-</option>
-              <option>B-</option>
-              <option>B+</option>
-              <option>AB-</option>
-              <option>AB+</option>
+              <option [ngValue]="'O-'">O-</option>
+              <option [ngValue]="'O+'">O+</option>
+              <option [ngValue]="'A+'">A+</option>
+              <option [ngValue]="'A-'">A-</option>
+              <option [ngValue]="'B-'">B-</option>
+              <option [ngValue]="'B+'">B+</option>
+              <option [ngValue]="'AB-'">AB-</option>
+              <option [ngValue]="'AB+'">AB+</option>
             </select>
           </div>
           <!-- EPS -->
@@ -317,8 +317,8 @@
               autocomplete="sexo"
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             >
-              <option>Masculino</option>
-              <option>Femenino</option>
+              <option [ngValue]="'male'">Masculino</option>
+              <option [ngValue]="'fename'">Femenino</option>
             </select>
           </div>
         </div>

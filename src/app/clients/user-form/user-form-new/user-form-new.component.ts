@@ -68,7 +68,6 @@ export class UserFormNewComponent implements OnInit, OnDestroy {
       office: [this.user.office, [Validators.required]],
     });
     this.route.params.subscribe((param) => {
-      console.log(param);
       if (param.id) {
         this.edit = true;
         this.subscriptions.add(
@@ -97,6 +96,26 @@ export class UserFormNewComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  submitForm(): void { }
+  submitForm(): void { 
+     // this.store.dispatch(
+    //   new AddUser({
+    //     firstName: string;
+    //     lastName: string;
+    //     email: string;
+    //     password: string;
+    //     documentType?: string;
+    //     documentNumber?: string;
+    //     phone?: string;
+    //     photo?: string;
+    //     role: string;
+    //     client?: string;
+    //     office?: string;
+    //     mainTransportationMethod?: string;
+    //     secondaryTransportationMethod?: string;
+    //     termsDate?: boolean;
+    //     comodatoDate?: boolean;
+    //   })
+    // );
+  }
 
 }

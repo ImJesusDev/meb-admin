@@ -1,5 +1,4 @@
 export interface User {
-  
   id: string;
   firstName: string;
   lastName: string;
@@ -20,4 +19,5 @@ export interface User {
   emergencyContactName?: string;
   bloodType?: string;
   eps?: any;
+  gender?: string;
 }

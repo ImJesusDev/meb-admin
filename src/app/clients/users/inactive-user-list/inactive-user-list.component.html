@@ -52,7 +52,7 @@
         </svg>
       </button>
         <!-- create new user button -->
-        <button
+        <!-- <button
           *ngIf="showAddBtn"
           class="btn-primary hover:bg-green-900 mx-5"
           [disabled]="downloading"
@@ -73,7 +73,7 @@
               d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        </button>
+        </button> -->
       </div>
       <!-- End Action Buttons -->
     </div>
@@ -115,10 +115,9 @@
          <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
           <div class="flex flex-col sm:flex-row w-full">
             <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
-              <div class="w-1/2">
-                <label class="text-gray-400" for="office">Sede:</label>
-                <select name="office" [(ngModel)]="office" required id="office" (ngModelChange)="filterResources()"
-                  class="w-full bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
+                <label class="text-gray-400 mx-3" for="office">Sede:</label>
+                <select name="office" [(ngModel)]="office" id="office" (ngModelChange)="filterResources()"
+                  class="w-1/2 bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
                   <ng-container *ngIf="client !== undefined && client !== null">
                     <option [value]="''">Todos</option>
                     <option [ngValue]="office.name" *ngFor="let office of client.offices">
@@ -126,7 +125,14 @@
                     </option>
                   </ng-container>
                 </select>
-              </div>
+
+                <label class="text-gray-400 mx-3" for="documentNumber">Cédula:</label>
+                <input name="documentNumber" [(ngModel)]="documentNumber" id="documentNumber" (ngModelChange)="filterResourcesCC()"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text" />
+            </div>
+
+            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
+                
             </div>
           </div>
         </div>
@@ -149,6 +155,7 @@
               <th>Foto</th>
               <th>Nombres</th>
               <th>Apellidos</th>
+              <th>Cédula</th>
               <th>Correo electrónico</th>
               <th>Cliente</th>
               <th>Sede</th>
@@ -173,6 +180,7 @@
                 <td class="p-2"><img class="w-12 mx-auto mb-12" src="{{user.photo}}" alt="{{ user.firstName }}"></td>
                 <td class="p-2">{{ user.firstName }}</td>
                 <td class="p-2">{{ user.lastName }}</td>
+                <td class="p-2">{{ user.documentNumber }}</td>
                 <td class="p-2">{{ user.email }}</td>
                 <td class="p-2">{{ user.client }}</td>
                 <td class="p-2">{{ user.office }}</td>
