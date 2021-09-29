@@ -60,7 +60,7 @@ export class UsersService {
    * @returns Observable<User>
    */
    updateUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}users/signup`, user, {
+    return this.http.put<User>(`${this.apiUrl}users/${user.id}`, user, {
       withCredentials: true,
     });
   }

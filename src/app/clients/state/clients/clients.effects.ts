@@ -445,7 +445,7 @@ export class ClientsEffects {
             ]),
             tap(() => {
               Swal.fire({
-                title: '¡Usuario agregado!',
+                title: '¡Usuario Actualizado!',
                 showCancelButton: false,
                 showDenyButton: false,
                 confirmButtonText: `Aceptar`,
@@ -458,7 +458,7 @@ export class ClientsEffects {
               if (error.error && error.error.errors) {
                 errors = error.error.errors;
                 Swal.fire({
-                  title: '¡Error creando el usuario!',
+                  title: '¡Error actualizando el usuario!',
                   text: `${errors[0].message}`,
                   showCancelButton: false,
                   showDenyButton: false,

@@ -12,7 +12,7 @@ import { Office, ApiError, User, Client } from '../../models';
 import { State } from '../state';
 /* Selectors */
 import { getLoader } from '../../state/loader/loader.selector';
-import { AddUser } from '../state/clients/clients.actions';
+import { AddUser, UpdateUser } from '../state/clients/clients.actions';
 
 @Component({
   selector: 'app-user-form',
@@ -128,7 +128,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           comodatoDate: true
         };
         this.store.dispatch(
-          new AddUser(updateUser)
+          new UpdateUser(updateUser)
         );
       }else{
         let updateUser:User = {
