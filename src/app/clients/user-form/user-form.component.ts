@@ -77,7 +77,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
         );
       }
     });
-    console.log(this.user);
     this.UserGroup = this.formBuilder.group({
       firstName: [this.user.firstName],
       lastName:[this.user.lastName],

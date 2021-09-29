@@ -22,7 +22,34 @@ export const getClients = createSelector(
   getClientsState,
   fromClients.selectAll
 );
+
 export const getClientById = (id: string) =>
   createSelector(getClients, (clients) =>
     clients.find((client) => client.id.toString() === id.toString())
   );
+
+
+
+  /**
+   * User
+   */
+
+  export const getUserState = createSelector(
+    getClientState,
+    (state) => state.clients
+  );
+
+  export const getUsersError = createSelector(
+    getUserState,
+    (state) => state
+  );
+
+  export const getUsers = createSelector(
+    getUserState,
+    fromClients.selectAll
+  );
+
+   export const getUserById = (id: string) =>
+   createSelector(getUsers, (users) =>
+     users.find((user) => user.id.toString() === id.toString())
+   );
