@@ -42,7 +42,10 @@ import {
   DeleteOfficeSuccess,
   AddUser,
   AddUserSuccess,
-  AddUserFail
+  AddUserFail,
+  UpdateUser,
+  UpdateUserSuccess,
+  UpdateUserFail,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -389,6 +392,56 @@ export class ClientsEffects {
           .pipe(
             mergeMap((_) => [
               new AddUserSuccess(action.payload)
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Usuario agregado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error creando el usuario!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new DeleteOfficeFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+
+  /**
+   * Effect to listen for the Add user action
+   * and make http request to add user
+   * from API
+   */
+   $updateUser = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.UpdateUser),
+      switchMap((action: AddUser) =>
+        this._userService
+          .updateUser(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => [
+              new UpdateUserSuccess(action.payload)
             ]),
             tap(() => {
               Swal.fire({

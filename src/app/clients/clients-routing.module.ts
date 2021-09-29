@@ -10,7 +10,6 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { InactiveUserListComponent } from './users/inactive-user-list/inactive-user-list.component';
-import { UserFormNewComponent } from './user-form/user-form-new/user-form-new.component';
 
 const routes: Routes = [
   {
@@ -53,10 +52,6 @@ const routes: Routes = [
       {
         path: ':id/usuarios/inactivos',
         component: InactiveUserListComponent,
-      },
-      {
-        path: 'crear-usuario',
-        component: UserFormNewComponent,
       }
     ],
   },

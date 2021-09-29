@@ -53,4 +53,15 @@ export class UsersService {
       withCredentials: true,
     });
   }
+
+  /**
+   * Add user
+   * @param user User to create
+   * @returns Observable<User>
+   */
+   updateUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}users/signup`, user, {
+      withCredentials: true,
+    });
+  }
 }

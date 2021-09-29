@@ -55,12 +55,12 @@
 
 
         <!-- create new user button -->
-        <!-- <button
+        <button
           *ngIf="showAddBtn"
           class="btn-primary hover:bg-green-900 mx-5"
           [disabled]="downloading"
           [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
-          [routerLink]="['/clientes', 'crear-usuario']"
+          [routerLink]="['/clientes', client.id, 'crear-usuario']"
         >
           <span class="hidden sm:flex">Crear nuevo usuario</span>
           <svg
@@ -77,7 +77,7 @@
               d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        </button> -->
+        </button>
       </div>
       <!-- End Action Buttons -->
     </div>

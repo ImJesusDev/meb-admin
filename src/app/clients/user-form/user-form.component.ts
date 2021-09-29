@@ -22,7 +22,7 @@ import { AddUser } from '../state/clients/clients.actions';
 export class UserFormComponent implements OnInit, OnDestroy {
 @Input() usuarios:any;
 
-  title = "Actualizar usuario";
+  title = "";
   userEdit:any;
   /* Observable of errors from store */
   errors$: Observable<ApiError[]> = of([] as ApiError[]);
@@ -35,6 +35,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   /* New User */
   user: User;
   office: any;
+  clients:any;
+
   /* Form Group */
   UserGroup: FormGroup;
   edit = false;
@@ -49,6 +51,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.client = { } as Client;
     
     this.route.params.subscribe((param) => {
+      if(param.userId){
+        this.title = "Actualizar usuario";
+      }else{
+        this.title = "Crear usuario";
+      }
+
       if (param.id) {
         this.edit = true;
         this.subscriptions.add(
@@ -56,6 +64,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
             .pipe(select(getClientById(param.id)))
             .subscribe((client: Client | undefined) => {
               if (client) {
+                this.clients = client;
                 let users:any = client.users;
                 this.office = client.offices;
                 users.forEach((element: any) => {
@@ -68,7 +77,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         );
       }
     });
-    
+    console.log(this.user);
     this.UserGroup = this.formBuilder.group({
       firstName: [this.user.firstName],
       lastName:[this.user.lastName],
@@ -77,7 +86,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       password: [this.user.password],
       termsDate: [this.user.termsDate],
       comodatoDate: [this.user.comodatoDate],
-      cliente:[this.user.client],
+      cliente:[ typeof this.clients != 'undefined'? this.clients.name : this.user.client],
       sede: [this.user.office],
       transPrin: [this.user.mainTransportationMethod],
       transSec: [this.user.secondaryTransportationMethod],
@@ -101,31 +110,47 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
-
-
-    console.log(this.UserGroup.controls['documentNumber'].value);
-
-    // this.store.dispatch(
-    //   new AddUser({
-    //     firstName: string;
-    //     lastName: string;
-    //     email: string;
-    //     password: string;
-    //     documentType?: string;
-    //     documentNumber?: string;
-    //     phone?: string;
-    //     photo?: string;
-    //     role: string;
-    //     client?: string;
-    //     office?: string;
-    //     mainTransportationMethod?: string;
-    //     secondaryTransportationMethod?: string;
-    //     termsDate?: boolean;
-    //     comodatoDate?: boolean;
-    //   })
-    // );
-
-
+    this.route.params.subscribe((param) => {
+      if (param.userId) {
+        let updateUser:User = {
+          id: param.userId,
+          firstName: this.UserGroup.controls['firstName'].value,
+          lastName: this.UserGroup.controls['lastName'].value,
+          email: this.UserGroup.controls['email'].value,
+          password: this.UserGroup.controls['password'].value,
+          documentNumber: this.UserGroup.controls['documentNumber'].value,
+          phone: this.UserGroup.controls['telCelular'].value,
+          client: this.UserGroup.controls['cliente'].value,
+          office: this.UserGroup.controls['sede'].value,
+          mainTransportationMethod: this.UserGroup.controls['transPrin'].value,
+          secondaryTransportationMethod: this.UserGroup.controls['transSec'].value,
+          termsDate: true,
+          comodatoDate: true
+        };
+        this.store.dispatch(
+          new AddUser(updateUser)
+        );
+      }else{
+        let updateUser:User = {
+          id: '',
+          firstName: this.UserGroup.controls['firstName'].value,
+          lastName: this.UserGroup.controls['lastName'].value,
+          email: this.UserGroup.controls['email'].value,
+          password: this.UserGroup.controls['password'].value,
+          documentNumber: this.UserGroup.controls['documentNumber'].value,
+          phone: this.UserGroup.controls['telCelular'].value,
+          client: this.UserGroup.controls['cliente'].value,
+          office: this.UserGroup.controls['sede'].value,
+          mainTransportationMethod: this.UserGroup.controls['transPrin'].value,
+          secondaryTransportationMethod: this.UserGroup.controls['transSec'].value,
+          termsDate: true,
+          comodatoDate: true
+        };
+        this.store.dispatch(
+          new AddUser(updateUser)
+        );
+      }
+    });
    }
 
 }

@@ -24,7 +24,6 @@ import { OfficesListComponent } from './offices-list/offices-list.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { InactiveUserListComponent } from './users/inactive-user-list/inactive-user-list.component';
-import { UserFormNewComponent } from './user-form/user-form-new/user-form-new.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +34,7 @@ import { UserFormNewComponent } from './user-form/user-form-new/user-form-new.co
     OfficesListComponent,
     UserFormComponent,
     UserListComponent,
-    InactiveUserListComponent,
-    UserFormNewComponent
+    InactiveUserListComponent
   ],
   imports: [
     FormsModule,

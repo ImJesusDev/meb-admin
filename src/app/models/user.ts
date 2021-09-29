@@ -8,7 +8,7 @@ export interface User {
   documentNumber?: string;
   phone?: string;
   photo?: string;
-  role: string;
+  role?: string;
   client?: string;
   office?: string;
   mainTransportationMethod?: string;

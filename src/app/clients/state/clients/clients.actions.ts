@@ -31,6 +31,9 @@ export enum ClientsActionTypes {
   AddUser = '[Clients] Add User',
   AddUserSuccess = '[Clients] Add User Success',
   AddUserFail = '[Clients] Add User Fail',
+  UpdateUser = '[Clients] Update User',
+  UpdateUserSuccess = '[Clients] Update User Success',
+  UpdateUserFail = '[Clients] Update User Fail',
 }
 
 /**
@@ -195,6 +198,24 @@ export class AddUserFail implements Action {
   constructor(public payload: ApiError[]) { }
 }
 
+// Load Clients
+export class UpdateUser implements Action {
+  readonly type = ClientsActionTypes.UpdateUser;
+  constructor(public payload: User) { }
+}
+// Load Success
+export class UpdateUserSuccess implements Action {
+  readonly type = ClientsActionTypes.UpdateUserSuccess;
+  constructor(public payload: User) { }
+}
+// Load Fail
+export class UpdateUserFail implements Action {
+  readonly type = ClientsActionTypes.UpdateUserFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+
+
 /* Export all actions */
 export type ClientsActions =
   | LoadClients
@@ -220,4 +241,7 @@ export type ClientsActions =
   | DeleteClientFail
   | AddUser
   | AddUserSuccess
-  | AddUserFail;
+  | AddUserFail
+  | UpdateUser
+  | UpdateUserSuccess
+  | UpdateUserFail;
