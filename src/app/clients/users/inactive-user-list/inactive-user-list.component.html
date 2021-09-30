@@ -27,7 +27,7 @@
       <div class="flex flex-row">
         <!-- Inactivar usuarios button -->
         <button
-          *ngIf="showAddBtn"
+          *ngIf="users?.length > 0"
           class="btn-primary hover:bg-green-900 mx-5"
           [disabled]="downloading"
           [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
@@ -35,7 +35,7 @@
           <span class="hidden sm:flex">Activar usuario(s)</span>
         </button>
         <!-- Download button -->
-        <button *ngIf="showAddBtn" (click)="onDownloadExcel()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
+        <button *ngIf="users?.length > 0" (click)="onDownloadExcel()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
         [disabled]="downloading" [ngClass]="{'opacity-40 cursor-wait': downloading}">
         <span class="hidden sm:flex">Descargar</span>
         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -51,29 +51,6 @@
             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
       </button>
-        <!-- create new user button -->
-        <!-- <button
-          *ngIf="showAddBtn"
-          class="btn-primary hover:bg-green-900 mx-5"
-          [disabled]="downloading"
-          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
-        >
-          <span class="hidden sm:flex">Crear nuevo usuario</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button> -->
       </div>
       <!-- End Action Buttons -->
     </div>
@@ -127,7 +104,7 @@
                 </select>
 
                 <label class="text-gray-400 mx-3" for="documentNumber">Cédula:</label>
-                <input name="documentNumber" [(ngModel)]="documentNumber" id="documentNumber" (ngModelChange)="filterResourcesCC()"
+                <input name="documentNumber" [(ngModel)]="documentNumber" id="documentNumber" (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text" />
             </div>
 
@@ -163,8 +140,8 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let user of users; let i = index">
-              <tr
+            <ng-container *ngIf="users?.length > 0">
+              <tr *ngFor="let user of users; let i = index"
                 [ngClass]="{ 'bg-gray-200': i % 2 === 0 }"
                 class="text-center"
               >
@@ -208,6 +185,13 @@
                     />
                   </svg>
                 </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="users?.length == 0">
+              <tr>
+                <td colspan="9"><p>
+                  No hay usuarios inactivos
+                </p></td>
               </tr>
             </ng-container>
           </tbody>

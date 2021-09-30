@@ -26,7 +26,8 @@ export class InactiveUserListComponent implements OnInit {
   private subscriptions = new Subscription();
 
   office: string = "";
-  users:any;
+  users:any = [];
+  
   documentNumber:string = "";
 
   constructor(
@@ -39,6 +40,7 @@ export class InactiveUserListComponent implements OnInit {
     this.client = { } as Client;
 
     this.route.params.subscribe((param) => {
+      let allUsers:any;
       if (param.id) {
         this.subscriptions.add(
           this.store
@@ -46,7 +48,12 @@ export class InactiveUserListComponent implements OnInit {
             .subscribe((client) => {
               if (client) {
                 this.client = client;
-                this.users = client.users;
+                allUsers = client.users;
+                allUsers.forEach((user:any) => {
+                  if(user.deletedAt != null){
+                    this.users.push(user);
+                  }
+                });
               }
             })
         );
@@ -66,37 +73,17 @@ export class InactiveUserListComponent implements OnInit {
             .subscribe((client) => {
               if (client) {
                 this.client = client;
-                
                 this.users = client.users;
                 let userFilter:any = [];
                 this.users.forEach((element: any) => {
-                  if(element.office == this.office){
+                  if(this.office?.length > 0 && this.documentNumber?.length > 0 && element.office == this.office && element.documentNumber == this.documentNumber){
                     userFilter.push(element); 
-                  }
-                });
-                this.users = userFilter;
-              }
-            })
-        );
-      }
-    });
-  }
-
-  filterResourcesCC(): void {
-    this.route.params.subscribe((param) => {
-      if (param.id) {
-        this.subscriptions.add(
-          this.store
-            .pipe(select(getClientById(param.id)))
-            .subscribe((client) => {
-              if (client) {
-                this.client = client;
-                
-                this.users = client.users;
-                let userFilter:any = [];
-                this.users.forEach((element: any) => {
-                  if(element.office == this.office && element.documentNumber == this.documentNumber){
+                  }else if(this.office?.length == 0 && this.documentNumber?.length > 0  && element.documentNumber == this.documentNumber){
                     userFilter.push(element); 
+                  }else if(this.office?.length > 0 && this.documentNumber?.length == 0 && element.office == this.office){
+                    userFilter.push(element); 
+                  }else if(this.office?.length == 0 && this.documentNumber?.length == 0){
+                    userFilter.push(element);  
                   }
                 });
                 this.users = userFilter;

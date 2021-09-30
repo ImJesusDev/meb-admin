@@ -104,6 +104,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   onBack(): void {
     history.back();
   }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
@@ -150,6 +151,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
         );
       }
     });
-   }
+  }
 
 }

@@ -131,7 +131,7 @@
                 </select>
 
                 <label class="text-gray-400 mx-3" for="documentNumber">Cédula:</label>
-                <input name="documentNumber" [(ngModel)]="documentNumber" id="documentNumber" (ngModelChange)="filterResourcesCC()"
+                <input name="documentNumber" [(ngModel)]="documentNumber" id="documentNumber" (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text" />
             </div>
 
@@ -167,8 +167,8 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let user of users; let i = index">
-              <tr
+            <ng-container  *ngIf="users?.length > 0">
+              <tr *ngFor="let user of users; let i = index"
                 [ngClass]="{ 'bg-gray-200': i % 2 === 0 }"
                 class="text-center"
               >
@@ -212,6 +212,13 @@
                     />
                   </svg>
                 </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="users?.length == 0">
+              <tr>
+                <td colspan="9"><p>
+                  No hay usuarios activos
+                </p></td>
               </tr>
             </ng-container>
           </tbody>
