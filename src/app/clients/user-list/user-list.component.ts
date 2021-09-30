@@ -30,6 +30,8 @@ export class UserListComponent implements OnInit {
   office: string = "";
   users:any = [];
   documentNumber:string = "";
+  masterSelected:boolean = false;
+  UserCheckedList:any;
 
   constructor(
     private store: Store<State>,
@@ -52,7 +54,10 @@ export class UserListComponent implements OnInit {
                 allUsers = client.users;
                 allUsers.forEach((user:any) => {
                   if(user.deletedAt == null){
-                    this.users.push(user);
+                    this.users.push({
+                      ...user,
+                      selected: false       
+                  });
                   }
                 });
                 
@@ -64,6 +69,30 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  
+  checkUncheckAll() {
+    for (var i = 0; i < this.users.length; i++) {
+      this.users[i].isSelected = this.masterSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  isAllSelected() {
+    this.masterSelected = this.users.every(function(item:any) {
+        return item.isSelected == true;
+      })
+    this.getCheckedItemList();
+  }
+
+  getCheckedItemList(){
+    this.UserCheckedList = [];
+    for (var i = 0; i < this.users.length; i++) {
+      if(this.users[i].isSelected)
+      this.UserCheckedList.push(this.users[i].id);
+    }
+    this.UserCheckedList = JSON.stringify(this.UserCheckedList);
   }
 
   filterResources(): void {
