@@ -94,7 +94,6 @@ export class UserListComponent implements OnInit {
       if(this.users[i].isSelected)
       this.UserCheckedList.push(this.users[i].id);
     }
-    // this.UserCheckedList = JSON.stringify(this.UserCheckedList);
   }
 
   inactivarUsers(){
