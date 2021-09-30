@@ -56,6 +56,10 @@ export class ClientListComponent implements OnInit {
   ngOnInit(): void {
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients));
+    this.clients$.subscribe((element:any) => {
+      console.log(element);
+    });
+    
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
   }

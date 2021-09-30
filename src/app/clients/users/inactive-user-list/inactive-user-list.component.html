@@ -64,7 +64,6 @@
       class="hover:underline hover:text-brand flex-row flex mr-4"
       [routerLink]="['/clientes', client.id, 'usuarios']"
       [ngClass]="{ 'underline text-brand': url[0] === '/mantenimientos' }"
-      (click)="inactivarUsers()"
     >
       <span>
         Usuarios activos

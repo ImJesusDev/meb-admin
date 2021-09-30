@@ -34,6 +34,9 @@ export enum ClientsActionTypes {
   UpdateUser = '[Clients] Update User',
   UpdateUserSuccess = '[Clients] Update User Success',
   UpdateUserFail = '[Clients] Update User Fail',
+  ActiveStateUser = '[Clients] Update Active State User',
+  ActiveStateUserSuccess = '[Clients] Update Active State User Success',
+  ActiveStateUserFail = '[Clients] Update Active State User Fail'
 }
 
 /**
@@ -214,6 +217,24 @@ export class UpdateUserFail implements Action {
   constructor(public payload: ApiError[]) { }
 }
 
+// Active State User
+export class ActiveStateUser implements Action {
+  readonly type = ClientsActionTypes.ActiveStateUser;
+  constructor(public payload: any) { }
+}
+
+// Active State User Success
+export class ActiveStateUserSuccess implements Action {
+  readonly type = ClientsActionTypes.ActiveStateUserSuccess;
+  constructor(public payload: any) { }
+}
+// Active State User Fail
+export class ActiveStateUserFail implements Action {
+  readonly type = ClientsActionTypes.ActiveStateUserFail;
+  constructor(public payload: ApiError[]) { }
+}
+
+
 
 
 /* Export all actions */
@@ -244,4 +265,7 @@ export type ClientsActions =
   | AddUserFail
   | UpdateUser
   | UpdateUserSuccess
-  | UpdateUserFail;
+  | UpdateUserFail
+  | ActiveStateUser
+  | ActiveStateUserSuccess
+  | ActiveStateUserFail;

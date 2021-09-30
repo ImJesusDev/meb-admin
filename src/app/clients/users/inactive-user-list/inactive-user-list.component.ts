@@ -9,6 +9,7 @@ import { LoadTeam } from '../../../state/users/user.actions';
 import { downloadExcel } from 'src/app/utils/helpers/excel.helper';
 /* Alerts */
 import Swal from 'sweetalert2';
+import { ActiveStateUser } from '../../state/clients/clients.actions';
 
 @Component({
   selector: 'app-inactive-user-list',
@@ -119,13 +120,15 @@ export class InactiveUserListComponent implements OnInit {
     this.UserCheckedList = [];
     for (var i = 0; i < this.users.length; i++) {
       if(this.users[i].isSelected)
-      this.UserCheckedList.push(this.users[i].id);
+      this.UserCheckedList.push({id: this.users[i].id});
     }
   }
 
   inactivarUsers(){
     if(this.UserCheckedList?.length > 0){
-      // act
+      this.store.dispatch(
+        new ActiveStateUser(this.UserCheckedList)
+      );
     }else{
       Swal.fire({
         title: '¡Error!',

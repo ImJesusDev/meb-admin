@@ -64,4 +64,15 @@ export class UsersService {
       withCredentials: true,
     });
   }
+
+  /**
+   * Add user
+   * @param user User to create
+   * @returns Observable<User>
+   */
+   activeStateUser(ids: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}users/archive-users`, {users: ids}, {
+      withCredentials: true,
+    });
+  }
 }

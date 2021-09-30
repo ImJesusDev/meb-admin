@@ -46,6 +46,9 @@ import {
   UpdateUser,
   UpdateUserSuccess,
   UpdateUserFail,
+  ActiveStateUser,
+  ActiveStateUserFail,
+  ActiveStateUserSuccess,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -475,4 +478,53 @@ export class ClientsEffects {
       )
     );
   });
+
+
+  $activeStateUser = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.ActiveStateUser),
+      switchMap((action: ActiveStateUser) =>
+        this._userService
+          .activeStateUser(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => [
+              new ActiveStateUserSuccess(action.payload)
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Se ha inactivado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error actualizando los usuarios!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new ActiveStateUserFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
+
+
+  
+
 }
