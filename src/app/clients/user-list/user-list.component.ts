@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 /* Actions */
 import { LoadTeam } from '../../state/users/user.actions';
 import { downloadExcel } from 'src/app/utils/helpers/excel.helper';
+/* Alerts */
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-list',
@@ -31,7 +33,7 @@ export class UserListComponent implements OnInit {
   users:any = [];
   documentNumber:string = "";
   masterSelected:boolean = false;
-  UserCheckedList:any;
+  UserCheckedList:any = [];
 
   constructor(
     private store: Store<State>,
@@ -92,7 +94,23 @@ export class UserListComponent implements OnInit {
       if(this.users[i].isSelected)
       this.UserCheckedList.push(this.users[i].id);
     }
-    this.UserCheckedList = JSON.stringify(this.UserCheckedList);
+    // this.UserCheckedList = JSON.stringify(this.UserCheckedList);
+  }
+
+  inactivarUsers(){
+    if(this.UserCheckedList?.length > 0){
+      // act
+    }else{
+      Swal.fire({
+        title: '¡Error!',
+        text: "Seleccione usuarios",
+        showCancelButton: false,
+        showDenyButton: false,
+        confirmButtonText: `Aceptar`,
+        confirmButtonColor: '#50b848',
+        icon: 'error',
+      });
+    }    
   }
 
   filterResources(): void {

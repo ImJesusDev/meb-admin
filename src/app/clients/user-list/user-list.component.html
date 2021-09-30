@@ -31,6 +31,7 @@
           class="btn-primary hover:bg-green-900 mx-5"
           [disabled]="downloading"
           [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+          (click)="inactivarUsers()"
         >
           <span class="hidden sm:flex">Inactivar usuario(s)</span>
         </button>
