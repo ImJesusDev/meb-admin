@@ -22,6 +22,7 @@ import { LoadResources } from '../../inventory/state/inventory/inventory.actions
 // import { Startbooking, Updatebooking } from '../state/booking';
 import { LoadClients } from 'src/app/clients/state/clients'
 import { getClients } from 'src/app/clients/state/clients/clients.selector'
+import { downloadExcel } from 'src/app/utils/helpers/excel.helper'
 
 @Component({
   selector: 'app-booking-list',
@@ -33,6 +34,7 @@ export class BookingListComponent implements OnInit {
   resources$: Observable<Resource[]> = of([] as Resource[])
   resourceId: string
   resourceLength: number
+  downloading: boolean | undefined;
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[])
@@ -44,7 +46,7 @@ export class BookingListComponent implements OnInit {
 
   resourceStatus = RESOURCE_STATUS
   resourceStatusNames = RESOURCE_STATUS_NAMES
-
+  title = 'Reservas';
   page: number
   perPage: number
 
@@ -55,6 +57,10 @@ export class BookingListComponent implements OnInit {
   from: string
   to: string
   reference: string
+  document:string = ""
+  calificacion:string = ""
+  tiempoEntrega:string = ""
+  booking:any = []
 
   /* Modals */
 
@@ -90,6 +96,7 @@ export class BookingListComponent implements OnInit {
     this.to = ''
     this.reference = ''
 
+
     this.resourceLength = 0
     this.checkup = {
       components: [],
@@ -108,11 +115,17 @@ export class BookingListComponent implements OnInit {
   ngOnInit(): void {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources))
+
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients))
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader))
-    this.resources$.subscribe((data) => (this.resourceLength = data.length))
+    this.resources$.subscribe((data:any) => {
+      this.resourceLength = data.length
+      this.booking = data;
+    })
+
+    console.log(this.booking);
   }
 
   setQueryParams(): void {
@@ -153,25 +166,29 @@ export class BookingListComponent implements OnInit {
   }
 
   filterResources(): void {
-    this.page = 1
-    this.loadResources()
-    this.navigation.setQueryParams({
-      client: this.client ? this.client : null,
-      office: this.office && this.client ? this.office : null,
-      status: this.state ? this.state : null,
-      from: this.from,
-      to: this.to,
-      reference: this.reference,
+
+    this.resources$.subscribe((data:any) => {
+      this.resourceLength = data.length
+      data.forEach((element:any) => {
+        console.log(element);
+        if(this.client == element.client 
+          && element.office == this.office 
+          && element.documents == this.document
+          && element.reference == this.reference){
+          this.booking = element;
+        }
+      });
+      
     })
-  }
-  selectClient(): void {
-    this.clients$.subscribe(
-      (clients) =>
-        (this.clientSelected = clients.find(
-          (c) => c.name === this.client,
-        ) as Client),
-    )
-    this.filterResources()
+//     document
+// calificacion
+// tiempoEntrega
+    // this.client = params.client
+    //   this.office = params.office
+    //   this.state = params.status
+    //   this.from = params.from
+    //   this.to = params.to
+    //   this.reference = params.reference
   }
 
   calcDays(date: string): number {
@@ -213,4 +230,35 @@ export class BookingListComponent implements OnInit {
       this.showDomainListModal = false
     }, 100)
   }
+
+  /* Download Excel */
+  async onDownloadExcel(): Promise<void> {
+    this.downloading = true;
+    try {
+      const columns = new Array();
+      columns.push(['', '', '', '', '', '', '', '', '', '', '']);
+      const columnsLabels = ['Fecha', 'Cédula', 'Cliente', 'Sede Inicio', 'Sede entrega', 'Referencia Recurso', 'Tiempo en reserva', 'Tiempo en demora', 'Viajes', 'Calificación servicio', 'Indicadores'];
+      columns.push(columnsLabels);
+      this.booking.forEach((booking:any) => {
+        const rows = new Array();
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        rows.push(booking.client);
+        columns.push(rows);
+      });
+      downloadExcel({ data: columns, filename: 'Reservas' });
+    } catch (e) {
+      console.log(e);
+    }
+    this.downloading = false;
+  }
+
 }
