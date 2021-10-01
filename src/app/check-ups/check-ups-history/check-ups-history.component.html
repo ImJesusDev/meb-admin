@@ -1,28 +1,98 @@
-<div class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4">
-
+<div
+  class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4"
+>
   <!-- Resources Table Desktop only -->
   <div class="flow-root h-full w-full">
-
     <div class="flex flex-col mb-4 w-full">
-
       <!-- Filters -->
       <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
         <div class="flex flex-col sm:flex-row w-full">
+          <!-- Client -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="client">Cliente:</label>
+            <select
+              name="client"
+              [(ngModel)]="client"
+              id="client"
+              (ngModelChange)="selectClient()"
+              class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            >
+              <option [value]="''">Todos</option>
+              <ng-container *ngFor="let client of clients$ | async">
+                <option [ngValue]="client.name">
+                  {{ client.name }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <!-- office -->
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="office">Sede:</label>
+            <select
+              name="office"
+              [(ngModel)]="office"
+              required
+              id="office"
+              (ngModelChange)="filterResources()"
+              class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            >
+              <ng-container
+                *ngIf="clientSelected !== undefined && clientSelected !== null"
+              >
+                <option [value]="''">Todos</option>
+                <option
+                  [ngValue]="office.name"
+                  *ngFor="let office of clientSelected.offices"
+                >
+                  {{ office.name }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
           <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
             <div class="w-1/2 mr-3">
               <label class="text-gray-400" for="from">Desde:</label>
-              <input name="from" [(ngModel)]="from"
+              <input
+                name="from"
+                [(ngModel)]="from"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
-                type="date">
+                type="date"
+              />
             </div>
             <div class="w-1/2">
               <label class="text-gray-400" for="to">Hasta:</label>
-              <input name="to" [(ngModel)]="to"
+              <input
+                name="to"
+                [(ngModel)]="to"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
-                type="date">
+                type="date"
+              />
             </div>
           </div>
+           <!-- Días estado -->
+           <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+            <label class="text-gray-400" for="client">Días estado:</label>
+            <select
+              name="client"
+              [(ngModel)]="client"
+              id="client"
+              (ngModelChange)="selectClient()"
+              class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+            >
+              <option [value]="''">A tiempo</option>
+              <option [value]="''">entre 1 y 3 días</option>
+              <option [value]="''">Entre 4 y 5 días</option>
+              <option [value]="''">Más de 6 días</option>
+
+            </select>
+          </div>
           <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
+            <!-- Reference -->
+            <div>
+              <label class="text-gray-400" for="reference">Referencia:</label>
+              <input name="reference" [(ngModel)]="reference"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+            </div>
             <!-- Filter button -->
             <div class="flex items-end">
               <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
@@ -35,7 +105,8 @@
       <!-- End filters -->
 
       <table
-        class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
+        class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll"
+      >
         <thead>
           <tr>
             <th>Fecha</th>
@@ -43,55 +114,101 @@
             <th>Cliente</th>
             <th>Sede</th>
             <th>Ultimo Chequeo</th>
+            <th>Encargado del ticket</th>
             <th>Referencia</th>
             <th>Estado</th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let checkup of (resources$|async)?.checkups; let i = index;">
-            <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-              <td class="p-2"> {{checkup.createdAt|date}} </td>
-              <td class="p-2"> {{calcDays(checkup.createdAt)}} </td>
-              <td class="p-2"> {{checkup.resource?.client}} </td>
-              <td class="p-2"> {{checkup.resource?.office}} </td>
+          <ng-container
+            *ngFor="
+              let checkup of (resources$ | async)?.checkups;
+              let i = index
+            "
+          >
+            <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
+              <td class="p-2">{{ checkup.createdAt | date }}</td>
+              <td class="p-2">{{ calcDays(checkup.createdAt) }}</td>
+              <td class="p-2">{{ checkup.resource?.client }}</td>
+              <td class="p-2">{{ checkup.resource?.office }}</td>
               <!-- ultimo chequeo -->
               <td class="p-2 justify-center flex">
-                <button class="btn-primary hover:bg-green-900" (click)="openLastCheckup(checkup, checkup.id)">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <button
+                  class="btn-primary hover:bg-green-900"
+                  (click)="openLastCheckup(checkup, checkup.id)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
                 </button>
               </td>
-              <td class="p-2"> {{checkup.resource?.reference}} </td>
+              <td class="p-2"></td>
+              <td class="p-2">{{ checkup.resource?.reference }}</td>
               <td class="p-2">
-                {{(checkup.resource && checkup.resource.status)?
-                resourceStatusNames[checkup.resource.status] : ''}}
+                {{
+                  checkup.resource && checkup.resource.status
+                    ? resourceStatusNames[checkup.resource.status]
+                    : ''
+                }}
               </td>
             </tr>
           </ng-container>
-
         </tbody>
       </table>
 
-      <app-loader *ngIf="(loader$ |async)"></app-loader>
+      <app-loader *ngIf="loader$ | async"></app-loader>
 
       <div class="justify-end flex-row flex">
-        Pag. {{page}}
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none  mx-2" fill="none"
-          viewBox="0 0 24 24" stroke="currentColor"
-          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': page > 1}"
-          (click)="changePage(page-1, 'previous')">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        Pag. {{ page }}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 outline-none focus:outline-none mx-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          [ngClass]="{
+            'text-brand hover:text-green-900 cursor-pointer': page > 1
+          }"
+          (click)="changePage(page - 1, 'previous')"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 outline-none focus:outline-none mx-2"
-          [ngClass]="{'text-brand hover:text-green-900 cursor-pointer': (((resources$ |async)?.checkups?.length !== 0))}"
-          fill="none" viewBox="0 0 24 24" stroke="currentColor" (click)="changePage(page+1, 'following')">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 outline-none focus:outline-none mx-2"
+          [ngClass]="{
+            'text-brand hover:text-green-900 cursor-pointer':
+              (resources$ | async)?.checkups?.length !== 0
+          }"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          (click)="changePage(page + 1, 'following')"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </div>
-
     </div>
     <!-- End Resource Table Desktop only -->
 
@@ -113,9 +230,11 @@
     </div> -->
   </div>
   <!-- End Mobile Table -->
-
 </div>
 
-<app-check-up-modal [checkup]="checkup" [showBackDrop]="showBackDropL" [showModal]="showModalL"
-  (close)="onCloseLastModal()">
-</app-check-up-modal>
+<app-check-up-modal
+  [checkup]="checkup"
+  [showBackDrop]="showBackDropL"
+  [showModal]="showModalL"
+  (close)="onCloseLastModal()"
+></app-check-up-modal>

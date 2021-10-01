@@ -1,6 +1,6 @@
 import { Navigation } from './../../utils/helpers/navigation.helper';
 import { Checkup } from './../../models/chekoups';
-import { ResourceType } from 'src/app/models';
+import { Client, ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
@@ -41,6 +41,7 @@ export class CheckUpsHistoryComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
+  clients$: Observable<Client[]> = of([] as Client[]);
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -55,6 +56,11 @@ export class CheckUpsHistoryComponent implements OnInit {
   showModalL = false;
 
   checkup: Checkup;
+  
+  client: string | undefined;
+  clientSelected: Client | undefined;
+  office: string | undefined;
+  reference: string | undefined;
 
   from: string;
   to: string;
@@ -116,6 +122,10 @@ export class CheckUpsHistoryComponent implements OnInit {
       from: this.from,
       to: this.to,
     });
+  }
+  selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.filterResources();
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {

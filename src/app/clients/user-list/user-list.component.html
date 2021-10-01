@@ -1,72 +1,18 @@
 <!-- Main Container -->
-<div class="flex-col justify-between w-full sm:pt-12 sm:pl-4" id="main-content">
-  <!-- HEADER -->
-  <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
-    <!-- Title line -->
-    <div class="flex flex-row justify-between">
-      <!-- Title -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 sm:w-12 sm:h-12 text-brand"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
-          />
-        </svg>
-        <h1 class="font-bold text:2xl sm:text-5xl">{{ title }}</h1>
-      </div>
-      <!-- End Title -->
-      <!-- Action Buttons -->
-      <div class="flex flex-row">
-        <!-- Inactivar usuarios button -->
-        <button
-          *ngIf="showAddBtn"
-          class="btn-primary hover:bg-green-900 mx-5"
-          [disabled]="downloading"
-          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
-          (click)="inactivarUsers()"
-        >
-          <span class="hidden sm:flex">Inactivar usuario(s)</span>
-        </button>
-        
-        
-        <button *ngIf="showAddBtn" (click)="onDownloadExcel()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
-        [disabled]="downloading" [ngClass]="{'opacity-40 cursor-wait': downloading}">
-        <span class="hidden sm:flex">Descargar</span>
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-          *ngIf="downloading" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-          </path>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          *ngIf="!downloading">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-      </button>
-
-
-        <!-- create new user button -->
-        <button
-          *ngIf="showAddBtn"
-          class="btn-primary hover:bg-green-900 mx-5"
-          [disabled]="downloading"
-          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
-          [routerLink]="['/clientes', client.id, 'crear-usuario']"
-        >
-          <span class="hidden sm:flex">Crear nuevo usuario</span>
+<div class="h-full overflow-y-scroll">
+  <div
+    class="flex-col justify-between w-full sm:pt-12 sm:pl-4"
+    id="main-content"
+  >
+    <!-- HEADER -->
+    <div class="flex justify-between mt-12 mb-12 sm:m-0 pr-4 sm:mb-4 flex-col">
+      <!-- Title line -->
+      <div class="flex flex-row justify-between">
+        <!-- Title -->
+        <div class="flex items-center space-x-2 sm:space-x-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
+            class="h-6 w-6 sm:w-12 sm:h-12 text-brand"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -75,164 +21,278 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
             />
           </svg>
-        </button>
-      </div>
-      <!-- End Action Buttons -->
-    </div>
-    <!-- End title line -->
+          <h1 class="font-bold text:2xl sm:text-5xl">{{ title }}</h1>
+        </div>
+        <!-- End Title -->
+        <!-- Action Buttons -->
+        <div class="flex flex-row">
+          <!-- Inactivar usuarios button -->
+          <button
+            *ngIf="showAddBtn"
+            class="btn-primary hover:bg-green-900 mx-5"
+            [disabled]="downloading"
+            [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+            (click)="inactivarUsers()"
+          >
+            <span class="hidden sm:flex">Inactivar usuario(s)</span>
+          </button>
 
-    <!-- Pestañas -->
-    <div class="mt-8 flex-row flex">
-      <a
-        class="hover:underline hover:text-brand flex-row flex mr-4"
-        [routerLink]="['/clientes', client.id, 'usuarios']"
-        [ngClass]="{ 'underline text-brand': url[0] === '/mantenimientos' }"
-      >
-        <span>
-          Usuarios activos
-        </span>
-      </a>
-      <a
-        class="hover:underline hover:text-brand flex-row flex"
-        [routerLink]="['/clientes', client.id, 'usuarios', 'inactivos']"
-        [ngClass]="{
-          'underline text-brand': url[0] === '/mantenimientos/historial'
-        }"
-      >
-        <span>
-          Usuarios Inactivos
-        </span>
-      </a>
+          <button
+            *ngIf="showAddBtn"
+            (click)="onDownloadExcel()"
+            class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
+            [disabled]="downloading"
+            [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+          >
+            <span class="hidden sm:flex">Descargar</span>
+            <svg
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              *ngIf="downloading"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              *ngIf="!downloading"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
+            </svg>
+          </button>
+          <!-- create new user button -->
+          <button
+            *ngIf="showAddBtn"
+            class="btn-primary hover:bg-green-900 mx-5"
+            [disabled]="downloading"
+            [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+            [routerLink]="['/clientes', client.id, 'crear-usuario']"
+          >
+            <span class="hidden sm:flex">Crear nuevo usuario</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </button>
+        </div>
+        <!-- End Action Buttons -->
+      </div>
+      <app-back-arrow [backRoute]="'/clientes/'"></app-back-arrow>
+      <!-- End title line -->
+
+      <!-- Pestañas -->
+      <div class="mt-8 flex-row flex">
+        <a
+          class="hover:underline hover:text-brand flex-row flex mr-4"
+          [routerLink]="['/clientes', client.id, 'usuarios']"
+          [ngClass]="{ 'underline text-brand': url[0] === '/mantenimientos' }"
+        >
+          <span>
+            Usuarios activos
+          </span>
+        </a>
+        <a
+          class="hover:underline hover:text-brand flex-row flex"
+          [routerLink]="['/clientes', client.id, 'usuarios', 'inactivos']"
+          [ngClass]="{
+            'underline text-brand': url[0] === '/mantenimientos/historial'
+          }"
+        >
+          <span>
+            Usuarios Inactivos
+          </span>
+        </a>
+      </div>
+      <!-- End Pestañas -->
     </div>
-    <!-- End Pestañas -->
-  </div>
-  <!-- BODY -->
-  <div
-    class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4"
-  >
-    <!-- Resources Table Desktop only -->
-    <div class="flow-root h-full w-full">
-      <div class="flex flex-col mb-4 w-full">
-        <!-- Filters -->
-        <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
-          <div class="flex flex-col sm:flex-row w-full">
-            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
+    <!-- BODY -->
+    <div
+      class="flex flex-col items-center justify-center space-y-4 py-14 px-4 sm:w-full h-full mt-4"
+    >
+      <!-- Resources Table Desktop only -->
+      <div class="flow-root h-full w-full">
+        <div class="flex flex-col mb-4 w-full">
+          <!-- Filters -->
+          <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+            <div class="flex flex-col sm:flex-row w-full">
+              <div
+                class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2"
+              >
                 <label class="text-gray-400 mx-3" for="office">Sede:</label>
-                <select name="office" [(ngModel)]="office" id="office" (ngModelChange)="filterResources()"
-                  class="w-1/2 bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand">
+                <select
+                  name="office"
+                  [(ngModel)]="office"
+                  id="office"
+                  (ngModelChange)="filterResources()"
+                  class="w-1/2 bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                >
                   <ng-container *ngIf="client !== undefined && client !== null">
                     <option [value]="''">Todos</option>
-                    <option [ngValue]="office.name" *ngFor="let office of client.offices">
-                      {{office.name}}
+                    <option
+                      [ngValue]="office.name"
+                      *ngFor="let office of client.offices"
+                    >
+                      {{ office.name }}
                     </option>
                   </ng-container>
                 </select>
 
-                <label class="text-gray-400 mx-3" for="documentNumber">Cédula:</label>
-                <input name="documentNumber" [(ngModel)]="documentNumber" id="documentNumber" (ngModelChange)="filterResources()"
-                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text" />
-            </div>
+                <label class="text-gray-400 mx-3" for="documentNumber">
+                  Cédula:
+                </label>
+                <input
+                  name="documentNumber"
+                  [(ngModel)]="documentNumber"
+                  id="documentNumber"
+                  (ngModelChange)="filterResources()"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
+                  type="text"
+                />
+              </div>
 
-            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
-                
+              <div
+                class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2"
+              ></div>
             </div>
           </div>
-        </div>
-        <!-- End filters -->
+          <!-- End filters -->
 
-        <table
-          class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll"
-        >
-          <thead>
-            <tr>
-              <th class="p-2">
-                <label class="flex items-center space-x-3" for="checked">
-                  <input
-                    name="masterSelected"
-                    type="checkbox"
-                    [(ngModel)]="masterSelected"
-                    (change)="checkUncheckAll()"
-                    value="all"
-                    class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
-                  />
-                </label>
-              </th>
-              <th>Foto</th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
-              <th>Cédula</th>
-              <th>Correo electrónico</th>
-              <th>Cliente</th>
-              <th>Sede</th>
-              <th>Actualizar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container  *ngIf="users?.length > 0">
-              <tr *ngFor="let user of users; let i = index"
-                [ngClass]="{ 'bg-gray-200': i % 2 === 0 }"
-                class="text-center"
-              >
-                <td class="p-2">
+          <table
+            class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll"
+          >
+            <thead>
+              <tr>
+                <th class="p-2">
                   <label class="flex items-center space-x-3" for="checked">
                     <input
-                      name="idSel"
+                      name="masterSelected"
                       type="checkbox"
-                      [(ngModel)]="user.isSelected"
-                      (change)="isAllSelected()"
-                      value="{{ user.id }}"
+                      [(ngModel)]="masterSelected"
+                      (change)="checkUncheckAll()"
+                      value="all"
                       class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
                     />
                   </label>
-                </td>
-                <td class="p-2"><img class="w-12 mx-auto mb-12" src="{{user.photo}}" alt="{{ user.firstName }}"></td>
-                <td class="p-2">{{ user.firstName }}</td>
-                <td class="p-2">{{ user.lastName }}</td>
-                <td class="p-2">{{ user.documentNumber }}</td>
-                <td class="p-2">{{ user.email }}</td>
-                <td class="p-2">{{ user.client }}</td>
-                <td class="p-2">{{ user.office }}</td>
-                <td class="p-2">
-                  <svg
-                    [routerLink]="[
-                      '/clientes',
-                      client.id,
-                      'usuarios',
-                      user.id,
-                      'editar'
-                    ]"
-                    
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                </th>
+                <th>Foto</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Cédula</th>
+                <th>Fecha registro</th>
+                <th>Correo electrónico</th>
+                <th>Cliente</th>
+                <th>Sede</th>
+                <th>Actualizar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="users?.length > 0">
+                <tr
+                  *ngFor="let user of users; let i = index"
+                  [ngClass]="{ 'bg-gray-200': i % 2 === 0 }"
+                  class="text-center"
+                >
+                  <td class="p-2">
+                    <label class="flex items-center space-x-3" for="checked">
+                      <input
+                        name="idSel"
+                        type="checkbox"
+                        [(ngModel)]="user.isSelected"
+                        (change)="isAllSelected()"
+                        value="{{ user.id }}"
+                        class="w-6 h-6 border border-gray-300 rounded-md appearance-none cursor-pointer form-tick checked:border-brand checked:border-transparent focus:outline-none checked:bg-brand focus:bg-brand"
+                      />
+                    </label>
+                  </td>
+                  <td class="p-2">
+                    <img
+                      class="w-12 mx-auto mb-12"
+                      src="{{ user.photo }}"
+                      alt="{{ user.firstName }}"
                     />
-                  </svg>
-                </td>
-              </tr>
-            </ng-container>
-            <ng-container *ngIf="users?.length == 0">
-              <tr>
-                <td colspan="9"><p>
-                  No hay usuarios activos
-                </p></td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
+                  </td>
+                  <td class="p-2">{{ user.firstName }}</td>
+                  <td class="p-2">{{ user.lastName }}</td>
+                  <td class="p-2">{{ user.documentNumber }}</td>
+                  <td class="p-2"></td>
+                  <td class="p-2">{{ user.email }}</td>
+                  <td class="p-2">{{ user.client }}</td>
+                  <td class="p-2">{{ user.office }}</td>
+                  <td class="p-2">
+                    <svg
+                      [routerLink]="[
+                        '/clientes',
+                        client.id,
+                        'usuarios',
+                        user.id,
+                        'editar'
+                      ]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-6 h-6 m-auto cursor-pointer focus:outline-none hover:text-green-900"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                      />
+                    </svg>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="users?.length == 0">
+                <tr>
+                  <td colspan="9">
+                    <p>
+                      No hay usuarios activos
+                    </p>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
       </div>
+      <!-- End Mobile Table -->
     </div>
-    <!-- End Mobile Table -->
   </div>
 </div>
 <!-- End Main Container -->

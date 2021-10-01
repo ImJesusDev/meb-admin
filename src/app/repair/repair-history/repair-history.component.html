@@ -5,34 +5,105 @@
 
     <div class="flex flex-col mb-4 w-full">
 
-      <!-- Filters -->
-      <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
-        <div class="flex flex-col sm:flex-row w-full">
-          <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
-            <div class="w-1/2 mr-3">
-              <label class="text-gray-400" for="from">Desde:</label>
-              <input name="from" [(ngModel)]="from"
+        <!-- Filters -->
+        <div class="flex flex-col mb-4 w-11/12 lg:w-10/12 lg:flex-row">
+          <div class="flex flex-col sm:flex-row w-full">
+            <!-- Client -->
+            <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+              <label class="text-gray-400" for="client">Cliente:</label>
+              <select
+                name="client"
+                [(ngModel)]="client"
+                id="client"
+                (ngModelChange)="selectClient()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
-                type="date">
+              >
+                <option [value]="''">Todos</option>
+                <ng-container *ngFor="let client of clients$ | async">
+                  <option [ngValue]="client.name">
+                    {{ client.name }}
+                  </option>
+                </ng-container>
+              </select>
             </div>
-            <div class="w-1/2">
-              <label class="text-gray-400" for="to">Hasta:</label>
-              <input name="to" [(ngModel)]="to"
+            <!-- office -->
+            <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+              <label class="text-gray-400" for="office">Sede:</label>
+              <select
+                name="office"
+                [(ngModel)]="office"
+                required
+                id="office"
+                (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
-                type="date">
+              >
+                <ng-container
+                  *ngIf="clientSelected !== undefined && clientSelected !== null"
+                >
+                  <option [value]="''">Todos</option>
+                  <option
+                    [ngValue]="office.name"
+                    *ngFor="let office of clientSelected.offices"
+                  >
+                    {{ office.name }}
+                  </option>
+                </ng-container>
+              </select>
             </div>
-          </div>
-          <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
-            <!-- Filter button -->
-            <div class="flex items-end">
-              <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
-                <span>Filtrar</span>
-              </button>
+            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-full sm:w-1/2">
+              <div class="w-1/2 mr-3">
+                <label class="text-gray-400" for="from">Desde:</label>
+                <input
+                  name="from"
+                  [(ngModel)]="from"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                  type="date"
+                />
+              </div>
+              <div class="w-1/2">
+                <label class="text-gray-400" for="to">Hasta:</label>
+                <input
+                  name="to"
+                  [(ngModel)]="to"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+                  type="date"
+                />
+              </div>
+            </div>
+             <!-- Días estado -->
+             <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
+              <label class="text-gray-400" for="client">Días estado:</label>
+              <select
+                name="client"
+                [(ngModel)]="client"
+                id="client"
+                (ngModelChange)="selectClient()"
+                class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
+              >
+                <option [value]="''">A tiempo</option>
+                <option [value]="''">entre 1 y 3 días</option>
+                <option [value]="''">Entre 4 y 5 días</option>
+                <option [value]="''">Más de 6 días</option>
+  
+              </select>
+            </div>
+            <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
+              <!-- Reference -->
+              <div>
+                <label class="text-gray-400" for="reference">Referencia:</label>
+                <input name="reference" [(ngModel)]="reference"
+                  class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
+              </div>
+              <!-- Filter button -->
+              <div class="flex items-end">
+                <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
+                  <span>Filtrar</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- End filters -->
+        <!-- End filters -->
 
       <table
         class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
@@ -43,6 +114,7 @@
             <th>Cliente</th>
             <th>Sede</th>
             <th>Ultimo Chequeo</th>
+            <th>Encargado del ticket</th>
             <th>Referencia</th>
             <th>Estado</th>
           </tr>
@@ -71,6 +143,7 @@
                   </svg>
                 </button>
               </td>
+              <td class="p-2"></td>
               <td class="p-2"> {{checkOut.resource?.reference}} </td>
               <!-- Estado -->
               <td class="p-2">

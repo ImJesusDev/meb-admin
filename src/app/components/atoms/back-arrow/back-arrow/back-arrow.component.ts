@@ -20,8 +20,8 @@ export class BackArrowComponent implements OnInit {
 
   back(): void {
     if (this.backRoute) {
-      history.back();
-      // this.router.navigate([this.backRoute]);
+      // history.back();
+      this.router.navigate([this.backRoute]);
     } else {
       this.onBack.emit();
     }

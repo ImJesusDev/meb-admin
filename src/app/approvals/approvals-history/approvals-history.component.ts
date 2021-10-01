@@ -1,7 +1,7 @@
 import { Navigation } from './../../utils/helpers/navigation.helper';
 import { UpdateCheckup } from './../../inventory/state/inventory/inventory.actions';
 import { Checkup } from './../../models/chekoups';
-import { ResourceType } from 'src/app/models';
+import { Client, ResourceType } from 'src/app/models';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 /* rxjs */
@@ -39,6 +39,12 @@ export class ApprovalsHistoryComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
+  clients$: Observable<Client[]> = of([] as Client[]);
+  
+  client: string | undefined;
+  clientSelected: Client | undefined;
+  office: string | undefined;
+  reference: string | undefined;
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -123,6 +129,10 @@ export class ApprovalsHistoryComponent implements OnInit {
       from: this.from,
       to: this.to,
     });
+  }
+  selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.filterResources();
   }
 
   calcDays(date: string): number {
