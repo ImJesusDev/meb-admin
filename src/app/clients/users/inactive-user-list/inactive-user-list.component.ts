@@ -113,6 +113,7 @@ export class InactiveUserListComponent implements OnInit {
                 let userFilter: any = []
                 this.users.forEach((element: any) => {
                   if (
+                    element.deletedAt != null && 
                     this.office?.length > 0 &&
                     this.documentNumber?.length > 0 &&
                     element.office == this.office &&
@@ -120,18 +121,21 @@ export class InactiveUserListComponent implements OnInit {
                   ) {
                     userFilter.push(element)
                   } else if (
+                    element.deletedAt != null && 
                     this.office?.length == 0 &&
                     this.documentNumber?.length > 0 &&
                     element.documentNumber == this.documentNumber
                   ) {
                     userFilter.push(element)
                   } else if (
+                    element.deletedAt != null && 
                     this.office?.length > 0 &&
                     this.documentNumber?.length == 0 &&
                     element.office == this.office
                   ) {
                     userFilter.push(element)
                   } else if (
+                    element.deletedAt != null && 
                     this.office?.length == 0 &&
                     this.documentNumber?.length == 0
                   ) {

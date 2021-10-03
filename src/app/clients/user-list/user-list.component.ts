@@ -129,13 +129,13 @@ export class UserListComponent implements OnInit {
                 this.users = client.users;
                 let userFilter:any = [];
                 this.users.forEach((element: any) => {
-                  if(this.office?.length > 0 && this.documentNumber?.length > 0 && element.office == this.office && element.documentNumber == this.documentNumber){
+                  if(element.deletedAt == null && this.office?.length > 0 && this.documentNumber?.length > 0 && element.office == this.office && element.documentNumber == this.documentNumber){
                     userFilter.push(element); 
-                  }else if(this.office?.length == 0 && this.documentNumber?.length > 0  && element.documentNumber == this.documentNumber){
+                  }else if(element.deletedAt == null && this.office?.length == 0 && this.documentNumber?.length > 0  && element.documentNumber == this.documentNumber){
                     userFilter.push(element); 
-                  }else if(this.office?.length > 0 && this.documentNumber?.length == 0 && element.office == this.office){
+                  }else if(element.deletedAt == null && this.office?.length > 0 && this.documentNumber?.length == 0 && element.office == this.office){
                     userFilter.push(element); 
-                  }else if(this.office?.length == 0 && this.documentNumber?.length == 0){
+                  }else if(element.deletedAt == null && this.office?.length == 0 && this.documentNumber?.length == 0){
                     userFilter.push(element);  
                   }
                 });
