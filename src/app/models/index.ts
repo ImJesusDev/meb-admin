@@ -9,3 +9,4 @@ export * from './email';
 export * from './resource-type';
 export * from './resourceComponent';
 export * from './inventory';
+export * from './booking';

@@ -18,6 +18,7 @@ import { BookingRoutingModule } from './booking-routing.module';
 import { BookingComponent } from './booking/booking.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
 import { BackArrowModule } from '@components/atoms/back-arrow';
+import { reducers, effects } from './state';
 
 
 @NgModule({
@@ -34,8 +35,8 @@ import { BackArrowModule } from '@components/atoms/back-arrow';
     BackArrowModule,
     SharedModule,
     CheckUpModalModule,
-    // StoreModule.forFeature('booking', reducers),
-    // EffectsModule.forFeature(effects),
+    StoreModule.forFeature('bookings', reducers),
+    EffectsModule.forFeature(effects),
     ComponentCommentaryModalModule
   ]
 })

@@ -17,12 +17,14 @@ import { StartLoader } from '@state/loader/loader.actions'
 import { getLoader } from '@state/loader/loader.selector'
 /* Selectors */
 import { getResources } from '../../inventory/state/inventory/inventory.selector'
+import { getBookings } from '../../booking/state/booking/booking.selector'
 /* Actions */
 import { LoadResources } from '../../inventory/state/inventory/inventory.actions'
 // import { Startbooking, Updatebooking } from '../state/booking';
 import { LoadClients } from 'src/app/clients/state/clients'
 import { getClients } from 'src/app/clients/state/clients/clients.selector'
 import { downloadExcel } from 'src/app/utils/helpers/excel.helper'
+import { LoadBooking } from '../state/booking'
 
 @Component({
   selector: 'app-booking-list',
@@ -38,6 +40,7 @@ export class BookingListComponent implements OnInit {
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[])
+  bookings$: Observable<any[]> = of([] as any[])
   /* Observable of clients from store */
   clients$: Observable<Client[]> = of([] as Client[])
 
@@ -77,6 +80,7 @@ export class BookingListComponent implements OnInit {
   showModalL = false
 
   checkup: Checkup
+  bookings: any
 
   constructor(
     private store: Store<State>,
@@ -110,11 +114,14 @@ export class BookingListComponent implements OnInit {
     this.loadResources()
     // Dispatch action to load clients
     this.store.dispatch(new LoadClients())
+    this.store.dispatch(new LoadBooking())
   }
 
   ngOnInit(): void {
     // Use selector to get resources from state
     this.resources$ = this.store.pipe(select(getResources))
+    this.bookings$ = this.store.pipe(select(getBookings))
+    
 
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients))
@@ -125,7 +132,14 @@ export class BookingListComponent implements OnInit {
       this.booking = data;
     })
 
-    console.log(this.booking);
+
+    this.bookings$.subscribe((data:any) => {
+      this.resourceLength = data.totalResults
+      this.bookings = data.reservations;
+      console.log(data.reservations);
+    })
+
+   console.log(this.bookings);
   }
 
   setQueryParams(): void {
