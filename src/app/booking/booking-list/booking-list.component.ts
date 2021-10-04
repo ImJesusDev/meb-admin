@@ -39,6 +39,8 @@ export class BookingListComponent implements OnInit {
   downloading: boolean | undefined;
   textTravel:string = "";
   commentTravel:string = "";
+  loadingDOM:boolean = false;
+  travelsModal:any = []
 
 
   /* Observable of resource types from store */
@@ -137,6 +139,7 @@ export class BookingListComponent implements OnInit {
 
     this.bookings$.subscribe((data:any) => {
       this.booking = data[0];
+      this.loadingDOM = true;
     })
 
    //  console.log(this.booking);
@@ -215,19 +218,24 @@ export class BookingListComponent implements OnInit {
       this.showDomainListModal = true
     }, 100)
   }
+
   openCalificacion(rating: any, comment: any): void {
+    this.showModalCalificacion = true;
     this.textTravel = rating;
     this.commentTravel = comment;
     setTimeout(() => {
-      this.showModalCalificacion = true;
+      this.showDomainListModal = true
     }, 200)
   }
-  openViajes(checkup: any, resourceId: any): void {
+
+  openViajes(travels: any): void {
+    this.travelsModal = travels
     this.showModalViajes = true
     setTimeout(() => {
       this.showDomainListModal = true
     }, 100)
   }
+
   onCloseLastModal(): void {
     this.showModalIndicador = false
     this.showModalCalificacion = false
