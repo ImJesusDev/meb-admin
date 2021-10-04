@@ -37,6 +37,9 @@ export class BookingListComponent implements OnInit {
   resourceId: string
   resourceLength: number
   downloading: boolean | undefined;
+  textTravel:string = "";
+  commentTravel:string = "";
+
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[])
@@ -128,12 +131,12 @@ export class BookingListComponent implements OnInit {
     this.loader$ = this.store.pipe(select(getLoader))
     this.resources$.subscribe((data:any) => {
       this.resourceLength = data.length
-      this.booking = data;
+      // this.booking = data;
     })
 
 
     this.bookings$.subscribe((data:any) => {
-      console.log(data[0]);
+      this.booking = data[0];
     })
 
    //  console.log(this.booking);
@@ -181,7 +184,7 @@ export class BookingListComponent implements OnInit {
     this.resources$.subscribe((data:any) => {
       this.resourceLength = data.length
       data.forEach((element:any) => {
-        console.log(element);
+        // console.log(element);
         if(this.client == element.client 
           && element.office == this.office 
           && element.documents == this.document
@@ -191,15 +194,6 @@ export class BookingListComponent implements OnInit {
       });
       
     })
-//     document
-// calificacion
-// tiempoEntrega
-    // this.client = params.client
-    //   this.office = params.office
-    //   this.state = params.status
-    //   this.from = params.from
-    //   this.to = params.to
-    //   this.reference = params.reference
   }
 
   calcDays(date: string): number {
@@ -221,11 +215,12 @@ export class BookingListComponent implements OnInit {
       this.showDomainListModal = true
     }, 100)
   }
-  openCalificacion(checkup: any, resourceId: any): void {
-    this.showModalCalificacion = true
+  openCalificacion(rating: any, comment: any): void {
+    this.textTravel = rating;
+    this.commentTravel = comment;
     setTimeout(() => {
-      this.showDomainListModal = true
-    }, 100)
+      this.showModalCalificacion = true;
+    }, 200)
   }
   openViajes(checkup: any, resourceId: any): void {
     this.showModalViajes = true

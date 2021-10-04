@@ -160,24 +160,19 @@
         </thead>
         <tbody>
           
-          <ng-container *ngFor="let resource of booking; let i = index;">
-            <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+          <ng-container >
+            <tr *ngFor="let reserva of booking.reservations; let i = index;" [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
               <td class="p-2">
-                <span *ngIf="resource.repairs.length">
-                  {{resource.repairs[resource.repairs.length-1].createdAt|date}}
-                </span>
-                <span *ngIf="!resource.repairs.length">
-                  ---
-                </span>
+                {{reserva.createdAt | date}}
               </td>
               <td class="p-2">
                   123456
               </td>
-              <td class="p-2"> {{resource.client}} </td>
-              <td class="p-2"> {{resource.office}} </td>
-              <td class="p-2"> {{resource.office}} </td>
-              <td class="p-2"> {{resource.reference}} </td>
-              <td class="p-2"> {{resource.office}} </td>
+              <td class="p-2"> {{reserva.client}} </td>
+              <td class="p-2"> </td>
+              <td class="p-2"> </td>
+              <td class="p-2"> {{reserva.resourceRef}} </td>
+              <td class="p-2"> {{ calcDays(reserva.createdAt) }} </td>
               <td class="justify-center p2">
                 0
               </td>
@@ -187,7 +182,7 @@
               </td>
               <td class="justify-center p-2">
                 <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
-                (click)="openCalificacion(0,1)">5</span> 
+                (click)="openCalificacion(0, 0)">{{reserva.rating}} {{reserva.comments}}</span> 
               </td>
               <td class="justify-center flex p2">
                 <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
@@ -209,32 +204,6 @@
 
     </div>
     <!-- End Resource Table Desktop only -->
-
-    <!-- Mobile Table -->
-    <div class="flex flex-col h-screen space-y-2 overflow-y-auto sm:hidden"
-      *ngIf="((resources$ |async)?.length !== 0) && !(loader$ | async)">
-
-      <div [ngClass]="{'bg-gray-200': i % 2 === 0}" class="flex flex-col justify-center"
-        *ngFor="let resource of resources$ |async; let i = index;">
-        <div><span class="font-bold">Fecha:</span>
-          <span *ngIf="resource.checkups.length">
-            {{resource.checkups[resource.checkups.length-1].createdAt|date}}
-          </span>
-        </div>
-        <div><span class="font-bold">Días:</span>
-          <span *ngIf="resource.checkups.length">
-            {{calcDays(resource.checkups[resource.checkups.length-1].createdAt)}}
-          </span>
-        </div>
-        <div><span class="font-bold">Cliente:</span>{{resource.client}}</div>
-        <div><span class="font-bold">Oficina:</span>{{resource.office}}</div>
-        <div><span class="font-bold">Ultimo Chequeo:</span></div>
-        <div><span class="font-bold">Referencia:</span> {{resource.reference}}</div>
-        <div><span class="font-bold">Acciones:</span>
-        </div>
-      </div>
-    </div>
-    <!-- End Mobile Table -->
 
   </div>
 
@@ -322,11 +291,11 @@
           <!-- Client Table Desktop only -->
           <div class="space-y-1">
             <div><h3><b>Calificación</b></h3></div>
-            <div><p> 5</p></div>
+            <div><p>{{ textTravel }}</p></div>
           </div>
           <div class="space-y-1">
             <div><h3><b>Comentario</b></h3></div>
-            <div><p> Excelente servicio</p></div>
+            <div><p>{{ commentTravel }}</p></div>
           </div>         
           
           <!-- End Client Table Desktop only -->
