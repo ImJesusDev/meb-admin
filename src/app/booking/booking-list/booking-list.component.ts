@@ -80,7 +80,6 @@ export class BookingListComponent implements OnInit {
   showModalL = false
 
   checkup: Checkup
-  bookings: any
 
   constructor(
     private store: Store<State>,
@@ -134,12 +133,10 @@ export class BookingListComponent implements OnInit {
 
 
     this.bookings$.subscribe((data:any) => {
-      this.resourceLength = data.totalResults
-      this.bookings = data.reservations;
-      console.log(data.reservations);
+      console.log(data[0]);
     })
 
-   console.log(this.bookings);
+   //  console.log(this.booking);
   }
 
   setQueryParams(): void {

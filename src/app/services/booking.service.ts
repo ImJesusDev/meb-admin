@@ -19,7 +19,7 @@ export class BookingService {
 
   constructor(private http: HttpClient) { }
 
-  getBookings(): Observable<any[]> {    
+  getBookings(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}resources/reservation-list`, {
       withCredentials: true,
     });
