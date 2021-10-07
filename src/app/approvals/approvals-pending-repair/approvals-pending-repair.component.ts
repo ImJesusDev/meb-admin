@@ -66,6 +66,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
   from: string;
   to: string;
   reference: string;
+  days: string;
 
   constructor(
     private store: Store<State>,
@@ -93,6 +94,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
     this.from = '';
     this.to = '';
     this.reference = '';
+    this.days = '';
 
     this.store.dispatch(new StartLoader());
     this.setQueryParams();
@@ -133,6 +135,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
       from: this.from,
       to: this.to,
       reference: this.reference,
+      days: this.days,
     }));
   }
 
@@ -155,6 +158,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
       from: this.from,
       to: this.to,
       reference: this.reference,
+      days: this.days,
     });
   }
   selectClient(): void {

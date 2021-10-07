@@ -59,6 +59,7 @@ export interface ResourceFilters {
   status?: string;
   client?: string;
   office?: string;
+  days?: string;
   type?: string;
   from?: string;
   to?: string;

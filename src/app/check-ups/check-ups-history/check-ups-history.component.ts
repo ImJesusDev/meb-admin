@@ -59,11 +59,11 @@ export class CheckUpsHistoryComponent implements OnInit {
   
   client: string | undefined;
   clientSelected: Client | undefined;
-  office: string | undefined;
-  reference: string | undefined;
-
+  office: string;
+  days: string;
   from: string;
   to: string;
+  reference: string;
 
   constructor(
     private store: Store<State>,
@@ -77,6 +77,13 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.perPage = 10;
     this.resourceId = '';
     this.resourceLength = 0;
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
     this.checkup = {
       components: [],
       createdAt: '',
@@ -119,6 +126,8 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.store.dispatch(new StartLoader());
     this.getHistory();
     this.navigation.setQueryParams({
+      days: this.days ? this.days : null,
+reference: this.reference,
       from: this.from,
       to: this.to,
     });

@@ -36,6 +36,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   user: User;
   office: any;
   clients:any;
+  actualizar:boolean = false;
 
   /* Form Group */
   UserGroup: FormGroup;
@@ -110,6 +111,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
+    this.actualizar = true;
     this.route.params.subscribe((param) => {
       if (param.userId) {
         let updateUser:User = {
@@ -150,6 +152,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           new AddUser(updateUser)
         );
       }
+      
     });
   }
 

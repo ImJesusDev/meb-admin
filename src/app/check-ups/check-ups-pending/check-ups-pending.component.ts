@@ -55,6 +55,7 @@ export class CheckUpsPendingComponent implements OnInit {
   clientSelected: Client;
   office: string;
   state: string;
+  days: string;
   from: string;
   to: string;
   reference: string;
@@ -82,6 +83,7 @@ export class CheckUpsPendingComponent implements OnInit {
     this.clientSelected = { } as Client;
     this.office = '';
     this.state = '';
+    this.days = '';
     this.from = '';
     this.to = '';
     this.reference = '';
@@ -129,6 +131,7 @@ export class CheckUpsPendingComponent implements OnInit {
       page: this.page,
       perPage: this.perPage,
       status: this.resourceStatus.PendingCheckup,
+      days: this.days,
       client: this.client,
       office: this.office,
       from: this.from,
@@ -154,11 +157,13 @@ export class CheckUpsPendingComponent implements OnInit {
       client: this.client ? this.client : null,
       office: this.office && this.client ? this.office : null,
       status: this.state ? this.state : null,
+      days: this.days ? this.days : null,
       from: this.from,
       to: this.to,
       reference: this.reference,
     });
   }
+
   selectClient(): void {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
     this.filterResources();

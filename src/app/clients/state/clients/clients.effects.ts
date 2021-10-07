@@ -454,6 +454,11 @@ export class ClientsEffects {
                 confirmButtonText: `Aceptar`,
                 confirmButtonColor: '#50b848',
                 icon: 'success',
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                  this.router.navigate(['/clientes/']);
+                } 
               });
             }),
             catchError((error: HttpErrorResponse) => {

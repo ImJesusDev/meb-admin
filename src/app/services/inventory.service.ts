@@ -33,6 +33,9 @@ export class InventoryService {
     if (filters.status) {
       query += '&status=' + filters.status;
     }
+    if (filters.days) {
+      query += '&days=' + filters.days;
+    }
     if (filters.type) {
       query += '&type=' + filters.type;
     }

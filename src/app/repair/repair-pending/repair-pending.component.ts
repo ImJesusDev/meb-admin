@@ -58,6 +58,7 @@ export class RepairPendingComponent implements OnInit {
   from: string;
   to: string;
   reference: string;
+  days: string;
 
   /* Modals */
 
@@ -85,6 +86,7 @@ export class RepairPendingComponent implements OnInit {
     this.from = '';
     this.to = '';
     this.reference = '';
+    this.days = '';
 
     this.resourceLength = 0;
     this.checkup = {
@@ -135,6 +137,7 @@ export class RepairPendingComponent implements OnInit {
       from: this.from,
       to: this.to,
       reference: this.reference,
+      days: this.days,
     }));
   }
 
@@ -159,6 +162,7 @@ export class RepairPendingComponent implements OnInit {
       from: this.from,
       to: this.to,
       reference: this.reference,
+      days: this.days,
     });
   }
   selectClient(): void {
