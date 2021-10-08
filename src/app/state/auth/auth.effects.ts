@@ -67,7 +67,29 @@ export class AuthEffects {
                   this.router.navigate(['/auth']);
                   break;
                 case AuthActionTypes.LoginSuccess:
-                  this.router.navigate(['/clientes']);
+                  switch (localStorage.getItem('role')) {
+                    case 'admin':
+                      this.router.navigate(['/clientes']);
+                      break;
+                    // case 'admin':
+                    //   this.router.navigate(['/clientes']);
+                    //   break;
+                    // case 'admin':
+                    //   this.router.navigate(['/clientes']);
+                    //   break;
+                    // case 'admin':
+                    //   this.router.navigate(['/clientes']);
+                    //   break;
+                    // case 'admin':
+                    //   this.router.navigate(['/clientes']);
+                    //   break;
+                    // case 'admin':
+                    //   this.router.navigate(['/clientes']);
+                    //   break;
+                    // case 'admin':
+                    //   this.router.navigate(['/clientes']);
+                    //   break;
+                  }                  
                   break;
                 default:
                   break;

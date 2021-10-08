@@ -7,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidenavComponent implements OnInit {
   isOpen = false;
-
-  constructor() {}
+  userRole:string | null;
+  constructor() {
+      this.userRole = localStorage.getItem('role');
+  }
 
   ngOnInit(): void {}
 
