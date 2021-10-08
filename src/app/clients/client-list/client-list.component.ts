@@ -27,7 +27,7 @@ import { Domain } from '../../models';
 })
 export class ClientListComponent implements OnInit {
   title = 'Clientes';
-  showAddBtn = true;
+  showAddBtn = false;
   /* Observable of clients from store */
   clients$: Observable<Client[]> = of([] as Client[]);
   /* Observable of loader from store */
@@ -48,6 +48,9 @@ export class ClientListComponent implements OnInit {
   showDomainListBackDrop = false;
 
   constructor(private store: Store<State>) {
+    if(localStorage.getItem('role') == 'admin'){
+      this.showAddBtn = true;
+    }
     this.store.dispatch(new StartLoader());
     // Dispatch action to load clients
     this.store.dispatch(new LoadClients());

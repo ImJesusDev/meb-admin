@@ -51,12 +51,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private inventoryService: InventoryService,
     private activatedRoute: ActivatedRoute
   ) {
+    if(localStorage.getItem('role') == 'admin'){
+      this.showAddBtn = false;
+    }
     // Workaround to show button to add clients
     // only in the clients list screen
     this.filters = { };
     this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showAddBtn = true;
         this.url = event.url.split('?');
         if (this.url[0] !== '/inventario') {
           this.showAddBtn = false;

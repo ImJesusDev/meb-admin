@@ -10,7 +10,7 @@ export class ClientsComponent implements OnInit {
   title = 'Clientes';
   showAddBtn = true;
 
-  constructor(private route: Router) {
+  constructor(private route: Router) {    
     // Workaround to show button to add clients
     // only in the clients list screen
     this.route.events.subscribe((event) => {

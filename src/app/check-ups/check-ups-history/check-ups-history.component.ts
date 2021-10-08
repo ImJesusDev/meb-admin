@@ -127,14 +127,13 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.getHistory();
     this.navigation.setQueryParams({
       days: this.days ? this.days : null,
-reference: this.reference,
+      reference: this.reference,
       from: this.from,
       to: this.to,
     });
   }
   selectClient(): void {
-    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
-    this.filterResources();
+      this.filterResources();
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {

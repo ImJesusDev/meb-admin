@@ -111,6 +111,7 @@ export class CheckUpsPendingComponent implements OnInit {
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => this.resourceLength = data.length);
+    console.log(this.resourceLength);
   }
 
   setQueryParams(): void {
@@ -165,7 +166,6 @@ export class CheckUpsPendingComponent implements OnInit {
   }
 
   selectClient(): void {
-    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
     this.filterResources();
   }
 
