@@ -71,24 +71,24 @@ export class AuthEffects {
                     case 'admin':
                       this.router.navigate(['/clientes']);
                       break;
-                    // case 'admin':
-                    //   this.router.navigate(['/clientes']);
-                    //   break;
-                    // case 'admin':
-                    //   this.router.navigate(['/clientes']);
-                    //   break;
-                    // case 'admin':
-                    //   this.router.navigate(['/clientes']);
-                    //   break;
-                    // case 'admin':
-                    //   this.router.navigate(['/clientes']);
-                    //   break;
-                    // case 'admin':
-                    //   this.router.navigate(['/clientes']);
-                    //   break;
-                    // case 'admin':
-                    //   this.router.navigate(['/clientes']);
-                    //   break;
+                    case 'admin':
+                      this.router.navigate(['/clientes']);
+                      break;
+                    case 'client':
+                      this.router.navigate(['/clientes']);
+                      break;
+                    case 'client-admin':
+                      this.router.navigate(['/clientes']);
+                      break;
+                    case 'meb-admin':
+                      this.router.navigate(['/clientes']);
+                      break;
+                    case 'maintenance-manager':
+                      this.router.navigate(['/mantenimientos']);
+                      break;
+                    case 'inventory-manager':
+                      this.router.navigate(['/inventario']);
+                      break;
                   }                  
                   break;
                 default:
