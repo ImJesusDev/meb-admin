@@ -123,7 +123,6 @@ export class BookingListComponent implements OnInit {
 
   ngOnInit(): void {
     // Use selector to get resources from state
-    this.resources$ = this.store.pipe(select(getResources))
     this.bookings$ = this.store.pipe(select(getBookings))
     
 
@@ -131,10 +130,6 @@ export class BookingListComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients))
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader))
-    this.resources$.subscribe((data:any) => {
-      this.resourceLength = data.length
-      // this.booking = data;
-    })
 
 
     this.bookings$.subscribe((data:any) => {
@@ -158,18 +153,7 @@ export class BookingListComponent implements OnInit {
 
   loadResources(): void {
     this.store.dispatch(new StartLoader())
-    this.store.dispatch(
-      new LoadResources({
-        page: this.page,
-        perPage: this.perPage,
-        // status: this.resourceStatus.Pendingbooking,
-        client: this.client,
-        office: this.office,
-        from: this.from,
-        to: this.to,
-        reference: this.reference,
-      }),
-    )
+    // Hacer filtro
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {
@@ -183,20 +167,7 @@ export class BookingListComponent implements OnInit {
   }
 
   filterResources(): void {
-
-    this.resources$.subscribe((data:any) => {
-      this.resourceLength = data.length
-      data.forEach((element:any) => {
-        // console.log(element);
-        if(this.client == element.client 
-          && element.office == this.office 
-          && element.documents == this.document
-          && element.reference == this.reference){
-          this.booking = element;
-        }
-      });
-      
-    })
+    //Filtro
   }
 
   calcDays(date: string): number {
