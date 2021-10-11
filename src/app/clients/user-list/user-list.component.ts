@@ -54,9 +54,7 @@ export class UserListComponent implements OnInit {
             .subscribe((client) => {
               if (client) {
                 this.client = client;
-                console.log(client);
                 allUsers = client.users;
-                console.log(allUsers);
                 allUsers.forEach((user:any) => {
                   if(user.deletedAt == null){
                     this.users.push({
@@ -156,7 +154,6 @@ export class UserListComponent implements OnInit {
       const columnsLabels = ['Foto', 'Nombres', 'Apellidos', 'Email', 'Cliente', 'Sede', 'bloodType', 'documentNumber', 'emergencyContactName', 'emergencyContactPhone', 'gender', 'phone'];
       columns.push(columnsLabels);
       this.users.forEach((user:any) => {
-        console.log(user);
         const rows = new Array();
         rows.push(user.photo);
         rows.push(user.firstName);
