@@ -107,6 +107,7 @@ export class MaintenanceService {
     if (days) {
       query += '&days=' + days;
     }
+    console.log(`${this.apiUrl}resources/maintenances-history?${query}`);
     return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?${query}`,
       { withCredentials: true, });
   }

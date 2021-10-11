@@ -99,9 +99,16 @@ export class MaintenanceHistoryComponent implements OnInit {
     this.from = ''
     this.to = ''
     this.route.queryParams.subscribe((params) => {
-      this.from = params.from
-      this.to = params.to
+      this.from = params.from,
+      this.to = params.to,
+      this.page = params.page,
+      this.perPage = params.perPage,
+      this.client = params.client,
+      this.office = params.office,
+      this.reference = params.reference,
+      this.days = params.days
     })
+
     this.store.dispatch(new StartLoader())
     // Dispatch action to load clients
     this.store.dispatch(new LoadClients());
@@ -126,7 +133,6 @@ export class MaintenanceHistoryComponent implements OnInit {
       days: this.days,
     })
     this.resources$.subscribe((data) => {
-      console.log(data);
       this.resourceLength = data.maintenances.length
       this.store.dispatch(new StopLoader())
     })
@@ -148,12 +154,18 @@ export class MaintenanceHistoryComponent implements OnInit {
     this.navigation.setQueryParams({
       from: this.from,
       to: this.to,
+      page: this.page,
+      perPage: this.perPage,
+      client: this.client,
+      office: this.office,
+      reference: this.reference,
+      days: this.days,
     })
   }
 
   selectClient(): void {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
-    this.filterResources();
+    this.getHistory();
   }
 
   calcDays(date: string): number {
