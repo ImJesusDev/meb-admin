@@ -111,7 +111,8 @@ export class ApprovalsPendingComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe((data) => {
+      this.resourceLength = data.length;});
   }
 
   setQueryParams(): void {

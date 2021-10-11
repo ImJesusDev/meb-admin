@@ -23,6 +23,8 @@ import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
 import { RepairService } from '@services/repair.service';
+import { LoadClients } from 'src/app/clients/state/clients/clients.actions';
+import { getClients } from 'src/app/clients/state/clients/clients.selector';
 
 
 @Component({
@@ -43,10 +45,17 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[]);
   clients$: Observable<Client[]> = of([] as Client[]);
   
-  client: string | undefined;
-  clientSelected: Client | undefined;
-  office: string | undefined;
-  reference: string | undefined;
+  client: string;
+  clientSelected: Client = {
+    id: '',
+    name: '',
+    nit: '',
+    slug: '',
+    logo: ''
+  };
+  office: string;
+  reference: string;
+  days: string;
 
   /* Observable of loader from store */
   loader$: Observable<boolean> = of(false);
@@ -86,17 +95,29 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
 
     this.from = '';
     this.to = '';
+    this.client = '';
+    this.office = '';
+    this.days = '';
+    this.reference = '';
     this.route.queryParams.subscribe(
       params => {
         this.from = params.from;
         this.to = params.to;
+        this.client = params.client;
+        this.office = params.office;
+        this.days = params.days;
+        this.reference = params.reference;
       }
     );
     this.store.dispatch(new StartLoader());
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
     this.loader$ = this.store.pipe(select(getLoader));
+    // Use selector to get clients from state
+    this.clients$ = this.store.pipe(select(getClients));
     this.getHistory();
   }
 
@@ -105,6 +126,10 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
     this.resources$ = this.repairService.getHistoryRepairs({
       from: this.from,
       to: this.to,
+      client: this.client,
+      office: this.office,
+      days: this.days,
+      reference: this.reference,
       page: this.page,
       perPage: this.perPage,
       status: 'approved'
@@ -124,18 +149,10 @@ export class ApprovalsHistoryRepairComponent implements OnInit {
       this.getHistory();
     }
   }
-  filterResources(): void {
-    this.page = 1;
-    this.store.dispatch(new StartLoader());
-    this.getHistory();
-    this.navigation.setQueryParams({
-      from: this.from,
-      to: this.to,
-    });
-  }
+
   selectClient(): void {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
-    this.filterResources();
+    this.getHistory();
   }
 
   calcDays(date: string): number {

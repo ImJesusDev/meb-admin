@@ -54,6 +54,7 @@ export class InventoryService {
     if (filters.reference) {
       query += '&reference=' + filters.reference;
     }
+    console.log(`${this.apiUrl}resources?${query}`);
     return this.http.get<PaginationResources>(`${this.apiUrl}resources?${query}`,
       { withCredentials: true, });
   }
