@@ -1,5 +1,5 @@
 <!-- Side Nav -->
-<div [ngClass]="{'w-14': !isOpen, 'sm:w-60 px-2' : isOpen}" (mouseenter)="toggleSideBar()"
+<div *ngIf="userRole?.length != null" [ngClass]="{'w-14': !isOpen, 'sm:w-60 px-2' : isOpen}" (mouseenter)="toggleSideBar()"
   (mouseleave)="toggleSideBar()"
   class="static top-0 left-0 flex flex-col items-center w-12 h-screen transition-all ease-in sm:w-12 bg-brand">
 

@@ -9,10 +9,12 @@ export class SidenavComponent implements OnInit {
   isOpen = false;
   userRole:string | null;
   constructor() {
-      this.userRole = localStorage.getItem('role');
+    this.userRole = localStorage.getItem('role');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   toggleSideBar(): void {
     this.isOpen = !this.isOpen;
