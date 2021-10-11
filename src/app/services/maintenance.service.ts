@@ -61,14 +61,22 @@ export class MaintenanceService {
       perPage = 10,
       status,
       from,
-      to
+      to,
+      client,
+      office,
+      reference,
+      days,
     }:
       {
         page?: number,
         perPage?: number,
         status?: string,
         from?: string,
-        to?: string
+        to?: string,
+        client?: string,
+        office?: string,
+        reference?: string,
+        days?: string,
       }
   ): Observable<any> {
     let query = '';
@@ -86,6 +94,18 @@ export class MaintenanceService {
     }
     if (to) {
       query += '&to=' + to;
+    }
+    if (client) {
+      query += '&client=' + client;
+    }
+    if (office) {
+      query += '&office=' + office;
+    }
+    if (reference) {
+      query += '&reference=' + reference;
+    }
+    if (days) {
+      query += '&days=' + days;
     }
     return this.http.get<any>(`${this.apiUrl}resources/maintenances-history?${query}`,
       { withCredentials: true, });

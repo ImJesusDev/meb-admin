@@ -23,6 +23,8 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 /* Actions */
 import { LoadHistoryMaintenance } from '../state/maintenance/maintenance.actions'
 import { MaintenanceService } from '@services/maintenance.service'
+import { getClients } from 'src/app/clients/state/clients/clients.selector'
+import { LoadClients } from 'src/app/clients/state/clients/clients.actions'
 
 @Component({
   selector: 'app-maintenance-history',
@@ -74,6 +76,7 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   from: string
   to: string
+  days: string | undefined
 
   constructor(
     private store: Store<State>,
@@ -100,9 +103,12 @@ export class MaintenanceHistoryComponent implements OnInit {
       this.to = params.to
     })
     this.store.dispatch(new StartLoader())
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
+    this.clients$ = this.store.pipe(select(getClients));
     this.loader$ = this.store.pipe(select(getLoader))
     this.getHistory()
   }
@@ -114,8 +120,13 @@ export class MaintenanceHistoryComponent implements OnInit {
       to: this.to,
       page: this.page,
       perPage: this.perPage,
+      client: this.client,
+      office: this.office,
+      reference: this.reference,
+      days: this.days,
     })
     this.resources$.subscribe((data) => {
+      console.log(data);
       this.resourceLength = data.maintenances.length
       this.store.dispatch(new StopLoader())
     })
