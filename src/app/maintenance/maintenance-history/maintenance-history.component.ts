@@ -147,21 +147,6 @@ export class MaintenanceHistoryComponent implements OnInit {
       this.getHistory()
     }
   }
-  filterResources(): void {
-    this.page = 1
-    this.store.dispatch(new StartLoader())
-    this.getHistory()
-    this.navigation.setQueryParams({
-      from: this.from,
-      to: this.to,
-      page: this.page,
-      perPage: this.perPage,
-      client: this.client,
-      office: this.office,
-      reference: this.reference,
-      days: this.days,
-    })
-  }
 
   selectClient(): void {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
