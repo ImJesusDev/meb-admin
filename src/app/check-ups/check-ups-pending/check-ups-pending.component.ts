@@ -166,6 +166,7 @@ export class CheckUpsPendingComponent implements OnInit {
   }
 
   selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
     this.filterResources();
   }
 

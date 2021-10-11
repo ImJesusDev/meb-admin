@@ -107,7 +107,7 @@ export class InventoryService {
    * @param perPage Per page
    */
   getCheckupHistory(
-    { page, perPage = 10, status, from, to }: { page?: number; perPage?: number; status?: string; from?: string; to?: string; }
+    { page, perPage = 10, status, from, to, reference, days, client, office }: { page?: number; perPage?: number; status?: string; from?: string; to?: string; reference?: string; days?: string; client?: string; office?: string;}
   ): Observable<{ checkups: Checkup[]; page: number; perPage: number; totalResults: number; }> {
     let query = '';
     if (page) {
@@ -125,6 +125,19 @@ export class InventoryService {
     if (to) {
       query += '&to=' + to;
     }
+    if (reference) {
+      query += '&reference=' + reference;
+    }
+    if (days) {
+      query += '&days=' + days;
+    }
+    if (client) {
+      query += '&client=' + client;
+    }
+    if (office) {
+      query += '&office=' + office;
+    }
+    console.log(`${this.apiUrl}resources/checkups-history?${query}`);
     return this.http.get<{ checkups: Checkup[]; page: number; perPage: number; totalResults: number; }>
       (`${this.apiUrl}resources/checkups-history?${query}`, { withCredentials: true, });
   }
