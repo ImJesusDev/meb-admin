@@ -89,14 +89,8 @@
           <!-- Reference -->
           <div>
             <label class="text-gray-400" for="reference">Referencia:</label>
-            <input name="reference" [(ngModel)]="reference"
+            <input name="reference" [(ngModel)]="reference" (ngModelChange)="filterResources()"
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
-          </div>
-          <!-- Filter button -->
-          <div class="flex items-end">
-            <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
-              <span>Filtrar</span>
-            </button>
           </div>
         </div>
       </div>
