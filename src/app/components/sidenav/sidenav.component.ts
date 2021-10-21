@@ -10,7 +10,6 @@ export class SidenavComponent implements OnInit {
   userRole:string | null;
   constructor() {
     this.userRole = localStorage.getItem('role');
-    console.log(this.userRole);
   }
 
   ngOnInit(): void {
