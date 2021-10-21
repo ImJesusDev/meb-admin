@@ -52,7 +52,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute
   ) {
     if(localStorage.getItem('role') == 'admin'){
-      this.showAddBtn = false;
+      this.showAddBtn = true;
     }
     // Workaround to show button to add clients
     // only in the clients list screen

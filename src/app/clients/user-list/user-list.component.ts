@@ -154,19 +154,28 @@ export class UserListComponent implements OnInit {
     try {
       const columns = new Array();
       columns.push(['', '', '', '', '', '', 'Documentos', '', '', '', '']);
-      const columnsLabels = ['Foto', 'Nombres', 'Apellidos', 'Email', 'Cliente', 'Sede'];
+      const columnsLabels = ['Foto', 'Nombres', 'Apellidos', 'Documento', 'Email', 'Teléfono', 'Cliente', 'Sede', 'EPS', 'Nombre contacto','número contacto'];
       columns.push(columnsLabels);
       this.users.forEach((user:any) => {
         const rows = new Array();
         rows.push(user.photo);
         rows.push(user.firstName);
         rows.push(user.lastName);
+        rows.push(user.documentNumber);
         rows.push(user.email);
+        rows.push(user.phone);
         rows.push(user.client);
         rows.push(user.office);
+        if(typeof user.eps != 'undefined'){
+          rows.push(user.eps.name);
+        }else{
+          rows.push("");
+        }        
+        rows.push(user.emergencyContactName);
+        rows.push(user.emergencyContactPhone);
         columns.push(rows);
       });
-      downloadExcel({ data: columns, filename: 'Usuarios Activos' });
+     downloadExcel({ data: columns, filename: 'Usuarios Activos' });
     } catch (e) {
       console.log(e);
     }
