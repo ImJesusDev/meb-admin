@@ -65,7 +65,7 @@ export class CheckUpsPendingComponent implements OnInit {
 
   showBackDropL = false;
   showModalL = false;
-
+  checkups:any;
   checkup: Checkup;
 
   constructor(
@@ -83,10 +83,11 @@ export class CheckUpsPendingComponent implements OnInit {
     this.clientSelected = { } as Client;
     this.office = '';
     this.state = '';
-    this.days = '';
+    this.days = 'no';
     this.from = '';
     this.to = '';
     this.reference = '';
+    this.checkups = [];
 
     this.resourceLength = 0;
     this.checkup = {
@@ -110,7 +111,10 @@ export class CheckUpsPendingComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe((data:any) => {
+      this.resourceLength = data.length
+      this.checkups = data;
+    });
     console.log(this.resourceLength);
   }
 
@@ -124,6 +128,24 @@ export class CheckUpsPendingComponent implements OnInit {
         this.reference = params.reference;
       }
     );
+  }
+
+  validateRangeDays(num:number): boolean{
+    let dayval = this.days;
+    if(parseInt(dayval) > 0){
+      if(parseInt(dayval) == 0 && num == 0){
+        return true;
+      }else if(parseInt(dayval) == 3 && num >= 1 && num <= 3){
+        return true;
+      }else if(parseInt(dayval) == 5 && num >= 4 && num <= 6){
+        return true;
+      }else if(parseInt(dayval) == 6 && num >= 7){
+        return true;
+      }
+      return false;
+    }else{
+      return true;
+    }
   }
 
   loadResources(): void {
@@ -188,7 +210,8 @@ export class CheckUpsPendingComponent implements OnInit {
   }
 
   selectClient(): void {
-    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    // this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    console.log(this.days);
     this.filterResources();
   }
 
