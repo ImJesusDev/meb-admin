@@ -136,7 +136,9 @@ export class MaintenancePendingComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe((data:any) =>{ 
+      this.resourceLength = data.length;
+    });
   }
 
   loadResources(): void {
@@ -162,6 +164,28 @@ export class MaintenancePendingComponent implements OnInit {
       this.page = page;
       this.loadResources();
     }
+  }
+
+  cleanFilter(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
   }
 
   filterResources(): void {

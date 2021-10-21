@@ -151,6 +151,28 @@ export class CheckUpsPendingComponent implements OnInit {
     }
   }
 
+  cleanFilter(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      client: '',
+      office: '',
+      status: '',
+      days: '',
+      from: '',
+      to: '',
+      reference: '',
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.state = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+  }
+
   filterResources(): void {
     this.page = 1;
     this.loadResources();
@@ -166,6 +188,7 @@ export class CheckUpsPendingComponent implements OnInit {
   }
 
   selectClient(): void {
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
     this.filterResources();
   }
 

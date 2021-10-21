@@ -49,7 +49,6 @@ export class AuthEffects {
                 const errors = [{ message: 'Unauthorized' }];
                 return of(new LoginFail(errors), new StopLoader());
               }
-              console.log(user);
               localStorage.setItem(
                 'role',
                 `${user.role}`

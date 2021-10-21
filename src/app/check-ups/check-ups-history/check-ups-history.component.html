@@ -33,7 +33,7 @@
               [(ngModel)]="office"
               required
               id="office"
-              (ngModelChange)="filterResources()"
+              (ngModelChange)="getHistory()"
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
             >
               <ng-container
@@ -55,6 +55,7 @@
               <input
                 name="from"
                 [(ngModel)]="from"
+                (ngModelChange)="getHistory()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
                 type="date"
               />
@@ -64,6 +65,7 @@
               <input
                 name="to"
                 [(ngModel)]="to"
+                (ngModelChange)="getHistory()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
                 type="date"
               />
@@ -76,29 +78,28 @@
             name="days"
             [(ngModel)]="days"
             id="days"
-            (ngModelChange)="selectClient()"
+            (ngModelChange)="getHistory()"
             class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
           >
-            <option [value]="'0'">A tiempo</option>
-            <option [value]="'3'">entre 1 y 3 días</option>
-            <option [value]="'5'">Entre 4 y 5 días</option>
-            <option [value]="'6'">Más de 6 días</option>
+            <option [value]="0">A tiempo</option>
+            <option [value]="3">entre 1 y 3 días</option>
+            <option [value]="5">Entre 4 y 5 días</option>
+            <option [value]="6">Más de 6 días</option>
           </select>
           </div>
           <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
             <!-- Reference -->
             <div>
               <label class="text-gray-400" for="reference">Referencia:</label>
-              <input name="reference" [(ngModel)]="reference"
+              <input name="reference" [(ngModel)]="reference" (ngModelChange)="getHistory()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" type="text">
             </div>
-            <!-- Filter button -->
-            <div class="flex items-end">
-              <button class="btn-primary hover:bg-green-900 mx-5 xl:my-0" (click)="filterResources()">
-                <span>Filtrar</span>
-              </button>
-            </div>
           </div>
+        </div>
+        <div class="flex items-end justify-center flex-1 w-full">
+          <button class="h-12 btn-primary hover:bg-green-900" type="submit" (click)="cleanFilter()">
+            Borrar Filtros
+          </button>
         </div>
       </div>
       <!-- End filters -->

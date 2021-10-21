@@ -72,6 +72,7 @@ export class RepairPendingComponent implements OnInit {
   showModalL = false;
 
   checkup: Checkup;
+  repairs: any;
 
   constructor(private store: Store<State>, private router: Router, private navigation: Navigation, private route: ActivatedRoute) {
 
@@ -110,7 +111,10 @@ export class RepairPendingComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe((data:any) => {
+      this.resourceLength = data.length;
+      this.repairs = data;
+    });
   }
 
   setQueryParams(): void {
@@ -124,6 +128,17 @@ export class RepairPendingComponent implements OnInit {
         this.reference = params.reference;
       }
     );
+  }
+
+  daysFilter():void {
+    let data = this.repairs;
+    let array: any[] = [];
+    data.forEach((element:any): void => {
+      if(element.days >= this.days){
+        array.push(element);
+      }
+    });
+    this.repairs = array;
   }
 
   loadResources(): void {
@@ -152,6 +167,28 @@ export class RepairPendingComponent implements OnInit {
     }
   }
 
+  cleanFilter(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+  }
+
   filterResources(): void {
     this.page = 1;
     this.loadResources();
@@ -161,8 +198,7 @@ export class RepairPendingComponent implements OnInit {
       status: this.state ? this.state : null,
       from: this.from,
       to: this.to,
-      reference: this.reference,
-      days: this.days,
+      reference: this.reference
     });
   }
   selectClient(): void {

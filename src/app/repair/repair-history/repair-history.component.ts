@@ -45,6 +45,7 @@ export class RepairHistoryComponent implements OnInit {
   client: string | undefined;
   clientSelected: Client | undefined;
   office: string | undefined;
+  days: string | undefined;
   reference: string | undefined;
 
   /* Observable of loader from store */
@@ -125,6 +126,30 @@ export class RepairHistoryComponent implements OnInit {
       this.page = page;
       this.getHistory();
     }
+  }
+  cleanFilter(): void {
+    this.page = 1;
+    this.resources$ = this.repairService.getHistoryRepairs({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    });
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.repairs.length;
+      this.store.dispatch(new StopLoader());
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
   }
   filterResources(): void {
     this.page = 1;

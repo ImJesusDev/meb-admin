@@ -193,25 +193,24 @@ export class InactiveUserListComponent implements OnInit {
     this.downloading = true
     try {
       const columns = new Array()
-      columns.push(['', '', '', '', '', '', 'Documentos', '', '', '', ''])
-      const columnsLabels = [
-        'Foto',
-        'Nombres',
-        'Apellidos',
-        'Email',
-        'Cliente',
-        'Sede',
-      ]
-      columns.push(columnsLabels)
-      this.users.forEach((user: any) => {
-        const rows = new Array()
-        rows.push(user.photo)
-        rows.push(user.firstName)
-        rows.push(user.lastName)
-        rows.push(user.email)
-        rows.push(user.client)
-        rows.push(user.office)
-        columns.push(rows)
+      const columnsLabels = ['Foto', 'Nombres', 'Apellidos', 'Email', 'Cliente', 'Sede', 'bloodType', 'documentNumber', 'emergencyContactName', 'emergencyContactPhone', 'gender', 'phone'];
+      columns.push(columnsLabels);
+      this.users.forEach((user:any) => {
+        console.log(user);
+        const rows = new Array();
+        rows.push(user.photo);
+        rows.push(user.firstName);
+        rows.push(user.lastName);
+        rows.push(user.email);
+        rows.push(user.client);
+        rows.push(user.office);
+        rows.push(user.bloodType);
+        rows.push(user.documentNumber);
+        rows.push(user.emergencyContactName);
+        rows.push(user.emergencyContactPhone);
+        rows.push(user.gender);
+        rows.push(user.phone);
+        columns.push(rows);
       })
       downloadExcel({ data: columns, filename: 'Usuarios Inactivos' })
     } catch (e) {

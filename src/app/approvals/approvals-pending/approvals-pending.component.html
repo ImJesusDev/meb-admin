@@ -56,7 +56,7 @@
             <div class="w-1/2 mr-3">
               <label class="text-gray-400" for="from">Desde:</label>
               <input
-                name="from"
+                name="from" (ngModelChange)="filterResources()"
                 [(ngModel)]="from"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
                 type="date"
@@ -65,7 +65,7 @@
             <div class="w-1/2">
               <label class="text-gray-400" for="to">Hasta:</label>
               <input
-                name="to"
+                name="to" (ngModelChange)="filterResources()"
                 [(ngModel)]="to"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
                 type="date"
@@ -82,10 +82,10 @@
               (ngModelChange)="selectClient()"
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
             >
-              <option [value]="'0'">A tiempo</option>
-              <option [value]="'3'">entre 1 y 3 días</option>
-              <option [value]="'5'">Entre 4 y 5 días</option>
-              <option [value]="'6'">Más de 6 días</option>
+              <option [value]="0">A tiempo</option>
+              <option [value]="3">entre 1 y 3 días</option>
+              <option [value]="5">Entre 4 y 5 días</option>
+              <option [value]="6">Más de 6 días</option>
             </select>
           </div>
           <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
@@ -95,20 +95,17 @@
               <input
                 name="reference"
                 [(ngModel)]="reference"
+                (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
                 type="text"
               />
             </div>
-            <!-- Filter button -->
-            <div class="flex items-end">
-              <button
-                class="btn-primary hover:bg-green-900 mx-5 xl:my-0"
-                (click)="filterResources()"
-              >
-                <span>Filtrar</span>
-              </button>
-            </div>
           </div>
+        </div>
+        <div class="flex items-end justify-center flex-1 w-full">
+          <button class="h-12 btn-primary hover:bg-green-900" type="submit" (click)="cleanFilter()">
+            Borrar Filtros
+          </button>
         </div>
       </div>
       <!-- End filters -->
@@ -267,15 +264,23 @@
         class="flex flex-col justify-center"
         *ngFor="let resource of resources$ | async; let i = index"
       >
-        <div>
+        <div  *ngIf="resource.checkups.length">
           <span class="font-bold">Fecha:</span>
           {{ resource.checkups[resource.checkups.length - 1].createdAt | date }}
         </div>
-        <div>
+        <div  *ngIf="!resource.checkups.length">
+          <span class="font-bold">Fecha:</span>
+         ---
+        </div>
+        <div  *ngIf="resource.checkups.length">
           <span class="font-bold">Días:</span>
           {{
             calcDays(resource.checkups[resource.checkups.length - 1].createdAt)
           }}
+        </div>
+        <div  *ngIf="!resource.checkups.length">
+          <span class="font-bold">Días:</span>
+          0
         </div>
         <div>
           <span class="font-bold">Cliente:</span>

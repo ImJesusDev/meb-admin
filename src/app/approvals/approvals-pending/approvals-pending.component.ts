@@ -111,7 +111,8 @@ export class ApprovalsPendingComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
-    this.resources$.subscribe(data => this.resourceLength = data.length);
+    this.resources$.subscribe((data) => {
+      this.resourceLength = data.length;});
   }
 
   setQueryParams(): void {
@@ -149,6 +150,31 @@ export class ApprovalsPendingComponent implements OnInit {
       this.loadResources();
     }
   }
+
+  cleanFilter(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      from: '',
+      to: '',
+      client: '',
+      office: '',
+      days: '',
+      reference: '',
+      page: this.page,
+      perPage: this.perPage,
+      status: 'approved'
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+  }
+
+
   filterResources(): void {
     this.page = 1;
     this.loadResources();

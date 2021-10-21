@@ -49,8 +49,8 @@ export class RepairService {
   /**
    * Get History repairs
    */
-  getHistoryRepairs({ page, perPage = 10, status, from, to }:
-    { page?: number; perPage?: number; status?: string; from?: string; to?: string; }): Observable<any> {
+  getHistoryRepairs({ page, perPage = 10, status, from, to, client, office, days, reference }:
+    { page?: number; perPage?: number; status?: string; from?: string; to?: string; client?: string; office?: string; days?: string; reference?: string;  }): Observable<any> {
     let query = '';
     if (page) {
       query += '&page=' + page;
@@ -67,6 +67,19 @@ export class RepairService {
     if (to) {
       query += '&to=' + to;
     }
+    if (client) {
+      query += '&client=' + client;
+    }
+    if (office) {
+      query += '&office=' + office;
+    }
+    if (days) {
+      query += '&days=' + days;
+    }
+    if (reference) {
+      query += '&reference=' + reference;
+    }
+    console.log(`${this.apiUrl}resources/repairs-history?${query}`);
     return this.http.get<any>(`${this.apiUrl}resources/repairs-history?${query}`, { withCredentials: true, });
   }
 }

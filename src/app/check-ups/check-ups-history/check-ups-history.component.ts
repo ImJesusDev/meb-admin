@@ -21,6 +21,8 @@ import {
   LoadResources,
 } from '../../inventory/state/inventory/inventory.actions';
 import { InventoryService } from '@services/inventory.service';
+import { LoadClients } from 'src/app/clients/state/clients/clients.actions';
+import { getClients } from 'src/app/clients/state/clients/clients.selector';
 
 
 @Component({
@@ -91,21 +93,54 @@ export class CheckUpsHistoryComponent implements OnInit {
       resourceRef: '',
       status: ''
     };
-
     this.from = '';
     this.to = '';
     this.route.queryParams.subscribe(
       params => {
         this.from = params.from;
         this.to = params.to;
+        this.reference = params.reference;
+        this.days = params.days;
+        this.client = params.client;
+        this.office = params.office;
+        this.days = params.days;
       }
     );
     this.store.dispatch(new StartLoader());
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
     this.getHistory();
     this.loader$ = this.store.pipe(select(getLoader));
+    // Use selector to get clients from state
+    this.clients$ = this.store.pipe(select(getClients));
+  }
+
+  cleanFilter(): void {
+    this.store.dispatch(new StartLoader());
+    this.resources$ = this.inventoryService.getCheckupHistory({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    });
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.checkups?.length;
+      this.store.dispatch(new StopLoader());
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
   }
 
   getHistory(): void {
@@ -114,26 +149,20 @@ export class CheckUpsHistoryComponent implements OnInit {
       from: this.from,
       to: this.to,
       page: this.page,
-      perPage: this.perPage
+      perPage: this.perPage,
+      reference: this.reference,
+      days: this.days,
+      client: this.client,
+      office: this.office,
     });
     this.resources$.subscribe(data => {
       this.resourceLength = data.checkups?.length;
       this.store.dispatch(new StopLoader());
     });
   }
-  filterResources(): void {
-    this.page = 1;
-    this.store.dispatch(new StartLoader());
-    this.getHistory();
-    this.navigation.setQueryParams({
-      days: this.days ? this.days : null,
-      reference: this.reference,
-      from: this.from,
-      to: this.to,
-    });
-  }
   selectClient(): void {
-      this.filterResources();
+    this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+    this.getHistory();
   }
 
   changePage(page: number, operation: 'previous' | 'following'): void {

@@ -23,6 +23,8 @@ import { getResources } from '../../inventory/state/inventory/inventory.selector
 /* Actions */
 import { LoadHistoryMaintenance } from '../state/maintenance/maintenance.actions'
 import { MaintenanceService } from '@services/maintenance.service'
+import { getClients } from 'src/app/clients/state/clients/clients.selector'
+import { LoadClients } from 'src/app/clients/state/clients/clients.actions'
 
 @Component({
   selector: 'app-maintenance-history',
@@ -74,6 +76,7 @@ export class MaintenanceHistoryComponent implements OnInit {
 
   from: string
   to: string
+  days: string | undefined
 
   constructor(
     private store: Store<State>,
@@ -96,15 +99,50 @@ export class MaintenanceHistoryComponent implements OnInit {
     this.from = ''
     this.to = ''
     this.route.queryParams.subscribe((params) => {
-      this.from = params.from
-      this.to = params.to
+      this.from = params.from,
+      this.to = params.to,
+      this.page = params.page,
+      this.perPage = params.perPage,
+      this.client = params.client,
+      this.office = params.office,
+      this.reference = params.reference,
+      this.days = params.days
     })
+
     this.store.dispatch(new StartLoader())
+    // Dispatch action to load clients
+    this.store.dispatch(new LoadClients());
   }
 
   ngOnInit(): void {
+    this.clients$ = this.store.pipe(select(getClients));
     this.loader$ = this.store.pipe(select(getLoader))
     this.getHistory()
+  }
+
+  cleanFilter(): void {
+    this.store.dispatch(new StartLoader())
+    this.resources$ = this.maintenanceService.getHistoryMaintenance({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    })
+    this.resources$.subscribe((data) => {
+      this.resourceLength = data.maintenances.length
+      this.store.dispatch(new StopLoader())
+    })
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
   }
 
   getHistory(): void {
@@ -114,6 +152,10 @@ export class MaintenanceHistoryComponent implements OnInit {
       to: this.to,
       page: this.page,
       perPage: this.perPage,
+      client: this.client,
+      office: this.office,
+      reference: this.reference,
+      days: this.days,
     })
     this.resources$.subscribe((data) => {
       this.resourceLength = data.maintenances.length
@@ -130,19 +172,10 @@ export class MaintenanceHistoryComponent implements OnInit {
       this.getHistory()
     }
   }
-  filterResources(): void {
-    this.page = 1
-    this.store.dispatch(new StartLoader())
-    this.getHistory()
-    this.navigation.setQueryParams({
-      from: this.from,
-      to: this.to,
-    })
-  }
 
   selectClient(): void {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
-    this.filterResources();
+    this.getHistory();
   }
 
   calcDays(date: string): number {

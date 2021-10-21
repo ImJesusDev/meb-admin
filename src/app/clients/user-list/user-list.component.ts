@@ -54,9 +54,7 @@ export class UserListComponent implements OnInit {
             .subscribe((client) => {
               if (client) {
                 this.client = client;
-                console.log(client);
                 allUsers = client.users;
-                console.log(allUsers);
                 allUsers.forEach((user:any) => {
                   if(user.deletedAt == null){
                     this.users.push({
