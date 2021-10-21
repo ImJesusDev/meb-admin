@@ -85,6 +85,9 @@ export class AuthEffects {
                     case 'maintenance-manager':
                       this.router.navigate(['/mantenimientos']);
                       break;
+                    case 'repair-manager':
+                      this.router.navigate(['/reparaciones']);
+                      break;
                     case 'inventory-manager':
                       this.router.navigate(['/inventario']);
                       break;

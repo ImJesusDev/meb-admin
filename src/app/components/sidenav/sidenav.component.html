@@ -52,7 +52,7 @@
   </div>
   <!-- End Link -->
   <!-- Link -->
-  <div *ngIf="userRole == 'admin' || userRole == 'inventory-manager'" [ngClass]="{'justify-center': !isOpen}"
+  <div *ngIf="userRole == 'admin' || userRole == 'inventory-manager' || userRole == 'meb-admin'" [ngClass]="{'justify-center': !isOpen}"
     class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="inventario" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@
   </div>
   <!-- End Link -->
   <!-- Link -->
-  <div *ngIf="userRole == 'admin'" [ngClass]="{'justify-center': !isOpen}"
+  <div *ngIf="userRole == 'admin' || userRole == 'meb-admin'" [ngClass]="{'justify-center': !isOpen}"
     class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="check-ups" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +74,7 @@
   </div>
   <!-- End Link -->
   <!-- Link -->
-  <div *ngIf="userRole == 'admin'" [ngClass]="{'justify-center': !isOpen}"
+  <div *ngIf="userRole == 'admin' || userRole == 'maintenance-manager'" [ngClass]="{'justify-center': !isOpen}"
     class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="mantenimientos" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,7 +85,7 @@
   </div>
   <!-- End Link -->
   <!-- Link -->
-  <div *ngIf="userRole == 'admin'" [ngClass]="{'justify-center': !isOpen}"
+  <div *ngIf="userRole == 'admin' || userRole == 'repair-manager'" [ngClass]="{'justify-center': !isOpen}"
     class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="reparaciones" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,7 +97,7 @@
   </div>
   <!-- End Link -->
   <!-- Link -->
-  <div *ngIf="userRole == 'admin'" [ngClass]="{'justify-center': !isOpen}"
+  <div *ngIf="userRole == 'admin' || userRole == 'meb-admin'" [ngClass]="{'justify-center': !isOpen}"
     class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="aprobaciones" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -108,7 +108,7 @@
   </div>
   <!-- End Link -->
   <!-- Link -->
-  <div *ngIf="userRole == 'admin'" [ngClass]="{'justify-center': !isOpen}"
+  <div *ngIf="userRole == 'admin'|| userRole == 'meb-admin'" [ngClass]="{'justify-center': !isOpen}"
     class="flex w-full space-x-4 text-lg text-white cursor-pointer hover:text-green-900">
     <svg routerLink="clientes" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 outline-none focus:outline-none"
       fill="none" viewBox="0 0 24 24" stroke="currentColor">

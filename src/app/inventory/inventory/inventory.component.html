@@ -18,7 +18,7 @@
     <div class="flex flex-col xl:flex-row">
       <div class="flex flex-row justify-start">
         <!-- Checked button -->
-        <button *ngIf="showAddBtn" (click)="createCheckup()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
+        <button (click)="createCheckup()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
           [ngClass]="{'opacity-40 cursor-not-allowed': activeAndCheckedResources.length === 0}"
           [disabled]="activeAndCheckedResources.length === 0">
           <span class="hidden sm:flex">Chequeo</span>
@@ -28,7 +28,7 @@
           </svg>
         </button>
         <!-- Maintenance button -->
-        <button *ngIf="showAddBtn" (click)="createMaintenance()"
+        <button (click)="createMaintenance()"
           class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
           [ngClass]="{'opacity-40 cursor-not-allowed': activeAndCheckedResources.length === 0}"
           [disabled]="activeAndCheckedResources.length === 0">
@@ -42,7 +42,7 @@
 
       <div class="flex flex-row justify-start">
         <!-- Change key button -->
-        <button *ngIf="showAddBtn" (click)="changeLockerPass()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
+        <button (click)="changeLockerPass()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
           [ngClass]="{'opacity-40 cursor-not-allowed': checkedResources.length === 0}"
           [disabled]="checkedResources.length === 0">
           <span class="hidden sm:flex">Cambiar clave</span>
@@ -52,7 +52,7 @@
           </svg>
         </button>
         <!-- Download button -->
-        <button *ngIf="showAddBtn" (click)="onDownloadExcel()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
+        <button (click)="onDownloadExcel()" class="btn-primary hover:bg-green-900 mx-5 my-5 xl:my-0"
           [disabled]="downloading" [ngClass]="{'opacity-40 cursor-wait': downloading}">
           <span class="hidden sm:flex">Descargar</span>
           <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"

@@ -28,7 +28,7 @@ import { generateRandomNumber } from 'src/app/utils/helpers/number.helper';
 export class InventoryComponent implements OnInit, OnDestroy {
 
   title = 'Inventario';
-  showAddBtn = true;
+  showAddBtn = false;
   url: string[] = [];
   filters: ResourceFilters;
   downloading: boolean;
