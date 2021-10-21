@@ -118,6 +118,31 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.clients$ = this.store.pipe(select(getClients));
   }
 
+  cleanFilter(): void {
+    this.store.dispatch(new StartLoader());
+    this.resources$ = this.inventoryService.getCheckupHistory({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    });
+    this.resources$.subscribe(data => {
+      this.resourceLength = data.checkups?.length;
+      this.store.dispatch(new StopLoader());
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+  }
+
   getHistory(): void {
     this.store.dispatch(new StartLoader());
     this.resources$ = this.inventoryService.getCheckupHistory({

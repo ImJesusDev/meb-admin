@@ -138,6 +138,21 @@ export class InventoryListComponent implements OnInit {
     }
   }
 
+  cleanFilter(): void {
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadResources({
+      client: '',
+      office: '',
+      status: '',
+      type: ''
+    }));
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.state = '';
+    this.resourceTypeId = '';
+  }
+
   filterResources(): void {
     this.store.dispatch(new StartLoader());
     this.store.dispatch(new LoadResources({

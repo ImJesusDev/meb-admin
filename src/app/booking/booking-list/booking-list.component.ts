@@ -166,6 +166,8 @@ export class BookingListComponent implements OnInit {
     }
   }
 
+  cleanFilter(): void {}
+
   filterResources(): void {
     //Filtro
   }

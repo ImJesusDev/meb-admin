@@ -166,6 +166,28 @@ export class MaintenancePendingComponent implements OnInit {
     }
   }
 
+  cleanFilter(): void {
+    this.page = 1;
+    this.loadResources();
+    this.navigation.setQueryParams({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    });
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+  }
+
   filterResources(): void {
     this.page = 1;
     this.loadResources();

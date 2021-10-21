@@ -120,6 +120,31 @@ export class MaintenanceHistoryComponent implements OnInit {
     this.getHistory()
   }
 
+  cleanFilter(): void {
+    this.store.dispatch(new StartLoader())
+    this.resources$ = this.maintenanceService.getHistoryMaintenance({
+      from: '',
+      to: '',
+      page: this.page,
+      perPage: this.perPage,
+      reference:'',
+      days: '',
+      client: '',
+      office: ''
+    })
+    this.resources$.subscribe((data) => {
+      this.resourceLength = data.maintenances.length
+      this.store.dispatch(new StopLoader())
+    })
+    this.client = '';
+    this.clientSelected = { } as Client;
+    this.office = '';
+    this.days = '';
+    this.from = '';
+    this.to = '';
+    this.reference = '';
+  }
+
   getHistory(): void {
     this.store.dispatch(new StartLoader())
     this.resources$ = this.maintenanceService.getHistoryMaintenance({
