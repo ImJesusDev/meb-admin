@@ -114,8 +114,9 @@ export class CheckUpsPendingComponent implements OnInit {
     this.resources$.subscribe((data:any) => {
       this.resourceLength = data.length
       this.checkups = data;
+      console.log(data);
     });
-    console.log(this.resourceLength);
+    
   }
 
   setQueryParams(): void {

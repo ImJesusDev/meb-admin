@@ -57,6 +57,7 @@
               <input
                 name="from"
                 [(ngModel)]="from"
+                (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
                 type="date"
               />
@@ -66,6 +67,7 @@
               <input
                 name="to"
                 [(ngModel)]="to"
+                (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
                 type="date"
               />
