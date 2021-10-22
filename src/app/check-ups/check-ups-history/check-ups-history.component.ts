@@ -143,6 +143,24 @@ export class CheckUpsHistoryComponent implements OnInit {
     this.reference = '';
   }
 
+  validateRangeDays(num:number): boolean{
+    let dayval = this.days;
+    if(parseInt(dayval) > 0){
+      if(parseInt(dayval) == 0 && num == 0){
+        return true;
+      }else if(parseInt(dayval) == 3 && num >= 1 && num <= 3){
+        return true;
+      }else if(parseInt(dayval) == 5 && num >= 4 && num <= 6){
+        return true;
+      }else if(parseInt(dayval) == 6 && num >= 7){
+        return true;
+      }
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   getHistory(): void {
     this.store.dispatch(new StartLoader());
     this.resources$ = this.inventoryService.getCheckupHistory({

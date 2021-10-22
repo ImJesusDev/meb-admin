@@ -124,12 +124,12 @@
         </thead>
         <tbody>
           <ng-container
-          *ngIf="(resources$ | async)?.maintenances?.length !== 0"
-          >
-            <tr *ngFor="
+          *ngFor="
               let checkOut of (resources$ | async)?.maintenances;
-              let i = index
-            " [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
+              let i = index"
+          >
+            <tr 
+               *ngIf="validateRangeDays(calcDays(checkOut.createdAt))" [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
               <td class="p-2">
                 <span>
                   {{ checkOut.createdAt | date }}

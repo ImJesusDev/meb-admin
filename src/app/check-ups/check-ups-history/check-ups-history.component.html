@@ -126,7 +126,7 @@
               let i = index
             "
           >
-            <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
+            <tr *ngIf="validateRangeDays(calcDays(checkup.createdAt))" [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
               <td class="p-2">{{ checkup.createdAt | date }}</td>
               <td class="p-2">{{ calcDays(checkup.createdAt) }}</td>
               <td class="p-2">{{ checkup.resource?.client }}</td>
