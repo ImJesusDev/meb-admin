@@ -153,18 +153,6 @@ export class ApprovalsPendingComponent implements OnInit {
 
   cleanFilter(): void {
     this.page = 1;
-    this.loadResources();
-    this.navigation.setQueryParams({
-      from: '',
-      to: '',
-      client: '',
-      office: '',
-      days: '',
-      reference: '',
-      page: this.page,
-      perPage: this.perPage,
-      status: 'approved'
-    });
     this.client = '';
     this.clientSelected = { } as Client;
     this.office = '';
@@ -172,6 +160,7 @@ export class ApprovalsPendingComponent implements OnInit {
     this.from = '';
     this.to = '';
     this.reference = '';
+    this.loadResources();
   }
 
 

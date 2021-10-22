@@ -150,19 +150,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
   }
 
   cleanFilter(): void {
-    this.page = 1;
-    this.loadResources();
-    this.navigation.setQueryParams({
-      from: '',
-      to: '',
-      client: '',
-      office: '',
-      days: '',
-      reference: '',
-      page: this.page,
-      perPage: this.perPage,
-      status: 'approved'
-    });
+    this.page = 1;    
     this.client = '';
     this.clientSelected = { } as Client;
     this.office = '';
@@ -170,6 +158,7 @@ export class ApprovalsPendingRepairComponent implements OnInit {
     this.from = '';
     this.to = '';
     this.reference = '';
+    this.loadResources();
   }
 
   filterResources(): void {

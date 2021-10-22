@@ -123,17 +123,6 @@ export class ApprovalsHistoryComponent implements OnInit {
       perPage: this.perPage,
       status: 'approved'
     });
-    this.resources$.subscribe(data => {
-      this.resourceLength = data.maintenances.length;
-      this.store.dispatch(new StopLoader());
-    });
-    this.client = '';
-    this.clientSelected = { } as Client;
-    this.office = '';
-    this.days = '';
-    this.from = '';
-    this.to = '';
-    this.reference = '';
   }
 
   getHistory(): void {
