@@ -122,7 +122,10 @@
           <ng-container
             *ngFor="let resource of resources$ | async; let i = index"
           >
-            <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
+            <tr *ngIf="validateRangeDays(calcDays(
+              resource.maintenances[resource.maintenances.length - 1]
+                .createdAt
+            ))" [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
               <td class="p-2">
                 <span *ngIf="resource.maintenances.length">
                   {{

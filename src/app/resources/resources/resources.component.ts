@@ -9,6 +9,9 @@ import { NavigationEnd, Router } from '@angular/router';
 export class ResourcesComponent implements OnInit {
   title = 'Tipo de Recursos';
   showAddBtn = true;
+  downloading: boolean | undefined;
+  showDomainListBackDrop = false;
+  showDomainListModal = false;
   constructor(private route: Router) {
     // Workaround to show button to add clients
     // only in the clients list screen
@@ -25,4 +28,18 @@ export class ResourcesComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  closeDomainListModal(): void {
+    this.showDomainListBackDrop = false
+    setTimeout(() => {
+      this.showDomainListModal = false
+    }, 100)
+  }
+  /* Open modal to show domains */
+  openDomainListModal(): void {
+    this.showDomainListBackDrop = true
+    setTimeout(() => {
+      this.showDomainListModal = true
+    }, 100)
+  }
 }

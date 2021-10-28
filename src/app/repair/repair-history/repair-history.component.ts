@@ -45,7 +45,7 @@ export class RepairHistoryComponent implements OnInit {
   client: string | undefined;
   clientSelected: Client | undefined;
   office: string | undefined;
-  days: string | undefined;
+  days: string;
   reference: string | undefined;
 
   /* Observable of loader from store */
@@ -87,6 +87,7 @@ export class RepairHistoryComponent implements OnInit {
     };
 
     this.from = '';
+    this.days = '';
     this.to = '';
     this.route.queryParams.subscribe(
       params => {
@@ -127,6 +128,23 @@ export class RepairHistoryComponent implements OnInit {
       this.getHistory();
     }
   }
+  validateRangeDays(num:number): boolean{
+    let dayval = this.days;
+    if(parseInt(dayval) > 0){
+      if(parseInt(dayval) == 0 && num == 0){
+        return true;
+      }else if(parseInt(dayval) == 3 && num >= 1 && num <= 3){
+        return true;
+      }else if(parseInt(dayval) == 5 && num >= 4 && num <= 6){
+        return true;
+      }else if(parseInt(dayval) == 6 && num >= 7){
+        return true;
+      }
+      return false;
+    }else{
+      return true;
+    }
+  }
   cleanFilter(): void {
     this.page = 1;
     this.resources$ = this.repairService.getHistoryRepairs({
@@ -162,8 +180,12 @@ export class RepairHistoryComponent implements OnInit {
   }
   selectClient(): void {
     this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
-    this.filterResources();
+    this.getHistory();
   }
+  // selectClient(): void {
+  //   this.clients$.subscribe(clients => this.clientSelected = clients.find(c => c.name === this.client) as Client);
+  //   this.filterResources();
+  // }
 
   calcDays(date: string): number {
     const checkUpDate = new Date(date);

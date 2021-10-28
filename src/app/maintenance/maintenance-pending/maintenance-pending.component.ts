@@ -188,6 +188,24 @@ export class MaintenancePendingComponent implements OnInit {
     this.reference = '';
   }
 
+  validateRangeDays(num:number): boolean{
+    let dayval = this.days;
+    if(parseInt(dayval) > 0){
+      if(parseInt(dayval) == 0 && num == 0){
+        return true;
+      }else if(parseInt(dayval) == 3 && num >= 1 && num <= 3){
+        return true;
+      }else if(parseInt(dayval) == 5 && num >= 4 && num <= 6){
+        return true;
+      }else if(parseInt(dayval) == 6 && num >= 7){
+        return true;
+      }
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   filterResources(): void {
     this.page = 1;
     this.loadResources();
@@ -209,7 +227,6 @@ export class MaintenancePendingComponent implements OnInit {
   calcDays(date: string): number {
     const checkUpDate = new Date(date);
     const currentDate = new Date();
-
     const sub = currentDate.getTime() - checkUpDate.getTime();
     const results = Math.round(sub / (1000 * 60 * 60 * 24));
     return results;

@@ -128,6 +128,9 @@
           <ng-container
             *ngFor="let resource of repairs; let i = index"
           >
+            <tr *ngIf="validateRangeDays( calcDays(
+              resource.repairs[resource.repairs.length - 1].createdAt
+            ))" [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
             <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
               <td class="p-2">
                 <span *ngIf="resource.repairs.length">

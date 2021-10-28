@@ -72,19 +72,18 @@
             </div>
              <!-- Días estado -->
              <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
-              <label class="text-gray-400" for="client">Días estado:</label>
+              <label class="text-gray-400" for="days">Días estado:</label>
               <select
-                name="client"
-                [(ngModel)]="client"
-                id="client"
-                (ngModelChange)="selectClient()"
+                name="days"
+                [(ngModel)]="days"
+                id="days"
+                (ngModelChange)="filterResources()"
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand w-full"
               >
                 <option [value]="0">A tiempo</option>
                 <option [value]="3">entre 1 y 3 días</option>
                 <option [value]="5">Entre 4 y 5 días</option>
                 <option [value]="6">Más de 6 días</option>
-  
               </select>
             </div>
             <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
@@ -104,7 +103,6 @@
           </div>
         </div>
         <!-- End filters -->
-
       <table
         class="hidden w-full text-xs text-center table-auto sm:table sm:text-lg overflow-x-scroll overflow-y-scroll">
         <thead>
@@ -121,7 +119,7 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let checkOut of (resources$|async)?.repairs; let i = index;">
-            <tr [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
+            <tr *ngIf="validateRangeDays(calcDays(checkOut.createdAt))" [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
               <td class="p-2">
                 <span>
                   {{checkOut.createdAt|date}}

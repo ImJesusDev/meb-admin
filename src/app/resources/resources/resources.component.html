@@ -3,24 +3,153 @@
   <div class="flex justify-between mt-12 mb-12 sm:m-0">
     <!-- Title -->
     <div class="flex items-center space-x-2 sm:space-x-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-12 sm:h-12 text-brand" fill="none" viewBox="0 0 24 24"
-        stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-8 h-8 sm:w-12 sm:h-12 text-brand"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+        />
       </svg>
-      <h1 class="font-bold text:2xl sm:text-5xl">{{title}}</h1>
+      <h1 class="font-bold text:2xl sm:text-5xl">{{ title }}</h1>
     </div>
     <!-- End Title -->
     <!-- Add Client Btn -->
-    <button *ngIf="showAddBtn" routerLink="nuevo-recurso" class="btn-primary hover:bg-green-900">
+    <div class="flex flex-row">
+    <button
+      *ngIf="showAddBtn"
+      routerLink="nuevo-recurso"
+      class="btn-primary hover:bg-green-900"
+    >
       <span class="hidden sm:flex">Crear nuevo tipo de recurso</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
       </svg>
     </button>
+    <button
+      *ngIf="showAddBtn"
+      class="btn-primary hover:bg-green-900 mx-5"
+      [disabled]="downloading"
+      [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+      (click)="openDomainListModal()"
+    >
+      <span class="hidden sm:flex">Carga masiva usuarios</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+        />
+      </svg>
+    </button>
+  </div>
     <!-- End Add Client Btn -->
   </div>
   <router-outlet></router-outlet>
 </div>
 <!-- End Main Container -->
+<!-- Modal carga masiva -->
+<div
+  *ngIf="showDomainListBackDrop"
+  class="fixed inset-0 z-10 overflow-y-auto opacity-100"
+  aria-labelledby="modal-title"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0"
+  >
+    <div
+      class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+      aria-hidden="true"
+    ></div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span
+      class="hidden sm:inline-block sm:align-middle sm:h-screen"
+      aria-hidden="true"
+    >
+      &#8203;
+    </span>
+
+    <div
+      [ngClass]="{
+        'opacity-0': !showDomainListModal,
+        'opacity-100': showDomainListModal
+      }"
+      class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w"
+    >
+      <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+        <h1 class="text-xl text-white sm:text-3xl">Carga masiva recursos</h1>
+      </div>
+      <div
+        class="px-12 py-12 overflow-y-auto bg-white sm:flex sm:items-start max-h-96"
+      >
+        <!-- Client Table Desktop only -->
+        <label
+          class="w-64 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide uppercase border border-blue cursor-pointer hover:bg-green-600 hover:text-white text-green-600 ease-linear transition-all duration-150"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+            />
+          </svg>
+          <span class="mt-2 text-base leading-normal">Seleccionar archivo</span>
+          <input type="file" class="hidden" />
+        </label>
+        <!-- End Client Table Desktop only -->
+      </div>
+      <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button
+          *ngIf="showAddBtn"
+          class="btn-primary hover:bg-green-900 mx-5"
+          [disabled]="downloading"
+          [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+        >
+          <span class="hidden sm:flex">Guardar</span>
+        </button>
+        <button
+          type="button"
+          (click)="closeDomainListModal()"
+          class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal carga masiva -->
