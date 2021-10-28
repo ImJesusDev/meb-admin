@@ -88,9 +88,7 @@
               <option [value]="6">Más de 6 días</option>
             </select>
           </div>
-          <div class="flex flex-row flex-1 my-3 lg:my-0 mx-4 w-1/2">
-            <!-- Reference -->
-            <div>
+          <div class="flex flex-col flex-1 my-3 lg:my-0 mx-4 w-full">
               <label class="text-gray-400" for="reference">Referencia:</label>
               <input
                 name="reference"
@@ -99,7 +97,6 @@
                 class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
                 type="text"
               />
-            </div>
           </div>
         </div>
         <div class="flex items-end justify-center flex-1 w-full">
@@ -131,9 +128,7 @@
           <ng-container
             *ngFor="let resource of resources$ | async; let i = index"
           >
-            <tr *ngIf="validateRangeDays(calcDays(
-              resource.checkups[resource.checkups.length - 1].createdAt
-            ))" [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
+            <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
               <td class="p-2">
                 <span *ngIf="resource.checkups.length">
                   {{
