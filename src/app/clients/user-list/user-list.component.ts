@@ -11,6 +11,7 @@ import { downloadExcel } from 'src/app/utils/helpers/excel.helper';
 /* Alerts */
 import Swal from 'sweetalert2';
 import { ActiveStateUser } from '../state/clients/clients.actions';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-list',
@@ -38,7 +39,8 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     // Dispatch action to load clients
     this.store.dispatch(new LoadTeam());
@@ -101,6 +103,12 @@ export class UserListComponent implements OnInit {
       this.store.dispatch(
         new ActiveStateUser(this.UserCheckedList)
       );
+      this.route.params.subscribe((param) => {
+        if (param.id) {
+          this.router.navigate(['clientes/'+param.id+'/usuarios/inactivos']);
+        }
+      });
+      
     }else{
       Swal.fire({
         title: '¡Error!',

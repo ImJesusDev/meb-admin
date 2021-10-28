@@ -111,6 +111,13 @@ export class InventoryService {
     { page, perPage = 10, status, from, to, reference, days, client, office }: { page?: number; perPage?: number; status?: string; from?: string; to?: string; reference?: string; days?: string; client?: string; office?: string;}
   ): Observable<{ checkups: Checkup[]; page: number; perPage: number; totalResults: number; }> {
     let query = '';
+    if (client) {
+      query += '&client=' + client;
+    }
+    if (office) {
+      query += '&office=' + office;
+    }
+    
     if (page) {
       query += '&page=' + page;
     }
@@ -132,12 +139,7 @@ export class InventoryService {
     if (days) {
       query += '&days=' + days;
     }
-    if (client) {
-      query += '&client=' + client;
-    }
-    if (office) {
-      query += '&office=' + office;
-    }
+    
     console.log(`${this.apiUrl}resources/checkups-history?${query}`);
     return this.http.get<{ checkups: Checkup[]; page: number; perPage: number; totalResults: number; }>
       (`${this.apiUrl}resources/checkups-history?${query}`, { withCredentials: true, });

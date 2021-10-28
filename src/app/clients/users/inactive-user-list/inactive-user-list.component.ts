@@ -1,7 +1,7 @@
 import { getClientById } from './../../state/clients/clients.selector'
 import { State } from './../../../state/users/user.reducer'
 import { Store, select } from '@ngrx/store'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, RouterLink } from '@angular/router'
 import { Observable, of, Subscription } from 'rxjs'
 import { Client } from './../../../models/client'
 import { Component, OnInit } from '@angular/core'
@@ -13,6 +13,7 @@ import { ActiveStateUser } from '../../state/clients/clients.actions'
 import { Checkup } from '@models/chekoups'
 import { ResourceType } from '@models/resource-type'
 import { StartLoader } from '@state/loader/loader.actions'
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-inactive-user-list',
@@ -54,12 +55,16 @@ export class InactiveUserListComponent implements OnInit {
   masterSelected: boolean = false
   UserCheckedList: any
 
-  constructor(private store: Store<State>, private route: ActivatedRoute) {
+  constructor(private store: Store<State>, private route: ActivatedRoute, private router: Router) {
     // Dispatch action to load clients
     this.store.dispatch(new LoadTeam())
 
     this.client = {} as Client
+    this.listUserInactive();
+    
+  }
 
+  listUserInactive():void {
     this.route.params.subscribe((param) => {
       let allUsers: any
       if (param.id) {
@@ -174,7 +179,12 @@ export class InactiveUserListComponent implements OnInit {
 
   inactivarUsers() {
     if (this.UserCheckedList?.length > 0) {
-      this.store.dispatch(new ActiveStateUser(this.UserCheckedList))
+      this.store.dispatch(new ActiveStateUser(this.UserCheckedList));
+      this.route.params.subscribe((param) => {
+        if (param.id) {
+          this.router.navigate(['clientes/'+param.id+'/usuarios']);
+        }
+      });
     } else {
       Swal.fire({
         title: '¡Error!',

@@ -130,17 +130,6 @@ export class CheckUpsHistoryComponent implements OnInit {
       client: '',
       office: ''
     });
-    this.resources$.subscribe(data => {
-      this.resourceLength = data.checkups?.length;
-      this.store.dispatch(new StopLoader());
-    });
-    this.client = '';
-    this.clientSelected = { } as Client;
-    this.office = '';
-    this.days = '';
-    this.from = '';
-    this.to = '';
-    this.reference = '';
   }
 
   getHistory(): void {
@@ -157,6 +146,7 @@ export class CheckUpsHistoryComponent implements OnInit {
     });
     this.resources$.subscribe(data => {
       this.resourceLength = data.checkups?.length;
+      console.log(data);
       this.store.dispatch(new StopLoader());
     });
   }
