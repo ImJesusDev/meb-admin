@@ -1,4 +1,4 @@
-import { Resource } from '.';
+import { Resource, AssignedUser } from '.';
 
 export interface Checkup {
   components: Component[];
@@ -6,7 +6,9 @@ export interface Checkup {
   id: string;
   resourceRef: string;
   status: string;
+  assignedUser?: AssignedUser;
   resource?: Resource;
+  
 }
 
 export interface Component {

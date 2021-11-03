@@ -41,6 +41,16 @@ export interface Document {
   version?: string;
 }
 
+export interface AssignedUser {
+  id:string;
+  client?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  office?: string;
+  version?: string;
+}
+
 export interface PaginationResources {
   page: number;
   perPage: string;

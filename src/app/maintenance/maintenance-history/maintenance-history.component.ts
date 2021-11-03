@@ -133,6 +133,7 @@ export class MaintenanceHistoryComponent implements OnInit {
       office: ''
     })
     this.resources$.subscribe((data) => {
+      
       this.resourceLength = data.maintenances.length
       this.store.dispatch(new StopLoader())
     })
@@ -176,6 +177,7 @@ export class MaintenanceHistoryComponent implements OnInit {
       days: this.days,
     })
     this.resources$.subscribe((data) => {
+      console.log(data.maintenances);
       this.resourceLength = data.maintenances.length
       this.store.dispatch(new StopLoader())
     })
