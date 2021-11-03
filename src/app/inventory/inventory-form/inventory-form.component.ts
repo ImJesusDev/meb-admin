@@ -101,9 +101,10 @@ export class InventoryFormComponent implements OnInit {
     if (canvas.length > 0) {
       qrCode = canvas[0].toDataURL('image/jpeg').split(';base64,')[1];
     }
+    console.log(this.resourceForm.controls['type'].value);
     this.store.dispatch(
       new AddResource({
-        type: this.resourceForm.controls['type'].value.type,
+        type: this.resourceForm.controls['type'].value,
         client: this.resourceForm.controls['client'].value.name,
         loanTime: this.resourceForm.controls['loanTime'].value,
         lockerPassword: generateRandomNumber({ length: 4 }),
@@ -146,15 +147,15 @@ export class InventoryFormComponent implements OnInit {
     // console.log(canvas[0].toDataURL('image/jpeg').split(';base64,')[1])
     // const base64Canvas = canvas.toDataURL("image/jpeg").split(';base64,')[1];
     this.documentTypes = this.resourceForm.get('type')?.value.documentTypes;
-    this.documentsForm.clear();
-    this.resourceForm.get('type')?.value.documentTypes.forEach((document: DocumentType) => {
-      this.documentsForm.push(new FormGroup({
-        type: new FormControl(document.name),
-        documentNumber: new FormControl(''),
-        expeditionDate: new FormControl(''),
-        expirationDate: new FormControl({ value: '', disabled: !document.expires }),
-      }));
-    });
+    // this.documentsForm.clear();
+    // this.resourceForm.get('type')?.value.documentTypes.forEach((document: DocumentType) => {
+    //   this.documentsForm.push(new FormGroup({
+    //     type: new FormControl(document.name),
+    //     documentNumber: new FormControl(''),
+    //     expeditionDate: new FormControl(''),
+    //     expirationDate: new FormControl({ value: '', disabled: !document.expires }),
+    //   }));
+    // });
   }
 
 }
