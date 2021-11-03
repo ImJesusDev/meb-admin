@@ -118,6 +118,7 @@ export class InventoryListComponent implements OnInit {
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader));
     this.resources$.subscribe(data => {
+      console.log(data);
       this.resourceLength = data.length;
       Object.assign(this.checkedResources, data);
     });

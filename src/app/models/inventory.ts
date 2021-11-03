@@ -18,6 +18,7 @@ export interface Resource {
   reference: string;
   qrCode: string;
   lockerPassword: number;
+  previousPassword?: number;
   client: string;
   office: string;
   loanTime: number;

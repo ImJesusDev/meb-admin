@@ -121,7 +121,7 @@
               <img [src]="safeHtml(resource.qrCode)" alt="Código qr" style="height: 50px; max-width: 50px;"
                 class="mx-auto" />
             </td>
-            <td class="p-2"> {{resource.lockerPassword}} </td>
+            <td class="p-2"> {{ resource.previousPassword }} / {{resource.lockerPassword}} </td>
             <td class="p-2"> {{resource.client}} </td>
             <td class="p-2"> {{resource.office}} </td>
             <!-- Estado -->
