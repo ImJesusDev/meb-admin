@@ -15,6 +15,7 @@ export enum BookingActionTypes {
 // Load Bookings
 export class LoadBooking implements Action {
   readonly type = BookingActionTypes.LoadBooking;
+  constructor(public payload?: BookingFilters) { }
 }
 // Load Success
 export class LoadBookingSuccess implements Action {

@@ -23,9 +23,3 @@ export const getBookings = createSelector(
   getBookingsState,
   fromBooking.selectAll
 );
-
-
-// export const getBookingById = (id: string) =>
-//   createSelector(getBookings, (Bookings) =>
-//     Bookings.find((booking) => booking.id.toString() === id.toString())
-//   );

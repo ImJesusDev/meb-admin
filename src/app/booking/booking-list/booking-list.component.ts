@@ -124,8 +124,6 @@ export class BookingListComponent implements OnInit {
   ngOnInit(): void {
     // Use selector to get resources from state
     this.bookings$ = this.store.pipe(select(getBookings))
-    
-
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients))
     // Use selector to ger loader state
@@ -133,11 +131,10 @@ export class BookingListComponent implements OnInit {
 
 
     this.bookings$.subscribe((data:any) => {
+      console.log(data);
       this.booking = data[0];
       this.loadingDOM = true;
     })
-
-   //  console.log(this.booking);
   }
 
   setQueryParams(): void {
@@ -151,11 +148,20 @@ export class BookingListComponent implements OnInit {
     })
   }
 
+  /**
+   * Cargar contendio
+   */
   loadResources(): void {
     this.store.dispatch(new StartLoader())
-    // Hacer filtro
+    this.bookings$ = this.store.pipe(select(getBookings))
   }
 
+  /**
+   * Cambiar de pagina en el paginador
+   * @param page 
+   * @param operation 
+   * @returns 
+   */
   changePage(page: number, operation: 'previous' | 'following'): void {
     if (this.resourceLength === 0 && operation === 'following') {
       return
@@ -166,12 +172,32 @@ export class BookingListComponent implements OnInit {
     }
   }
 
+  /**
+   * Limpiar los filtros y la carga de las tablas
+   */
   cleanFilter(): void {}
 
+  /**
+   * Filtar contenido
+   */
   filterResources(): void {
-    //Filtro
+    this.store.dispatch(new StartLoader());
+    this.store.dispatch(new LoadBooking({
+      client: this.client,
+      office: this.office
+    }));
+    this.loader$ = this.store.pipe(select(getLoader));
+    this.navigation.setQueryParams({
+      client: this.client ? this.client : null,
+      office: this.office && this.client ? this.office : null
+    });
   }
 
+  /**
+   * CalcDays - Calcular días
+   * @param date 
+   * @returns 
+   */
   calcDays(date: string): number {
     const checkUpDate = new Date(date)
     const currentDate = new Date()
