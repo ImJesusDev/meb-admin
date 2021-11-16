@@ -35,7 +35,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   loader$: Observable<boolean> = of(false);
 
   columns: Column[];
-  headers: string[] = ['', 'Marca', 'Modelo', 'Tipo', 'Días de chequeo', 'Indicadores de medida', 'Kilometros de mantenimiento', 'Versión', 'Componentes', 'Documentos'];
+  headers: string[] = ['', 'Marca', 'Modelo', 'Número Cliente','Tipo', 'Días de chequeo', 'Indicadores de medida', 'Kilometros de mantenimiento', 'Versión', 'Componentes', 'Documentos'];
 
   /* Component modal */
   showCreateComponent: boolean;
@@ -67,6 +67,10 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       },
       {
         name: 'resourceTypeModel',
+        type: 'text'
+      },
+      {
+        name: 'clientNumber',
         type: 'text'
       },
       {

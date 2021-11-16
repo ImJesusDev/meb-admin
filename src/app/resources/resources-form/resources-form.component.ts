@@ -41,7 +41,8 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
       photo: '',
       measureIndicators: false,
       resourceTypeBrand: '',
-      resourceTypeModel: ''
+      resourceTypeModel: '',
+      clientNumber: 0
     };
     this.resourceForm = this._formBuilder.group({
       type: [this.resourceType.type, [Validators.required]],
@@ -51,6 +52,8 @@ export class ResourcesFormComponent implements OnInit, OnDestroy {
       resourceTypeBrand: [this.resourceType.resourceTypeBrand, [Validators.required],],
       resourceTypeModel: [this.resourceType.resourceTypeModel, [Validators.required],],
       kmToMaintenance: [, [Validators.required]],
+      clientNumber: [this.resourceType.clientNumber],
+      
     });
   }
 

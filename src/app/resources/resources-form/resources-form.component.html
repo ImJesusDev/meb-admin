@@ -70,16 +70,13 @@
             type="text" readonly placeholder="Selecionar foto...">
         </div>
 
-        <!-- Measure indicators -->
-        <div class="flex flex-col w-full h-16">
-          <div class="py-2 max-w-xs ml-4 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-center"
-            (click)="resourceForm.get('measureIndicators')?.setValue(!resourceForm.get('measureIndicators')?.value)">
-            <label class="flex items-center space-x-3" for="measureIndicators">
-              <input name="measureIndicators" formControlName="measureIndicators" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
-                checked:bg-brand">
-              <span class="text-gray-900 font-medium">Indicadores de medida</span>
-            </label>
-          </div>
+        <!-- NumberClient -->
+         <div class="flex flex-col w-full h-16">
+          <label class="text-gray-400" for="clientNumber">* Número Cliente:</label>
+          <input name="clientNumber" formControlName="clientNumber" required
+            class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand" [ngClass]="{
+              'border-solid border-red-500 outline-red-500': resourceForm.get('clientNumber')?.touched && resourceForm.get('clientNumber')?.hasError('required')
+          }" type="text">
         </div>
 
       </div>
@@ -94,7 +91,17 @@
             [ngClass]="{'border-solid border-red-500 outline-red-500': resourceForm.get('kmToMaintenance')?.touched && resourceForm.get('kmToMaintenance')?.hasError('required')}"
             type="number">
         </div>
-        <div class="flex flex-col w-full h-16"></div>
+         <!-- Measure indicators -->
+         <div class="flex flex-col w-full h-16">
+          <div class="py-2 max-w-xs ml-4 mt-6 rounded-xl border-solid border-2 border-gray-300 flex justify-center"
+            (click)="resourceForm.get('measureIndicators')?.setValue(!resourceForm.get('measureIndicators')?.value)">
+            <label class="flex items-center space-x-3" for="measureIndicators">
+              <input name="measureIndicators" formControlName="measureIndicators" type="checkbox" class="form-tick appearance-none h-6 w-6 border border-gray-300 rounded-md checked:border-brand checked:border-transparent focus:outline-none
+                checked:bg-brand">
+              <span class="text-gray-900 font-medium">Indicadores de medida</span>
+            </label>
+          </div>
+        </div>
       </div>
 
       <!-- Buttons -->

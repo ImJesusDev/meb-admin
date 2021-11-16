@@ -13,6 +13,7 @@ export interface ResourceType {
   components?: ResourceComponent[];
   documentTypes?: DocumentType[];
   kmToMaintenance?: number;
+  clientNumber?: number;
 }
 
 export interface DocumentType {
