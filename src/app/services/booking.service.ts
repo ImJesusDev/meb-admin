@@ -19,11 +19,51 @@ export class BookingService {
 
   constructor(private http: HttpClient) { }
 
-  getBookings(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}resources/reservation-list`, {
-      withCredentials: true,
-    });
-  }
+  // getBookings(): Observable<any[]> {
+  //   return this.http.get<any[]>(`${this.apiUrl}resources/reservation-list`, {
+  //     withCredentials: true,
+  //   });
+  // }
+
+   /**
+   * Load all resources
+   */
+    getBookings(filters: ResourceFilters = { page: 1, perPage: 10 }): Observable<PaginationResources> {
+      let query = '';
+      if (filters.client) {
+        query += '&client=' + filters.client;
+      }
+      if (filters.office) {
+        query += '&office=' + filters.office;
+      }
+      // if (filters.status) {
+      //   query += '&status=' + filters.status;
+      // }
+      // if (filters.days) {
+      //   query += '&days=' + filters.days;
+      // }
+      // if (filters.type) {
+      //   query += '&type=' + filters.type;
+      // }
+      if (filters.page) {
+        query += '&page=' + filters.page;
+      }
+      if (filters.perPage) {
+        query += '&perPage=' + filters.perPage;
+      }
+      if (filters.from) {
+        query += '&from=' + filters.from;
+      }
+      if (filters.to) {
+        query += '&to=' + filters.to;
+      }
+      if (filters.reference) {
+        query += '&reference=' + filters.reference;
+      }
+      console.log(`${this.apiUrl}resources?${query}`);
+      return this.http.get<PaginationResources>(`${this.apiUrl}resources?${query}`,
+        { withCredentials: true, });
+    }
 
 
 

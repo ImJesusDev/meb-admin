@@ -20,7 +20,8 @@ export class LoadBooking implements Action {
 // Load Success
 export class LoadBookingSuccess implements Action {
   readonly type = BookingActionTypes.LoadBookingSuccess;
-  constructor(public payload: any) { }
+  constructor(public payload: Booking[], public page: number, public totalResults: number) { }
+  // constructor(public payload: any) { }
 }
 // Load Fail
 export class LoadBookingFail implements Action {

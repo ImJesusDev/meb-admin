@@ -14,14 +14,26 @@ export type typeBookingStatus =
 
 export interface Booking {
   id: string;
-  booking: any;
+  comments: string;
+  createdAt: string;
+  rating: number;
+  resourceRef: string;
+  status: string;
+  travels: any[];
+  userId: string;
 }
 
 export interface PaginationBooking {
   page: number;
   perPage: string;
-  Bookings: Booking[];
+  resources: Booking[];
   totalResults: number;
+}
+
+export interface Pagination {
+  page: number;
+  perPage: string;
+  totalResources: number;
 }
 
 export interface BookingFilters {
@@ -36,7 +48,7 @@ export interface BookingFilters {
   reference?: string;
 }
 
-export const Booking_STATUS = {
+export const BOOKING_STATUS = {
   Disabled: 'disabled',
   Available: 'available',
   PendingCheckup: 'pending_checkup',
@@ -50,7 +62,7 @@ export const Booking_STATUS = {
   Rented: 'rented',
 };
 
-export const Booking_STATUS_NAMES = {
+export const BOOKING_STATUS_NAMES = {
   disabled: 'Desabilitado',
   available: 'Disponible',
   pending_checkup: 'Pendiente de chequeo',

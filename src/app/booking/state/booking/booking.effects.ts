@@ -1,4 +1,4 @@
-import { Booking, PaginationBooking } from './../../../models/booking';
+import { PaginationBooking } from './../../../models/booking';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ import {
 import { StopLoader } from '@state/loader/loader.actions';
 
 /* Models */
-import { ApiError, Resource } from '@models/index';
+import { ApiError, Boo } from '@models/index';
 
 @Injectable()
 export class BookingEffects {
@@ -33,21 +33,16 @@ export class BookingEffects {
     private _bookingService: BookingService
   ) { }
 
-  /**
-   * Effect to listen for the LoadResources action
-   * and make http request to load resources
-   * from API
-   */
   $getBookings = createEffect(() => {
     return this.$actions.pipe(
       ofType(BookingActionTypes.LoadBooking),
       switchMap((action: LoadBooking) =>
         this._bookingService
-          .getBookings()
+          .getBookings(action.payload)
           .pipe(
-            mergeMap((booking) => [
+            mergeMap((pagination: PaginationBooking) => [
               new StopLoader(),
-              new LoadBookingSuccess(booking),
+              new LoadBookingSuccess(pagination.resources, pagination.page, pagination.totalResults)
             ]),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];

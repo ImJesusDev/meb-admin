@@ -30,10 +30,14 @@ export function reducer(state = initialState, action: BookingActions): State {
       });
     }
     case BookingActionTypes.LoadBookingSuccess: {
-       return adapter.addOne(action.payload, {
+      return adapter.addMany(action.payload, {
         ...state,
         error: [],
       });
+      //  return adapter.addOne(action.payload, {
+      //   ...state,
+      //   error: [],
+      // });
     }
     case BookingActionTypes.LoadBookingFail: {
       return adapter.removeAll({
