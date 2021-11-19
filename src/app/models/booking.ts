@@ -1,4 +1,4 @@
-import { Checkup } from './chekoups';
+
 export type typeBookingStatus =
   | 'disabled'
   | 'available'
@@ -19,22 +19,49 @@ export interface Booking {
   rating: number;
   resourceRef: string;
   status: string;
-  travels: any[];
+  travels: Travels[];
   userId: string;
+  client:string;
 }
+
+export interface Travels{
+  createdAt?: string;
+  destination?: string;
+  destinationPoint?: Ubication[];
+  id?: string;
+  indicators:Indicator[];
+  origin?: string;
+  originPoint?: Ubication[];
+  reservationId?: string;
+  resourceRef?: string;
+  status?: string;
+  tracking?: any[];
+  userId?: string;
+  version?: number;
+}
+
+export interface Indicator{
+  calories: string;
+  economicFootprint: string;
+  energyFootprint: string;
+  environmentalFootprint: string;
+  km: string;
+}
+
+export interface Ubication{
+  latitude: string;
+  longitude: string;
+}
+
+
 
 export interface PaginationBooking {
   page: number;
-  perPage: string;
-  resources: Booking[];
+  perPage: number;
+  reservations: Booking[];
   totalResults: number;
 }
 
-export interface Pagination {
-  page: number;
-  perPage: string;
-  totalResources: number;
-}
 
 export interface BookingFilters {
   page?: number;

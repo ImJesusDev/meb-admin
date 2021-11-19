@@ -1,4 +1,4 @@
-import { PaginationResources, ResourceFilters } from '../models/inventory';
+import { PaginationBooking, BookingFilters } from '../models/booking';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,7 +7,6 @@ import { environment } from '../../environments/environment';
 /* rxjs */
 import { Observable } from 'rxjs';
 /* Models */
-import { Resource } from '@models/index';
 import { Checkup } from '@models/chekoups';
 
 @Injectable({
@@ -28,7 +27,7 @@ export class BookingService {
    /**
    * Load all resources
    */
-    getBookings(filters: ResourceFilters = { page: 1, perPage: 10 }): Observable<PaginationResources> {
+    getBookings(filters: BookingFilters = { page: 1, perPage: 20 }): Observable<PaginationBooking> {
       let query = '';
       if (filters.client) {
         query += '&client=' + filters.client;
@@ -36,15 +35,6 @@ export class BookingService {
       if (filters.office) {
         query += '&office=' + filters.office;
       }
-      // if (filters.status) {
-      //   query += '&status=' + filters.status;
-      // }
-      // if (filters.days) {
-      //   query += '&days=' + filters.days;
-      // }
-      // if (filters.type) {
-      //   query += '&type=' + filters.type;
-      // }
       if (filters.page) {
         query += '&page=' + filters.page;
       }
@@ -60,8 +50,8 @@ export class BookingService {
       if (filters.reference) {
         query += '&reference=' + filters.reference;
       }
-      console.log(`${this.apiUrl}resources?${query}`);
-      return this.http.get<PaginationResources>(`${this.apiUrl}resources?${query}`,
+      console.log(`${this.apiUrl}resources/reservation-list?${query}`);
+      return this.http.get<PaginationBooking>(`${this.apiUrl}resources/reservation-list?${query}`,
         { withCredentials: true, });
     }
 

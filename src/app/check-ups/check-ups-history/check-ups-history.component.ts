@@ -163,8 +163,8 @@ export class CheckUpsHistoryComponent implements OnInit {
       office: this.office,
     });
     this.resources$.subscribe(data => {
-      this.resourceLength = data.checkups?.length;
       console.log(data);
+      this.resourceLength = data.checkups?.length;
       this.store.dispatch(new StopLoader());
     });
   }

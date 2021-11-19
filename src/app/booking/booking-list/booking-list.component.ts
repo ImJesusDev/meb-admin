@@ -1,6 +1,6 @@
 import { Navigation } from '../../utils/helpers/navigation.helper'
 import { Client } from '../../models/client'
-import { Checkup } from '../../models/chekoups'
+import { Booking, Travels } from '../../models/booking'
 import { ResourceType } from 'src/app/models'
 import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
@@ -13,7 +13,7 @@ import { RESOURCE_STATUS, RESOURCE_STATUS_NAMES } from '../../models/inventory'
 import { Store, select } from '@ngrx/store'
 /* State */
 import { State } from '../../inventory/state'
-import { StartLoader } from '@state/loader/loader.actions'
+import { StartLoader, StopLoader } from '@state/loader/loader.actions'
 import { getLoader } from '@state/loader/loader.selector'
 /* Selectors */
 import { getResources } from '../../inventory/state/inventory/inventory.selector'
@@ -25,6 +25,7 @@ import { LoadClients } from 'src/app/clients/state/clients'
 import { getClients } from 'src/app/clients/state/clients/clients.selector'
 import { downloadExcel } from 'src/app/utils/helpers/excel.helper'
 import { LoadBooking } from '../state/booking'
+import { BookingService } from '@services/booking.service'
 
 @Component({
   selector: 'app-booking-list',
@@ -33,7 +34,10 @@ import { LoadBooking } from '../state/booking'
 })
 export class BookingListComponent implements OnInit {
   /* Observable of clients from store */
-  resources$: Observable<Resource[]> = of([] as Resource[])
+  // bookings$: Observable<any[]> = of([] as any[])
+  bookings$: Observable<{ page: number, perPage: number, totalResults: number, reservations: Booking[] }> = of({ } as {
+    page: number, perPage: number, totalResults: number, reservations: Booking[]
+  });
   resourceId: string
   resourceLength: number
   downloading: boolean | undefined;
@@ -41,11 +45,11 @@ export class BookingListComponent implements OnInit {
   commentTravel:string = "";
   loadingDOM:boolean = false;
   travelsModal:any = []
-
+  travelsContent:Travels[] | undefined;
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[])
-  bookings$: Observable<any[]> = of([] as any[])
+  
   /* Observable of clients from store */
   clients$: Observable<Client[]> = of([] as Client[])
 
@@ -84,13 +88,12 @@ export class BookingListComponent implements OnInit {
   showModalViajes = false
   showModalL = false
 
-  checkup: Checkup
-
   constructor(
     private store: Store<State>,
     private router: Router,
     private navigation: Navigation,
     private route: ActivatedRoute,
+    private bookingService: BookingService,
   ) {
     this.page = 1
     this.perPage = 10
@@ -106,13 +109,6 @@ export class BookingListComponent implements OnInit {
 
 
     this.resourceLength = 0
-    this.checkup = {
-      components: [],
-      createdAt: '',
-      id: '',
-      resourceRef: '',
-      status: '',
-    }
 
     this.setQueryParams()
     this.loadResources()
@@ -121,20 +117,12 @@ export class BookingListComponent implements OnInit {
     this.store.dispatch(new LoadBooking())
   }
 
-  ngOnInit(): void {
-    // Use selector to get resources from state
-    this.bookings$ = this.store.pipe(select(getBookings))
+  ngOnInit(): void {    
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients))
     // Use selector to ger loader state
     this.loader$ = this.store.pipe(select(getLoader))
 
-
-    this.bookings$.subscribe((data:any) => {
-      console.log(data);
-      this.booking = data[0];
-      this.loadingDOM = true;
-    })
   }
 
   setQueryParams(): void {
@@ -153,7 +141,20 @@ export class BookingListComponent implements OnInit {
    */
   loadResources(): void {
     this.store.dispatch(new StartLoader())
-    this.bookings$ = this.store.pipe(select(getBookings))
+    this.bookings$ = this.bookingService.getBookings({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: this.perPage,
+      reference: this.reference,
+      client: this.client,
+      office: this.office,
+    });
+    this.bookings$.subscribe(data => {
+      this.resourceLength = data.reservations?.length;
+      console.log(data);
+      this.store.dispatch(new StopLoader());
+    });
   }
 
   /**
@@ -211,8 +212,10 @@ export class BookingListComponent implements OnInit {
   MODALS
   */
 
-  openIndicadores(checkup: any, resourceId: any): void {
+  openIndicadores(travels: any): void {
     this.showModalIndicador = true
+    this.travelsContent = travels
+    console.log(travels);
     setTimeout(() => {
       this.showDomainListModal = true
     }, 100)

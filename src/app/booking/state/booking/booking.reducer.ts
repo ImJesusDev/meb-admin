@@ -34,10 +34,6 @@ export function reducer(state = initialState, action: BookingActions): State {
         ...state,
         error: [],
       });
-      //  return adapter.addOne(action.payload, {
-      //   ...state,
-      //   error: [],
-      // });
     }
     case BookingActionTypes.LoadBookingFail: {
       return adapter.removeAll({

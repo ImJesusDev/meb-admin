@@ -151,7 +151,6 @@
         <thead>
           <tr>
             <th>Fecha</th>
-            <th>Cédula</th>
             <th>Cliente</th>
             <th>Sede Inicio</th>
             <th>Sede entrega</th>
@@ -164,47 +163,84 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngIf="loadingDOM">
-            <tr *ngFor="let reserva of booking.reservations; let i = index;" [ngClass]="{'bg-gray-200': i % 2 === 0}" class="text-center">
-              <td class="p-2">
-                {{reserva.createdAt | date}}
-              </td>
-              <td class="p-2">
-                  123456
-              </td>
-              <td class="p-2"> {{reserva.client}} </td>
-              <td class="p-2"> </td>
-              <td class="p-2"> </td>
-              <td class="p-2"> {{reserva.resourceRef}} </td>
-              <td class="p-2"> {{ calcDays(reserva.createdAt) }} </td>
-              <td class="justify-center p2">
-                0
-              </td>
-              <td class="justify-center p-2">
-                <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
-                (click)="openViajes(reserva.travels)">{{ reserva.travels?.length }}</span> 
-              </td>
-              <td class="justify-center p-2">
-                <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
-                (click)="openCalificacion(reserva.rating, reserva.comments)">{{reserva.rating}}</span> 
-              </td>
-              <td class="justify-center flex p2">
-                <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
-                (click)="openIndicadores(0,1)">Ver</span>
-              </td>
-            </tr>
-          </ng-container>
+
+          <ng-container
+          *ngFor="let reservation of (bookings$ | async)?.reservations;
+            let i = index
+          "
+        >
+        <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
+          <td class="p-2">{{ reservation.createdAt | date }}</td>
+          <td class="p-2"> {{reservation.client}} </td>
+          <td class="p-2"> </td>
+          <td class="p-2"> </td>
+          <td class="p-2"> {{reservation.resourceRef}} </td>
+          <td class="p-2"> {{ calcDays(reservation.createdAt) }} </td>
+          <td class="justify-center p2">
+            0
+          </td>
+          <td class="justify-center p-2">
+            <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+            (click)="openViajes(reservation.travels)">{{ reservation.travels?.length }}</span> 
+          </td>
+          <td class="justify-center p-2">
+            <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+            (click)="openCalificacion(reservation.rating, reservation.comments)">{{reservation.rating}}</span> 
+          </td>
+          <td class="justify-center flex p2">
+            <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900" *ngIf="reservation.travels?.length"
+            (click)="openIndicadores(reservation.travels)">Ver {{ reservation.travels.indicators }} </span>
+          </td>
+        </tr>
+      </ng-container>
 
         </tbody>
       </table>
       <!-- End Table -->
 
 
-      <!-- Loader -->
-      <div class="w-full justify-center h-96" *ngIf="loader$|async">
-        <app-loader></app-loader>
+      <app-loader *ngIf="loader$ | async"></app-loader>
+
+      <div class="justify-end flex-row flex">
+        Pag. {{ page }}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 outline-none focus:outline-none mx-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          [ngClass]="{
+            'text-brand hover:text-green-900 cursor-pointer': page > 1
+          }"
+          (click)="changePage(page - 1, 'previous')"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 outline-none focus:outline-none mx-2"
+          [ngClass]="{
+            'text-brand hover:text-green-900 cursor-pointer':
+              (bookings$ | async)?.reservations?.length !== 0
+          }"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          (click)="changePage(page + 1, 'following')"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </div>
-      <!-- End loader -->
 
     </div>
     <!-- End Resource Table Desktop only -->

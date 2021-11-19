@@ -23,7 +23,7 @@ import {
 import { StopLoader } from '@state/loader/loader.actions';
 
 /* Models */
-import { ApiError, Boo } from '@models/index';
+import { ApiError, Booking } from '@models/index';
 
 @Injectable()
 export class BookingEffects {
@@ -42,7 +42,7 @@ export class BookingEffects {
           .pipe(
             mergeMap((pagination: PaginationBooking) => [
               new StopLoader(),
-              new LoadBookingSuccess(pagination.resources, pagination.page, pagination.totalResults)
+              new LoadBookingSuccess(pagination.reservations, pagination.page, pagination.totalResults)
             ]),
             catchError((error: HttpErrorResponse) => {
               let errors: ApiError[] = [];
