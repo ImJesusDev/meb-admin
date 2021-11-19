@@ -188,8 +188,8 @@
             (click)="openCalificacion(reservation.rating, reservation.comments)">{{reservation.rating}}</span> 
           </td>
           <td class="justify-center flex p2">
-            <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900" *ngIf="reservation.travels?.length"
-            (click)="openIndicadores(reservation.travels)">Ver {{ reservation.travels.indicators }} </span>
+            <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900" *ngIf="existIndicators(reservation.travels)"
+            (click)="openIndicadores(reservation.travels)">Ver</span>
           </td>
         </tr>
       </ng-container>
@@ -262,35 +262,46 @@
     <div [ngClass]="{'opacity-0': !showDomainListModal, 'opacity-100': showDomainListModal}"
       class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
       <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
-        <h1 class="text-xl text-white sm:text-3xl">Indicadores</h1>
+        <h1 class="text-xl text-white sm:text-3xl">Calificación Servicio</h1>
       </div>
-      <div class="px-12 py-12 overflow-y-auto bg-white sm:flex-row sm:items-start max-h-96">
+      <div class="px-12 py-10 overflow-y-auto bg-white sm:flex sm:items-start max-h-96">
         <!-- Client Table Desktop only -->
-        <div class="space-y-1">
-          <div><h3><b>Huella de carbono</b></h3></div>
-          <div><p> 321 gr CO2</p></div>
+        <div class="overflow-y-auto bg-white sm:flex-row sm:items-start">               
+          
+            <div *ngFor="let indicator of travelsContent;
+            let i = index">
+              <div class="pt-5 pb-4">
+                <b>Indicador {{ i + 1}}</b>
+                <hr>
+              </div>                
+              <div class="space-y-1">
+                <div><h3><b>Huella de carbono</b></h3></div>
+                <div><p> {{ indicator.environmentalFootprint }} gr CO2</p></div>
+              </div>
+              <div class="space-y-1">
+                <div><h3><b>Huella enerética</b></h3></div>
+                <div><p> {{ indicator.energyFootprint }} galones de gasolina</p></div>
+              </div>
+              <div class="space-y-1">
+                <div><h3><b>Huella económica</b></h3></div>
+                <div><p>${{ indicator.economicFootprint }}</p></div>
+              </div>
+              <div class="space-y-1">
+                <div><h3><b>Calorias</b></h3></div>
+                <div><p> {{ indicator.calories }}</p></div>
+              </div>
+              <div class="space-y-1">
+                <div><h3><b>Kilometros</b></h3></div>
+                <div><p> {{ indicator.km }}</p></div>
+              </div>
+              <div class="space-y-1">
+                <div><h3><b>Puntos</b></h3></div>
+                <div><p> 0</p></div>
+              </div>
+            </div>
+          
+          <!-- End Client Table Desktop only -->
         </div>
-        <div class="space-y-1">
-          <div><h3><b>Huella enerética</b></h3></div>
-          <div><p> 0,7 galones de gasolina</p></div>
-        </div>
-        <div class="space-y-1">
-          <div><h3><b>Huella económica</b></h3></div>
-          <div><p>$327</p></div>
-        </div>
-        <div class="space-y-1">
-          <div><h3><b>Calorias</b></h3></div>
-          <div><p> 243</p></div>
-        </div>
-        <div class="space-y-1">
-          <div><h3><b>Kilometros</b></h3></div>
-          <div><p> 24</p></div>
-        </div>
-        <div class="space-y-1">
-          <div><h3><b>Puntos</b></h3></div>
-          <div><p> 53</p></div>
-        </div>
-        
         <!-- End Client Table Desktop only -->
       </div>
       <div class="px-4 py-3  sm:px-6 sm:flex sm:flex-row-reverse">
@@ -302,7 +313,8 @@
     </div>
   </div>
 </div>
-<!-- End Modal to list Indicadores -->
+<!-- End Modal to list Calificacion servicio -->
+
 
 <!-- Modal to list Calificacion servicio -->
 <div *ngIf="showModalCalificacion" class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title"

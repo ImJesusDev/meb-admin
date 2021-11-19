@@ -45,7 +45,7 @@ export class BookingListComponent implements OnInit {
   commentTravel:string = "";
   loadingDOM:boolean = false;
   travelsModal:any = []
-  travelsContent:Travels[] | undefined;
+  travelsContent:any = [];
 
   /* Observable of resource types from store */
   resourcesTypes$: Observable<ResourceType[]> = of([] as ResourceType[])
@@ -211,11 +211,22 @@ export class BookingListComponent implements OnInit {
   /*
   MODALS
   */
+ existIndicators(travels:Travels[]){  
+   for (let index = 0; index < travels.length; index++) {
+     if(typeof travels[index].indicators != 'undefined'){ 
+        return true;
+     }
+     
+   }
+   return false;
+ }
 
-  openIndicadores(travels: any): void {
+  openIndicadores(cnt: any): void {
     this.showModalIndicador = true
-    this.travelsContent = travels
-    console.log(travels);
+    for (let index = 0; index < cnt.length; index++) {
+         this.travelsContent.push(cnt[index].indicators);
+    }
+    console.log(this.travelsContent);
     setTimeout(() => {
       this.showDomainListModal = true
     }, 100)

@@ -28,8 +28,8 @@ export interface Travels{
   createdAt?: string;
   destination?: string;
   destinationPoint?: Ubication[];
-  id?: string;
-  indicators:Indicator[];
+  id: string;
+  indicators?:Indicator[];
   origin?: string;
   originPoint?: Ubication[];
   reservationId?: string;
