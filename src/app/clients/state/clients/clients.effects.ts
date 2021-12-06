@@ -501,7 +501,7 @@ export class ClientsEffects {
             ]),
             tap(() => {
               Swal.fire({
-                title: '¡Se ha inactivado!',
+                title: '¡Se ha activado!',
                 showCancelButton: false,
                 showDenyButton: false,
                 confirmButtonText: `Aceptar`,
