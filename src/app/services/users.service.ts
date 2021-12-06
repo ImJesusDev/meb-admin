@@ -71,8 +71,14 @@ export class UsersService {
    * @returns Observable<User>
    */
    activeStateUser(ids: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}users/archive-users`, {users: ids}, {
-      withCredentials: true,
-    });
-  }
+      return this.http.post<any>(`${this.apiUrl}users/enable-users`, {users: ids}, {
+        withCredentials: true,
+      });
+    }
+
+    inactiveStateUser(ids: any): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}users/archive-users`, {users: ids}, {
+        withCredentials: true,
+      });
+    }
 }

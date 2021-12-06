@@ -10,7 +10,7 @@ import { LoadTeam } from '../../state/users/user.actions'
 import { downloadExcel } from 'src/app/utils/helpers/excel.helper'
 /* Alerts */
 import Swal from 'sweetalert2';
-import { ActiveStateUser } from '../state/clients/clients.actions';
+import { ActiveStateUser, InactiveStateUser } from '../state/clients/clients.actions';
 import {Router} from "@angular/router";
 
 @Component({
@@ -102,7 +102,7 @@ export class UserListComponent implements OnInit {
   inactivarUsers(){
     if(this.UserCheckedList?.length > 0){
       this.store.dispatch(
-        new ActiveStateUser(this.UserCheckedList)
+        new InactiveStateUser(this.UserCheckedList)
       );
       this.route.params.subscribe((param) => {
         if (param.id) {
