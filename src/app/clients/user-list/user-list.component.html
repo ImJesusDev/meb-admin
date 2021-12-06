@@ -376,7 +376,7 @@
             />
           </svg>
           <span class="mt-2 text-base leading-normal">Seleccionar archivo</span>
-          <input type="file" class="hidden" />
+          <input type="file" class="hidden" name="loadMassiveUsers" [(ngModel)]="loadMassiveUser" (change)="loadExcelUsers($event)" accept=".csv" />
         </label>
         <!-- End Client Table Desktop only -->
       </div>
@@ -384,10 +384,10 @@
         <button
           *ngIf="showAddBtn"
           class="btn-primary hover:bg-green-900 mx-5"
-          [disabled]="downloading"
           [ngClass]="{ 'opacity-40 cursor-wait': downloading }"
+          (click)="LoadMassive()"
         >
-          <span class="hidden sm:flex">Guardar</span>
+          <span class="hidden sm:flex">Cargar</span>
         </button>
         <button
           type="button"

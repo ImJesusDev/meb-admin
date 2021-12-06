@@ -52,6 +52,9 @@ import {
   InactiveStateUser,
   InactiveStateUserFail,
   InactiveStateUserSuccess,
+  LoadMassiveStateUser,
+  LoadMassiveStateUserFail,
+  LoadMassiveStateUserSuccess,
 } from './clients.actions';
 
 import { StopLoader } from '../../../state/loader/loader.actions';
@@ -578,6 +581,49 @@ export class ClientsEffects {
   });
 
 
+  $LoadMassiveStateUser = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(ClientsActionTypes.LoadMassiveStateUser),
+      switchMap((action: LoadMassiveStateUser) =>
+        this._userService
+          .LoadMassiveUsers(action.payload)
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((_) => [
+              new LoadMassiveStateUserSuccess(action.payload)
+            ]),
+            tap(() => {
+              Swal.fire({
+                title: '¡Se ha cargado!',
+                showCancelButton: false,
+                showDenyButton: false,
+                confirmButtonText: `Aceptar`,
+                confirmButtonColor: '#50b848',
+                icon: 'success',
+              });
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errors: ApiError[] = [];
+              if (error.error && error.error.errors) {
+                errors = error.error.errors;
+                Swal.fire({
+                  title: '¡Error cargando los usuarios!',
+                  text: `${errors[0].message}`,
+                  showCancelButton: false,
+                  showDenyButton: false,
+                  confirmButtonText: `Aceptar`,
+                  confirmButtonColor: '#50b848',
+                  icon: 'error',
+                });
+              } else {
+                errors = [{ message: 'Something went wrong' }];
+              }
+              return of(new LoadMassiveStateUserFail(errors), new StopLoader());
+            })
+          )
+      )
+    );
+  });
   
 
 }

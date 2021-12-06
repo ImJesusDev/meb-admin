@@ -39,8 +39,16 @@ export enum ClientsActionTypes {
   ActiveStateUserFail = '[Clients] Update Active State User Fail',
   InactiveStateUser = '[Clients] Update Inactive State User',
   InactiveStateUserSuccess = '[Clients] Update Inactive State User Success',
-  InactiveStateUserFail = '[Clients] Update Inactive State User Fail'
+  InactiveStateUserFail = '[Clients] Update Inactive State User Fail',
+  LoadMassiveStateUser = '[Users] Load massive User',
+  LoadMassiveStateUserSuccess = '[Users] Load massive User Success',
+  LoadMassiveStateUserFail = '[Users] Load massive User Fail'
 }
+
+
+
+
+
 
 /**
  * Classes related to load all clientes
@@ -254,6 +262,22 @@ export class InactiveStateUserFail implements Action {
   constructor(public payload: ApiError[]) { }
 }
 
+// Active State User
+export class LoadMassiveStateUser implements Action {
+  readonly type = ClientsActionTypes.LoadMassiveStateUser;
+  constructor(public payload: any) { }
+}
+// Active State User Success
+export class LoadMassiveStateUserSuccess implements Action {
+  readonly type = ClientsActionTypes.LoadMassiveStateUserSuccess;
+  constructor(public payload: any) { }
+}
+// Active State User Fail
+export class LoadMassiveStateUserFail implements Action {
+  readonly type = ClientsActionTypes.LoadMassiveStateUserFail;
+  constructor(public payload: ApiError[]) { }
+}
+
 
 
 /* Export all actions */
@@ -290,4 +314,7 @@ export type ClientsActions =
   | ActiveStateUserFail
   | InactiveStateUser
   | InactiveStateUserSuccess
-  | InactiveStateUserFail;
+  | InactiveStateUserFail
+  | LoadMassiveStateUser
+  | LoadMassiveStateUserSuccess
+  | LoadMassiveStateUserFail;

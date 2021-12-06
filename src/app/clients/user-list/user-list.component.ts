@@ -10,8 +10,21 @@ import { LoadTeam } from '../../state/users/user.actions'
 import { downloadExcel } from 'src/app/utils/helpers/excel.helper'
 /* Alerts */
 import Swal from 'sweetalert2';
-import { ActiveStateUser, InactiveStateUser } from '../state/clients/clients.actions';
+import { ActiveStateUser, InactiveStateUser, LoadMassiveStateUser } from '../state/clients/clients.actions';
 import {Router} from "@angular/router";
+
+export class CSVRecord {  
+  public email: any;  
+  public password: any;  
+  public firstName: any;  
+  public lastName: any;  
+  public client: any;  
+  public office: any; 
+  public mainTransportationMethod: any;
+  public secondaryTransportationMethod: any;
+  public termsDate: any;
+  public comodatoDate: any;     
+} 
 
 @Component({
   selector: 'app-user-list',
@@ -25,7 +38,7 @@ export class UserListComponent implements OnInit {
   downloading: boolean | undefined
   showDomainListBackDrop = false
   showDomainListModal = false
-
+  loadMassiveUser:any;
   loader$: Observable<boolean> = of(false)
 
   /* Current client Object */
@@ -38,6 +51,11 @@ export class UserListComponent implements OnInit {
   documentNumber: string = ''
   masterSelected: boolean = false
   UserCheckedList: any = []
+  UserMassive: any = []
+  records: any[] | undefined
+  csvReader: any
+
+   
 
   constructor(
     private store: Store<State>,
@@ -232,4 +250,117 @@ export class UserListComponent implements OnInit {
     }
     this.downloading = false
   }
+
+
+  /**
+   * Metodos para la carga masiva
+   * @param $event 
+   */
+
+  loadExcelUsers($event: any){
+    let text = [];  
+    let files = $event.srcElement.files;  
+  
+    if (this.isValidCSVFile(files[0])) {  
+  
+      let input = $event.target;  
+      let reader = new FileReader();  
+      reader.readAsText(input.files[0]);  
+  
+      reader.onload = () => {  
+        let csvData = reader.result; 
+        
+        let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);  
+        
+        let headersRow = this.getHeaderArray(csvRecordsArray);  
+  
+        this.UserMassive = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
+      };  
+  
+      reader.onerror = function () {  
+        Swal.fire({
+          title: '¡Error!',
+          text: 'error is occured while reading file!',
+          showCancelButton: false,
+          showDenyButton: false,
+          confirmButtonText: `Aceptar`,
+          confirmButtonColor: '#50b848',
+          icon: 'error',
+        })
+      };  
+  
+    } else {  
+      Swal.fire({
+        title: '¡Error!',
+        text: 'Please import valid .csv file.!',
+        showCancelButton: false,
+        showDenyButton: false,
+        confirmButtonText: `Aceptar`,
+        confirmButtonColor: '#50b848',
+        icon: 'error',
+      })
+      this.fileReset();  
+    } 
+
+  }
+
+  getDataRecordsArrayFromCSVFile(csvRecordsArray: any, headerLength: any) {  
+    let csvArr = [];  
+    
+    for (let i = 1; i < csvRecordsArray.length; i++) {  
+     
+      let curruntRecord = (<string>csvRecordsArray[i]).split(',');  
+      if (curruntRecord.length == headerLength) {  
+        let csvRecord: CSVRecord = new CSVRecord();  
+        csvRecord.email = curruntRecord[0].trim();  
+        csvRecord.password = curruntRecord[1].trim();  
+        csvRecord.firstName = curruntRecord[2].trim();  
+        csvRecord.lastName = curruntRecord[3].trim();  
+        csvRecord.client = curruntRecord[4].trim();  
+        csvRecord.office = curruntRecord[5].trim();  
+        csvRecord.mainTransportationMethod = curruntRecord[6].trim(); 
+        csvRecord.secondaryTransportationMethod = curruntRecord[7].trim(); 
+        csvRecord.termsDate = curruntRecord[8].trim(); 
+        csvRecord.comodatoDate = curruntRecord[9].trim(); 
+        csvArr.push(csvRecord);  
+      }  
+    } 
+    return csvArr;  
+  }  
+  
+  isValidCSVFile(file: any) {  
+    return file.name.endsWith(".csv");  
+  }  
+  
+  getHeaderArray(csvRecordsArr: any) {  
+    let headers = (<string>csvRecordsArr[0]).split(',');  
+    let headerArray = [];  
+    for (let j = 0; j < headers.length; j++) {  
+      headerArray.push(headers[j]);  
+    }  
+    return headerArray;  
+  }  
+  
+  fileReset() {  
+    this.csvReader.nativeElement.value = "";  
+    this.records = [];  
+  } 
+
+
+  /**
+   * Carga masiva de usuarios
+   */
+  LoadMassive(){
+      this.store.dispatch(
+        new LoadMassiveStateUser(this.UserMassive)
+      );
+      // this.route.params.subscribe((param) => {
+      //   if (param.id) {
+      //     window.location.reload();
+      //   }
+      // });
+  }
+
+
+
 }

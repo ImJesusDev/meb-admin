@@ -81,4 +81,11 @@ export class UsersService {
         withCredentials: true,
       });
     }
+
+    LoadMassiveUsers(users: any): Observable<any> {
+      console.log(users);
+      return this.http.post<any>(`${this.apiUrl}users/load-users`, {role: 'user', users: users}, {
+        withCredentials: true,
+      });
+    }
 }
