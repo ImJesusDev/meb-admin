@@ -21,7 +21,17 @@ export interface Booking {
   status: string;
   travels: Travels[];
   userId: string;
+  user: UserBooking;
+}
+
+export interface UserBooking {
   client:string;
+  email:string;
+  firstName:string;
+  lastName:string;  
+  office:string;
+  version:string;
+  id:string;
 }
 
 export interface Travels{
