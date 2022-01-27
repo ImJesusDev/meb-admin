@@ -291,7 +291,7 @@
               required
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
             >
-              <option *ngFor="let eps of epsList" [value]="eps.name">{{ eps.name }}</option>
+              <option *ngFor="let eps of epsList" [selected]="eps.name === user.eps.name" [value]="eps.name">{{ eps.name }}</option>
             </select>
           </div>
         </div>
