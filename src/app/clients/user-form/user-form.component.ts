@@ -13,6 +13,7 @@ import { State } from '../state';
 /* Selectors */
 import { getLoader } from '../../state/loader/loader.selector';
 import { AddUser, UpdateUser } from '../state/clients/clients.actions';
+import { UsersService } from '@services/users.service';
 
 @Component({
   selector: 'app-user-form',
@@ -37,6 +38,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   office: any;
   clients:any;
   actualizar:boolean = false;
+  epsList:any;
+  transportMethodsList:any;
 
   /* Form Group */
   UserGroup: FormGroup;
@@ -46,7 +49,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private store: Store<State>,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private usersService:UsersService
   ) {
     this.user = { } as User;
     this.client = { } as Client;
@@ -95,6 +99,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
       grupoSanguineo: [this.user.bloodType],
       eps: [typeof this.user.eps != 'undefined' ? this.user.eps.name : ''],
       sexo: [typeof this.user.gender != 'undefined' ? this.user.gender : '']
+    });
+
+    this.usersService.getEps().subscribe(data => {
+      this.epsList = data;
+    });
+
+    this.usersService.getTransportMethods().subscribe(data => {
+      this.transportMethodsList = data;
     });
   }
 

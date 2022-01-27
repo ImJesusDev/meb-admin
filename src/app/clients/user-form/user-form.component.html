@@ -17,7 +17,7 @@
   <h1 class="font-bold text:2xl sm:text-5xl">{{ title }}</h1>
 </div>
 <div class="h-full overflow-y-scroll">
-  <app-back-arrow [routerLink]="['/clientes', clients.id, 'usuarios']"></app-back-arrow>
+  <!-- <app-back-arrow  [routerLink]="['/clientes', clients.id, 'usuarios']"></app-back-arrow> -->
   <!-- End Title -->
   <div class="flex flex-col items-center justify-center w-full space-y-4 pb-12">
     <!-- Form Container -->
@@ -170,18 +170,15 @@
             <label class="text-gray-400" for="transPrin">
               * Medio de transporte principal:
             </label>
-            <input
+
+            <select
               name="transPrin"
               formControlName="transPrin"
               required
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-              [ngClass]="{
-                'border-solid border-red-500 outline-red-500':
-                  UserGroup.get('transPrin')?.touched &&
-                  UserGroup.get('transPrin')?.hasError('required')
-              }"
-              type="text"
-            />
+            >
+              <option *ngFor="let metra of transportMethodsList" [value]="metra.name">{{ metra.name }}</option>
+            </select>
           </div>
         </div>
         <div
@@ -192,18 +189,15 @@
             <label class="text-gray-400" for="transSec">
               * Medio de transporte secundario:
             </label>
-            <input
+
+            <select
               name="transSec"
               formControlName="transSec"
               required
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-              [ngClass]="{
-                'border-solid border-red-500 outline-red-500':
-                  UserGroup.get('transSec')?.touched &&
-                  UserGroup.get('transSec')?.hasError('required')
-              }"
-              type="text"
-            />
+            >
+              <option *ngFor="let metra of transportMethodsList" [value]="metra.name">{{ metra.name }}</option>
+            </select>
           </div>
           <!-- CELULAR -->
           <div class="flex flex-col w-full h-16">
@@ -290,18 +284,15 @@
           <!-- EPS -->
           <div class="flex flex-col w-full h-16">
             <label class="text-gray-400" for="eps">* EPS:</label>
-            <input
+
+            <select
               name="eps"
               formControlName="eps"
               required
               class="bg-gray-100 rounded-md focus:ring-brand focus:outline-none focus:border-brand"
-              [ngClass]="{
-                'border-solid border-red-500 outline-red-500':
-                  UserGroup.get('eps')?.touched &&
-                  UserGroup.get('eps')?.hasError('required')
-              }"
-              type="text"
-            />
+            >
+              <option *ngFor="let eps of epsList" [value]="eps.name">{{ eps.name }}</option>
+            </select>
           </div>
         </div>
         <div

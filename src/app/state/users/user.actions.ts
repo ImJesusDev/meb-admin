@@ -15,7 +15,18 @@ export enum UserActionTypes {
   AddAdminSuccess = '[Users] Add Success',
   AddAdminFail = '[Users] Add Fail',
   AddAdminCancel = '[Users] Add Cancel',
+  LoadCountries = '[Users] Load Countries',
+  LoadCountriesSuccess = '[Users] Load Countries Success',
+  LoadCountriesFail = '[Users] Load Countries Fail',
+  LoadEps = '[Users] Load Eps',
+  LoadEpsSuccess = '[Users] Load Eps Success',
+  LoadEpsFail = '[Users] Load Eps Fail',
+  LoadTransportMethods = '[Users] Load TransportMethods',
+  LoadTransportMethodsSuccess = '[Users] Load TransportMethods Success',
+  LoadTransportMethodsFail = '[Users] Load TransportMethods Fail',
 }
+
+
 
 
 export class LoadUsers implements Action {
@@ -67,6 +78,43 @@ export class LoadClientAdminFail implements Action {
   readonly type = UserActionTypes.LoadClientAdminFail;
   constructor(public payload: ApiError[]) {}
 }
+
+export class LoadCountries implements Action {
+  readonly type = UserActionTypes.LoadCountries;
+}
+export class LoadCountriesSuccess implements Action {
+  readonly type = UserActionTypes.LoadCountriesSuccess;
+  constructor(public payload: any[]) {}
+}
+export class LoadCountriesFail implements Action {
+  readonly type = UserActionTypes.LoadCountriesFail;
+  constructor(public payload: ApiError[]) {}
+}
+
+export class LoadEps implements Action {
+  readonly type = UserActionTypes.LoadEps;
+}
+export class LoadEpsSuccess implements Action {
+  readonly type = UserActionTypes.LoadEpsSuccess;
+  constructor(public payload: any[]) {}
+}
+export class LoadEpsFail implements Action {
+  readonly type = UserActionTypes.LoadEpsFail;
+  constructor(public payload: ApiError[]) {}
+}
+
+export class LoadTransportMethods implements Action {
+  readonly type = UserActionTypes.LoadTransportMethods;
+}
+export class LoadTransportMethodsSuccess implements Action {
+  readonly type = UserActionTypes.LoadTransportMethodsSuccess;
+  constructor(public payload: any[]) {}
+}
+export class LoadTransportMethodsFail implements Action {
+  readonly type = UserActionTypes.LoadTransportMethodsFail;
+  constructor(public payload: ApiError[]) {}
+}
+
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
@@ -80,4 +128,14 @@ export type UserActions =
   | AddAdminStart
   | AddAdminSuccess
   | AddAdminCancel
-  | AddAdminFail;
+  | AddAdminFail
+  | LoadCountries
+  | LoadCountriesSuccess
+  | LoadCountriesFail
+  | LoadEps
+  | LoadEpsSuccess
+  | LoadEpsFail
+  | LoadTransportMethods
+  | LoadTransportMethodsSuccess
+  | LoadTransportMethodsFail;
+  

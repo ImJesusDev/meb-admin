@@ -24,6 +24,27 @@ export class UsersService {
     );
   }
 
+  /* Get All Eps List */
+  getEps(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}users/eps-list`, {
+      withCredentials: true,
+    });
+  }
+
+  /* Get All Transport Methods */
+  getTransportMethods(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}users/transport-methods`, {
+      withCredentials: true,
+    });
+  }
+
+  /* Get All Countries */
+  getCountries(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}locations/countries`, {
+      withCredentials: true,
+    });
+  }
+
   /* Get All Team members */
   getTeam(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}users/team`, {

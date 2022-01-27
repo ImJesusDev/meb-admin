@@ -26,6 +26,15 @@ import {
   AddAdminSuccess,
   AddAdminFail,
   UserActionTypes,
+  LoadEps,
+  LoadEpsFail,
+  LoadEpsSuccess,
+  LoadCountries,
+  LoadCountriesFail,
+  LoadCountriesSuccess,
+  LoadTransportMethods,
+  LoadTransportMethodsFail,
+  LoadTransportMethodsSuccess,
 } from './user.actions';
 
 import { StopLoader } from '../../state/loader/loader.actions';
@@ -82,6 +91,61 @@ export class UsersEffects {
       )
     );
   });
+
+  $getEps = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(UserActionTypes.LoadEps),
+      switchMap((action: LoadEps) =>
+        this._usersService
+          .getEps()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((eps: any[]) => [
+              new StopLoader(),
+              new LoadEpsSuccess(eps),
+            ]),
+            catchError((error) => of(new LoadEpsFail(error)))
+          )
+      )
+    );
+  });
+
+  $getCountries = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(UserActionTypes.LoadCountries),
+      switchMap((action: LoadCountries) =>
+        this._usersService
+          .getCountries()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((countries: any[]) => [
+              new StopLoader(),
+              new LoadCountriesSuccess(countries),
+            ]),
+            catchError((error) => of(new LoadCountriesFail(error)))
+          )
+      )
+    );
+  });
+
+  $getTransportMethods = createEffect(() => {
+    return this.$actions.pipe(
+      ofType(UserActionTypes.LoadTransportMethods),
+      switchMap((action: LoadTransportMethods) =>
+        this._usersService
+          .getTransportMethods()
+          // .pipe(delay(1500)) // Small delay to test loader
+          .pipe(
+            mergeMap((mtransport: any[]) => [
+              new StopLoader(),
+              new LoadTransportMethodsSuccess(mtransport),
+            ]),
+            catchError((error) => of(new LoadTransportMethodsFail(error)))
+          )
+      )
+    );
+  });
+
   /**
    * Effect to listen for the LoadClientAdmin action
    * and make http request to load client admins

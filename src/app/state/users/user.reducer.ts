@@ -79,6 +79,7 @@ export function reducer(state = initialState, action: any): State {
         error: action.payload,
       });
     }
+
     case UserActionTypes.LoadTeam: {
       return adapter.removeAll({
         ...state,
@@ -93,7 +94,6 @@ export function reducer(state = initialState, action: any): State {
         error: [],
       });
     }
-
     case UserActionTypes.LoadTeamFail: {
       return adapter.removeAll({
         ...state,
@@ -101,6 +101,71 @@ export function reducer(state = initialState, action: any): State {
         error: action.payload,
       });
     }
+
+    case UserActionTypes.LoadEps: {
+      return adapter.removeAll({
+        ...state,
+        loading: true,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadEpsSuccess: {
+      return adapter.addMany(action.payload, {
+        ...state,
+        loading: false,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadEpsFail: {
+      return adapter.removeAll({
+        ...state,
+        loading: false,
+        error: action.payload,
+      });
+    }
+    case UserActionTypes.LoadCountries: {
+      return adapter.removeAll({
+        ...state,
+        loading: true,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadCountriesSuccess: {
+      return adapter.addMany(action.payload, {
+        ...state,
+        loading: false,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadCountriesFail: {
+      return adapter.removeAll({
+        ...state,
+        loading: false,
+        error: action.payload,
+      });
+    }
+    case UserActionTypes.LoadTransportMethods: {
+      return adapter.removeAll({
+        ...state,
+        loading: true,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadTransportMethodsSuccess: {
+      return adapter.addMany(action.payload, {
+        ...state,
+        loading: false,
+        error: [],
+      });
+    }
+    case UserActionTypes.LoadTransportMethodsFail: {
+      return adapter.removeAll({
+        ...state,
+        loading: false,
+        error: action.payload,
+      });
+    }
+
     case UserActionTypes.LoadClientAdmin: {
       return adapter.removeAll({
         ...state,
