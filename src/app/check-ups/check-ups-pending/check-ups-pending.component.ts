@@ -34,6 +34,7 @@ export class CheckUpsPendingComponent implements OnInit {
 
   /* Observable of clients from store */
   resources$: Observable<Resource[]> = of([] as Resource[]);
+  
   resourceId: string;
   resourceLength: number;
 
@@ -74,7 +75,7 @@ export class CheckUpsPendingComponent implements OnInit {
     private navigation: Navigation,
     private route: ActivatedRoute
   ) {
-
+    
     this.page = 1;
     this.perPage = 10;
     this.resourceId = '';
@@ -114,7 +115,6 @@ export class CheckUpsPendingComponent implements OnInit {
     this.resources$.subscribe((data:any) => {
       this.resourceLength = data.length
       this.checkups = data;
-      console.log(data);
     });
     
   }

@@ -152,8 +152,8 @@
           <tr>
             <th>Fecha</th>
             <th>Cliente</th>
-            <th>Sede Inicio</th>
-            <th>Sede entrega</th>
+            <!-- <th>Sede Inicio</th>
+            <th>Sede entrega</th> -->
             <th>Referencia Recurso</th>
             <th>Tiempo en reserva</th>
             <th>Tiempo en demora</th>
@@ -172,8 +172,8 @@
         <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
           <td class="p-2">{{ reservation.createdAt | date }}</td>
           <td class="p-2"> {{reservation.user.client }} </td>
-          <td class="p-2"> {{reservation.user.office }}</td>
-          <td class="p-2"> {{reservation.travels[0]?.origin }}</td>
+          <!-- <td class="p-2"> {{reservation.user.office }}</td>
+          <td class="p-2"> {{reservation.travels[0]?.origin }}</td> -->
           <td class="p-2"> {{reservation.resourceRef}} </td>
           <td class="p-2"> {{ calcDays(reservation.createdAt) }} </td>
           <td class="justify-center p2">

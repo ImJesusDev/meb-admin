@@ -23,9 +23,11 @@ export class CheckUpModalComponent implements OnInit {
   componentStatus = COMPONENT_STATUS;
 
   checkUpForm = new FormArray([]);
+  valCheck = false;
 
   constructor(private store: Store<State>) {
     this.showBackDrop = false;
+    this.showModal = false;
     this.showModal = false;
     this.checkup = {
       components: [],
@@ -60,10 +62,23 @@ export class CheckUpModalComponent implements OnInit {
           photo: v.get('photo')?.value,
         });
       });
-      this.close.emit({
-        checkupId: this.checkup.id,
-        components: data
+      let validacion = 0;
+      let con = 0;
+      data.forEach(function (value) {
+        console.log(value);
+        if(value.status){
+          validacion = validacion + 1;
+        }
+        con = con + 1;
       });
+      if(validacion == con){
+        this.close.emit({
+          checkupId: this.checkup.id,
+          components: data
+        }); 
+      }else{
+        this.valCheck = true;
+      }
     } else {
       this.close.emit();
     }

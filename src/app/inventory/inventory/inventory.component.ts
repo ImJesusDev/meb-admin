@@ -38,6 +38,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   showBackDrop = false;
   showModal = false;
+  showDomainListBackDrop = false;
+  showDomainListModal = false;
 
   /* Observable of clients from store */
   resources$: Observable<Resource[]> = of([] as Resource[]);
@@ -105,6 +107,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
     if (this.activeAndCheckedResources.length > 0) {
       this.confirmCreateCheckup();
     }
+  }
+
+  openDomainListModal(): void {
+    this.showDomainListBackDrop = true
+    setTimeout(() => {
+      this.showDomainListModal = true
+    }, 100)
   }
 
   confirmCreateCheckup(): void {
