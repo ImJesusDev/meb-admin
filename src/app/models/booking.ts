@@ -16,6 +16,7 @@ export interface Booking {
   id: string;
   comments: string;
   createdAt: string;
+  returnedAt: string;
   rating: number;
   resourceRef: string;
   status: string;

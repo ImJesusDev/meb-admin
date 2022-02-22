@@ -152,6 +152,7 @@
           <tr>
             <th>Fecha</th>
             <th>Cliente</th>
+            <th>Email</th>
             <!-- <th>Sede Inicio</th>
             <th>Sede entrega</th> -->
             <th>Referencia Recurso</th>
@@ -172,14 +173,20 @@
         <tr [ngClass]="{ 'bg-gray-200': i % 2 === 0 }" class="text-center">
           <td class="p-2">{{ reservation.createdAt | date }}</td>
           <td class="p-2"> {{reservation.user.client }} </td>
+          <td class="p-2"> {{reservation.user.email }} </td>
           <!-- <td class="p-2"> {{reservation.user.office }}</td>
           <td class="p-2"> {{reservation.travels[0]?.origin }}</td> -->
           <td class="p-2"> {{reservation.resourceRef}} </td>
-          <td class="p-2"> {{ calcDays(reservation.createdAt) }} </td>
+          <!-- <td class="p-2"> {{ calcDays(reservation.createdAt) }} </td> -->
           <td class="justify-center p2">
-            0
+            {{ calcularTimeReservas(reservation.createdAt, reservation.returnedAt) }}
           </td>
-          <td class="justify-center p-2">
+          <td class="justify-center p2" *ngIf="reservation.returnedAt">
+            {{ calcularDiferenciaHoras(reservation.createdAt, reservation.returnedAt) }} 
+          </td>
+          <td class="justify-center p2" *ngIf="!reservation.returnedAt">
+          </td>
+          <td class="justify-center p-2" >
             <span class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
             (click)="openViajes(reservation.travels)">{{ reservation.travels?.length }}</span> 
           </td>
@@ -376,8 +383,8 @@
        <!-- Client Table Desktop only -->
        <div class="space-y-1" *ngFor="let travel of travelsModal; let i = index;">
         <div><h3><b>Viaje {{ i + 1 }}:</b></h3></div>
-        <div><p> Desde: {{ travel.createdAt | date }}</p></div>
-        <div><p> dirección: {{ travel.destination }}</p></div>
+        <div><p> Desde: {{ travel.origin }}</p></div>
+        <div><p> Hasta: {{ travel.destination }}</p></div>
       </div>
       <!-- End Client Table Desktop only -->
       </div>

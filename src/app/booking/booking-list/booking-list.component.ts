@@ -118,6 +118,7 @@ export class BookingListComponent implements OnInit {
   }
 
   ngOnInit(): void {    
+    console.log(this.bookings$);
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients))
     // Use selector to ger loader state
@@ -135,6 +136,54 @@ export class BookingListComponent implements OnInit {
       this.reference = params.reference
     })
   }
+
+  /**
+   * HOra demora
+   */
+  calcularDiferenciaHoras(fecha1: any, fecha2: any): any{
+    let fecha = new Date(fecha1); 
+    let fechados = new Date(fecha2); 
+    if (!(fecha instanceof Date) || !(fechados instanceof Date)) {
+        throw TypeError('Ambos argumentos deben ser objetos de tipo fecha (Date).');
+    }
+    let diferencia:number = (fechados.getTime() - fecha.getTime()) / 1000;
+    diferencia /= (60 * 60);
+    let horas = Math.abs(Math.round(diferencia));
+    if(horas < 24){
+      return "N/A";
+    }else{
+      return horas - 24;
+    }
+  }
+
+   /**
+   * Tiempo reservas
+   */
+    calcularTimeReservas(fecha1: any, fecha2: any): number{
+      let fecha = new Date(fecha1); 
+      let fechados = new Date(fecha2); 
+      if (!(fecha instanceof Date) || !(fechados instanceof Date)) {
+          throw TypeError('Ambos argumentos deben ser objetos de tipo fecha (Date).');
+      }
+      let diferencia:number = (fechados.getTime() - fecha.getTime()) / 1000;
+      diferencia /= (60 * 60);
+      return  Math.abs(Math.round(diferencia));
+    }
+
+   /**
+   * CalcDays - Calcular días
+   * @param date 
+   * @returns 
+   */
+    calcDays(date: string): number {
+      const checkUpDate = new Date(date)
+      const currentDate = new Date()
+  
+      const sub = currentDate.getTime() - checkUpDate.getTime()
+      const results = Math.round(sub / (1000 * 60 * 60 * 24))
+      return results
+    }
+  
 
   /**
    * Cargar contendio
@@ -194,20 +243,7 @@ export class BookingListComponent implements OnInit {
     });
   }
 
-  /**
-   * CalcDays - Calcular días
-   * @param date 
-   * @returns 
-   */
-  calcDays(date: string): number {
-    const checkUpDate = new Date(date)
-    const currentDate = new Date()
-
-    const sub = currentDate.getTime() - checkUpDate.getTime()
-    const results = Math.round(sub / (1000 * 60 * 60 * 24))
-    return results
-  }
-
+ 
   /*
   MODALS
   */
@@ -223,10 +259,11 @@ export class BookingListComponent implements OnInit {
 
   openIndicadores(cnt: any): void {
     this.showModalIndicador = true
+    this.travelsContent = [];
     for (let index = 0; index < cnt.length; index++) {
-         this.travelsContent.push(cnt[index].indicators);
+        this.travelsContent.push(cnt[index].indicators);
     }
-    console.log(this.travelsContent);
+    // console.log(this.travelsContent);
     setTimeout(() => {
       this.showDomainListModal = true
     }, 100)
