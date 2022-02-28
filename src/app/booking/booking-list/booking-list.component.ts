@@ -36,7 +36,7 @@ export class BookingListComponent implements OnInit {
   /* Observable of clients from store */
   // bookings$: Observable<any[]> = of([] as any[])
   bookings$: Observable<{ page: number, perPage: number, totalResults: number, reservations: Booking[] }> = of({ } as {
-    page: number, perPage: number, totalResults: number, reservations: Booking[]
+    page: number, perPage: number, totalResults: number, reservations: Booking[], travelsContent: Travels[]
   });
   resourceId: string
   resourceLength: number
@@ -73,6 +73,7 @@ export class BookingListComponent implements OnInit {
   calificacion:string = ""
   tiempoEntrega:string = ""
   booking:any = []
+  bookingData:any = []
 
   /* Modals */
 
@@ -118,7 +119,6 @@ export class BookingListComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    console.log(this.bookings$);
     // Use selector to get clients from state
     this.clients$ = this.store.pipe(select(getClients))
     // Use selector to ger loader state
@@ -201,7 +201,7 @@ export class BookingListComponent implements OnInit {
     });
     this.bookings$.subscribe(data => {
       this.resourceLength = data.reservations?.length;
-      console.log(data);
+      this.bookingData = data;
       this.store.dispatch(new StopLoader());
     });
   }
@@ -233,13 +233,23 @@ export class BookingListComponent implements OnInit {
   filterResources(): void {
     this.store.dispatch(new StartLoader());
     this.store.dispatch(new LoadBooking({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: this.perPage,
+      reference: this.reference,
       client: this.client,
-      office: this.office
+      office: this.office,
     }));
     this.loader$ = this.store.pipe(select(getLoader));
     this.navigation.setQueryParams({
       client: this.client ? this.client : null,
-      office: this.office && this.client ? this.office : null
+      office: this.office && this.client ? this.office : null,
+      from: this.from ? this.from : null,
+      to: this.to ? this.to : null,
+      page: this.page ? this.page : null,
+      perPage: this.perPage  ? this.perPage : null,
+      reference: this.reference  ? this.reference : null
     });
   }
 
@@ -300,25 +310,40 @@ export class BookingListComponent implements OnInit {
     this.downloading = true;
     try {
       const columns = new Array();
-      columns.push(['', '', '', '', '', '', '', '', '', '', '']);
-      const columnsLabels = ['Fecha', 'Cédula', 'Cliente', 'Sede Inicio', 'Sede entrega', 'Referencia Recurso', 'Tiempo en reserva', 'Tiempo en demora', 'Viajes', 'Calificación servicio', 'Indicadores'];
-      columns.push(columnsLabels);
-      this.booking.forEach((booking:any) => {
-        const rows = new Array();
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        rows.push(booking.client);
-        columns.push(rows);
+      this.bookings$.subscribe(data => {
+        data.reservations.forEach((booking:any) => {
+          let con = booking.travels;
+          const columnsLabels = new Array();
+          columnsLabels.push('Fecha', 'Cliente', 'Correo', 'Referencia Recurso', 'Tiempo en reserva', 'Tiempo en demora', 'Calificación servicio');
+          for (let index = 1; index <= con.length; index++) {
+            columnsLabels.push('viaje '+index+' desde', 'viaje '+index+' hasta', 'calorias viaje '+index,  'Huella económica viaje '+index,  'Huella enerética viaje '+index,  'Huella de carbono viaje '+index,  'Kilometros viaje '+index)
+          }
+          columns.push(columnsLabels);
+          const rows = new Array();
+          rows.push(booking.createdAt);
+          rows.push(booking.user.client);
+          rows.push(booking.user.email);
+          rows.push(booking.resourceRef);
+          rows.push(this.calcularTimeReservas(booking.createdAt, booking.returnedAt));
+          rows.push(this.calcularDiferenciaHoras(booking.createdAt, booking.returnedAt));
+          rows.push(booking.rating);
+          booking.travels.forEach((travel:any) => {
+            rows.push(travel.origin);
+            rows.push(travel.destination);
+            if(travel.indicators){
+                rows.push(travel.indicators.calories);
+                rows.push(travel.indicators.economicFootprint);
+                rows.push(travel.indicators.energyFootprint+" galones de gasolina");
+                rows.push(travel.indicators.environmentalFootprint+"gr CO2");
+                rows.push(travel.indicators.km);
+            }
+          });
+          columns.push(rows);
+        });
+        this.store.dispatch(new StopLoader());
+        downloadExcel({ data: columns, filename: 'Reservas' });
       });
-      downloadExcel({ data: columns, filename: 'Reservas' });
+     
     } catch (e) {
       console.log(e);
     }
