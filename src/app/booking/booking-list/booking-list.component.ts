@@ -38,6 +38,10 @@ export class BookingListComponent implements OnInit {
   bookings$: Observable<{ page: number, perPage: number, totalResults: number, reservations: Booking[] }> = of({ } as {
     page: number, perPage: number, totalResults: number, reservations: Booking[], travelsContent: Travels[]
   });
+
+  downExcel$: Observable<{ page: number, perPage: number, totalResults: number, reservations: Booking[] }> = of({ } as {
+    page: number, perPage: number, totalResults: number, reservations: Booking[], travelsContent: Travels[]
+  });
   resourceId: string
   resourceLength: number
   downloading: boolean | undefined;
@@ -199,11 +203,21 @@ export class BookingListComponent implements OnInit {
       client: this.client,
       office: this.office,
     });
+    this.downExcel$ = this.bookingService.getBookings({
+      from: this.from,
+      to: this.to,
+      page: this.page,
+      perPage: 1000,
+      reference: this.reference,
+      client: this.client,
+      office: this.office,
+    });
     this.bookings$.subscribe(data => {
       this.resourceLength = data.reservations?.length;
       this.bookingData = data;
       this.store.dispatch(new StopLoader());
     });
+    
   }
 
   /**
@@ -310,8 +324,9 @@ export class BookingListComponent implements OnInit {
     this.downloading = true;
     try {
       const columns = new Array();
-      this.bookings$.subscribe(data => {
+      this.downExcel$.subscribe(data => {
         data.reservations.forEach((booking:any) => {
+          console.log(booking);
           let con = booking.travels;
           const columnsLabels = new Array();
           columnsLabels.push('Fecha', 'Cliente', 'Correo', 'Referencia Recurso', 'Tiempo en reserva', 'Tiempo en demora', 'Calificación servicio');
