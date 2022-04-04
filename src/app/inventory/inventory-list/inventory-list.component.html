@@ -97,7 +97,8 @@
           <th>Tipo</th>
           <th>Referencia</th>
           <th>Código Qr</th>
-          <th>Clave del recurso</th>
+          <th>Clave anterior/nueva</th>
+          <th>Fecha clave</th>
           <th>Cliente</th>
           <th>Sede</th>
           <th>Estado</th>
@@ -122,6 +123,7 @@
                 class="mx-auto" />
             </td>
             <td class="p-2"> {{ resource.previousPassword }} / {{resource.lockerPassword}} </td>
+            <td class="p-2"> {{ resource.passwordDate| date}} </td>
             <td class="p-2"> {{resource.client}} </td>
             <td class="p-2"> {{resource.office}} </td>
             <!-- Estado -->

@@ -38,6 +38,7 @@ export class UserListComponent implements OnInit {
   downloading: boolean | undefined
   showDomainListBackDrop = false
   showDomainListModal = false
+  showModalTestDrive = false
   loadMassiveUser:any;
   loader$: Observable<boolean> = of(false)
 
@@ -91,6 +92,57 @@ export class UserListComponent implements OnInit {
         )
       }
     })
+  }
+
+  openTestDrive(){
+    this.showModalTestDrive = true
+    // console.log(this.travelsContent);
+    setTimeout(() => {
+      this.showDomainListModal = true
+    }, 100)
+  }
+
+  activeTestDrive(idUser:any){
+    console.log(idUser);
+    // const router = express.Router();
+    // this.router.post(
+    //   "/api/users/set-test-drive",
+    //   currentUser,
+    //   requireAuth(),
+    //   [
+    //     body("users").not().isEmpty().withMessage("The users param is required"),
+    //     body("users").isArray().withMessage("The users param must be an array"),
+    //     body("users.*.id").not().isEmpty().withMessage("The user id is required"),
+    //   ],
+    //   validateRequest,
+    //   async (req: Request, res: Response) => {
+    //     const testDrive = !!req.body.testDrive;
+    //     const users = req.body.users as [{ id: string }];
+    
+    //     const success = [];
+    //     for (const user of users) {
+    //       const existingUser = await User.findById(user.id);
+    //       if (existingUser) {
+    //         existingUser.set({ testDrive });
+    //         await existingUser.save();
+    //         success.push(existingUser);
+    //         console.log(
+    //           `[Set Test Drive Users] USER ${existingUser.email} test drive to ${
+    //             testDrive ? "true" : "false"
+    //           }`
+    //         );
+    //         await new UserUpdatedPublisher(natsClient.client).publish({
+    //           id: existingUser.id,
+    //           email: existingUser.email,
+    //           version: existingUser.version,
+    //           documentNumber: existingUser.documentNumber,
+    //           testDrive: testDrive,
+    //         });
+    //       }
+    //     }
+    //     res.status(201).send(success);
+    //   }
+    // );
   }
 
   ngOnInit(): void {}
@@ -189,6 +241,13 @@ export class UserListComponent implements OnInit {
         )
       }
     })
+  }
+
+  closeModalTestDrive(): void {
+    this.showModalTestDrive = false
+    setTimeout(() => {
+      this.showDomainListModal = false
+    }, 100)
   }
 
   closeDomainListModal(): void {

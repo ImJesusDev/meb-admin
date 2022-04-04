@@ -110,7 +110,7 @@
             </svg>
           </button>
           <!-- create new user button -->
-          <button
+          <!-- <button
             *ngIf="showAddBtn"
             class="btn-primary hover:bg-green-900 mx-5"
             [disabled]="downloading"
@@ -132,7 +132,7 @@
                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
               />
             </svg>
-          </button>
+          </button>-->
         </div>
         <!-- End Action Buttons -->
       </div>
@@ -233,15 +233,16 @@
                     />
                   </label>
                 </th>
-                <th>Foto</th>
+                <!-- <th>Foto</th> -->
                 <th>Nombres</th>
                 <th>Apellidos</th>
-                <th>Cédula</th>
+                <!-- <th>Cédula</th> -->
                 <th>Fecha registro</th>
                 <th>Correo electrónico</th>
                 <th>Cliente</th>
                 <th>Sede</th>
                 <th>Actualizar</th>
+                <th>Test Drive</th>
               </tr>
             </thead>
             <tbody>
@@ -263,17 +264,17 @@
                       />
                     </label>
                   </td>
-                  <td class="p-2">
+                  <!-- <td class="p-2">
                     <img
                       class="w-12 mx-auto mb-12"
                       src="{{ user.photo }}"
                       alt="{{ user.firstName }}"
                     />
-                  </td>
+                  </td> -->
                   <td class="p-2">{{ user.firstName }}</td>
                   <td class="p-2">{{ user.lastName }}</td>
-                  <td class="p-2">{{ user.documentNumber }}</td>
-                  <td class="p-2">{{ user.createdAt |date }}</td>
+                  <!-- <td class="p-2">{{ user.documentNumber }}</td> -->
+                  <td class="p-2">{{ user.createdAt | date }}</td>
                   <td class="p-2">{{ user.email }}</td>
                   <td class="p-2">{{ user.client }}</td>
                   <td class="p-2">{{ user.office }}</td>
@@ -299,6 +300,94 @@
                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                       />
                     </svg>
+                  </td>
+                  <td class="justify-center flex p2">
+                    <span
+                      class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                      *ngIf="user.testDrive === false"
+                      (click)="openTestDrive()"
+                    >
+                      Sin TD
+                    </span>
+
+                    <!-- Modal Test Drive -->
+                    <div
+                      *ngIf="showModalTestDrive"
+                      class="fixed inset-0 z-10 overflow-y-auto opacity-100"
+                      aria-labelledby="modal-title"
+                      role="dialog"
+                      aria-modal="true"
+                    >
+                      <div
+                        class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:items-end sm:block sm:p-0"
+                      >
+                        <div
+                          class="fixed inset-0 transition-opacity bg-gray-500 opacity-[0.09]"
+                          aria-hidden="true"
+                        ></div>
+
+                        <!-- This element is to trick the browser into centering the modal contents. -->
+                        <span
+                          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                          aria-hidden="true"
+                        >
+                          &#8203;
+                        </span>
+
+                        <div
+                          [ngClass]="{
+                            'opacity-0': !showDomainListModal,
+                            'opacity-100': showDomainListModal
+                          }"
+                          class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white shadow-xl rounded-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w"
+                        >
+                          <div class="px-4 pt-5 pb-4 bg-brand sm:p-6 sm:pb-4">
+                            <h1 class="text-xl text-white sm:text-3xl">
+                              Test Drive
+                            </h1>
+                          </div>
+                          <div
+                            class="px-12 py-12 overflow-y-auto bg-white sm:flex sm:items-start max-h-96"
+                          >
+                            <span
+                              class="mt-2 text-xl text-center leading-normal"
+                            >
+                              ¿Está seguro que quiere aprobar el TestDrive de
+                              este usuario?
+                            </span>
+                          </div>
+                          <div
+                            class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                          >
+                            <button
+                              type="button"
+                              (click)="closeModalTestDrive()"
+                              class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-white bg-red-500 border border-gray-300 rounded-md shadow-sm hover: focus:outline-none focus:ring-indigo-500 sm:mt-0 sm:ml -1 sm:w-auto sm:text-sm"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              *ngIf="showAddBtn"
+                              (click)="activeTestDrive(user.id)"
+                              class="btn-primary hover:bg-green-900 mx-2"
+                              [disabled]="downloading"
+                              [ngClass]="{
+                                'opacity-40 cursor-wait': downloading
+                              }"
+                            >
+                              <span class="hidden sm:flex">Confirmar</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End Modal Test drive-->
+                    <span
+                      class="cursor-pointer focus:outline-none text-brand hover:text-green-900"
+                      *ngIf="user.testDrive === true"
+                    >
+                      TD ok
+                    </span>
                   </td>
                 </tr>
               </ng-container>
@@ -376,7 +465,14 @@
             />
           </svg>
           <span class="mt-2 text-base leading-normal">Seleccionar archivo</span>
-          <input type="file" class="hidden" name="loadMassiveUsers" [(ngModel)]="loadMassiveUser" (change)="loadExcelUsers($event)" accept=".csv" />
+          <input
+            type="file"
+            class="hidden"
+            name="loadMassiveUsers"
+            [(ngModel)]="loadMassiveUser"
+            (change)="loadExcelUsers($event)"
+            accept=".csv"
+          />
         </label>
         <!-- End Client Table Desktop only -->
       </div>
